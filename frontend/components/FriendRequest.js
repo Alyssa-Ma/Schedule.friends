@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         padding: 15,
         backgroundColor: '#f8f8f8',
         borderBottomWidth: 1,
-        borderColor: '#eee',
+        borderColor: '#ccc',
     },
 
     profilePic: {

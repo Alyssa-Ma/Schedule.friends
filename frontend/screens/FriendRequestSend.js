@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-
+import Header from '../components/Header';
+import AddFriend from '../components/AddFriend';
 
 //the function that will be rendered
 const FriendRequestSend = () => {
+
     return (
         <View style={styles.container}>
             <Header title='Send a Friend Request'/>
+            <AddFriend style={styles.addfriend}/>
         </View>
     );
 }
@@ -18,6 +21,10 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 0,
     },
+
+    addfriend: {
+
+    }
 
 });
 
