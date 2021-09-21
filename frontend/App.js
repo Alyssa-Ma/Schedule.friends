@@ -19,7 +19,7 @@ const App = () =>{
 
   //return which screen you want to see rendered********
 
-  // return <ReactNativeHome />;
+  //return <ReactNativeHome />;
   return <HelloWorld />
 };
 
