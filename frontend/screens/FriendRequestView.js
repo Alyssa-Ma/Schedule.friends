@@ -5,6 +5,7 @@ import Header from '../components/Header';
 
 const FriendRequestView = () => {
 
+    //Sets the state items arr with dummy values
     const [items, setItems] = useState([
         {id: 1, name: 'FName LName', picture: 'https://randomuser.me/api/portraits/men/1.jpg'},
         {id: 2, name: 'FName LName', picture: 'https://randomuser.me/api/portraits/women/64.jpg'},
@@ -21,6 +22,7 @@ const FriendRequestView = () => {
 
 }
 
+//Style Sheet
 const styles = StyleSheet.create({
 
     container: {

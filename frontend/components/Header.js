@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+//Header function. Uses the prop title that has been passed
 const Header = ({title}) => {
 
     return (
@@ -11,6 +12,7 @@ const Header = ({title}) => {
     )
 };
 
+//Default title of the header if no props were passed
 Header.defaultProps = {
     title: 'Schedule.Friends'
 }
