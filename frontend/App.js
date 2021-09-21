@@ -12,7 +12,7 @@ import React from 'react';
 //**********Import the screens here********
 import ReactNativeHome from './screens/ReactNativeHome';
 import HelloWorld from './screens/HelloWorld';
-
+import FriendRequestView from './screens/FriendRequestView';
 
 //App function that will be what is rendered to phone
 const App = () =>{ 
@@ -20,7 +20,9 @@ const App = () =>{
   //return which screen you want to see rendered********
 
   //return <ReactNativeHome />;
-  return <HelloWorld />
+  //return <HelloWorld />;
+  return <FriendRequestView />;
+
 };
 
 
