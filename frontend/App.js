@@ -7,13 +7,15 @@
  */
 
 import React from 'react';
-import type {Node} from 'react';
-
-//Import the screen
+//Import the screens here
 import ReactNativeHome from './screens/ReactNativeHome';
 
-const App = () =>{
-  
+
+
+//App function that will be what is rendered to phone
+const App = () =>{ 
+
+  //return which screen you want to see rendered
   return <ReactNativeHome />;
 };
 

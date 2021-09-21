@@ -1,3 +1,4 @@
+//This is mostly the same starter app stuff
 import React from 'react';
 import type {Node} from 'react';
 import {
@@ -18,8 +19,10 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+//import Section component. Created speration for components
 import Section from "../components/Section";
 
+//This is function is now the "screen" that will be given to App.js
 const ReactNativeHome: () => Node = () => {
     const isDarkMode = useColorScheme() === 'dark';
   
@@ -58,6 +61,7 @@ const ReactNativeHome: () => Node = () => {
     );
   };
   
+  //styles that the page uses
   const styles = StyleSheet.create({
     sectionContainer: {
       marginTop: 32,
@@ -77,4 +81,6 @@ const ReactNativeHome: () => Node = () => {
     },
   });
 
+
+  //exporting the function or "screen" to be used in App.js
   export default ReactNativeHome;

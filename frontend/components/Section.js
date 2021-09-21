@@ -6,11 +6,12 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 
+
+//Section component seperated. Used in ReactNativeHome.js Screen
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
@@ -37,6 +38,7 @@ const Section = ({children, title}): Node => {
   );
 };
 
+//Styles used in the component
 const styles = StyleSheet.create({
     sectionContainer: {
       marginTop: 32,
@@ -53,4 +55,5 @@ const styles = StyleSheet.create({
     },
   });
 
+//Export the component to be used in different screens
 export default Section;
