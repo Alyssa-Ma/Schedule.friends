@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, FlatList} from 'react-native';
-import FriendRequest from '../components/FriendRequest';
+import TextViewCard from '../components/TextViewCard';
 import Header from '../components/Header';
 
 const CommonTimeText = () => {
@@ -15,8 +15,8 @@ const CommonTimeText = () => {
 
     return (
         <View style={styles.container}>
-            <Header title={`Who's free now`}/>
-            <FlatList data={items} renderItem={({item}) => <FriendRequest item={item} />} />
+            <Header title={`Who's free today`}/>
+            <FlatList data={items} renderItem={({item}) => <TextViewCard item={item} />} />
         </View>
     )
 

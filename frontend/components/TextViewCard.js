@@ -11,6 +11,7 @@ const FriendRequest = ({item}) => {
 
                 <Image source={imgSource} style={styles.profilePic}/>
                 <Text style={styles.name}>{item.name}</Text>
+                <Text>11:00am-12:00pm</Text>
             </View>
         </TouchableOpacity>
     )
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f8f8f8',
         borderBottomWidth: 1,
         borderColor: '#ccc',
+        flexDirection: 'row',
     },
 
     profilePic: {
