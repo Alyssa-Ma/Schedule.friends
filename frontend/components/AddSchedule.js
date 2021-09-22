@@ -12,25 +12,57 @@ const DaysRadioButton = (props) => {
                 value="props.day"
                 status={isSelected ? 'checked' : 'unchecked'}
                 onPress={() => setSelected(!isSelected)}
-            ></RadioButton>
+            />
+        </View>
+    )
+}
+
+const TimePickerInput = (props) => {
+    const [visible, setVisible] = React.useState(false)
+    
+    const onDismiss = React.useCallback(() => {
+      setVisible(false)
+    }, [setVisible]);
+
+    const onConfirm = React.useCallback(
+        ({ hours, minutes }) => {
+          setVisible(false);
+          props.setHour(hours);
+          props.setMin(minutes);
+        },
+        [setVisible]
+    );
+
+    return (
+        <View style={styles.inputTime}>
+            <Text>{props.label}:</Text>
+            <TimePickerModal
+                visible={visible}
+                onDismiss={onDismiss}
+                onConfirm={onConfirm}
+                hours={0} // default: current hours
+                minutes={0} // default: current minutes
+                label="Select time" // optional, default 'Select time'
+                cancelLabel="Cancel" // optional, default: 'Cancel'
+                confirmLabel="Ok" // optional, default: 'Ok'
+                animationType="fade" // optional, default is 'none'
+                locale={'en'} // optional, default is automically detected by your system
+            />
+            <Button 
+                icon="clock" mode="contained"
+                onPress={()=> setVisible(true)}>
+                {props.hour}:{props.min}
+            </Button>
         </View>
     )
 }
 
 const AddSchedule = () => {
-    const [visible, setVisible] = React.useState(false)
-    const onDismiss = React.useCallback(() => {
-      setVisible(false)
-    }, [setVisible])
-  
-    const onConfirm = React.useCallback(
-      ({ hours, minutes }) => {
-        setVisible(false);
-        console.log({ hours, minutes });
-      },
-      [setVisible]
-    );
-
+    const [startHour, setStartHour] = useState(0);
+    const [startMin, setStartMin] = useState(0);
+    const [endHour, setEndHour] = useState(0);
+    const [endMin, setEndMin] = useState(0);
+    
     return (
         <View>
             <TextInput 
@@ -46,23 +78,20 @@ const AddSchedule = () => {
                 <DaysRadioButton day="Fri"/>
                 <DaysRadioButton day="Sat"/>
             </View>
-            <View>
-                <TimePickerModal
-                    visible={visible}
-                    onDismiss={onDismiss}
-                    onConfirm={onConfirm}
-                    hours={12} // default: current hours
-                    minutes={14} // default: current minutes
-                    label="Select time" // optional, default 'Select time'
-                    cancelLabel="Cancel" // optional, default: 'Cancel'
-                    confirmLabel="Ok" // optional, default: 'Ok'
-                    animationType="fade" // optional, default is 'none'
-                    locale={'en'} // optional, default is automically detected by your system
-                />
-                <Button onPress={()=> setVisible(true)}>
-                    Pick time
-                </Button>
-            </View>
+            <TimePickerInput
+                label="Start Time"
+                hour={startHour}
+                min={startMin}
+                setHour={setStartHour}
+                setMin={setStartMin}
+            />
+            <TimePickerInput
+                label="End Time"
+                hour={endHour}
+                min={endMin}
+                setHour={setEndHour}
+                setMin={setEndMin}
+            /> 
             <View style={styles.buttons}>
                 <Button icon="check" mode="contained">Submit</Button>
                 <Button icon="cancel" mode="contained">Discard</Button>
@@ -82,6 +111,11 @@ const styles = StyleSheet.create({
     },
     daysRadio: {
         flexDirection: "column",
+        alignItems: "center"
+    },
+    inputTime: {
+        flexDirection: "row",
+        justifyContent: "space-around",
         alignItems: "center"
     }
 })
