@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 import { View, StyleSheet} from 'react-native';
 import AddSchedule from '../components/AddSchedule';
+import Header from '../components/Header';
 
 const AddScheduleView = () => {
 
     return (
         <View style={styles.container}>
-           <AddSchedule/>
+            <Header text="Add Schedule"/>
+            <AddSchedule/>
         </View>
     )
 
