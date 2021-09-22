@@ -3,14 +3,14 @@ import { View, Text, StyleSheet, FlatList, SafeAreaView} from 'react-native';
 import Header from '../components/Header';
 
     const DATA = [
-        {id: 'a', title: 'First Item',},
-        {id: 'b', title: 'Second Item',},
-        {id: 'c', title: 'Third Item',},
+        {id: 'a', title: 'CSCI 499',},
+        {id: 'b', title: 'CSCI 39545',},
+        {id: 'c', title: 'CSCI 39758',},
       ];
 
-    const Item = ({ value }) => (
+    const Item = ({ title }) => (
         <View style={styles.item}>
-          <Text style={styles.value}>{value}</Text>
+          <Text style={styles.title}>{title}</Text>
         </View>
     );
     
