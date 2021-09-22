@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
 import { TimePickerModal } from 'react-native-paper-dates';
@@ -18,21 +18,29 @@ const DaysRadioButton = (props) => {
 }
 
 const TimePickerInput = (props) => {
-    const [visible, setVisible] = React.useState(false)
+    const timeToString = (hour, min) => {
+        let dateObj = new Date(0, 0, 0, hour, min);
+        return dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"})
+    };
+
+    const [visible, setVisible] = useState(false)
+    const [timeString, setTimeString] = useState("00:00");
     
-    const onDismiss = React.useCallback(() => {
+
+    const onDismiss = useCallback(() => {
       setVisible(false)
     }, [setVisible]);
 
-    const onConfirm = React.useCallback(
+    const onConfirm = useCallback(
         ({ hours, minutes }) => {
           setVisible(false);
           props.setHour(hours);
           props.setMin(minutes);
+          setTimeString(timeToString(hours, minutes));
         },
         [setVisible]
     );
-
+    
     return (
         <View style={styles.inputTime}>
             <Text>{props.label}:</Text>
@@ -40,8 +48,8 @@ const TimePickerInput = (props) => {
                 visible={visible}
                 onDismiss={onDismiss}
                 onConfirm={onConfirm}
-                hours={0} // default: current hours
-                minutes={0} // default: current minutes
+                hours={props.hour} // default: current hours
+                minutes={props.min} // default: current minutes
                 label="Select time" // optional, default 'Select time'
                 cancelLabel="Cancel" // optional, default: 'Cancel'
                 confirmLabel="Ok" // optional, default: 'Ok'
@@ -51,7 +59,7 @@ const TimePickerInput = (props) => {
             <Button 
                 icon="clock" mode="contained"
                 onPress={()=> setVisible(true)}>
-                {props.hour}:{props.min}
+                {timeString}
             </Button>
         </View>
     )
