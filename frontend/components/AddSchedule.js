@@ -18,6 +18,7 @@ const DaysRadioButton = (props) => {
 }
 
 const TimePickerInput = (props) => {
+    //Helper function that converts and returns a date object into a HH:MM string
     const timeToString = (hour, min) => {
         let dateObj = new Date(0, 0, 0, hour, min);
         return dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"})
@@ -48,13 +49,13 @@ const TimePickerInput = (props) => {
                 visible={visible}
                 onDismiss={onDismiss}
                 onConfirm={onConfirm}
-                hours={props.hour} // default: current hours
-                minutes={props.min} // default: current minutes
-                label="Select time" // optional, default 'Select time'
-                cancelLabel="Cancel" // optional, default: 'Cancel'
-                confirmLabel="Ok" // optional, default: 'Ok'
-                animationType="fade" // optional, default is 'none'
-                locale={'en'} // optional, default is automically detected by your system
+                hours={props.hour} 
+                minutes={props.min} 
+                label="Select time"
+                cancelLabel="Cancel"
+                confirmLabel="Ok"
+                animationType="fade"
+                locale={'en'}
             />
             <Button 
                 icon="clock" mode="contained"
