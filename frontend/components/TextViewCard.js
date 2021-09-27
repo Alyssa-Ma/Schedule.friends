@@ -23,7 +23,7 @@ const TextViewCard = ({item}) => {
                 {
                     item.times.map( (time, index) => {
                         return (
-                            <ScheduleTimes time={item.times} index={index} style={styles.schedule}/>
+                            <ScheduleTimes time={item.times} index={index} style={styles.schedule} key={index}/>
                         )
                     })
                 }
