@@ -67,8 +67,6 @@ const styles = StyleSheet.create({
         width: 150,
         borderRadius: 50 / 2,
         marginTop: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
     },
 
     schedule: {
