@@ -12,11 +12,25 @@ const FriendRequestView = () => {
         {id: 3, name: 'FName LName', picture: 'https://randomuser.me/api/portraits/men/7.jpg'}
     ])
 
+    const rejectFriend = (id) => {
 
+        console.log(`Rejected Friend`)
+        setItems(prevItems => {
+            return prevItems.filter(item => item.id != id);
+        });
+    }
+
+    const acceptFriend = (id) => {
+
+        console.log(`Accepted Friend`)
+        setItems(prevItems => {
+            return prevItems.filter(item => item.id != id);
+        });
+    }
     return (
         <View style={styles.container}>
             <Header title='Friend Requests'/>
-            <FlatList data={items} renderItem={({item}) => <FriendRequest item={item} />} />
+            <FlatList data={items} renderItem={({item}) => <FriendRequest item={item} rejectFriend={rejectFriend} acceptFriend={acceptFriend}/>} />
         </View>
     )
 
