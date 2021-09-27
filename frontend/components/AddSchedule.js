@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
-import { TimePickerModal } from 'react-native-paper-dates';
+import TimePickerInput from './TimePickerInput';
 
 const DaysRadioButton = (props) => {
     const [isSelected, setSelected] = useState(false)
@@ -13,55 +13,6 @@ const DaysRadioButton = (props) => {
                 status={isSelected ? 'checked' : 'unchecked'}
                 onPress={() => setSelected(!isSelected)}
             />
-        </View>
-    )
-}
-
-const TimePickerInput = (props) => {
-    //Helper function that converts and returns a date object into a HH:MM string
-    const timeToString = (hour, min) => {
-        let dateObj = new Date(0, 0, 0, hour, min);
-        return dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"})
-    };
-
-    const [visible, setVisible] = useState(false)
-    const [timeString, setTimeString] = useState("00:00");
-    
-
-    const onDismiss = useCallback(() => {
-      setVisible(false)
-    }, [setVisible]);
-
-    const onConfirm = useCallback(
-        ({ hours, minutes }) => {
-          setVisible(false);
-          props.setHour(hours);
-          props.setMin(minutes);
-          setTimeString(timeToString(hours, minutes));
-        },
-        [setVisible]
-    );
-    
-    return (
-        <View style={styles.inputTime}>
-            <Text>{props.label}:</Text>
-            <TimePickerModal
-                visible={visible}
-                onDismiss={onDismiss}
-                onConfirm={onConfirm}
-                hours={props.hour} 
-                minutes={props.min} 
-                label="Select time"
-                cancelLabel="Cancel"
-                confirmLabel="Ok"
-                animationType="fade"
-                locale={'en'}
-            />
-            <Button 
-                icon="clock" mode="contained"
-                onPress={()=> setVisible(true)}>
-                {timeString}
-            </Button>
         </View>
     )
 }
@@ -120,11 +71,6 @@ const styles = StyleSheet.create({
     },
     daysRadio: {
         flexDirection: "column",
-        alignItems: "center"
-    },
-    inputTime: {
-        flexDirection: "row",
-        justifyContent: "space-around",
         alignItems: "center"
     }
 })
