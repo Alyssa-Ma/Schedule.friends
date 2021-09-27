@@ -80,6 +80,8 @@ WSGI_APPLICATION = 'sf_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # Following fields will need to edited to connect to databse
+        # May need to use dotenv settings for deployment
         # 'NAME': 'helloworld',
         # 'USER': '<yourname>',
         # 'PASSWORD': 'password',
