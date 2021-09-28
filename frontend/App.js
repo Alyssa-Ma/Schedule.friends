@@ -23,7 +23,7 @@ const App = () =>{
 
   //return <ReactNativeHome />;
   //return <HelloWorld />;
-  //return <FriendRequestView />;
+ // return <FriendRequestView />;
   //return <FriendRequestSend />;
   return <CommonTimeText />;
 

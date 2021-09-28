@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'darkslateblue',
         borderWidth: 1,
         borderColor: '#ccc',
-        flexDirection: 'row',
-        width: 350,
+        alignItems: 'center',
         alignSelf: 'center',
+        width: 250,
         marginTop: 50,
         shadowColor: '#ccc',
         
@@ -53,18 +53,20 @@ const styles = StyleSheet.create({
         width: 75,
         height: 75,
         borderRadius: 75/2,
+        alignSelf: 'center',
     },
 
     name: {
         fontSize: 20,
         color: 'white',
+        alignSelf: 'center',
     },
 
     times:{
         color: 'white',
         backgroundColor: 'brown',
         textAlign: 'center',
-        width: 150,
+        width: 175,
         borderRadius: 50 / 2,
         marginTop: 10,
     },
