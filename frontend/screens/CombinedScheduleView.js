@@ -1,7 +1,11 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, FlatList, SafeAreaView} from 'react-native';
+import { View, Text, StyleSheet, FlatList, SafeAreaView, Button} from 'react-native';
 import Header from '../components/Header';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+  const Stack = createNativeStackNavigator();
+  /** 
     const data = [
         {id: 'a', title: 'CSCI 499',},
         {id: 'b', title: 'CSCI 39545',},
@@ -18,23 +22,15 @@ import Header from '../components/Header';
     const renderItem = ({ item }) => (
         <Item title={item.title} />
       );
-    return (
-        <View style={styles.container}>
-            <Header title='Insert Date Here'/>
-            <SafeAreaView style={styles.container}>
-                <FlatList
-                    data={data}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id}
-                    numColumns={numColumns}
-                />
-                
-                </SafeAreaView>
+      */
+    function CombinedScheduleView({ navigation }) {
+      return (
+        <View style={styles.item}>
+          <Text>CombinedScreen gone lol</Text>
+          <Button title="navigate to hellow" onPress={() => navigation.navigate('Hello World')}/>
         </View>
-        
-    
-    );
-}
+      );
+    }
 
 //Style Sheet
 const styles = StyleSheet.create({

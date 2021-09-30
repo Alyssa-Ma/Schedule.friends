@@ -6,7 +6,10 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import * as React from 'react';
+import { Button, View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 //**********Import the screens here********
@@ -15,16 +18,19 @@ import HelloWorld from './screens/HelloWorld';
 import FriendRequestView from './screens/FriendRequestView';
 import CombinedScheduleView from './screens/CombinedScheduleView';
 
+const Stack = createNativeStackNavigator();
 //App function that will be what is rendered to phone
-const App = () =>{ 
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="CombinedView">
+        <Stack.Screen name="CombinedView" component={CombinedScheduleView}/>
+        <Stack.Screen name="Hello World" component={HelloWorld}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 
-  //return which screen you want to see rendered********
-
-  //return <ReactNativeHome />;
-  //return <HelloWorld />;
-  return <CombinedScheduleView />;
-
-};
+}
 
 
 export default App;
