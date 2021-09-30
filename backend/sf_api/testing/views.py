@@ -33,7 +33,7 @@ def testing_detail(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
-        serializer = TestingSerializer(student, data=request.data,context={'request': request})
+        serializer = TestingSerializer(testing, data=request.data,context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
