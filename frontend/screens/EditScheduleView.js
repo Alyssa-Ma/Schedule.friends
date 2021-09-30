@@ -1,85 +1,43 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput} from 'react-native';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import EditSchedule from '../components/EditSchedule';
 import Header from '../components/Header';
-
 
 const EditScheduleView = () => {
 
-    {/* useStates to update time-slot information in the future*/}
-    const [classTitle, setClassTitle] = useState('Math');
-    const [day, setDay] = useState('Monday');
-    const [startTime, setStartTime] = useState('9:00 AM');
-    const [endTime, setEndTime] = useState('11:00 AM');
-    const [color, setColor] = useState("Blue");
+    const [Classes, setClasses] = useState([
+        {id:'1', classTitle: 'MATH 10100' , startTime: '9:00 AM', endTime: '11:00AM' },
+        {id:'2', classTitle: 'CSCI 49900' , startTime: '2:00 PM', endTime: '3:25 PM' },
+        {id:'3', classTitle: 'CSCI 39541' , startTime: '4:00 PM', endTime: '5:00 PM' },
+        {id:'4', classTitle: 'ENG 20100' , startTime: '4:00 PM', endTime: '5:00 PM' },
+        {id:'5', classTitle: 'CLA 10100' , startTime: '4:00 PM', endTime: '5:00 PM' },
+      
+    ]);
 
-   return (
 
+    return(
         <View style={styles.container}>
+            <Header title='Edit My Schedule'/>
+            <FlatList data={Classes} renderItem={({item}) => <EditSchedule item={item} />} />
 
-        <Header title='Edit Schedule'/>
-
-    
-            <Text>Enter Class Title:</Text>
-            <TextInput 
-            style={styles.input} 
-            onChangeText = {(val) => setClassTitle(val) } />
-
-            <Text>Enter Day:</Text>
-            <TextInput 
-            style={styles.input} 
-            onChangeText = {(val) => setDay(val) } />
-
-        <Text>Enter Start Time:</Text>
-            <TextInput 
-            style={styles.input} 
-            onChangeText = {(val) => setStartTime(val) } />
-
-        <Text>Enter End Time:</Text>
-            <TextInput 
-            style={styles.input} 
-            onChangeText = {(val) => setEndTime(val) } />
-
-        <Text>Select Color:</Text>
-            <TextInput 
-            style={styles.input} 
-            onChangeText = {(val) => setColor(val) } />
-
-            <Text>
-                Class Title: {classTitle},
-                Day: {day},
-                Start Time: {startTime},
-                End Time: {endTime},
-                Color: {color}
-                </Text>    
         </View>
-           
-    );
+
+    )
+
 }
 
 const styles = StyleSheet.create({
- container: {
-     flex: 1,
-     backgroundColor: '#fff',
-     
- },
 
- input: {
-     borderWidth: 1,
-     borderColor: '#777',
-     padding : 8,
-     margin: 10,
-     width: 200,
-
-    
-    color: '#000',
-    ...Platform.select({
-      android: {
-        height: 35
-      }
-    })
-  }
-
+    container: {
+        flex: 1,
+        paddingTop: 0,
+        backgroundColor: "#fff",
+    },
 
 });
+
+
+
+
 
 export default EditScheduleView;
