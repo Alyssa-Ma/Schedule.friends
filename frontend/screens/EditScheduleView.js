@@ -14,7 +14,6 @@ const EditScheduleView = () => {
 
    return (
 
-    
         <View style={styles.container}>
 
         <Header title='Edit Schedule'/>
