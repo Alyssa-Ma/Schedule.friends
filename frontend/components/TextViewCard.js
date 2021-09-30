@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet,Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const ScheduleTimes = ({time, index}) => {
