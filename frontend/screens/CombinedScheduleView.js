@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-  const Stack = createNativeStackNavigator();
+  
   /** 
     const data = [
         {id: 'a', title: 'CSCI 499',},
@@ -23,6 +23,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
         <Item title={item.title} />
       );
       */
+    //whichever screen has the navigation button for stack, must have naviation as a param in their function
     function CombinedScheduleView({ navigation }) {
       return (
         <View style={styles.item}>
