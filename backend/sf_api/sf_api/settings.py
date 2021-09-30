@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--m=!f2+)^s3e@2)7mhyo57*)s_gvsm)hr)02zg5#s65!tx0fwm'
+SECRET_KEY = os.getenv("SECRET_KEY_DJANGO")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,11 +87,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         # Following fields will need to edited to connect to databse
         # May need to use dotenv settings for deployment
-        'NAME': "testing",
-        'USER': "testuser",
-        'PASSWORD': "testing",
-        'HOST': "localhost",
-        'PORT': 5433
+        'NAME': os.getenv("NAME_PSQL"),
+        'USER': os.getenv("USER_PSQL"),
+        'PASSWORD': os.getenv("PASSWORD_PSQL"),
+        'HOST': os.getenv("HOST_PSQL"),
+        'PORT': os.getenv("PORT_PSQL")
     }
 }
 
