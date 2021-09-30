@@ -13,6 +13,8 @@ import React from 'react';
 import ReactNativeHome from './screens/ReactNativeHome';
 import HelloWorld from './screens/HelloWorld';
 import FriendRequestView from './screens/FriendRequestView';
+import FriendRequestSend from './screens/FriendRequestSend';
+import CommonTimeText from './screens/CommonTimeText';
 
 //App function that will be what is rendered to phone
 const App = () =>{ 
@@ -21,7 +23,9 @@ const App = () =>{
 
   //return <ReactNativeHome />;
   //return <HelloWorld />;
-  return <FriendRequestView />;
+ // return <FriendRequestView />;
+  //return <FriendRequestSend />;
+  return <CommonTimeText />;
 
 };
 

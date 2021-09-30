@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-
-const FriendRequest = ({item}) => {
+import Icon from 'react-native-vector-icons/MaterialIcons';
+const FriendRequest = ({item, rejectFriend, acceptFriend}) => {
 
     const imgSource = {uri: item.picture};
 
@@ -11,8 +11,11 @@ const FriendRequest = ({item}) => {
 
                 <Image source={imgSource} style={styles.profilePic}/>
                 <Text style={styles.name}>{item.name}</Text>
+                <Icon name='close' size={30} color='#900' onPress={() => rejectFriend(item.id)}/>
+                <Icon name='check' size={30} color='#37ba0f'onPress={() => acceptFriend(item.id)}/>
             </View>
         </TouchableOpacity>
+        
     )
 }
 const styles = StyleSheet.create({
@@ -21,7 +24,8 @@ const styles = StyleSheet.create({
         padding: 15,
         backgroundColor: '#f8f8f8',
         borderBottomWidth: 1,
-        borderColor: '#eee',
+        borderColor: '#ccc',
+        
     },
 
     profilePic: {
@@ -32,6 +36,12 @@ const styles = StyleSheet.create({
 
     name: {
         fontSize: 20,
+    },
+
+    itemView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     }
     
 })
