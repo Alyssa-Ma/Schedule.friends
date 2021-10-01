@@ -32,6 +32,7 @@ const Tab = createBottomTabNavigator();
           </Stack.Navigator>
  */
 //App function that will be what is rendered to phone
+
 function App() {
   return (
     <NavigationContainer>
