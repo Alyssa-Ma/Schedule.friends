@@ -5,4 +5,4 @@ class TestingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Testing
-        fields = ('pk', 'name',)
+        fields = ('id', 'name',)

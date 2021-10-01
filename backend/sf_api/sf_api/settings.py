@@ -29,8 +29,9 @@ SECRET_KEY = os.getenv("SECRET_KEY_DJANGO")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Cors Settings
+CORS_ORIGIN_ALLOW_ALL = True
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -43,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'testing'
+    'testing',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -84,9 +86,7 @@ WSGI_APPLICATION = 'sf_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # Following fields will need to edited to connect to databse
-        # May need to use dotenv settings for deployment
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv("NAME_PSQL"),
         'USER': os.getenv("USER_PSQL"),
         'PASSWORD': os.getenv("PASSWORD_PSQL"),
@@ -95,6 +95,8 @@ DATABASES = {
     }
 }
 
+# Custom User model
+AUTH_USER_MODEL = 'users.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -137,10 +139,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-# Cors Settings
-CORS_ORIGIN_ALLOW_ALL = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
