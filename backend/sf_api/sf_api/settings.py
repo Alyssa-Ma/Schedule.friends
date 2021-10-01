@@ -44,8 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'testing',
-    'users'
+    'sf_users'
 ]
 
 MIDDLEWARE = [
@@ -96,7 +95,7 @@ DATABASES = {
 }
 
 # Custom User model
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'sf_users.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

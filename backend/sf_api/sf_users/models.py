@@ -1,4 +1,6 @@
+# Create your models here.
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 
@@ -10,7 +12,7 @@ class User(AbstractUser):
     # Will need to look into how to correctly implement hashing strings
     password = models.CharField(max_length=50)
     schedule = models.ForeignKey('Day', on_delete=models.CASCADE, blank=True)
-    friend_list = models.ManyToManyField(User)
+    friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
     def __str__(self):
         return self.email
