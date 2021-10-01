@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet,Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const ScheduleTimes = ({time, index}) => {
@@ -23,7 +23,7 @@ const TextViewCard = ({item}) => {
                 {
                     item.times.map( (time, index) => {
                         return (
-                            <ScheduleTimes time={item.times} index={index} style={styles.schedule}/>
+                            <ScheduleTimes time={item.times} index={index} style={styles.schedule} key={index}/>
                         )
                     })
                 }
@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'darkslateblue',
         borderWidth: 1,
         borderColor: '#ccc',
-        flexDirection: 'row',
-        width: 350,
+        alignItems: 'center',
         alignSelf: 'center',
+        width: 250,
         marginTop: 50,
         shadowColor: '#ccc',
         
@@ -53,22 +53,22 @@ const styles = StyleSheet.create({
         width: 75,
         height: 75,
         borderRadius: 75/2,
+        alignSelf: 'center',
     },
 
     name: {
         fontSize: 20,
         color: 'white',
+        alignSelf: 'center',
     },
 
     times:{
         color: 'white',
         backgroundColor: 'brown',
         textAlign: 'center',
-        width: 150,
+        width: 175,
         borderRadius: 50 / 2,
         marginTop: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
     },
 
     schedule: {

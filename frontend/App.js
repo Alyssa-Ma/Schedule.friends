@@ -32,6 +32,26 @@ const Tab = createBottomTabNavigator();
           </Stack.Navigator>
  */
 //App function that will be what is rendered to phone
+import FriendRequestSend from './screens/FriendRequestSend';
+import CommonTimeText from './screens/CommonTimeText';
+import EditClassView from './screens/EditClassView';
+import EditScheduleView from './screens/EditScheduleView';
+import LoginScreen from './screens/LoginScreen';
+import SignUpScreen from './screens/SignUpScreen';
+//App function that will be what is rendered to phone
+
+
+  //return which screen you want to see rendered********
+
+  //return <ReactNativeHome />;
+  //return <HelloWorld />;
+  //return <FriendRequestView />;
+  //return <FriendRequestSend />;
+  //return <CommonTimeText />;
+  //return <EditClassView />;
+  //return <EditScheduleView />;
+  //return <LoginScreen />;
+  //return <SignUpScreen />;
 
 function App() {
   return (
