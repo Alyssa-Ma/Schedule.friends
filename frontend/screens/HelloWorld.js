@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 
 //the function that will be rendered
-const HelloWorld = () => {
+function HelloWorld ({ navigation }) {
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Hello World</Text>
