@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, FlatList, TouchableOpacity, Alert } from 'react
 import EditSchedule from '../components/EditSchedule';
 import Header from '../components/Header';
 
-const EditScheduleView = () => {
+const EditScheduleView = ({ navigation }) => {
 
     const [Classes, setClasses] = useState([
         {id:'1', classTitle: 'MATH 10100' , startTime: '9:00 AM', endTime: '11:00AM' },

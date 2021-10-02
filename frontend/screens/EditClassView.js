@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput} from 'react-native';
 import Header from '../components/Header';
 
 
-const EditClassView = () => {
+const EditClassView = ({ navigation }) => {
 
     {/* useStates to update time-slot information in the future*/}
     const [classTitle, setClassTitle] = useState('Math');

@@ -3,7 +3,7 @@ import { View, StyleSheet} from 'react-native';
 import AddSchedule from '../components/AddSchedule';
 import Header from '../components/Header';
 
-const AddScheduleView = () => {
+const AddScheduleView = ({ navigation }) => {
 
     return (
         <View style={styles.container}>

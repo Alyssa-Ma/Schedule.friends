@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, StatusBar, Image, TextInput,
         TouchableOpacity} from 'react-native';
 
 
-const SignUpScreen = () => {
+const SignUpScreen = ({ navigation }) => {
     const [userFirstName, setUserFirstName] = useState('blank');
     const [userLastName, setUserLastName] = useState('blank');
     const [userEmail, setUserEmail] = useState('blank');

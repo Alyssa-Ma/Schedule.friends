@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList} from 'react-native';
 import FriendRequest from '../components/FriendRequest';
 import Header from '../components/Header';
 
-const FriendRequestView = () => {
+const FriendRequestView = ({ navigation }) => {
 
     //Sets the state items arr with dummy values
     const [items, setItems] = useState([

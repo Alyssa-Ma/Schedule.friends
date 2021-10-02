@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList} from 'react-native';
 import TextViewCard from '../components/TextViewCard';
 import Header from '../components/Header';
 
-const CommonTimeText = () => {
+const CommonTimeText = ({ navigation }) => {
 
     //Sets the state items arr with dummy values
     const [items, setItems] = useState([
