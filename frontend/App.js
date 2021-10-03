@@ -26,6 +26,9 @@ import EditScheduleView from './screens/EditScheduleView';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import AddScheduleView from './screens/AddScheduleView';
+
+import EditScheduleStack from './screens/EditScheduleStack';//routing component
+
 //stack navigator
 //const Stack = createNativeStackNavigator();
 //tab navigator
@@ -63,8 +66,7 @@ function App() {
       <Drawer.Navigator initialRouteName="LogIn">
         <Drawer.Screen name="LogIn" component={LoginScreen} />
         <Drawer.Screen name="SignUp" component={SignUpScreen} />
-        <Drawer.Screen name="EditSchedule" component={EditScheduleView} />
-        <Drawer.Screen name="EditClass" component={EditClassView} />
+        <Drawer.Screen name="EditScheduleNav" component={EditScheduleStack} options={{ headerShown: false }}/>
         <Drawer.Screen name="AddSchedule" component={AddScheduleView} />
         <Drawer.Screen name="CommonTimeText" component={CommonTimeText} />
         <Drawer.Screen name="FriendRequestView" component={FriendRequestView} />
