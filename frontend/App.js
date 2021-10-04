@@ -15,19 +15,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 //**********Import the screens here********
-import ReactNativeHome from './screens/ReactNativeHome';
-import HelloWorld from './screens/HelloWorld';
 import FriendRequestView from './screens/FriendRequestView';
 import CombinedScheduleView from './screens/CombinedScheduleView';
 import FriendRequestSend from './screens/FriendRequestSend';
 import CommonTimeText from './screens/CommonTimeText';
-import EditClassView from './screens/EditClassView';
-import EditScheduleView from './screens/EditScheduleView';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import AddScheduleView from './screens/AddScheduleView';
 
-import EditScheduleStack from './screens/EditScheduleStack';//routing component
+import EditScheduleStack from './components/EditScheduleStack';//routing component
 
 //stack navigator
 //const Stack = createNativeStackNavigator();
