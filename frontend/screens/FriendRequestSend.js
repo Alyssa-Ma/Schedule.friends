@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import AddFriend from '../components/AddFriend';
 
 //the function that will be rendered
-const FriendRequestSend = () => {
+const FriendRequestSend = ({ navigation }) => {
 
     return (
         <View style={styles.container}>

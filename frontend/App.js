@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -11,18 +12,23 @@ import { Button, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 //**********Import the screens here********
-import ReactNativeHome from './screens/ReactNativeHome';
-import HelloWorld from './screens/HelloWorld';
 import FriendRequestView from './screens/FriendRequestView';
 import CombinedScheduleView from './screens/CombinedScheduleView';
+import FriendRequestSend from './screens/FriendRequestSend';
+import CommonTimeText from './screens/CommonTimeText';
+import LoginScreen from './screens/LoginScreen';
+import SignUpScreen from './screens/SignUpScreen';
+import AddScheduleView from './screens/AddScheduleView';
+
+import EditScheduleStack from './components/EditScheduleStack';//routing component
 
 //stack navigator
-const Stack = createNativeStackNavigator();
+//const Stack = createNativeStackNavigator();
 //tab navigator
-const Tab = createBottomTabNavigator();
+//const Tab = createBottomTabNavigator();
 
 /**
  * Stack Navigator stuff
@@ -31,16 +37,9 @@ const Tab = createBottomTabNavigator();
             <Stack.Screen name="Hello World" component={HelloWorld}/>
           </Stack.Navigator>
  */
-//App function that will be what is rendered to phone
-import FriendRequestSend from './screens/FriendRequestSend';
-import CommonTimeText from './screens/CommonTimeText';
-import EditClassView from './screens/EditClassView';
-import EditScheduleView from './screens/EditScheduleView';
-import LoginScreen from './screens/LoginScreen';
-import SignUpScreen from './screens/SignUpScreen';
-//App function that will be what is rendered to phone
 
-
+/*App function that will be what is rendered to phone
+function App() {
   //return which screen you want to see rendered********
 
   //return <ReactNativeHome />;
@@ -52,15 +51,25 @@ import SignUpScreen from './screens/SignUpScreen';
   //return <EditScheduleView />;
   //return <LoginScreen />;
   //return <SignUpScreen />;
+}
+*/
+
+const Drawer = createDrawerNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={CombinedScheduleView}/>
-        <Tab.Screen name="idk" component={HelloWorld}/>
-          
-      </Tab.Navigator>
+      <Drawer.Navigator initialRouteName="LogIn">
+        
+        <Drawer.Screen name="LogIn" component={LoginScreen} />
+        <Drawer.Screen name="SignUp" component={SignUpScreen} />
+        <Drawer.Screen name="EditScheduleNav" component={EditScheduleStack} options={{ headerShown: false }}/>
+        <Drawer.Screen name="AddSchedule" component={AddScheduleView} />
+        <Drawer.Screen name="CommonTimeText" component={CommonTimeText} />
+        <Drawer.Screen name="FriendRequestView" component={FriendRequestView} />
+        <Drawer.Screen name="SendFriendRequest" component={FriendRequestSend} />
+        
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 

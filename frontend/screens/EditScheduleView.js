@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import EditSchedule from '../components/EditSchedule';
+import EditClassView from './EditClassView';
 import Header from '../components/Header';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 
-const EditScheduleView = () => {
+
+
+const EditScheduleView = ({ navigation }) => {
 
     const [Classes, setClasses] = useState([
         {id:'1', classTitle: 'MATH 10100' , startTime: '9:00 AM', endTime: '11:00AM' },
@@ -16,11 +22,11 @@ const EditScheduleView = () => {
 
 
     return(
-        <View style={styles.container}>
-            <Header title='Edit My Schedule'/>
-            <FlatList data={Classes} renderItem={({item}) => <EditSchedule item={item} />} />
-
-        </View>
+    
+            <View style={styles.container}>
+                <Header title='Edit My Schedule'/>
+                <FlatList data={Classes} renderItem={({item}) => <EditSchedule item={item} navigation={navigation}/>} />
+            </View>
 
     )
 

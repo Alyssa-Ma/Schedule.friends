@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
-const EditSchedule = ({item}) => {
+const EditSchedule = ({navigation,item}) => {
 
 
     return (
-        <TouchableOpacity onPress={() => Alert.alert( 'Under Construction... Navigates to the Edit Schedule Screen', ) } style={styles.Block}>
+        <TouchableOpacity onPress={ () => navigation.navigate('EditClass')} style={styles.Block}>
             <View>
                 <Text style={styles.classTitle}>{item.classTitle}</Text>
                 <Text style={styles.timeFont}>{item.startTime}{'  -  '}{item.endTime}</Text>
