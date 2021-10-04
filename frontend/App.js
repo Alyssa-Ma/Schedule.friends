@@ -60,6 +60,7 @@ function App() {
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="LogIn">
+        
         <Drawer.Screen name="LogIn" component={LoginScreen} />
         <Drawer.Screen name="SignUp" component={SignUpScreen} />
         <Drawer.Screen name="EditScheduleNav" component={EditScheduleStack} options={{ headerShown: false }}/>

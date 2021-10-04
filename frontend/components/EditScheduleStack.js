@@ -5,6 +5,7 @@ import EditClassView from '../screens/EditClassView';
 
 const Stack = createNativeStackNavigator();
 
+//Basically serves like a 'routes' page. Allows for stack nav on the edit pages
 const EditScheduleStack = ({navigation}) => {
 
     return (
