@@ -29,7 +29,6 @@ def users_list(request):
 def users_detail(request, id):
     try:
         user = User.objects.get(id=id)
-        print(user)
     except user.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 

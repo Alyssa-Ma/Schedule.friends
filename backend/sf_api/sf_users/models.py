@@ -9,10 +9,8 @@ class User(AbstractUser):
     username = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    # email = models.EmailField(unique=True)
     # Will need to look into how to correctly implement hashing strings
     password = models.CharField(max_length=50)
-    schedule = models.ForeignKey('Day', on_delete=models.CASCADE, null=True)
     friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
     def __str__(self):
@@ -29,13 +27,14 @@ DAYS_OF_WEEK = [
 ]
 
 class Day(models.Model):
-    day = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
-    courses = models.ForeignKey('Course', on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, null=True, blank=True)
+    day_name = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
 
     def __str__(self):
         return self.get_day_display()
 
 class Course(models.Model):
+    day = models.ForeignKey('Day', related_name='courses', on_delete=models.CASCADE, null=True, blank=True)
     course_name = models.CharField(max_length=50)
     course_number = models.CharField(max_length=30)
     
