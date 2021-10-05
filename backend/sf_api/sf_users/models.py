@@ -6,9 +6,10 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class User(AbstractUser):
+    username = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    email = models.EmailField(unique=True)
+    # email = models.EmailField(unique=True)
     # Will need to look into how to correctly implement hashing strings
     password = models.CharField(max_length=50)
     schedule = models.ForeignKey('Day', on_delete=models.CASCADE, null=True)
