@@ -3,15 +3,6 @@
 from django.conf import settings
 from django.db import migrations, models
 
-def create_data(apps, schema_editor):
-    User = apps.get_model('sf_users', 'User')
-    User(
-        first_name="Henry",
-        last_name="Baum",
-        email="henry.baum46@myhunter.cuny.edu",    
-    ).save()
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -23,6 +14,5 @@ class Migration(migrations.Migration):
             model_name='user',
             name='friend_list',
             field=models.ManyToManyField(to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.RunPython(create_data)
+        )
     ]
