@@ -58,7 +58,7 @@ function App() {
         <Stack.Navigator>
             <Stack.Screen name="Login" component={LoginScreen}/>
             <Stack.Screen name="SignUp" component={SignUpScreen}/>
-            <Stack.Screen name="Home" component={HomeDrawer} />
+            <Stack.Screen name="Home" component={HomeDrawer} options={{ headerShown: false }}/>
           </Stack.Navigator>
       </NavigationContainer>
   
