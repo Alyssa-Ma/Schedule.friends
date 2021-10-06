@@ -22,7 +22,7 @@ import CommonTimeText from './screens/CommonTimeText';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import AddScheduleView from './screens/AddScheduleView';
-
+import LoginStack from './components/LoginStack';
 import EditScheduleStack from './components/EditScheduleStack';//routing component
 
 //stack navigator
@@ -58,22 +58,24 @@ const Drawer = createDrawerNavigator();
 
 function App() {
   return (
-    <LoginScreen>
+  
       <NavigationContainer>
         
-        <Drawer.Navigator initialRouteName="LogIn">
-          
-          <Drawer.Screen name="LogIn" component={LoginScreen} />
-          <Drawer.Screen name="SignUp" component={SignUpScreen} />
-          <Drawer.Screen name="EditScheduleNav" component={EditScheduleStack} options={{ headerShown: false }}/>
-          <Drawer.Screen name="AddSchedule" component={AddScheduleView} />
-          <Drawer.Screen name="CommonTimeText" component={CommonTimeText} />
-          <Drawer.Screen name="FriendRequestView" component={FriendRequestView} />
-          <Drawer.Screen name="SendFriendRequest" component={FriendRequestSend} />
-          
-        </Drawer.Navigator>
+          <Drawer.Navigator initialRouteName="LogIn">
+            
+            <Drawer.Screen name="LogIn" component={LoginScreen} />
+            <Drawer.Screen name="SignUp" component={SignUpScreen} />
+            <Drawer.Screen name="EditScheduleNav" component={EditScheduleStack} options={{ headerShown: false }}/>
+            <Drawer.Screen name="AddSchedule" component={AddScheduleView} />
+            <Drawer.Screen name="CommonTimeText" component={CommonTimeText} />
+            <Drawer.Screen name="FriendRequestView" component={FriendRequestView} />
+            <Drawer.Screen name="SendFriendRequest" component={FriendRequestSend} />
+            <Drawer.Screen name="LoginScreenNav" component={LoginStack} options={{ headerShown: false }}/>
+            
+          </Drawer.Navigator>
+        
       </NavigationContainer>
-    </LoginScreen>
+   
   );
 
 }
