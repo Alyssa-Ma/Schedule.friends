@@ -15,15 +15,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 //**********Import the screens here********
-import FriendRequestView from './screens/FriendRequestView';
-import CombinedScheduleView from './screens/CombinedScheduleView';
-import FriendRequestSend from './screens/FriendRequestSend';
-import CommonTimeText from './screens/CommonTimeText';
+
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
-import AddScheduleView from './screens/AddScheduleView';
-import LoginStack from './components/LoginStack';
-import EditScheduleStack from './components/EditScheduleStack';//routing component
+import HomeDrawer from './components/HomeDrawer';
 
 //stack navigator
 //const Stack = createNativeStackNavigator();
@@ -54,28 +49,19 @@ function App() {
 }
 */
 
-const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-  
+    
       <NavigationContainer>
-        
-          <Drawer.Navigator initialRouteName="LogIn">
-            
-            <Drawer.Screen name="LogIn" component={LoginScreen} />
-            <Drawer.Screen name="SignUp" component={SignUpScreen} />
-            <Drawer.Screen name="EditScheduleNav" component={EditScheduleStack} options={{ headerShown: false }}/>
-            <Drawer.Screen name="AddSchedule" component={AddScheduleView} />
-            <Drawer.Screen name="CommonTimeText" component={CommonTimeText} />
-            <Drawer.Screen name="FriendRequestView" component={FriendRequestView} />
-            <Drawer.Screen name="SendFriendRequest" component={FriendRequestSend} />
-            <Drawer.Screen name="LoginScreenNav" component={LoginStack} options={{ headerShown: false }}/>
-            
-          </Drawer.Navigator>
-        
+        <Stack.Navigator>
+            <Stack.Screen name="Login" component={LoginScreen}/>
+            <Stack.Screen name="SignUp" component={SignUpScreen}/>
+            <Stack.Screen name="Home" component={HomeDrawer} />
+          </Stack.Navigator>
       </NavigationContainer>
-   
+  
   );
 
 }

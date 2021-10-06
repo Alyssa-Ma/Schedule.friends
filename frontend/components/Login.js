@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 const Login = ({navigation}) => {
 
     return (
-        <TouchableOpacity onPress={ () => navigation.navigate('CombinedScheduleView')} style={styles}>
+        <TouchableOpacity onPress={ () => navigation.navigate('Home')} style={styles}>
             <View>
                 <Text style={styles.buttonText}>Login</Text>
             </View>

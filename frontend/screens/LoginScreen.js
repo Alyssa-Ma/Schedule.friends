@@ -35,14 +35,14 @@ const LoginScreen = ({ navigation }) => {
                 onChangeText = {(val) => setUserPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
-            <TouchableOpacity onPress={() => navigation.navigate('CombinedScheduleView')} style={styles.button}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.button}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
   
 
             <View style={styles.newSignUpText}>
                 <Text style ={styles.newSignUpText}> New to Schedule.Friends?</Text> 
-                <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
+                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
                     <Text style={{color: 'blue'}}> Create an account! </Text>
                 </TouchableOpacity>
             </View>
