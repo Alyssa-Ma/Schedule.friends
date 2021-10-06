@@ -1,8 +1,19 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, StatusBar, Image, TextInput, 
         TouchableOpacity} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import CombinedScheduleView from './CombinedScheduleView';
+import { Button } from 'react-native-paper';
 
-const LoginScreen = ({  }) => {
+//stack to nav after login
+const Stack = createNativeStackNavigator();
+
+<Stack.Navigator initialRouteName="LoginScreen">
+    <Stack.Screen name="LoginScreen" component={LoginScreen}/>
+    <Stack.Screen name="CombinedScheduleView" component={CombinedScheduleView}/>
+</Stack.Navigator>
+function LoginScreen ({ navigation }) {
     const [userEmail, setUserEmail] = useState('blank');
     const [userPassword, setUserPassword] = useState('blank');
 
@@ -34,9 +45,12 @@ const LoginScreen = ({  }) => {
                 onChangeText = {(val) => setUserPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity 
+                style={styles.button}
+                onPress={() => navigation.navigate('CombinedScheduleView')}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
+  
 
             <View style={styles.newSignUpText}>
                 <Text style ={styles.newSignUpText}> New to Schedule.Friends?</Text> 
