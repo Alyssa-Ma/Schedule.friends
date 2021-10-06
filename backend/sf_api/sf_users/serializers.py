@@ -55,3 +55,9 @@ class UserSerializer(serializers.ModelSerializer):
             for courses_dict in courses_data:
                 Course.objects.create(day=day, **courses_dict)
         return user
+
+    def update(self, instance, validated_data):
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.save()
+        return instance
+        

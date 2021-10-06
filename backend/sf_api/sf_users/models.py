@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 class User(AbstractUser):
     username = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30)
     # Will need to look into how to correctly implement hashing strings
     password = models.CharField(max_length=50)
