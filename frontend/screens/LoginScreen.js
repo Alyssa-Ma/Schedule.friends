@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, StatusBar, Image, TextInput, 
         TouchableOpacity} from 'react-native';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({  }) => {
     const [userEmail, setUserEmail] = useState('blank');
     const [userPassword, setUserPassword] = useState('blank');
 

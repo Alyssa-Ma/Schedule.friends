@@ -58,19 +58,22 @@ const Drawer = createDrawerNavigator();
 
 function App() {
   return (
-    <NavigationContainer>
-      <Drawer.Navigator initialRouteName="LogIn">
+    <LoginScreen>
+      <NavigationContainer>
         
-        <Drawer.Screen name="LogIn" component={LoginScreen} />
-        <Drawer.Screen name="SignUp" component={SignUpScreen} />
-        <Drawer.Screen name="EditScheduleNav" component={EditScheduleStack} options={{ headerShown: false }}/>
-        <Drawer.Screen name="AddSchedule" component={AddScheduleView} />
-        <Drawer.Screen name="CommonTimeText" component={CommonTimeText} />
-        <Drawer.Screen name="FriendRequestView" component={FriendRequestView} />
-        <Drawer.Screen name="SendFriendRequest" component={FriendRequestSend} />
-        
-      </Drawer.Navigator>
-    </NavigationContainer>
+        <Drawer.Navigator initialRouteName="LogIn">
+          
+          <Drawer.Screen name="LogIn" component={LoginScreen} />
+          <Drawer.Screen name="SignUp" component={SignUpScreen} />
+          <Drawer.Screen name="EditScheduleNav" component={EditScheduleStack} options={{ headerShown: false }}/>
+          <Drawer.Screen name="AddSchedule" component={AddScheduleView} />
+          <Drawer.Screen name="CommonTimeText" component={CommonTimeText} />
+          <Drawer.Screen name="FriendRequestView" component={FriendRequestView} />
+          <Drawer.Screen name="SendFriendRequest" component={FriendRequestSend} />
+          
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </LoginScreen>
   );
 
 }
