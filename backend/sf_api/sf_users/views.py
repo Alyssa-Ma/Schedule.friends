@@ -64,9 +64,29 @@ def schedule_list(request, pk):
             user_obj = {
                 'schedule': [request.data]
             }
-            # user_obj['schedule'].insert(request.data)
-            print(user_obj)
             user_serializer = UserSerializer(user, data=user_obj, context={'request': 'PATCH'}, partial=True)
             if user_serializer.is_valid():
                 user_serializer.save()
                 return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def schedule_detail(request, user_pk, course_pk):
+    try:
+        course = Course.objects.get(pk=course_pk)
+    except course.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = CourseSerializer(course, context={'request': request})
+        return Response(serializer.data)
+
+    # elif request.method == 'PATCH':
+    #     serializer = UserSerializer(user, data=request.data, context={'request': request}, partial=True)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(status=status.HTTP_204_NO_CONTENT)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # elif request.method == 'DELETE':
+    #     user.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)

@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^api/sf_users/$', views.users_list),
     re_path(r'^api/sf_users/([0-9]+)$', views.users_detail),
-    re_path(r'^api/sf_users/([0-9]+)/schedule/$', views.schedule_list)
+    re_path(r'^api/sf_users/([0-9]+)/schedule/$', views.schedule_list),
+    re_path(r'^api/sf_users/([0-9]+)/schedule/([0-9]+)$', views.schedule_detail)
     # re_path(r'^api/sf_users/([0-9]+)/schedule/$', views.courses_detail)
 ]
