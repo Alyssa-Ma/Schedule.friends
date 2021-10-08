@@ -11,7 +11,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=30)
     # Will need to look into how to correctly implement hashing strings
     password = models.CharField(max_length=50)
-    friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, null=True)
 
     def __str__(self):
         return self.email
@@ -25,13 +25,6 @@ DAYS_OF_WEEK = [
     ('FRI', 'Friday'),
     ('SAT', 'Saturday')
 ]
-
-# class Day(models.Model):
-#     user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, null=True, blank=True)
-#     day_name = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
-
-#     def __str__(self):
-#         return self.get_day_display()
 
 class Course(models.Model):
     # day = models.ForeignKey('Day', related_name='courses', on_delete=models.CASCADE, null=True, blank=True)
@@ -47,3 +40,11 @@ class Course(models.Model):
 
     def __str__(self):
         return self.course_name
+
+# Leftover Day model, leaving here for now in case we need to rollback
+# class Day(models.Model):
+#     user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, null=True, blank=True)
+#     day_name = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
+
+#     def __str__(self):
+#         return self.get_day_display()

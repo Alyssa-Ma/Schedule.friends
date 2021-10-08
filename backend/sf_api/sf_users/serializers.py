@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import User
-# from .models import Day
 from .models import Course
+# from .models import Day
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,14 +20,53 @@ class CourseSerializer(serializers.ModelSerializer):
         return course
     
     def update(self, instance, validated_data):
-        print(validated_data)
         instance.day_name = validated_data.get('day_name', instance.day_name)
         instance.course_name = validated_data.get('course_name', instance.course_name)
         instance.course_number = validated_data.get('course_number', instance.course_number)
         instance.time_start = validated_data.get('time_start', instance.time_start)
         instance.time_end = validated_data.get('time_end', instance.time_end)
+        instance.save()
         return instance
 
+class UserSerializer(serializers.ModelSerializer):
+    schedule = CourseSerializer(many = True, allow_null = True)
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'username',
+            'last_login', 
+            'is_superuser',
+            'date_joined',
+            'first_name',
+            'last_name',
+            'email',
+            'password',
+            'schedule',
+            'friend_list'
+        )
+    
+    # designed only to create a user, as whena  new user is made, they did not input a schedule yet
+    def create(self, validated_data):
+        validated_data.pop('schedule')
+        validated_data.pop('friend_list')
+        user = User.objects.create(**validated_data)
+        return user
+
+    # designed to only update info; ignores schedule field
+    def update(self, instance, validated_data):
+        if 'schedule' in validated_data:
+            schedule_data = validated_data.pop('schedule')
+            for schedule_dict in schedule_data:
+                Course.objects.create(user=instance, **schedule_dict)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.username = validated_data.get('username', instance.username)
+        instance.password = validated_data.get('password', instance.password)
+        instance.save()
+        return instance
+
+# Leftover serializer for Day model; leaving here for now in case we need to rollback
 # class DaySerializer(serializers.ModelSerializer):
 #     courses = CourseSerializer(many = True, allow_null = True)
 #     class Meta:
@@ -48,41 +87,3 @@ class CourseSerializer(serializers.ModelSerializer):
 #         instance.day_name = validated_data.get('day_name', instance.day_name)
 #         instance.courses.set(validated.get('courses'))
 #         return instance
-        
-class UserSerializer(serializers.ModelSerializer):
-    schedule = CourseSerializer(many = True, allow_null = True)
-    class Meta:
-        model = User
-        fields = (
-            'id',
-            'username',
-            'last_login', 
-            'is_superuser',
-            'date_joined',
-            'first_name',
-            'last_name',
-            'email',
-            'password',
-            'schedule'
-        )
-    
-    # designed only to create a user, as whena  new user is made, they did not input a schedule yet
-    def create(self, validated_data):
-        schedule_data = validated_data.pop('schedule')
-        user = User.objects.create(**validated_data)
-        return user
-
-    # designed to only update info; ignores schedule field
-    def update(self, instance, validated_data):
-        if 'schedule' in validated_data:
-            schedule_data = validated_data.pop('schedule')
-            for schedule_dict in schedule_data:
-                Course.objects.create(user=instance, **schedule_dict)
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_name = validated_data.get('last_name', instance.last_name)
-        instance.username = validated_data.get('username', instance.username)
-        instance.password = validated_data.get('password', instance.password)
-        instance.save()
-        return instance
-    
-    # def patch(self, request)

@@ -36,6 +36,7 @@ def users_detail(request, pk):
         return Response(serializer.data)
 
     elif request.method == 'PATCH':
+        print("USER PATCH method called")
         serializer = UserSerializer(user, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -45,6 +46,8 @@ def users_detail(request, pk):
     elif request.method == 'DELETE':
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# ======================================
 
 # Schedule request methods
 @api_view(['GET', 'POST'])
