@@ -66,33 +66,21 @@ class UserSerializer(serializers.ModelSerializer):
         )
     
     # designed only to create a user, as whena  new user is made, they did not input a schedule yet
-    # def create(self, validated_data):
-    #     schedule_data = validated_data.pop('schedule')
-    #     user = User.objects.create(**validated_data)
-    #     if schedule_data:
-    #         for schedule_dict in schedule_data:
-    #             courses_data = schedule_dict.pop('courses')
-    #             day = Day.objects.create(user=user, **schedule_dict)
-    #             for courses_dict in courses_data:
-    #                 Course.objects.create(day=day, **courses_dict)
-    #     return user
+    def create(self, validated_data):
+        schedule_data = validated_data.pop('schedule')
+        user = User.objects.create(**validated_data)
+        return user
 
     # designed to only update info; ignores schedule field
     def update(self, instance, validated_data):
-        print("This is self")
-        print(self)
-        print("=======")
-        print(validated_data)
-        schedule_data = validated_data.pop('schedule')
-        print(schedule_data)
+        if 'schedule' in validated_data:
+            schedule_data = validated_data.pop('schedule')
+            for schedule_dict in schedule_data:
+                Course.objects.create(user=instance, **schedule_dict)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.username = validated_data.get('username', instance.username)
         instance.password = validated_data.get('password', instance.password)
-        for schedule_dict in schedule_data:
-            Course.objects.create(user=instance, **schedule_dict)
-        # print(instance.schedule)
-        # print(validated_data.get('schedule'))
         instance.save()
         return instance
     
