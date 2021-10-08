@@ -26,15 +26,17 @@ DAYS_OF_WEEK = [
     ('SAT', 'Saturday')
 ]
 
-class Day(models.Model):
-    user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, null=True, blank=True)
-    day_name = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
+# class Day(models.Model):
+#     user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, null=True, blank=True)
+#     day_name = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
 
-    def __str__(self):
-        return self.get_day_display()
+#     def __str__(self):
+#         return self.get_day_display()
 
 class Course(models.Model):
-    day = models.ForeignKey('Day', related_name='courses', on_delete=models.CASCADE, null=True, blank=True)
+    # day = models.ForeignKey('Day', related_name='courses', on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, null=True, blank=True)
+    day_name = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
     course_name = models.CharField(max_length=50)
     course_number = models.CharField(max_length=30)
     
