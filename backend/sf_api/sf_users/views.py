@@ -69,7 +69,7 @@ def schedule_list(request, pk):
                 user_serializer.save()
                 return Response(status=status.HTTP_204_NO_CONTENT)
 
-@api_view(['GET'])
+@api_view(['GET', 'PATCH', 'DELETE'])
 def schedule_detail(request, user_pk, course_pk):
     try:
         course = Course.objects.get(pk=course_pk)
@@ -80,13 +80,13 @@ def schedule_detail(request, user_pk, course_pk):
         serializer = CourseSerializer(course, context={'request': request})
         return Response(serializer.data)
 
-    # elif request.method == 'PATCH':
-    #     serializer = UserSerializer(user, data=request.data, context={'request': request}, partial=True)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(status=status.HTTP_204_NO_CONTENT)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'PATCH':
+        serializer = CourseSerializer(course, data=request.data, context={'request': request}, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # elif request.method == 'DELETE':
-    #     user.delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
+    elif request.method == 'DELETE':
+        course.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -20,6 +20,7 @@ class CourseSerializer(serializers.ModelSerializer):
         return course
     
     def update(self, instance, validated_data):
+        print(validated_data)
         instance.day_name = validated_data.get('day_name', instance.day_name)
         instance.course_name = validated_data.get('course_name', instance.course_name)
         instance.course_number = validated_data.get('course_number', instance.course_number)
