@@ -24,7 +24,6 @@ import Header from '../components/Header';
   const CombinedScheduleView = ({ navigation }) => {
       return (
         <View style={styles.item}>
-          <Header title='Combined View Under Construction'/>
           <Text>CombinedScreen gone lol</Text>
         </View>
       );

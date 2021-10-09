@@ -15,7 +15,6 @@ const CommonTimeText = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Header title={`Who's Free Today`}/>
             <FlatList data={items} style={styles.outerCard} renderItem={({item}) => <TextViewCard item={item} />} />
         </View>
     )

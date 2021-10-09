@@ -56,9 +56,40 @@ function App() {
     
       <NavigationContainer>
         <Stack.Navigator>
-            <Stack.Screen name="Login" component={LoginScreen}/>
-            <Stack.Screen name="SignUp" component={SignUpScreen}/>
-            <Stack.Screen name="Home" component={HomeDrawer} options={{ headerShown: false }}/>
+            <Stack.Screen 
+              name="Login" 
+              component={LoginScreen}
+              options={{
+                title: 'Log In',
+                headerStyle: {
+                  backgroundColor: 'darkslateblue'},
+                headerTitleAlign: 'center',
+                headerTitleStyle: {
+                  color: 'white',
+                }
+              }}
+              
+            />
+            <Stack.Screen 
+              name="SignUp" 
+              component={SignUpScreen} 
+              options={{
+                title: 'Sign Up!',
+                headerStyle: {
+                  backgroundColor: 'darkslateblue'},
+                headerTitleAlign: 'center',
+                headerTitleStyle: {
+                  color: 'white',
+                }
+              }}
+            />
+            <Stack.Screen 
+              name="Home" 
+              component={HomeDrawer}
+              options={{ 
+                headerShown: false 
+              }}
+            />
           </Stack.Navigator>
       </NavigationContainer>
   

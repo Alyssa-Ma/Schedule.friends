@@ -10,8 +10,32 @@ const EditScheduleStack = ({navigation}) => {
 
     return (
         <Stack.Navigator>
-            <Stack.Screen name="EditScheduleView" component={EditScheduleView} />
-            <Stack.Screen name="EditClass" component={EditClassView} />
+            <Stack.Screen 
+                name="EditScheduleView" 
+                component={EditScheduleView}
+                options={{
+                    title: 'Edit My Schedule',
+                    headerStyle: {
+                      backgroundColor: 'darkslateblue'},
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                      color: 'white',
+                    }
+                }}
+            />
+            <Stack.Screen 
+                name="EditClass" 
+                component={EditClassView}
+                options={{
+                    title: 'Edit My Class',
+                    headerStyle: {
+                      backgroundColor: 'darkslateblue'},
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                      color: 'white',
+                    }
+                }}
+            />
        </Stack.Navigator>
     )
 

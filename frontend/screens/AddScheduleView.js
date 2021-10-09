@@ -7,7 +7,6 @@ const AddScheduleView = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Header text="Add Schedule"/>
             <AddSchedule/>
         </View>
     )

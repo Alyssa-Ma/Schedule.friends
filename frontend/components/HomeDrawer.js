@@ -15,12 +15,79 @@ const HomeDrawer = ({navigation}) => {
 
     return (
         <Drawer.Navigator>
-            <Drawer.Screen name="HomePage" component={CombinedScheduleView}/>
-            <Drawer.Screen name="EditScheduleNav" component={EditScheduleStack} options={{ headerShown: false }}/>
-            <Drawer.Screen name="AddSchedule" component={AddScheduleView} />
-            <Drawer.Screen name="CommonTimeText" component={CommonTimeText} />
-            <Drawer.Screen name="FriendRequestView" component={FriendRequestView} />
-            <Drawer.Screen name="SendFriendRequest" component={FriendRequestSend} />
+            <Drawer.Screen 
+                name="HomePage" 
+                component={CombinedScheduleView}
+                options={{
+                    title: 'Home',
+                    headerStyle: {
+                      backgroundColor: 'darkslateblue'},
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                      color: 'white',
+                    }
+                }}
+            />
+            <Drawer.Screen 
+                name="EditScheduleNav" 
+                component={EditScheduleStack} 
+                options={{
+                   headerShown: false,
+                   title: 'Edit My Schedule',
+                }}
+            />
+            <Drawer.Screen 
+                name="AddSchedule" 
+                component={AddScheduleView}
+                options={{
+                    title: 'Add Schedule',
+                    headerStyle: {
+                      backgroundColor: 'darkslateblue'},
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                      color: 'white',
+                    }
+                }} 
+            />
+            <Drawer.Screen 
+                name="CommonTimeText" 
+                component={CommonTimeText}
+                options={{
+                    title: `Who's Free Now`,
+                    headerStyle: {
+                      backgroundColor: 'darkslateblue'},
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                      color: 'white',
+                    }
+                }}
+            />
+            <Drawer.Screen 
+                name="FriendRequestView" 
+                component={FriendRequestView} 
+                options={{
+                    title: 'Friend Requests',
+                    headerStyle: {
+                      backgroundColor: 'darkslateblue'},
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                      color: 'white',
+                    }
+                }}
+            />
+            <Drawer.Screen 
+                name="SendFriendRequest" 
+                component={FriendRequestSend} 
+                options={{
+                    title: 'Send a Friend Request',
+                    headerStyle: {
+                      backgroundColor: 'darkslateblue'},
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                      color: 'white',
+                    }
+                }}
+            />
           </Drawer.Navigator>
         
     );
