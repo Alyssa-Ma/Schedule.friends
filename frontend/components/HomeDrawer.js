@@ -14,7 +14,12 @@ const Drawer = createDrawerNavigator();
 const HomeDrawer = ({navigation}) => {
 
     return (
-        <Drawer.Navigator>
+        <Drawer.Navigator
+            screenOptions={{
+                title: 'Schedule.Friends',
+                drawerType: 'slide',
+                
+            }}>
             <Drawer.Screen 
                 name="HomePage" 
                 component={CombinedScheduleView}
