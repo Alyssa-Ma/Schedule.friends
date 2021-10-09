@@ -11,7 +11,8 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=30)
     # Will need to look into how to correctly implement hashing strings
     password = models.CharField(max_length=50)
-    friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, null=True)
+    friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
+    pending_requests = models.ManyToManyField('FriendRequest', blank=True)
 
     def __str__(self):
         return self.email
@@ -40,6 +41,12 @@ class Course(models.Model):
 
     def __str__(self):
         return self.course_name
+
+class FriendRequest(models.Model):
+    from_user = models.IntegerField()
+    to_user = models.IntegerField()
+    pending = models.BooleanField(default=True)
+    accepted = models.BooleanField(default=False)
 
 # Leftover Day model, leaving here for now in case we need to rollback
 # class Day(models.Model):

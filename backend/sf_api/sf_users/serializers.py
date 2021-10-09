@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import User
 from .models import Course
+from .models import FriendRequest
 # from .models import Day
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -28,6 +29,29 @@ class CourseSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class FriendRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FriendRequest
+        fields = (
+            "id",
+            "from_user",
+            "to_user",
+            "pending",
+            "accepted"
+        )
+    
+    def create(self, validated_data):
+        friend_request = FriendRequest.objects.create(**validated_data)
+        return friend_request
+    
+    def update(self, instance, validated_data):
+        instance.from_user = validated_data.get('from_user', instance.from_user)
+        instance.to_user = validated_data.get('to_user', instance.to_user)
+        instance.pending = validated_data.get('pending', instance.pending)
+        instance.accepted = validated_data.get('accepted', instance.accepted)
+        instance.save()
+        return instance
+
 class UserSerializer(serializers.ModelSerializer):
     schedule = CourseSerializer(many = True, allow_null = True)
     class Meta:
@@ -43,17 +67,18 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'password',
             'schedule',
-            'friend_list'
+            'friend_list',
+            'pending_requests'
         )
     
-    # designed only to create a user, as whena  new user is made, they did not input a schedule yet
+    # designed only to create a user, as when a new user is made, they did not input a schedule yet
     def create(self, validated_data):
         validated_data.pop('schedule')
         validated_data.pop('friend_list')
+        validated_data.pop('pending_requests')
         user = User.objects.create(**validated_data)
         return user
 
-    # designed to only update info; ignores schedule field
     def update(self, instance, validated_data):
         if 'schedule' in validated_data:
             schedule_data = validated_data.pop('schedule')
