@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, StatusBar, Image, TextInput, 
         TouchableOpacity} from 'react-native';
+import EditSchedule from '../components/EditSchedule';
 
 const LoginScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState('blank');
@@ -34,13 +35,14 @@ const LoginScreen = ({ navigation }) => {
                 onChangeText = {(val) => setUserPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.button}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
+  
 
             <View style={styles.newSignUpText}>
                 <Text style ={styles.newSignUpText}> New to Schedule.Friends?</Text> 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
                     <Text style={{color: 'blue'}}> Create an account! </Text>
                 </TouchableOpacity>
             </View>
@@ -53,7 +55,7 @@ const LoginScreen = ({ navigation }) => {
         </View>
     
     );
-};
+}
 
 export default LoginScreen;
 

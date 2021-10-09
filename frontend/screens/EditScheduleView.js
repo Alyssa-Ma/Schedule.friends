@@ -24,7 +24,6 @@ const EditScheduleView = ({ navigation }) => {
     return(
     
             <View style={styles.container}>
-                <Header title='Edit My Schedule'/>
                 <FlatList data={Classes} renderItem={({item}) => <EditSchedule item={item} navigation={navigation}/>} />
             </View>
 

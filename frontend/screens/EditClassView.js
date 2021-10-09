@@ -16,8 +16,6 @@ const EditClassView = ({ navigation }) => {
 
         <View style={styles.container}>
 
-        <Header title='Edit Schedule'/>
-
     
             <Text>Enter Class Title:</Text>
             <TextInput 

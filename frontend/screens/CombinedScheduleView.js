@@ -1,10 +1,7 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, FlatList, SafeAreaView, Button} from 'react-native';
 import Header from '../components/Header';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-  
   /** 
     const data = [
         {id: 'a', title: 'CSCI 499',},
@@ -24,11 +21,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
       );
       */
     //whichever screen has the navigation button for stack, must have naviation as a param in their function
-    function CombinedScheduleView({ navigation }) {
+  const CombinedScheduleView = ({ navigation }) => {
       return (
         <View style={styles.item}>
           <Text>CombinedScreen gone lol</Text>
-          <Button title="navigate to hellow" onPress={() => navigation.navigate('Hello World')}/>
         </View>
       );
     }

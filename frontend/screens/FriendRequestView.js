@@ -29,7 +29,6 @@ const FriendRequestView = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
-            <Header title='Friend Requests'/>
             <FlatList data={items} renderItem={({item}) => <FriendRequest item={item} rejectFriend={rejectFriend} acceptFriend={acceptFriend}/>} />
         </View>
     )

@@ -8,7 +8,6 @@ const FriendRequestSend = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Header title='Send a Friend Request'/>
             <AddFriend style={styles.addfriend}/>
         </View>
     );
