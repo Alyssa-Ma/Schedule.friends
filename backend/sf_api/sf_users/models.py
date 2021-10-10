@@ -12,7 +12,7 @@ class User(AbstractUser):
     # Will need to look into how to correctly implement hashing strings
     password = models.CharField(max_length=50)
     friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
-    pending_requests = models.ManyToManyField('FriendRequest', blank=True)
+    friend_requests = models.ManyToManyField('FriendRequest', blank=True)
 
     def __str__(self):
         return self.email

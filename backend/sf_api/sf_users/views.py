@@ -7,6 +7,7 @@ from rest_framework import status
 
 from .models import User
 from .models import Course
+from .models import FriendRequest
 from .serializers import *
 
 # Users request methods
@@ -70,7 +71,8 @@ def schedule_list(request, pk):
             user_serializer = UserSerializer(user, data=user_obj, context={'request': 'PATCH'}, partial=True)
             if user_serializer.is_valid():
                 user_serializer.save()
-                return Response(status=status.HTTP_204_NO_CONTENT)
+                return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PATCH', 'DELETE'])
 def schedule_detail(request, user_pk, course_pk):
@@ -92,4 +94,53 @@ def schedule_detail(request, user_pk, course_pk):
 
     elif request.method == 'DELETE':
         course.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET','POST'])
+def fr_list(request):
+    if request.method == 'GET':
+        data = FriendRequest.objects.all()
+        serializer = FriendRequestSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        try:
+            from_user = User.objects.get(pk=request.data['from_user'])
+        except from_user.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        try:
+            to_user = User.objects.get(pk=request.data['to_user'])
+        except to_user.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+       
+        fr_serializer = FriendRequestSerializer(data=request.data)
+        if fr_serializer.is_valid():
+            fr_serializer.save()
+            from_user.friend_requests.add(fr_serializer.data['id'])
+            from_user.save()
+            to_user.friend_requests.add(fr_serializer.data['id'])
+            to_user.save()
+            return Response(status=status.HTTP_201_CREATED) 
+        return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PATCH', 'DELETE'])
+def fr_detail(request, pk):
+    try:
+        friend_request = FriendRequest.objects.get(pk=pk)
+    except friend_request.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = FriendRequestSerializer(friends_request, context={'request': request})
+        return Response(serializer.data)
+
+    elif request.method == 'PATCH':
+        serializer = FriendRequestSerializer(friend_request, data=request.data, context={'request': request}, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        friend_request.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

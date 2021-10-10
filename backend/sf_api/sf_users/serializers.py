@@ -68,14 +68,14 @@ class UserSerializer(serializers.ModelSerializer):
             'password',
             'schedule',
             'friend_list',
-            'pending_requests'
+            'friend_requests'
         )
     
     # designed only to create a user, as when a new user is made, they did not input a schedule yet
     def create(self, validated_data):
         validated_data.pop('schedule')
         validated_data.pop('friend_list')
-        validated_data.pop('pending_requests')
+        validated_data.pop('friend_requests')
         user = User.objects.create(**validated_data)
         return user
 

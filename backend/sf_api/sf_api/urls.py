@@ -27,5 +27,8 @@ urlpatterns = [
     # GET entire schedule by user ID and POST path to make a new course
     re_path(r'^api/sf_users/([0-9]+)/schedule/$', views.schedule_list),
     # GET course by ID, PATCH and DELETE course by ID
-    re_path(r'^api/sf_users/([0-9]+)/schedule/([0-9]+)$', views.schedule_detail)
+    re_path(r'^api/sf_users/([0-9]+)/schedule/([0-9]+)$', views.schedule_detail),
+    # 
+    re_path(r'^api/sf_users/friend_requests/$', views.fr_list),
+    re_path(r'^api/sf_users/friend_requests/([0-9]+)$', views.fr_detail)
 ]
