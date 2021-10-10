@@ -96,6 +96,9 @@ def schedule_detail(request, user_pk, course_pk):
         course.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+# ======================================
+
+# Friend request methods
 @api_view(['GET','POST'])
 def fr_list(request):
     if request.method == 'GET':
@@ -157,3 +160,18 @@ def fr_detail(request, pk):
     elif request.method == 'DELETE':
         friend_request.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['DELETE'])
+def remove_friend(request, from_user_pk, to_user_pk):
+    try:
+        from_user = User.objects.get(pk=from_user_pk)
+    except from_user.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    try:
+        to_user = User.objects.get(pk=to_user_pk)
+    except to_user.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    from_user.friend_list.remove(to_user_pk)
+    to_user.friend_list.remove(from_user_pk)
+    return Response(status=status.HTTP_204_NO_CONTENT)

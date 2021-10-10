@@ -30,5 +30,6 @@ urlpatterns = [
     re_path(r'^api/sf_users/([0-9]+)/schedule/([0-9]+)$', views.schedule_detail),
     # 
     re_path(r'^api/sf_users/friend_requests/$', views.fr_list),
-    re_path(r'^api/sf_users/friend_requests/([0-9]+)$', views.fr_detail)
+    re_path(r'^api/sf_users/friend_requests/([0-9]+)$', views.fr_detail),
+    re_path(r'^api/sf_users/([0-9]+)/remove/([0-9]+)$', views.remove_friend)
 ]
