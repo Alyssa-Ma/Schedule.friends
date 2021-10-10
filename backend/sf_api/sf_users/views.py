@@ -135,9 +135,22 @@ def fr_detail(request, pk):
         return Response(serializer.data)
 
     elif request.method == 'PATCH':
-        serializer = FriendRequestSerializer(friend_request, data=request.data, context={'request': request}, partial=True)
-        if serializer.is_valid():
-            serializer.save()
+        fr_serializer = FriendRequestSerializer(friend_request, data=request.data, context={'request': request}, partial=True)
+        if fr_serializer.is_valid():
+            fr_serializer.save()
+            if fr_serializer.data['accepted']:
+                try:
+                    from_user = User.objects.get(pk=fr_serializer.data['from_user'])
+                except from_user.DoesNotExist:
+                    return Response(status=status.HTTP_404_NOT_FOUND)
+                try:
+                    to_user = User.objects.get(pk=fr_serializer.data['to_user'])
+                except to_user.DoesNotExist:
+                    return Response(status=status.HTTP_404_NOT_FOUND)
+
+                from_user.friend_list.add(to_user.id)
+                to_user.friend_list.add(from_user.id)
+            friend_request.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

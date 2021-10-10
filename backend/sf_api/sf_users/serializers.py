@@ -80,6 +80,7 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
+        # Creates a new course into schedule if included in validated data
         if 'schedule' in validated_data:
             schedule_data = validated_data.pop('schedule')
             for schedule_dict in schedule_data:
