@@ -6,13 +6,13 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class User(AbstractUser):
-    first_name = models.CharField(max_length=30)
+    username = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30)
-    email = models.EmailField(unique=True)
     # Will need to look into how to correctly implement hashing strings
     password = models.CharField(max_length=50)
-    schedule = models.ForeignKey('Day', on_delete=models.CASCADE, null=True)
-    friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
+    friend_requests = models.ManyToManyField('FriendRequest', blank=True)
 
     def __str__(self):
         return self.email
@@ -27,14 +27,10 @@ DAYS_OF_WEEK = [
     ('SAT', 'Saturday')
 ]
 
-class Day(models.Model):
-    day = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
-    courses = models.ForeignKey('Course', on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return self.get_day_display()
-
 class Course(models.Model):
+    # day = models.ForeignKey('Day', related_name='courses', on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, null=True, blank=True)
+    day_name = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
     course_name = models.CharField(max_length=50)
     course_number = models.CharField(max_length=30)
     
@@ -45,3 +41,17 @@ class Course(models.Model):
 
     def __str__(self):
         return self.course_name
+
+class FriendRequest(models.Model):
+    from_user = models.IntegerField()
+    to_user = models.IntegerField()
+    pending = models.BooleanField(default=True)
+    accepted = models.BooleanField(default=False)
+
+# Leftover Day model, leaving here for now in case we need to rollback
+# class Day(models.Model):
+#     user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, null=True, blank=True)
+#     day_name = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
+
+#     def __str__(self):
+#         return self.get_day_display()
