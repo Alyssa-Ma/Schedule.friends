@@ -45,6 +45,10 @@ def users_detail(request, pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
+        sent_friend_requests = FriendRequest.objects.filter(from_user=pk)
+        recieved_friend_requests = FriendRequest.objects.filter(to_user=pk)
+        sent_friend_requests.delete()
+        recieved_friend_requests.delete()
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
