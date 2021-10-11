@@ -7,14 +7,17 @@ from .models import FriendRequest
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = (
-            "id",
-            "day_name",
-            "course_name",
-            "course_number",
-            "time_start",
-            "time_end"
-        )
+        fields = '__all__'
+
+        # fields = (
+        #     "id",
+        #     "day_name",
+        #     "course_name",
+        #     "course_number",
+        #     "time_start",
+        #     "time_end",
+        #     "user"
+        # )
 
     def create(self, validated_data):
         course = Course.objects.create(**validated_data)
@@ -32,13 +35,15 @@ class CourseSerializer(serializers.ModelSerializer):
 class FriendRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FriendRequest
-        fields = (
-            "id",
-            "from_user",
-            "to_user",
-            "pending",
-            "accepted"
-        )
+        fields = '__all__'
+
+        # fields = (
+        #     "id",
+        #     "from_user",
+        #     "to_user",
+        #     "pending",
+        #     "accepted"
+        # )
     
     def create(self, validated_data):
         friend_request = FriendRequest.objects.create(**validated_data)
@@ -56,26 +61,33 @@ class UserSerializer(serializers.ModelSerializer):
     schedule = CourseSerializer(many = True, allow_null = True)
     class Meta:
         model = User
-        fields = (
-            'id',
-            'username',
-            'last_login', 
-            'is_superuser',
-            'date_joined',
-            'first_name',
-            'last_name',
-            'email',
-            'password',
-            'schedule',
-            'friend_list',
-            'friend_requests'
-        )
-    
+        fields = '__all__'
+
+        # fields = (
+        #     "id",
+        #     "username",
+        #     "password",
+        #     "first_name",
+        #     "last_name",
+        #     "email",
+        #     "date_joined",
+        #     "last_login",
+        #     "is_superuser",
+        #     "is_staff",
+        #     "is_active",
+        #     "groups",
+        #     "user_permissions":,
+        #     "schedule",
+        #     "friend_list",
+        #     "friend_requests"
+        # )
+
+
     # designed only to create a user, as when a new user is made, they did not input a schedule yet
     def create(self, validated_data):
         validated_data.pop('schedule')
-        validated_data.pop('friend_list')
-        validated_data.pop('friend_requests')
+        # validated_data.pop('friend_list')
+        # validated_data.pop('friend_requests')
         user = User.objects.create(**validated_data)
         return user
 
