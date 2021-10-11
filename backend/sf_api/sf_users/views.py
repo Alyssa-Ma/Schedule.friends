@@ -13,10 +13,13 @@ from .serializers import *
 @api_view(['GET', 'POST'])
 def users_list(request):
     if request.method == 'GET':
+        # First checks if query parameter exists
+        # Then filters Users by the string in the 'username' property
         if request.query_params.get('query'):
             results = User.objects.filter(username__iregex=request.query_params.get('query'))
             serializer = UserSerializer(results, context={'request': request}, many=True)
             return Response(serializer.data)
+        # Otherwise, returns all Users in the database
         data = User.objects.all()
         serializer = UserSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
@@ -32,9 +35,10 @@ def users_list(request):
 def users_detail(request, pk):
     try:
         user = User.objects.get(pk=pk)
-    except user.DoesNotExist:
+    except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+    # Get User object by iD
     if request.method == 'GET':
         serializer = UserSerializer(user, context={'request': request})
         return Response(serializer.data)
@@ -47,7 +51,9 @@ def users_detail(request, pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        friend_requests = FriendRequest.objects.filter(from_user=pk)
+        # Finds all FriendRequests connected to deleting user
+        # Then deletes them and the user
+        sent_friend_requests = FriendRequest.objects.filter(from_user=pk)
         recieved_friend_requests = FriendRequest.objects.filter(to_user=pk)
         sent_friend_requests.delete()
         recieved_friend_requests.delete()
@@ -61,7 +67,7 @@ def users_detail(request, pk):
 def schedule_list(request, pk):
     try:
         user = User.objects.get(pk=pk)
-    except user.DoesNotExist:
+    except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
@@ -69,8 +75,13 @@ def schedule_list(request, pk):
         return Response(serializer.data)
 
     elif request.method == 'POST':
+        # First validates the request.data to fit the Course model
         course_serializer = CourseSerializer(data=request.data)
         if course_serializer.is_valid():
+            # Course objects have to be created in the User object
+            # So the course is put in 'schedule' field, validated for User model
+            # Then the referenced User runs a PATCH request, which will
+            # create the Course inside the User object
             user_obj = {
                 'schedule': [request.data]
             }
@@ -78,13 +89,13 @@ def schedule_list(request, pk):
             if user_serializer.is_valid():
                 user_serializer.save()
                 return Response(status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PATCH', 'DELETE'])
 def schedule_detail(request, user_pk, course_pk):
     try:
         course = Course.objects.get(pk=course_pk)
-    except course.DoesNotExist:
+    except Course.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
@@ -115,11 +126,11 @@ def fr_list(request):
     elif request.method == 'POST':
         try:
             from_user = User.objects.get(pk=request.data['from_user'])
-        except from_user.DoesNotExist:
+        except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         try:
             to_user = User.objects.get(pk=request.data['to_user'])
-        except to_user.DoesNotExist:
+        except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
        
         fr_serializer = FriendRequestSerializer(data=request.data)
@@ -136,32 +147,37 @@ def fr_list(request):
 def fr_detail(request, pk):
     try:
         friend_request = FriendRequest.objects.get(pk=pk)
-    except friend_request.DoesNotExist:
+    except FriendRequest.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = FriendRequestSerializer(friends_request, context={'request': request})
+        serializer = FriendRequestSerializer(friend_request, context={'request': request})
         return Response(serializer.data)
 
+    # PATCHing a FriendRequest is called when a user accepts or denies a friend request
+    # by sending "accepted": true or false.
     elif request.method == 'PATCH':
         fr_serializer = FriendRequestSerializer(friend_request, data=request.data, context={'request': request}, partial=True)
         if fr_serializer.is_valid():
             fr_serializer.save()
+            # If accepted, it reads the user IDs from the from_user and to_user property
             if fr_serializer.data['accepted']:
+                # Fetches the corresponding user objects
                 try:
                     from_user = User.objects.get(pk=fr_serializer.data['from_user'])
-                except from_user.DoesNotExist:
+                except User.DoesNotExist:
                     return Response(status=status.HTTP_404_NOT_FOUND)
                 try:
                     to_user = User.objects.get(pk=fr_serializer.data['to_user'])
-                except to_user.DoesNotExist:
+                except User.DoesNotExist:
                     return Response(status=status.HTTP_404_NOT_FOUND)
-
+                # Add the users to their friend_list property
                 from_user.friend_list.add(to_user.id)
                 to_user.friend_list.add(from_user.id)
+            # After a FriendRequest is accepted or denied, it is deleted
             friend_request.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         friend_request.delete()
@@ -171,11 +187,11 @@ def fr_detail(request, pk):
 def remove_friend(request, from_user_pk, to_user_pk):
     try:
         from_user = User.objects.get(pk=from_user_pk)
-    except from_user.DoesNotExist:
+    except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     try:
         to_user = User.objects.get(pk=to_user_pk)
-    except to_user.DoesNotExist:
+    except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     from_user.friend_list.remove(to_user_pk)

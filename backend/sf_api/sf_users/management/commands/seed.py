@@ -6,22 +6,30 @@ from ...serializers import *
 
 users_seed = [
     {
-        "username": "Alyssa",
+        "username": "alyssa",
+        "first_name": "Alyssa",
+        "last_name": "Ma",
         "password": "test",
         "schedule": []
     },
     {
-        "username": "David",
+        "username": "david",
+        "first_name": "David",
+        "last_name": "Dejesus",
         "password": "test",
         "schedule": []
     },
     {
-        "username": "Kobe",
+        "username": "kobe",
+        "first_name": "Kobe",
+        "last_name": "Dejesus",
         "password": "test",
         "schedule": []
     },
     {
-        "username": "HenryC",
+        "username": "henryC",
+        "first_name": "Henry",
+        "last_name": "Cevallos",
         "password": "test",
         "schedule": []
     }
@@ -69,29 +77,28 @@ MODE_REFRESH = 'refresh'
 
 MODE_CLEAR = 'clear'
 
-
-def clear_data():
-    print("Deleting Users, Courses, and FriendRequests")
+def clear_data(self):
+    self.stdout.write("Deleting Users, Courses, and FriendRequests")
     FriendRequest.objects.all().delete()
     Course.objects.all().delete()
     User.objects.all().delete()
-    print("Deleted Database")
+    self.stdout.write("Deleted Database")
 
-def seed_data():
-    print("Seeding database, clearing database first")
-    clear_data()
-    print("Writing to database")
-    print("Creating users")
+def seed_data(self):
+    self.stdout.write("Seeding database, clearing database first")
+    clear_data(self)
+    self.stdout.write("Writing to database")
+    
+    self.stdout.write("Creating users")
+    user_database = []
     for user in users_seed:
         serializer = UserSerializer(data=user)
         if serializer.is_valid():
             serializer.save()
-    alyssa_obj = User.objects.get(username='Alyssa')
-    david_obj = User.objects.get(username='David')    
-    kobe_obj = User.objects.get(username='Kobe')
-    henryc_obj = User.objects.get(username='HenryC')
-    print("Users created")
-    print("Creating schedule")
+            user_database.append(User.objects.get(username=user['username']))
+    self.stdout.write("Users created")
+
+    self.stdout.write("Creating schedule")
     for i in range(len(courses_seed)):
         course_serializer = CourseSerializer(data=courses_seed[i])
         if course_serializer.is_valid():
@@ -99,25 +106,26 @@ def seed_data():
                 'schedule': [courses_seed[i]]
             }
             if i <= 1:
-                user_serializer = UserSerializer(alyssa_obj, data=user_obj, context={'request': 'PATCH'}, partial=True)
+                user_serializer = UserSerializer(user_database[0], data=user_obj, context={'request': 'PATCH'}, partial=True)
             elif i == 2:
-                user_serializer = UserSerializer(david_obj, data=user_obj, context={'request': 'PATCH'}, partial=True)
+                user_serializer = UserSerializer(user_database[1], data=user_obj, context={'request': 'PATCH'}, partial=True)
             elif i == 3:
-                user_serializer = UserSerializer(kobe_obj, data=user_obj, context={'request': 'PATCH'}, partial=True)
+                user_serializer = UserSerializer(user_database[2], data=user_obj, context={'request': 'PATCH'}, partial=True)
             else:
-                user_serializer = UserSerializer(henryc_obj, data=user_obj, context={'request': 'PATCH'}, partial=True)
+                user_serializer = UserSerializer(user_database[3], data=user_obj, context={'request': 'PATCH'}, partial=True)
             if user_serializer.is_valid():
                 user_serializer.save()
-    print("Schedule Created")
-    print("Creating friend requests")
+    self.stdout.write("Schedule Created")
+
+    self.stdout.write("Creating friend requests")
     friend_requests_seed = [
         {
-            "from_user": alyssa_obj.id,
-            "to_user": kobe_obj.id
+            "from_user": user_database[0].id,
+            "to_user": user_database[2].id
         },
             {
-            "from_user": henryc_obj.id,
-            "to_user": david_obj.id
+            "from_user": user_database[3].id,
+            "to_user": user_database[1].id
         },
     ]
     for friend_request in friend_requests_seed:
@@ -130,19 +138,20 @@ def seed_data():
             from_user.save()
             to_user.friend_requests.add(fr_serializer.data['id'])
             to_user.save()
-    print("Friend Requests Made")
-    print("Creating friend lists")
-    alyssa_obj.friend_list.add(kobe_obj.id)
-    kobe_obj.friend_list.add(alyssa_obj.id)
-    henryc_obj.friend_list.add(david_obj.id)
-    david_obj.friend_list.add(henryc_obj.id)
-    print("Created friend lists")
+    self.stdout.write("Friend Requests Made")
+
+    self.stdout.write("Creating friend lists")
+    user_database[0].friend_list.add(user_database[1].id)
+    user_database[1].friend_list.add(user_database[0].id)
+    user_database[3].friend_list.add(user_database[2].id)
+    user_database[2].friend_list.add(user_database[3].id)
+    self.stdout.write("Created friend lists")
 
 def run_seed(self, mode):
-    clear_data()
+    clear_data(self)
     if mode == MODE_CLEAR:
         return
-    seed_data()
+    seed_data(self)
 
 class Command(BaseCommand):
     help = "Seed a database for testing and development"
