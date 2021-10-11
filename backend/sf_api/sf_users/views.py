@@ -13,6 +13,10 @@ from .serializers import *
 @api_view(['GET', 'POST'])
 def users_list(request):
     if request.method == 'GET':
+        if request.query_params.get('query'):
+            results = User.objects.filter(username__iregex=request.query_params.get('query'))
+            serializer = UserSerializer(results, context={'request': request}, many=True)
+            return Response(serializer.data)
         data = User.objects.all()
         serializer = UserSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
@@ -43,7 +47,7 @@ def users_detail(request, pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        sent_friend_requests = FriendRequest.objects.filter(from_user=pk)
+        friend_requests = FriendRequest.objects.filter(from_user=pk)
         recieved_friend_requests = FriendRequest.objects.filter(to_user=pk)
         sent_friend_requests.delete()
         recieved_friend_requests.delete()
