@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -37,7 +36,6 @@ def users_detail(request, pk):
         return Response(serializer.data)
 
     elif request.method == 'PATCH':
-        print("USER PATCH method called")
         serializer = UserSerializer(user, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
             serializer.save()

@@ -28,8 +28,10 @@ urlpatterns = [
     re_path(r'^api/sf_users/([0-9]+)/schedule/$', views.schedule_list),
     # GET course by ID, PATCH and DELETE course by ID
     re_path(r'^api/sf_users/([0-9]+)/schedule/([0-9]+)$', views.schedule_detail),
-    # 
+    # GET All and POST FriendRequest
     re_path(r'^api/sf_users/friend_requests/$', views.fr_list),
+    # GET by ID, PATCH, and DELETE friend request
     re_path(r'^api/sf_users/friend_requests/([0-9]+)$', views.fr_detail),
+    # DELETE path that removes friend association between two users
     re_path(r'^api/sf_users/([0-9]+)/remove/([0-9]+)$', views.remove_friend)
 ]

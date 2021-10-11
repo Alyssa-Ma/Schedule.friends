@@ -2,13 +2,13 @@ from rest_framework import serializers
 from .models import User
 from .models import Course
 from .models import FriendRequest
-# from .models import Day
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
-
+    
+    # All fields commented out if you wish to customize return fields
         # fields = (
         #     "id",
         #     "day_name",
@@ -16,6 +16,8 @@ class CourseSerializer(serializers.ModelSerializer):
         #     "course_number",
         #     "time_start",
         #     "time_end",
+        #     "date_created",
+        #     "dated_modified",
         #     "user"
         # )
 
@@ -37,12 +39,15 @@ class FriendRequestSerializer(serializers.ModelSerializer):
         model = FriendRequest
         fields = '__all__'
 
+    # All fields commented out if you wish to customize return fields
         # fields = (
         #     "id",
         #     "from_user",
         #     "to_user",
         #     "pending",
-        #     "accepted"
+        #     "accepted",
+        #     "date_created",
+        #     "dated_modified"
         # )
     
     def create(self, validated_data):
@@ -63,6 +68,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+    # All fields commented out if you wish to customize return fields
         # fields = (
         #     "id",
         #     "username",
@@ -86,8 +92,6 @@ class UserSerializer(serializers.ModelSerializer):
     # designed only to create a user, as when a new user is made, they did not input a schedule yet
     def create(self, validated_data):
         validated_data.pop('schedule')
-        # validated_data.pop('friend_list')
-        # validated_data.pop('friend_requests')
         user = User.objects.create(**validated_data)
         return user
 

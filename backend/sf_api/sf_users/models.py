@@ -1,16 +1,9 @@
-# Create your models here.
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
 class User(AbstractUser):
-    # username = models.EmailField(unique=True)
-    # first_name = models.CharField(max_length=30, blank=True)
-    # last_name = models.CharField(max_length=30)
-    # Will need to look into how to correctly implement hashing strings
-    # password = models.CharField(max_length=50)
     friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, default=None)
     friend_requests = models.ManyToManyField('FriendRequest', blank=True, default=None)
 
@@ -28,7 +21,6 @@ DAYS_OF_WEEK = [
 ]
 
 class Course(models.Model):
-    # day = models.ForeignKey('Day', related_name='courses', on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, blank=True, null=True, default=None)
     day_name = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
     course_name = models.CharField(max_length=50)
