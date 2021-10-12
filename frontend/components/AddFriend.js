@@ -11,9 +11,43 @@ const AddFriend = ({title}) => {
         //console.log(textValue);
         setText(textValue);
     }
-    const onPressBtn = () => {
-        console.log(text);
-        //Alert.alert('Added', 'Sent a request', {text: 'OK'});
+    const onPressBtn = async () => {
+        
+        //manipulate data here
+        const data = {
+            "from_user": 1,
+            "to_user": 3
+        };
+
+        //actual POST
+        /*
+            //swap url with actual server when deployed
+            fetch('http://127.0.0.1:8000/api/sf_users/friend_requests/', {
+                method: 'POST', // or 'PUT'
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+              }).then( response => response.json())
+              .then( data => {
+                  console.log(data);
+              })
+              .catch( error => {
+                  console.log(error);
+              })
+        */
+        
+        try {
+            const resonse = await fetch('http://10.0.2.2:8000/api/sf_users/');
+            console.log('why');
+            const json = await resonse.json();
+            console.log(json);
+        } catch(error) {
+            console.log(error);
+        }
+        
+
+        
     }
    
     return (
