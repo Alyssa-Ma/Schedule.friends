@@ -3,35 +3,83 @@ import { View, Text, StyleSheet, FlatList, SafeAreaView, Button, Dimensions } fr
 import EventCalendar from 'react-native-events-calendar';
 let { width } = Dimensions.get('window');
 
-const events = [
-    { start: '2017-09-07 00:30:00', end: '2017-09-07 01:30:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
-    { start: '2017-09-07 01:30:00', end: '2017-09-07 02:20:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
-    { start: '2017-09-07 04:10:00', end: '2017-09-07 04:40:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
-    { start: '2017-09-07 01:05:00', end: '2017-09-07 01:45:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
-    { start: '2017-09-07 14:30:00', end: '2017-09-07 16:30:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
-    { start: '2017-09-08 01:20:00', end: '2017-09-08 02:20:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
-    { start: '2017-09-08 04:10:00', end: '2017-09-08 04:40:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
-    { start: '2017-09-08 00:45:00', end: '2017-09-08 01:45:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
-    { start: '2017-09-08 11:30:00', end: '2017-09-08 12:30:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
-    { start: '2017-09-09 01:30:00', end: '2017-09-09 02:00:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
-    { start: '2017-09-09 03:10:00', end: '2017-09-09 03:40:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' },
-    { start: '2017-09-09 00:10:00', end: '2017-09-09 01:45:00', title: 'Dr. Mariana Joseph', summary: '3412 Piedmont Rd NE, GA 3032' }
-]
+export default class CombinedScheduleView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      events: [
+        {
+          start: '2021-10-06 22:30:00',
+          end: '2021-10-06 23:30:00',
+          title: 'Some Event 1',
+          summary: 'yep test',
+          color: 'red',
+        },
+        {
+          start: '2021-10-07 00:30:00',
+          end: '2021-10-07 01:30:00',
+          title: 'Some Event 2',
+          summary: 'another one',
+          color: 'blue',
+        },
+        {
+          start: '2021-10-07 00:30:00',
+          end: '2021-10-07 02:20:00',
+          title: 'Overlapping Event',
+          summary: 'hello',
+        },
+        {
+          start: '2021-10-08 00:30:00',
+          end: '2021-10-08 01:30:00',
+          title: 'Some Event 2',
+          summary: 'another one',
+          color: 'blue',
+        },
+        {
+          start: '2021-10-08 00:30:00',
+          end: '2021-10-08 02:20:00',
+          title: 'Overlapping Event',
+          summary: 'hello',
+        },
+        {
+          start: '2021-10-08 00:30:00',
+          end: '2021-10-08 01:30:00',
+          title: 'Some Event 2',
+          summary: 'another one',
+          color: 'blue',
+        },
+        {
+          start: '2021-10-08 00:30:00',
+          end: '2021-10-08 02:20:00',
+          title: 'Overlapping Event',
+          summary: 'hello',
+        },
+      ],
+    };
+  }
 
+  //popup on tap
+  _eventTapped(event) {
+    alert(JSON.stringify(event));
+  }
 
-const CombinedScheduleView = ({ navigation }) => {
-  return (
-    <EventCalendar
-      eventTapped={this.eventTapped.bind(this)}
-      events={this.state.events}
-      width={width}
-      initDate={'2017-09-08'}
-    />
-  );
+  render() {
+    return (
+      <View style={{ flex: 1, marginTop: 20 }}>
+        <EventCalendar
+          eventTapped={this._eventTapped.bind(this)}
+          events={this.state.events}
+          width={width}
+          initDate={'2021-10-07'}
+          scrollToFirst
+          upperCaseHeader
+          uppercase
+          scrollToFirst={false}
+        />
+      </View>
+    );
+  }
 }
-
-export default CombinedScheduleView;
-
   /** 
     const data = [
         {id: 'a', title: 'CSCI 499',},
@@ -60,6 +108,7 @@ export default CombinedScheduleView;
     }
 */
 //Style Sheet
+/** 
 const styles = StyleSheet.create({
 
     container: {
@@ -78,3 +127,4 @@ const styles = StyleSheet.create({
       },
 
 });
+*/
