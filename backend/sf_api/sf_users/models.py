@@ -1,21 +1,14 @@
-# Create your models here.
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
 class User(AbstractUser):
-    username = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30)
-    # Will need to look into how to correctly implement hashing strings
-    password = models.CharField(max_length=50)
-    friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
-    friend_requests = models.ManyToManyField('FriendRequest', blank=True)
+    friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, default=None)
+    friend_requests = models.ManyToManyField('FriendRequest', blank=True, default=None)
 
     def __str__(self):
-        return self.email
+        return self.username
 
 DAYS_OF_WEEK = [
     ('SUN', 'Sunday'),
@@ -28,11 +21,12 @@ DAYS_OF_WEEK = [
 ]
 
 class Course(models.Model):
-    # day = models.ForeignKey('Day', related_name='courses', on_delete=models.CASCADE, null=True, blank=True)
-    user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, blank=True, null=True, default=None)
     day_name = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
     course_name = models.CharField(max_length=50)
     course_number = models.CharField(max_length=30)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
     
     # time_start and time_end will likely need more approriate
     # fields that will parse better with the front-end apps
@@ -47,6 +41,11 @@ class FriendRequest(models.Model):
     to_user = models.IntegerField()
     pending = models.BooleanField(default=True)
     accepted = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'From {self.from_user} to {self.to_user}'
 
 # Leftover Day model, leaving here for now in case we need to rollback
 # class Day(models.Model):
