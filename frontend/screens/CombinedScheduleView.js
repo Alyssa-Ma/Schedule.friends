@@ -1,85 +1,87 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, FlatList, SafeAreaView, Button, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, FlatList, SafeAreaView, Button, Dimensions, TouchableOpacity } from 'react-native';
 import EventCalendar from 'react-native-events-calendar';
 let { width } = Dimensions.get('window');
 
-export default class CombinedScheduleView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      events: [
-        {
-          start: '2021-10-06 22:30:00',
-          end: '2021-10-06 23:30:00',
-          title: 'Some Event 1',
-          summary: 'yep test',
-          color: 'red',
-        },
-        {
-          start: '2021-10-07 00:30:00',
-          end: '2021-10-07 01:30:00',
-          title: 'Some Event 2',
-          summary: 'another one',
-          color: 'blue',
-        },
-        {
-          start: '2021-10-07 00:30:00',
-          end: '2021-10-07 02:20:00',
-          title: 'Overlapping Event',
-          summary: 'hello',
-        },
-        {
-          start: '2021-10-08 00:30:00',
-          end: '2021-10-08 01:30:00',
-          title: 'Some Event 2',
-          summary: 'another one',
-          color: 'blue',
-        },
-        {
-          start: '2021-10-08 00:30:00',
-          end: '2021-10-08 02:20:00',
-          title: 'Overlapping Event',
-          summary: 'hello',
-        },
-        {
-          start: '2021-10-08 00:30:00',
-          end: '2021-10-08 01:30:00',
-          title: 'Some Event 2',
-          summary: 'another one',
-          color: 'blue',
-        },
-        {
-          start: '2021-10-08 00:30:00',
-          end: '2021-10-08 02:20:00',
-          title: 'Overlapping Event',
-          summary: 'hello',
-        },
-      ],
-    };
+const CombinedScheduleView = ({navigation}) => {
+  
+  const [events, setEvents] = useState([
+    {
+      start: '2021-10-06 22:30:00',
+      end: '2021-10-06 23:30:00',
+      title: 'Some Event 1',
+      summary: 'yep test',
+      color: 'red',
+    },
+    {
+      start: '2021-10-07 00:30:00',
+      end: '2021-10-07 01:30:00',
+      title: 'Some Event 2',
+      summary: 'another one',
+      color: 'blue',
+    },
+    {
+      start: '2021-10-07 00:30:00',
+      end: '2021-10-07 02:20:00',
+      title: 'Overlapping Event',
+      summary: 'hello',
+    },
+    {
+      start: '2021-10-08 00:30:00',
+      end: '2021-10-08 01:30:00',
+      title: 'Some Event 2',
+      summary: 'another one',
+      color: 'blue',
+    },
+    {
+      start: '2021-10-08 00:30:00',
+      end: '2021-10-08 02:20:00',
+      title: 'Overlapping Event',
+      summary: 'hello',
+    },
+    {
+      start: '2021-10-08 00:30:00',
+      end: '2021-10-08 01:30:00',
+      title: 'Some Event 2',
+      summary: 'another one',
+      color: 'blue',
+    },
+    {
+      start: '2021-10-08 00:30:00',
+      end: '2021-10-08 02:20:00',
+      title: 'Overlapping Event',
+      summary: 'hello',
+    }
+  ]);
+
+  //nav on tap
+  const _eventTapped = (event) => {
+
+    console.log('system 32 deleted', 'H4CK3D');
+    navigation.navigate('EditClass');
+    //<TouchableOpacity onPress={() => console.log(hi)} />
   }
 
-  //popup on tap
-  _eventTapped(event) {
-    alert(JSON.stringify(event));
-  }
-
-  render() {
-    return (
-      <View style={{ flex: 1, marginTop: 20 }}>
-        <EventCalendar
-          eventTapped={this._eventTapped.bind(this)}
-          events={this.state.events}
-          width={width}
-          initDate={'2021-10-07'}
-          scrollToFirst
-          upperCaseHeader
-          uppercase
-          scrollToFirst={false}
-        />
-      </View>
-    );
-  }
+  
+  return (
+    <View style={{ flex: 1, marginTop: 20 }}>
+      <EventCalendar
+        
+        eventTapped={_eventTapped}
+        events={events}
+        width={width}
+        initDate={'2021-10-07'}
+        scrollToFirst
+        upperCaseHeader
+        uppercase
+        scrollToFirst={false}
+      />
+    </View>
+  );
+  
 }
+
+export default CombinedScheduleView;
   /** 
     const data = [
         {id: 'a', title: 'CSCI 499',},
