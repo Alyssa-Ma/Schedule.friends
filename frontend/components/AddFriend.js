@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import { Button, Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
 
-//Header function. Uses the prop title that has been passed
+
 const AddFriend = ({title}) => {
 
     const [text, setText] = useState('');
@@ -31,7 +31,7 @@ const AddFriend = ({title}) => {
         const friend_id = friend_json[0].id;
 
         const data = {
-            from_user: 1,
+            from_user: 9,   //Hard Coded curr user sending the req
             to_user: friend_id
         }
 
