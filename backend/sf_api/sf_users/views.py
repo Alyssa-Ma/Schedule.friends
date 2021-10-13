@@ -89,7 +89,9 @@ def schedule_list(request, pk):
             if user_serializer.is_valid():
                 user_serializer.save()
                 return Response(status=status.HTTP_201_CREATED)
-        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+               Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+        return Response(course_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PATCH', 'DELETE'])
 def schedule_detail(request, user_pk, course_pk):
