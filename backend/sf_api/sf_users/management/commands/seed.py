@@ -37,35 +37,35 @@ users_seed = [
 
 courses_seed = [
     {
-        "day_name": "MON",
+        "day_name": ["MON", "WED"],
         "course_name": "Calc",
         "course_number": "MATH",
         "time_start": "9AM",
         "time_end": "10AM"
     },
         {
-        "day_name": "MON",
+        "day_name": ["MON"],
         "course_name": "Algo",
         "course_number": "CSCI",
         "time_start": "12PM",
         "time_end": "1PM"
     },
         {
-        "day_name": "MON",
+        "day_name": ["MON"],
         "course_name": "Classic Lit",
         "course_number": "ENG",
         "time_start": "10AM",
         "time_end": "11AM"
     },
         {
-        "day_name": "FRI",
+        "day_name": ["TUE,FRI"],
         "course_name": "Bio",
         "course_number": "BIO",
         "time_start": "3PM",
         "time_end": "4PM"
     },
         {
-        "day_name": "WED",
+        "day_name": ["WED","SAT"],
         "course_name": "Political Science",
         "course_number": "POL",
         "time_start": "2PM",
