@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
+from django.contrib.postgres.fields import ArrayField
 
 class User(AbstractUser):
     friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, default=None)
@@ -22,7 +23,7 @@ DAYS_OF_WEEK = [
 
 class Course(models.Model):
     user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, blank=True, null=True, default=None)
-    day_name = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
+    day_name = ArrayField(models.CharField(max_length=3, choices=DAYS_OF_WEEK), size=7)
     course_name = models.CharField(max_length=50)
     course_number = models.CharField(max_length=30)
     date_created = models.DateTimeField(auto_now_add=True)
