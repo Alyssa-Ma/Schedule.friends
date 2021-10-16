@@ -3,11 +3,11 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import AddScheduleView from '../screens/AddScheduleView'
-import CombinedScheduleView from '../screens/CombinedScheduleView';
 import FriendRequestView from '../screens/FriendRequestView';
 import FriendRequestSend from '../screens/FriendRequestSend';
 import CommonTimeText from '../screens/CommonTimeText';
 import EditScheduleStack from './EditScheduleStack';
+import CombinedScheduleStack from './CombinedScheduleStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -22,9 +22,10 @@ const HomeDrawer = ({navigation}) => {
             }}>
             <Drawer.Screen 
                 name="HomePage" 
-                component={CombinedScheduleView}
+                component={CombinedScheduleStack}
                 options={{
                     title: 'Home',
+                    headerShown: false,
                     headerStyle: {
                       backgroundColor: 'darkslateblue'},
                     headerTitleAlign: 'center',
