@@ -12,7 +12,9 @@ const ScheduleTimes = ({time, index}) => {
 
 const TextViewCard = ({item}) => {
 
-    const imgSource = {uri: item.picture};
+    console.log(item);
+    return <Text>HI</Text>;
+    const imgSource = {uri: 'https://randomuser.me/api/portraits/men/1.jpg'};
 
     return (
         <View style={styles.friendRequest}>
