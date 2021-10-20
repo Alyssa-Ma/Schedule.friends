@@ -28,7 +28,7 @@ def users_list(request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_201_CREATED)            
+            return Response(serializer.data, status=status.HTTP_201_CREATED)            
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PATCH', 'DELETE'])
@@ -47,7 +47,7 @@ def users_detail(request, pk):
         serializer = UserSerializer(user, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
@@ -58,7 +58,7 @@ def users_detail(request, pk):
         sent_friend_requests.delete()
         recieved_friend_requests.delete()
         user.delete()
-        return Response(status=status.HTTP_200_OK)
+        return Response(f"User ID# {pk} Sucessfully Deleted", status=status.HTTP_200_OK)
 
 # ======================================
 
@@ -88,7 +88,13 @@ def schedule_list(request, pk):
             user_serializer = UserSerializer(user, data=user_obj, context={'request': 'PATCH'}, partial=True)
             if user_serializer.is_valid():
                 user_serializer.save()
-                return Response(status=status.HTTP_201_CREATED)
+                # Find the latest course created, which logically is the highest course ID in
+                # user's schedule
+                course_created = user_serializer.data['schedule'][0]
+                for course in user_serializer.data['schedule']:
+                    if course_created['id'] < course['id']:
+                        course_created = course
+                return Response(course, status=status.HTTP_201_CREATED)
             else:
                Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
         return Response(course_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -108,12 +114,12 @@ def schedule_detail(request, user_pk, course_pk):
         serializer = CourseSerializer(course, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         course.delete()
-        return Response(status=status.HTTP_200_OK)
+        return Response(f"Course ID# {course_pk} Sucessfully Deleted", status=status.HTTP_200_OK)
 
 # ======================================
 
@@ -142,7 +148,7 @@ def fr_list(request):
             from_user.save()
             to_user.friend_requests.add(fr_serializer.data['id'])
             to_user.save()
-            return Response(status=status.HTTP_201_CREATED) 
+            return Response(fr_serializer.data, status=status.HTTP_201_CREATED) 
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PATCH', 'DELETE'])
@@ -178,12 +184,12 @@ def fr_detail(request, pk):
                 to_user.friend_list.add(from_user.id)
             # After a FriendRequest is accepted or denied, it is deleted
             friend_request.delete()
-            return Response(status=status.HTTP_200_OK)
+            return Response(f"Friend Request ID# {pk} Deleted",status=status.HTTP_200_OK)
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         friend_request.delete()
-        return Response(status=status.HTTP_200_OK)
+        return Response(f"Friend Request ID# {pk} Deleted", status=status.HTTP_200_OK)
 
 @api_view(['DELETE'])
 def remove_friend(request, from_user_pk, to_user_pk):
@@ -198,4 +204,4 @@ def remove_friend(request, from_user_pk, to_user_pk):
     
     from_user.friend_list.remove(to_user_pk)
     to_user.friend_list.remove(from_user_pk)
-    return Response(status=status.HTTP_200_OK)
+    return Response(f"Friendship from user {from_user_pk} to user {to_user_pk} deleted", status=status.HTTP_200_OK)
