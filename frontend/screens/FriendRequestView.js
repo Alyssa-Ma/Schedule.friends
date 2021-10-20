@@ -7,7 +7,7 @@ const FriendRequestView = ({ navigation }) => {
 
     //Sets the state items arr with dummy values
     const [items, setItems] = useState();
-    const [userID, setUserID] = useState(11);    //hard coded curr user
+    const [userID, setUserID] = useState(1);    //hard coded curr user
 
     useEffect(() => {
 
