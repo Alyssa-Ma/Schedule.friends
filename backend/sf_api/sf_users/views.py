@@ -47,7 +47,7 @@ def users_detail(request, pk):
         serializer = UserSerializer(user, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
@@ -58,7 +58,7 @@ def users_detail(request, pk):
         sent_friend_requests.delete()
         recieved_friend_requests.delete()
         user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_200_OK)
 
 # ======================================
 
@@ -108,12 +108,12 @@ def schedule_detail(request, user_pk, course_pk):
         serializer = CourseSerializer(course, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         course.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_200_OK)
 
 # ======================================
 
@@ -178,12 +178,12 @@ def fr_detail(request, pk):
                 to_user.friend_list.add(from_user.id)
             # After a FriendRequest is accepted or denied, it is deleted
             friend_request.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_200_OK)
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         friend_request.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_200_OK)
 
 @api_view(['DELETE'])
 def remove_friend(request, from_user_pk, to_user_pk):
@@ -198,4 +198,4 @@ def remove_friend(request, from_user_pk, to_user_pk):
     
     from_user.friend_list.remove(to_user_pk)
     to_user.friend_list.remove(from_user_pk)
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response(status=status.HTTP_200_OK)
