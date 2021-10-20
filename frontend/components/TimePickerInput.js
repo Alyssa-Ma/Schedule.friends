@@ -7,10 +7,10 @@ const TimePickerInput = (props) => {
     //Helper function that converts and returns a date object into a HH:MM string
     const timeToString = (hour, min) => {
         let dateObj = new Date(0, 0, 0, hour, min);
-        return dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"})
+        return dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"});
     };
 
-    const [visible, setVisible] = useState(false)
+    const [visible, setVisible] = useState(false);
     const [timeString, setTimeString] = useState("00:00");
     
 
@@ -21,8 +21,8 @@ const TimePickerInput = (props) => {
     const onConfirm = useCallback(
         ({ hours, minutes }) => {
           setVisible(false);
-          props.setHour(hours);
-          props.setMin(minutes);
+          props.setHour(hours.toString().padStart(2, '0'));
+          props.setMin(minutes.toString().padStart(2, '0'));
           setTimeString(timeToString(hours, minutes));
         },
         [setVisible]
