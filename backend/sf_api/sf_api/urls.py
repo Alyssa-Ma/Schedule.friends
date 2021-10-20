@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from sf_users import views
+from rest_framework.authtoken import views as views_auth
 from django.conf.urls import url
 
 urlpatterns = [
@@ -35,5 +36,8 @@ urlpatterns = [
     re_path(r'^api/sf_users/friend_requests/([0-9]+)$', views.fr_detail),
     # DELETE path that removes friend association between two users
     # It is set up that that first user ID (initiator) is unfriending from the second user ID
-    re_path(r'^api/sf_users/([0-9]+)/remove/([0-9]+)$', views.remove_friend)
+    re_path(r'^api/sf_users/([0-9]+)/remove/([0-9]+)$', views.remove_friend),
+
+    # User Auth Paths
+    re_path(r'^api/sf_users/login', views_auth.obtain_auth_token)
 ]

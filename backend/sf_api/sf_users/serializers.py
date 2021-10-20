@@ -92,7 +92,7 @@ class UserSerializer(serializers.ModelSerializer):
     # designed only to create a user, as when a new user is made, they did not input a schedule yet
     def create(self, validated_data):
         validated_data.pop('schedule')
-        user = User.objects.create(**validated_data)
+        user = User.objects.create_user(**validated_data)
         return user
 
     def update(self, instance, validated_data):
