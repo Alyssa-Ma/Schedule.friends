@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 
 from .models import User
@@ -9,9 +9,11 @@ from .models import Course
 from .models import FriendRequest
 from .serializers import *
 
+from rest_framework import permissions
+
 # Users request methods
-@api_view(['GET', 'POST'])
-def users_list(request):
+@api_view(['GET'])
+def get_users_list(request):
     if request.method == 'GET':
         # First checks if query parameter exists
         # Then filters Users by the string in the 'username' property
@@ -24,12 +26,14 @@ def users_list(request):
         serializer = UserSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)            
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def create_user(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)            
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PATCH', 'DELETE'])
 def users_detail(request, pk):

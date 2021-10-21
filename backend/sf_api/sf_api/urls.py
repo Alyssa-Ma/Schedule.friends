@@ -23,7 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # GET and POST path for making a user
     # Accepts a ?query= parameter
-    re_path(r'^api/sf_users/$', views.users_list),
+    re_path(r'^api/sf_users/$', views.get_users_list),
+    # POST path for making a user
+    re_path(r'^api/sf_users/create$', views.create_user),
     # GET by ID, PATCH and DELETE path for a user with ID
     re_path(r'^api/sf_users/([0-9]+)$', views.users_detail),
     # GET entire schedule by user ID and POST path to make a new course

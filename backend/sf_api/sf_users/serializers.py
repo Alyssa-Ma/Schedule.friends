@@ -7,7 +7,7 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
-    
+         
     # All fields commented out if you wish to customize return fields
         # fields = (
         #     "id",
@@ -53,7 +53,7 @@ class FriendRequestSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         friend_request = FriendRequest.objects.create(**validated_data)
         return friend_request
-    
+
     def update(self, instance, validated_data):
         instance.from_user = validated_data.get('from_user', instance.from_user)
         instance.to_user = validated_data.get('to_user', instance.to_user)
@@ -67,7 +67,6 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-
     # All fields commented out if you wish to customize return fields
         # fields = (
         #     "id",
