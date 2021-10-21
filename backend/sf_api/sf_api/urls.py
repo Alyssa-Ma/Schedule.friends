@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from sf_users import views
-from rest_framework.authtoken import views as views_auth
+from rest_framework.authtoken.views import obtain_auth_token
 from django.conf.urls import url
 
 urlpatterns = [
@@ -39,5 +39,5 @@ urlpatterns = [
     re_path(r'^api/sf_users/([0-9]+)/remove/([0-9]+)$', views.remove_friend),
 
     # User Auth Paths
-    re_path(r'^api/sf_users/login', views_auth.obtain_auth_token)
+    re_path(r'^api/sf_users/login', obtain_auth_token)
 ]

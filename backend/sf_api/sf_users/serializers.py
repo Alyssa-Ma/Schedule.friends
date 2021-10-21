@@ -93,6 +93,7 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.pop('schedule')
         user = User.objects.create_user(**validated_data)
+        user.set_password(validated_data["password"])
         return user
 
     def update(self, instance, validated_data):
@@ -100,7 +101,7 @@ class UserSerializer(serializers.ModelSerializer):
         if 'schedule' in validated_data:
             schedule_data = validated_data.pop('schedule')
             for schedule_dict in schedule_data:
-                Course.objects.create(user=instance, **schedule_dict)
+                Course.objects.create(owner=instance, **schedule_dict)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.username = validated_data.get('username', instance.username)
