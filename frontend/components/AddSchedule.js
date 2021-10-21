@@ -33,10 +33,13 @@ const handleSubmit = async (sentState) => {
     })
 
     try {
-        const postResponse = await fetch("http://10.0.2.2:8000/api/sf_users/9/schedule/", {
+        //Fetch URL should be an dotenv variable
+        const postResponse = await fetch("http://10.0.2.2:8000/api/sf_users/7/schedule/", {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                //This needs to be brought down from props
+                'Authorization': 'Token 0df1021e8c4228c8aa97be8c9bf867c4f41067b4'
             },
             body: JSON.stringify({
                 "course_name": `${sentState.courseName}`,
