@@ -9,10 +9,15 @@ from .models import Course
 from .models import FriendRequest
 from .serializers import *
 
-from rest_framework import permissions
+from rest_framework import permissions as base_permissions
+from sf_users import permissions as custom_permissions
 
 # Users request methods
+# To-do
+# Make query return just a list of user names and friend list (pop out schedule)
+# Make get list all a superuser privilege only
 @api_view(['GET'])
+@permission_classes([base_permissions.IsAuthenticated])
 def get_users_list(request):
     if request.method == 'GET':
         # First checks if query parameter exists
@@ -27,7 +32,7 @@ def get_users_list(request):
         return Response(serializer.data)
 
 @api_view(['POST'])
-@permission_classes([permissions.AllowAny])
+@permission_classes([base_permissions.AllowAny])
 def create_user(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
@@ -35,7 +40,9 @@ def create_user(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)            
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# Need to make PATCH and DELETE authenticated with owner and superuser
 @api_view(['GET', 'PATCH', 'DELETE'])
+@permission_classes([base_permissions.IsAuthenticated])
 def users_detail(request, pk):
     try:
         user = User.objects.get(pk=pk)
@@ -68,6 +75,7 @@ def users_detail(request, pk):
 
 # Schedule request methods
 @api_view(['GET', 'POST'])
+@permission_classes([base_permissions.IsAuthenticated])
 def schedule_list(request, pk):
     try:
         user = User.objects.get(pk=pk)
@@ -104,6 +112,7 @@ def schedule_list(request, pk):
         return Response(course_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PATCH', 'DELETE'])
+@permission_classes([base_permissions.IsAuthenticated])
 def schedule_detail(request, user_pk, course_pk):
     try:
         course = Course.objects.get(pk=course_pk)
@@ -129,6 +138,7 @@ def schedule_detail(request, user_pk, course_pk):
 
 # Friend request methods
 @api_view(['GET','POST'])
+@permission_classes([base_permissions.IsAuthenticated])
 def fr_list(request):
     if request.method == 'GET':
         data = FriendRequest.objects.all()
@@ -156,6 +166,7 @@ def fr_list(request):
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PATCH', 'DELETE'])
+@permission_classes([base_permissions.IsAuthenticated])
 def fr_detail(request, pk):
     try:
         friend_request = FriendRequest.objects.get(pk=pk)
@@ -196,6 +207,7 @@ def fr_detail(request, pk):
         return Response(f"Friend Request ID# {pk} Deleted", status=status.HTTP_200_OK)
 
 @api_view(['DELETE'])
+@permission_classes([base_permissions.IsAuthenticated])
 def remove_friend(request, from_user_pk, to_user_pk):
     try:
         from_user = User.objects.get(pk=from_user_pk)
