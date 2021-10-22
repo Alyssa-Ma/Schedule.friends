@@ -40,36 +40,36 @@ courses_seed = [
         "day_name": ["MON", "WED"],
         "course_name": "Calc",
         "course_number": "MATH",
-        "time_start": "9AM",
-        "time_end": "10AM"
+        "time_start": "9:00",
+        "time_end": "10:00"
     },
         {
         "day_name": ["MON"],
         "course_name": "Algo",
         "course_number": "CSCI",
-        "time_start": "12PM",
-        "time_end": "1PM"
+        "time_start": "12:00",
+        "time_end": "13:00"
     },
         {
         "day_name": ["MON"],
         "course_name": "Classic Lit",
         "course_number": "ENG",
-        "time_start": "10AM",
-        "time_end": "11AM"
+        "time_start": "10:00",
+        "time_end": "11:00"
     },
         {
         "day_name": ["TUE,FRI"],
         "course_name": "Bio",
         "course_number": "BIO",
-        "time_start": "3PM",
-        "time_end": "4PM"
+        "time_start": "15:00",
+        "time_end": "16:00"
     },
         {
         "day_name": ["WED","SAT"],
         "course_name": "Political Science",
         "course_number": "POL",
-        "time_start": "2PM",
-        "time_end": "3PM"
+        "time_start": "14:00",
+        "time_end": "15:00"
     },
 ]
 

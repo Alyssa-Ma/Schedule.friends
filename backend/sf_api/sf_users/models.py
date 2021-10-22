@@ -22,7 +22,7 @@ DAYS_OF_WEEK = [
 ]
 
 class Course(models.Model):
-    user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, blank=True, null=True, default=None)
+    owner = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, blank=True, null=True, default=None)
     day_name = ArrayField(models.CharField(max_length=3, choices=DAYS_OF_WEEK), size=7)
     course_name = models.CharField(max_length=50)
     course_number = models.CharField(max_length=30)

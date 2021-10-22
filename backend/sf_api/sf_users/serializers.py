@@ -7,7 +7,7 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
-    
+         
     # All fields commented out if you wish to customize return fields
         # fields = (
         #     "id",
@@ -53,7 +53,7 @@ class FriendRequestSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         friend_request = FriendRequest.objects.create(**validated_data)
         return friend_request
-    
+
     def update(self, instance, validated_data):
         instance.from_user = validated_data.get('from_user', instance.from_user)
         instance.to_user = validated_data.get('to_user', instance.to_user)
@@ -67,7 +67,6 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-
     # All fields commented out if you wish to customize return fields
         # fields = (
         #     "id",
@@ -92,7 +91,8 @@ class UserSerializer(serializers.ModelSerializer):
     # designed only to create a user, as when a new user is made, they did not input a schedule yet
     def create(self, validated_data):
         validated_data.pop('schedule')
-        user = User.objects.create(**validated_data)
+        user = User.objects.create_user(**validated_data)
+        user.set_password(validated_data["password"])
         return user
 
     def update(self, instance, validated_data):
@@ -100,7 +100,7 @@ class UserSerializer(serializers.ModelSerializer):
         if 'schedule' in validated_data:
             schedule_data = validated_data.pop('schedule')
             for schedule_dict in schedule_data:
-                Course.objects.create(user=instance, **schedule_dict)
+                Course.objects.create(owner=instance, **schedule_dict)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.username = validated_data.get('username', instance.username)

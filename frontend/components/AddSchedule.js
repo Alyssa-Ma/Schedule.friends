@@ -24,36 +24,37 @@ const DaysRadioButton = (props) => {
     )
 }
 
-const handleSubmit = (sentState) => {
-    let trueDays = [];
+const handleSubmit = async (sentState) => {
+    let selectedDays = [];
     sentState.selectedDays.forEach(day => {
         day_key = Object.keys(day);
-        console.log(day_key[0])
         if (day[day_key[0]] === true)
-            trueDays.push(day_key[0])
+            selectedDays.push(day_key[0]);
     })
-    trueDays.forEach(async dayName => {
-        try {
-            const postResponse = await fetch("http://10.0.2.2:8000/api/sf_users/6/schedule/", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "course_name": `${sentState.courseName}`,
-                    "course_number": `${sentState.courseNumber}`,
-                    "time_start": `${sentState.startHour}:${sentState.startMin}`,
-                    "time_end": `${sentState.endHour}:${sentState.endMin}`,
-                    "day_name": `${dayName}`
-                })
-            });
-            const jsonPostResponse = await postResponse.json()
-            console.log(jsonPostResponse)
-        }
-        catch(error) {
-            console.log(error)
-        }
-    })
+
+    try {
+        //Fetch URL should be an dotenv variable
+        const postResponse = await fetch("http://10.0.2.2:8000/api/sf_users/7/schedule/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                //This needs to be brought down from props
+                'Authorization': 'Token 0df1021e8c4228c8aa97be8c9bf867c4f41067b4'
+            },
+            body: JSON.stringify({
+                "course_name": `${sentState.courseName}`,
+                "course_number": `${sentState.courseNumber}`,
+                "time_start": `${sentState.startHour}:${sentState.startMin}`,
+                "time_end": `${sentState.endHour}:${sentState.endMin}`,
+                "day_name": selectedDays
+            })
+        });
+        const jsonPostResponse = await postResponse.json();
+        console.log(jsonPostResponse);
+    }
+    catch(error) {
+        console.log(error);
+    }
 }
 
 const AddSchedule = () => {

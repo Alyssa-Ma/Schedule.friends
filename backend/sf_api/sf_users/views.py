@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 
 from .models import User
@@ -9,9 +9,16 @@ from .models import Course
 from .models import FriendRequest
 from .serializers import *
 
+from rest_framework import permissions as base_permissions
+from sf_users import permissions as custom_permissions
+
 # Users request methods
-@api_view(['GET', 'POST'])
-def users_list(request):
+# To-do
+# Make query return just a list of user names and friend list (pop out schedule)
+# Make get list all a superuser privilege only
+@api_view(['GET'])
+@permission_classes([base_permissions.IsAuthenticated])
+def get_users_list(request):
     if request.method == 'GET':
         # First checks if query parameter exists
         # Then filters Users by the string in the 'username' property
@@ -24,14 +31,18 @@ def users_list(request):
         serializer = UserSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_201_CREATED)            
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+@permission_classes([base_permissions.AllowAny])
+def create_user(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)            
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# Need to make PATCH and DELETE authenticated with owner and superuser
 @api_view(['GET', 'PATCH', 'DELETE'])
+@permission_classes([base_permissions.IsAuthenticated])
 def users_detail(request, pk):
     try:
         user = User.objects.get(pk=pk)
@@ -47,7 +58,7 @@ def users_detail(request, pk):
         serializer = UserSerializer(user, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
@@ -58,12 +69,13 @@ def users_detail(request, pk):
         sent_friend_requests.delete()
         recieved_friend_requests.delete()
         user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(f"User ID# {pk} Sucessfully Deleted", status=status.HTTP_200_OK)
 
 # ======================================
 
 # Schedule request methods
 @api_view(['GET', 'POST'])
+@permission_classes([base_permissions.IsAuthenticated])
 def schedule_list(request, pk):
     try:
         user = User.objects.get(pk=pk)
@@ -88,12 +100,19 @@ def schedule_list(request, pk):
             user_serializer = UserSerializer(user, data=user_obj, context={'request': 'PATCH'}, partial=True)
             if user_serializer.is_valid():
                 user_serializer.save()
-                return Response(status=status.HTTP_201_CREATED)
+                # Find the latest course created, which logically is the highest course ID in
+                # user's schedule
+                course_created = user_serializer.data['schedule'][0]
+                for course in user_serializer.data['schedule']:
+                    if course_created['id'] < course['id']:
+                        course_created = course
+                return Response(course, status=status.HTTP_201_CREATED)
             else:
                Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
         return Response(course_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PATCH', 'DELETE'])
+@permission_classes([base_permissions.IsAuthenticated])
 def schedule_detail(request, user_pk, course_pk):
     try:
         course = Course.objects.get(pk=course_pk)
@@ -108,17 +127,18 @@ def schedule_detail(request, user_pk, course_pk):
         serializer = CourseSerializer(course, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         course.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(f"Course ID# {course_pk} Sucessfully Deleted", status=status.HTTP_200_OK)
 
 # ======================================
 
 # Friend request methods
 @api_view(['GET','POST'])
+@permission_classes([base_permissions.IsAuthenticated])
 def fr_list(request):
     if request.method == 'GET':
         data = FriendRequest.objects.all()
@@ -142,10 +162,11 @@ def fr_list(request):
             from_user.save()
             to_user.friend_requests.add(fr_serializer.data['id'])
             to_user.save()
-            return Response(status=status.HTTP_201_CREATED) 
+            return Response(fr_serializer.data, status=status.HTTP_201_CREATED) 
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PATCH', 'DELETE'])
+@permission_classes([base_permissions.IsAuthenticated])
 def fr_detail(request, pk):
     try:
         friend_request = FriendRequest.objects.get(pk=pk)
@@ -178,14 +199,15 @@ def fr_detail(request, pk):
                 to_user.friend_list.add(from_user.id)
             # After a FriendRequest is accepted or denied, it is deleted
             friend_request.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(f"Friend Request ID# {pk} Deleted",status=status.HTTP_200_OK)
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         friend_request.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(f"Friend Request ID# {pk} Deleted", status=status.HTTP_200_OK)
 
 @api_view(['DELETE'])
+@permission_classes([base_permissions.IsAuthenticated])
 def remove_friend(request, from_user_pk, to_user_pk):
     try:
         from_user = User.objects.get(pk=from_user_pk)
@@ -198,4 +220,4 @@ def remove_friend(request, from_user_pk, to_user_pk):
     
     from_user.friend_list.remove(to_user_pk)
     to_user.friend_list.remove(from_user_pk)
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response(f"Friendship from user {from_user_pk} to user {to_user_pk} deleted", status=status.HTTP_200_OK)
