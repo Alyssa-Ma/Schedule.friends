@@ -82,8 +82,6 @@ const CommonTimeText = ({ navigation }) => {
     const convertToTime = (schedule) => {
         
         let schedule_times = [];
-        console.log(schedule);
-
         for(let i = 0; i < schedule.length; i++){
             let times = schedule[i];
             let minutes = times[0]%60;
@@ -117,8 +115,8 @@ const CommonTimeText = ({ navigation }) => {
                 const curr_min = new Date().getMinutes();
                 let curr_time = `${curr_hour}:${curr_min}`;
 
-                curr_time = 0;
-                //curr_time = getTimeAsMin(curr_time);    //change curr time into an int 
+                //curr_time = 0;
+                curr_time = getTimeAsMin(curr_time);    //change curr time into an int 
                 curr_day = convertToDay(curr_day);  //change int into "MON" etc..
 
                 my_schedule = filterSchedule(my_schedule, curr_day); //filter classes for today only
@@ -134,7 +132,6 @@ const CommonTimeText = ({ navigation }) => {
                     
                     response = await fetch(`http://10.0.2.2:8000/api/sf_users/${id}`);
                     response = await response.json();
-                    console.log(response);
                     let friend_schedule = filterSchedule(response.schedule, curr_day);
                     if(friend_schedule.length === 0){
                         continue;
@@ -154,7 +151,7 @@ const CommonTimeText = ({ navigation }) => {
                     friends.push(friend);    
                 }
                 setItems(friends);
-                //console.log(items);
+                console.log(items);
             }catch(error){
                 console.error(error);
             }
