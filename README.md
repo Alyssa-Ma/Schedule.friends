@@ -10,7 +10,7 @@ First, navigate to the 'frontend' folder.
 2. Open another terminal in the frontend terminal
 `npx react-native run-android`
 
-**Backend** 
+**Backend**  
 Setting Up Django Backend
 If you don’t have python, version 3 or up installed, you’ll need to set that up first. Installation will vary based on your OS/terminal. For windows users, make sure you can use python in your command line terminal as a PATH variable.
 
