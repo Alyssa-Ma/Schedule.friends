@@ -4,18 +4,17 @@ import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
 import TimePickerInput from './TimePickerInput';
 
 const DaysRadioButton = (props) => {
-    const [isSelected, setSelected] = useState(props.selectedDays[props.pos][props.day]);
+    const [isSelected, setSelected] = useState(props.selectedDays[props.index][props.day]);
     return (
         <View style={styles.daysRadio}>
             <Text>{props.day}</Text>
             <RadioButton 
-                value="props.day"
                 status={isSelected ? 'checked' : 'unchecked'}
                 onPress={() => {
                     setSelected(!isSelected);
                     let selectedDaysBuffer = [...props.selectedDays];
-                    const day_key = Object.keys(selectedDaysBuffer[props.pos])
-                    selectedDaysBuffer[props.pos][day_key[0]] = !isSelected;
+                    const day_key = Object.keys(selectedDaysBuffer[props.index])
+                    selectedDaysBuffer[props.index][day_key[0]] = !isSelected;
                     console.log(selectedDaysBuffer);
                     props.setSelectedDays(selectedDaysBuffer);
                 }}
@@ -69,16 +68,6 @@ const AddSchedule = (props) => {
          {THU: false}, {FRI: false}, {SAT: false}]);
     
     useEffect(() => {
-        // selectedDaysBuffer = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-        // selectedDaysBuffer = selectedDaysBuffer.map(day => {
-        //     if (props.selectedDays.includes(day))
-        //         return { day: true }
-        //     else
-        //         return { day: false}
-        // });
-        // console.log(selectedDaysBuffer);
-        // const [selectedDays, setSelectedDays] = useState([...selectedDaysBuffer]);
-        // console.log(selectedDays)
         let iterator = props.selectedDays.values();
         let propsDay = iterator.next().value;
         console.log(propsDay)
@@ -110,13 +99,13 @@ const AddSchedule = (props) => {
                 onChangeText={text => setCourseNumber(text)}
             />
             <View style={styles.daysRadioBar}>
-                <DaysRadioButton pos={0} day="SUN" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
-                <DaysRadioButton pos={1} day="MON" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
-                <DaysRadioButton pos={2} day="TUE" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
-                <DaysRadioButton pos={3} day="WED" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
-                <DaysRadioButton pos={4} day="THU" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
-                <DaysRadioButton pos={5} day="FRI" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
-                <DaysRadioButton pos={6} day="SAT" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
+                <DaysRadioButton index={0} day="SUN" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
+                <DaysRadioButton index={1} day="MON" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
+                <DaysRadioButton index={2} day="TUE" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
+                <DaysRadioButton index={3} day="WED" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
+                <DaysRadioButton index={4} day="THU" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
+                <DaysRadioButton index={5} day="FRI" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
+                <DaysRadioButton index={6} day="SAT" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
             </View>
             <TimePickerInput
                 label="Start Time"
