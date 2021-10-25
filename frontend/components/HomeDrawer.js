@@ -28,10 +28,10 @@ const HomeDrawer = ({navigation}) => {
                     headerShown: false,
                     headerStyle: {
                       backgroundColor: 'darkslateblue'},
-                    headerTitleAlign: 'center',
-                    headerTitleStyle: {
-                      color: 'white',
-                    }
+                      headerTitleAlign: 'center',
+                      headerTitleStyle: {
+                        color: 'white',
+                      }
                 }}
             />
             <Drawer.Screen 
