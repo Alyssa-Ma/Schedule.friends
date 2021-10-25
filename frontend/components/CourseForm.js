@@ -47,7 +47,7 @@ const CourseForm = (props) => {
         setSelectedDays(selectedDaysBuffer);
     }, []);
 
-    const handleSubmit = async () => {
+    const submitToParent = () => {
         let trimSelectedDays = [];
         selectedDays.forEach(day => {
             day_key = Object.keys(day);
@@ -55,29 +55,15 @@ const CourseForm = (props) => {
                 trimSelectedDays.push(day_key[0]);
         })
 
-        try {
-            //Fetch URL should be an dotenv variable
-            const postResponse = await fetch("http://10.0.2.2:8000/api/sf_users/7/schedule/", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    //This needs to be brought down from props
-                    'Authorization': 'Token 0df1021e8c4228c8aa97be8c9bf867c4f41067b4'
-                },
-                body: JSON.stringify({
-                    "course_name": `${courseName}`,
-                    "course_number": `${courseNumber}`,
-                    "time_start": `${startHour}:${startMin}`,
-                    "time_end": `${endHour}:${endMin}`,
-                    "day_name": trimSelectedDays
-                })
-            });
-            const jsonPostResponse = await postResponse.json();
-            console.log(jsonPostResponse);
-        }
-        catch(error) {
-            console.log(error);
-        }
+        const returnJSON = JSON.stringify({
+            "course_name": `${courseName}`,
+            "course_number": `${courseNumber}`,
+            "time_start": `${startHour}:${startMin}`,
+            "time_end": `${endHour}:${endMin}`,
+            "day_name": trimSelectedDays
+        })
+
+        props.handleSubmit(returnJSON);
     }
 
     return (
@@ -118,8 +104,8 @@ const CourseForm = (props) => {
                 setMin={setEndMin}
             /> 
             <View style={styles.buttons}>
-                <Button icon="check" onPress={handleSubmit} mode="contained">Submit</Button>
-                <Button icon="cancel" mode="contained">Discard</Button>
+                <Button icon="check" onPress={submitToParent} mode="contained">Submit</Button>
+                <Button icon="cancel" onPress={() => {props.navigation.pop()}} mode="contained">Discard</Button>
             </View>
         </View>
     )
