@@ -48,6 +48,7 @@ const CourseForm = (props) => {
     }, []);
 
     const submitToParent = () => {
+        props.setLoadingButton(!props.loadingButton);
         let trimSelectedDays = [];
         selectedDays.forEach(day => {
             day_key = Object.keys(day);
@@ -104,7 +105,7 @@ const CourseForm = (props) => {
                 setMin={setEndMin}
             /> 
             <View style={styles.buttons}>
-                <Button icon="check" onPress={submitToParent} mode="contained">Submit</Button>
+                <Button icon="check" loading={props.loadingButton} onPress={submitToParent} mode="contained">Submit</Button>
                 <Button icon="cancel" onPress={() => {props.navigation.pop()}} mode="contained">Discard</Button>
             </View>
         </View>
