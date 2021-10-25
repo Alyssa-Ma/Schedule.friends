@@ -7,7 +7,15 @@ const AddScheduleView = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <AddSchedule/>
+            <AddSchedule
+                courseName = {"Capstone"}
+                courseNumber = {"CSCI499"}
+                startHour = {15}
+                startMin = {0}
+                endHour = {17}
+                endMin = {0}
+                selectedDays = {["MON", "WED"]}
+            />
         </View>
     )
 

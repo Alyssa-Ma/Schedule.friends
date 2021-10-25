@@ -57,27 +57,29 @@ const handleSubmit = async (sentState) => {
     }
 }
 
-const AddSchedule = () => {
-    const [courseName, setcourseName] = useState("");
-    const [courseNumber, setCourseNumber] = useState("");
-    const [startHour, setStartHour] = useState(0);
-    const [startMin, setStartMin] = useState(0);
-    const [endHour, setEndHour] = useState(0);
-    const [endMin, setEndMin] = useState(0);
+const AddSchedule = (props) => {
+    const [courseName, setcourseName] = useState(props.courseName);
+    const [courseNumber, setCourseNumber] = useState(props.courseNumber);
+    const [startHour, setStartHour] = useState(props.startHour);
+    const [startMin, setStartMin] = useState(props.startMin);
+    const [endHour, setEndHour] = useState(props.endHour);
+    const [endMin, setEndMin] = useState(props.endMin);
     const [selectedDays, setSelectedDays] = useState(
-        [{SUN: false}, {MON: false}, {TUE: false}, {WED: false},
-         {THU: false}, {FRI: false}, {SAT: false}]
-    );
+        [{SUN: false}, {MON: true}, {TUE: false}, {WED: false},
+         {THU: false}, {FRI: false}, {SAT: false}]);
+         
     return (
         <View>
             <TextInput 
                 mode="outlined"
                 label="Course Name"
+                value={courseName}
                 onChangeText={text => setcourseName(text)}
             />
             <TextInput 
                 mode="outlined"
                 label="Course Number"
+                value={courseNumber}
                 onChangeText={text => setCourseNumber(text)}
             />
             <View style={styles.daysRadioBar}>
