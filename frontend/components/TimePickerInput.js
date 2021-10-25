@@ -6,7 +6,7 @@ import { TimePickerModal } from 'react-native-paper-dates';
 const TimePickerInput = (props) => {
     //Helper function that converts and returns a date object into a HH:MM string
     const timeToString = (hour, min) => {
-        let dateObj = new Date(0, 0, 0, props.hour, props.min);
+        let dateObj = new Date(0, 0, 0, hour, min);
         return dateObj.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"});
     };
 
