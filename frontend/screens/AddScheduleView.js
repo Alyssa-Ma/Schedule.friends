@@ -1,20 +1,20 @@
 import React, {useState} from 'react';
 import { View, StyleSheet} from 'react-native';
-import AddSchedule from '../components/AddSchedule';
+import CourseForm from '../components/CourseForm';
 import Header from '../components/Header';
 
 const AddScheduleView = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <AddSchedule
-                courseName = {"Capstone"}
-                courseNumber = {"CSCI499"}
-                startHour = {15}
+            <CourseForm
+                courseName = {""}
+                courseNumber = {""}
+                startHour = {0}
                 startMin = {0}
-                endHour = {17}
+                endHour = {0}
                 endMin = {0}
-                selectedDays = {["MON", "WED"]}
+                selectedDays = {[]}
             />
         </View>
     )
