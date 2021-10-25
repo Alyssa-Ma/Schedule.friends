@@ -48,6 +48,7 @@ const CommonTimeText = ({ navigation }) => {
     }
 
     const filterSchedule = (schedule, day) => {
+        
         return  schedule.filter(course => course.day_name.includes(day));
     }
 

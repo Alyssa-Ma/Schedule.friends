@@ -1,11 +1,45 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, StatusBar, Image, TextInput, 
-        TouchableOpacity} from 'react-native';
+        TouchableOpacity,
+        Alert} from 'react-native';
 import EditSchedule from '../components/EditSchedule';
 
+
+
 const LoginScreen = ({ navigation }) => {
-    const [userEmail, setUserEmail] = useState('blank');
-    const [userPassword, setUserPassword] = useState('blank');
+    const [userEmail, setUserEmail] = useState("blank");
+    const [userPassword, setUserPassword] = useState("blank");
+
+    const logInCall = async () => {
+
+        try{
+            let response = await fetch('http://10.0.2.2:8000/api/sf_users/login/', {
+            method: 'POST', // or 'PUT'
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": userEmail,
+                "password": userPassword
+            }),
+            });
+
+            if(response.status >= 400){
+                Alert.alert(
+                    "Invalid Log In",
+                    "The username and/or password is incorrect",
+                  );
+                return; 
+            }
+
+            response = await response.json();
+            console.log(response);
+            navigation.navigate('Home', {response});
+            
+        } catch(error){
+            console.error(error);
+        }   
+    }
 
     return (
 
@@ -35,7 +69,7 @@ const LoginScreen = ({ navigation }) => {
                 onChangeText = {(val) => setUserPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.button}>
+            <TouchableOpacity onPress={logInCall} style={styles.button}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
   
