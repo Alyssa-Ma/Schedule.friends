@@ -3,7 +3,6 @@ import { View, Text, StyleSheet,Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const ScheduleTimes = ({time, index}) => {
-
     return (
         <Text style={styles.times}> {time[index]}</Text>
     )
@@ -12,18 +11,19 @@ const ScheduleTimes = ({time, index}) => {
 
 const TextViewCard = ({item}) => {
 
-    const imgSource = {uri: item.picture};
+    //console.log(item);
+    const imgSource = {uri: 'https://randomuser.me/api/portraits/men/1.jpg'};
 
     return (
         <View style={styles.friendRequest}>
             <View style={styles.itemView}>
 
                 <Image source={imgSource} style={styles.profilePic}/>
-                <Text style={styles.name}>{item.name}</Text>
+                <Text style={styles.name}>{item.f_name} {item.l_name}</Text>
                 {
-                    item.times.map( (time, index) => {
+                    item.schedule.map( (time, index) => {
                         return (
-                            <ScheduleTimes time={item.times} index={index} style={styles.schedule} key={index}/>
+                            <ScheduleTimes time={item.schedule} index={index} style={styles.schedule} key={index}/>
                         )
                     })
                 }
