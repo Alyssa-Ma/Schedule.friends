@@ -22,7 +22,7 @@ const AddFriend = ({title}) => {
         //GET friend info based on user input
         let friend_json;
         try {
-            const resonse = await fetch(`http://10.0.2.2:8000/api/sf_users/?query=${text}`);
+            const resonse = await fetch(`http://192.168.1.204:8000/api/sf_users/?query=${text}`);
             friend_json = await resonse.json();
             
         } catch(error) {
@@ -37,10 +37,11 @@ const AddFriend = ({title}) => {
 
         //actual POST. Create the friend request
         //swap url with actual server when deployed
-        fetch('http://10.0.2.2:8000/api/sf_users/friend_requests/', {
+        fetch('http://192.168.1.204:8000/api/sf_users/friend_requests/', {
             method: 'POST', // or 'PUT'
             headers: {
             'Content-Type': 'application/json',
+            //'Authorization': 'Token 0df1021e8c4228c8aa97be8c9bf867c4f41067b4'
             },
             body: JSON.stringify(data),
         }).then( response => response.json())
