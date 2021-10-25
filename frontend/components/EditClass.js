@@ -34,8 +34,8 @@ const handleSubmit = async (sentState) => {
 
     try {
         //Fetch URL should be an dotenv variable
-        const postResponse = await fetch('http://192.168.1.71:8000/api/sf_users/5/schedule/', {
-            method: 'POST',
+        const postResponse = await fetch(`http://192.168.1.71:8000/api/sf_users/5/schedule/${sentState.cid}`, {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 //This needs to be brought down from props
@@ -57,7 +57,27 @@ const handleSubmit = async (sentState) => {
     }
 }
 
-const AddSchedule = () => {
+const deleteCourse = (sentState) => {
+    //schedule data for user 5
+    fetch(`http://192.168.1.71:8000/api/sf_users/5/schedule/${sentState.cid}`, {
+        method:"DELETE",
+        headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Token 238265686177126531075cce6d566edb398cd32d'
+        },
+
+    })
+
+    //.then(resp => resp.json())
+    .then(data => {
+        //navigation.navigate("EditScheduleView")
+    })
+    .catch(error => console.log("Error"))
+
+}
+
+const EditClass = (props) => {
+    const cid = props.itemId;
     const [courseName, setcourseName] = useState("");
     const [courseNumber, setCourseNumber] = useState("");
     const [startHour, setStartHour] = useState(0);
@@ -111,9 +131,13 @@ const AddSchedule = () => {
                     startMin: startMin,
                     endHour: endHour,
                     endMin: endMin,
-                    selectedDays: selectedDays
-                })} mode="contained">Submit</Button>
-                <Button icon="cancel" mode="contained">Discard</Button>
+                    selectedDays: selectedDays,
+                    cid: cid
+                })} mode="contained">EDIT CLASS</Button>
+
+                <Button icon="cancel" mode="contained" onPress={() => deleteCourse({cid:cid})} >
+                    DELETE CLASS
+                </Button>
             </View>
         </View>
     )
@@ -121,6 +145,7 @@ const AddSchedule = () => {
 
 const styles = StyleSheet.create({
     buttons: {
+        paddingVertical: 15,
         flexDirection: "row",
         justifyContent: "space-evenly"
     },
@@ -135,4 +160,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default AddSchedule;
+export default EditClass;

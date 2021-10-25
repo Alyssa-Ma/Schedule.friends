@@ -24,7 +24,7 @@ const EditScheduleStack = ({navigation}) => {
                 }}
             />
             <Stack.Screen 
-                name="EditClass" 
+                name="EditClassView" 
                 component={EditClassView}
                 options={{
                     title: 'Edit My Class',
