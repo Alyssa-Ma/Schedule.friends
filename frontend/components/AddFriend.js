@@ -31,7 +31,7 @@ const AddFriend = ({title}) => {
         const friend_id = friend_json[0].id;
 
         const data = {
-            from_user: 9,   //Hard Coded curr user sending the req
+            from_user: 2,   //Hard Coded curr user sending the req
             to_user: friend_id
         }
 
