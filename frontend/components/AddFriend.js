@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import { Button, Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
-
+import {BASE_URL} from "@env";
 
 const AddFriend = ({title}) => {
 

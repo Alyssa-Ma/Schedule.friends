@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, Alert, Text, StyleSheet, StatusBar, Image, TextInput, 
         TouchableOpacity} from 'react-native';
+import {BASE_URL} from "@env";
 
 const SignUpScreen = ({ navigation }) => {
 
@@ -63,7 +64,7 @@ const SignUpScreen = ({ navigation }) => {
     }
 
     const InsertData = () => {
-        fetch('http://192.168.1.204:8000/api/sf_users/create', {
+        fetch(`${BASE_URL}/create`, {
             method:"POST", 
             headers: {
                 'Content-Type':'application/json'
@@ -181,4 +182,3 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
 })
-
