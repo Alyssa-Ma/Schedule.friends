@@ -4,7 +4,10 @@ import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
 import TimePickerInput from './TimePickerInput';
 
 const DaysRadioButton = (props) => {
-    const [isSelected, setSelected] = useState(props.selectedDays[props.index][props.day]);
+    const [isSelected, setSelected] = useState(false);
+    useEffect(() => {
+        setSelected(props.selectedDays[props.index][props.day]);
+    })
     return (
         <View style={styles.daysRadio}>
             <Text>{props.day}</Text>
@@ -37,7 +40,7 @@ const CourseForm = (props) => {
         let iterator = props.selectedDays.values();
         let propsDay = iterator.next().value;
         let selectedDaysBuffer = selectedDays.map(day => {
-            if (propsDay in day && !propsDay.done) {
+            if (propsDay in day) {
                 const newDay = {[propsDay]: true};
                 propsDay = iterator.next().value;
                 return newDay;
