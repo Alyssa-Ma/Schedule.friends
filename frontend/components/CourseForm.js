@@ -51,7 +51,6 @@ const CourseForm = (props) => {
     }, []);
 
     const submitToParent = () => {
-        props.setLoadingButton(!props.loadingButton);
         let trimSelectedDays = [];
         selectedDays.forEach(day => {
             day_key = Object.keys(day);
@@ -67,7 +66,8 @@ const CourseForm = (props) => {
             "day_name": trimSelectedDays
         })
 
-        props.handleSubmit(returnJSON);
+        props.setReturnedJSON(returnJSON);
+        props.setLoadingButton(!props.loadingButton);
     }
 
     return (
