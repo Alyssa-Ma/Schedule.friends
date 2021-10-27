@@ -6,7 +6,7 @@ import EditSchedule from '../components/EditSchedule';
 
 
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, route }) => {
     const [userEmail, setUserEmail] = useState("blank");
     const [userPassword, setUserPassword] = useState("blank");
 
@@ -32,10 +32,25 @@ const LoginScreen = ({ navigation }) => {
                 return; 
             }
 
+            const auth = await response.json();
+            response = await fetch(`http://10.0.2.2:8000/api/sf_users/?query=${userEmail}`, {
+                method: 'GET', // or 'PUT'
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${auth.token}`
+                },
+            });
+
             response = await response.json();
-            console.log(response);
-            navigation.navigate('Home', {response});
             
+            const data = {
+                token: auth.token,
+                user: response[0]
+            }
+            
+            //await navigation.setParams(data);
+            navigation.navigate('Home', data);
+        
         } catch(error){
             console.error(error);
         }   
