@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, FlatList, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
 import EditSchedule from '../components/EditSchedule';
+import {BASE_URL} from "@env";
 import EditClassView from './EditClassView';
 import Header from '../components/Header';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -18,7 +19,7 @@ const EditScheduleView = ({ navigation }) => {
 
     useEffect(() => {
         //schedule data for user 1
-        fetch('http://192.168.1.71:8000/api/sf_users/5/schedule/', {
+        fetch(`${BASE_URL}/5/schedule/`, {
         method:"GET",
         headers: {
 

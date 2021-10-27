@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, FlatList} from 'react-native';
 import TextViewCard from '../components/TextViewCard';
+import {BASE_URL} from "@env";
 import Header from '../components/Header';
 
 const CommonTimeText = ({ navigation }) => {
@@ -105,7 +106,7 @@ const CommonTimeText = ({ navigation }) => {
         async function getInfo(){
 
             try{
-                let response = await fetch(`http://10.0.2.2:8000/api/sf_users/${userID}`);  //gets current user's schedule
+                let response = await fetch(`${BASE_URL}${userID}`);  //gets current user's schedule
                 response = await response.json();
                 let my_schedule = response.schedule;
                 let my_friends = response.friend_list;
@@ -130,7 +131,7 @@ const CommonTimeText = ({ navigation }) => {
                 let friends = [];
                 for(const id of my_friends){
                     
-                    response = await fetch(`http://10.0.2.2:8000/api/sf_users/${id}`);
+                    response = await fetch(`${BASE_URL}/${id}`);
                     response = await response.json();
                     let friend_schedule = filterSchedule(response.schedule, curr_day);
                     if(friend_schedule.length === 0){

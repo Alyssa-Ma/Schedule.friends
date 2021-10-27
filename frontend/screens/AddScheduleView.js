@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { View, StyleSheet} from 'react-native';
 import CourseForm from '../components/CourseForm';
 import { Snackbar } from 'react-native-paper';
+import {BASE_URL} from "@env";
 import Header from '../components/Header';
 
 const AddScheduleView = ({ navigation }) => {
@@ -13,9 +14,10 @@ const AddScheduleView = ({ navigation }) => {
     const onDismissSnackBar = () => setSnackVisible(false);
 
     const handleSubmit = async (completedForm) => {
+        console.log(BASE_URL);
         try {
             //Fetch URL should be an dotenv variable
-            const postResponse = await fetch("http://10.0.2.2:8000/api/sf_users/7/schedule/", {
+            const postResponse = await fetch(`${BASE_URL}/7/schedule/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

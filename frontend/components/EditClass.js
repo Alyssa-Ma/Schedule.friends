@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
 import TimePickerInput from './TimePickerInput';
+import {BASE_URL} from "@env";
 
 const DaysRadioButton = (props) => {
     const [isSelected, setSelected] = useState(false)
@@ -34,7 +35,7 @@ const handleSubmit = async (sentState) => {
 
     try {
         //Fetch URL should be an dotenv variable
-        const postResponse = await fetch(`http://192.168.1.71:8000/api/sf_users/5/schedule/${sentState.cid}`, {
+        const postResponse = await fetch(`${BASE_URL}/5/schedule/${sentState.cid}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -59,7 +60,7 @@ const handleSubmit = async (sentState) => {
 
 const deleteCourse = (sentState) => {
     //schedule data for user 5
-    fetch(`http://192.168.1.71:8000/api/sf_users/5/schedule/${sentState.cid}`, {
+    fetch(`${BASE_URL}/5/schedule/${sentState.cid}`, {
         method:"DELETE",
         headers: {
         'Content-Type': 'application/json',
