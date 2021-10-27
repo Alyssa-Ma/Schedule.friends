@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, FlatList} from 'react-native';
 import TextViewCard from '../components/TextViewCard';
 import Header from '../components/Header';
 
-const CommonTimeText = ({ navigation }) => {
+const CommonTimeText = ({ navigation, route }) => {
 
+    console.log(route.params, 'COMMON TIME TEXT')
     //Sets the state items arr with dummy values
     const [items, setItems] = useState([]);
     const [userID, setUserID] = useState(1);    //hard coded curr user

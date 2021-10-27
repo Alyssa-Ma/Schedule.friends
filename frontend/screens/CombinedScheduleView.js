@@ -4,7 +4,8 @@ import EventCalendar from 'react-native-events-calendar';
 let { width } = Dimensions.get('window');
 
 const CombinedScheduleView = ({navigation, route}) => {
-  
+
+  console.log(route.params, 'COMBINED SCHEDULE');
   const [events, setEvents] = useState([
     {
       start: '2021-10-06 22:30:00',
@@ -61,7 +62,6 @@ const CombinedScheduleView = ({navigation, route}) => {
     navigation.navigate('EditClass');
   }
 
-  console.log(route.params, 'COMBINED SCREEN');
   return (
     
     <View style={{ flex: 1, marginTop: 20 }}>

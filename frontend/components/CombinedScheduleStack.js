@@ -8,7 +8,7 @@ const Stack = createNativeStackNavigator();
 //Basically serves like a 'routes' page. Allows for stack nav on the edit pages
 const CombinedScheduleStack = ({navigation, route}) => {
   const [user, SetUser] = useState(route.params);
-  console.log(user, 'STATE HOME STACK');
+  //console.log(user, 'STATE HOME STACK');
   return (
       <Stack.Navigator>
           <Stack.Screen 

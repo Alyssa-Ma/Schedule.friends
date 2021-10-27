@@ -48,7 +48,6 @@ const LoginScreen = ({ navigation, route }) => {
                 user: response[0]
             }
             
-            //await navigation.setParams(data);
             navigation.navigate('Home', data);
         
         } catch(error){

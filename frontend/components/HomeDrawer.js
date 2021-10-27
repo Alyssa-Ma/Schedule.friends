@@ -14,7 +14,7 @@ const Drawer = createDrawerNavigator();
 const HomeDrawer = ({navigation, route}) => {
   
   const [user, SetUser] = useState(route.params);
-  console.log(user, 'STATE DRAWER');
+  //console.log(user, 'STATE DRAWER');
   return (
       <Drawer.Navigator
           screenOptions={{

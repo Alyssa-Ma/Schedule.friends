@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, FlatList} from 'react-native';
 import FriendRequest from '../components/FriendRequest';
 import Header from '../components/Header';
 
-const FriendRequestView = ({ navigation }) => {
+const FriendRequestView = ({ navigation, route }) => {
 
+    console.log(route.params, 'FRIEND REQ');
     //Sets the state items arr with dummy values
     const [items, setItems] = useState();
     const [userID, setUserID] = useState(1);    //hard coded curr user

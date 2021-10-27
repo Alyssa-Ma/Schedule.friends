@@ -3,8 +3,9 @@ import { StyleSheet, Text, View, TextInput} from 'react-native';
 import Header from '../components/Header';
 
 
-const EditClassView = ({ navigation }) => {
+const EditClassView = ({ navigation, route }) => {
 
+    console.log(route.params, "EDIT CLASS")
     {/* useStates to update time-slot information in the future*/}
     const [classTitle, setClassTitle] = useState('Math');
     const [day, setDay] = useState('Monday');
