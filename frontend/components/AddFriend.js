@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import { Button, Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
+import {BASE_URL} from "@env";
 
-
-const AddFriend = ({title}) => {
+const AddFriend = ({title, route}) => {
 
     const [text, setText] = useState('');
     const [visible, setVisible] = useState(false);
@@ -22,7 +22,13 @@ const AddFriend = ({title}) => {
         //GET friend info based on user input
         let friend_json;
         try {
-            const resonse = await fetch(`http://10.0.2.2:8000/api/sf_users/?query=${text}`);
+            const resonse = await fetch(`${BASE_URL}/?query=${text}`, {
+                method: 'GET', // or 'PUT'
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${route.params.token}`
+                },
+            });
             friend_json = await resonse.json();
             
         } catch(error) {
@@ -31,16 +37,17 @@ const AddFriend = ({title}) => {
         const friend_id = friend_json[0].id;
 
         const data = {
-            from_user: 2,   //Hard Coded curr user sending the req
+            from_user: route.params.user.id,   //CURRENT USER
             to_user: friend_id
         }
 
         //actual POST. Create the friend request
         //swap url with actual server when deployed
-        fetch('http://10.0.2.2:8000/api/sf_users/friend_requests/', {
+        fetch(`${BASE_URL}/friend_requests/`, {
             method: 'POST', // or 'PUT'
             headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Token ${route.params.token}`
             },
             body: JSON.stringify(data),
         }).then( response => response.json())

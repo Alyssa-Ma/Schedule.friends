@@ -25,7 +25,7 @@ const EditScheduleStack = ({navigation, route}) => {
                 initialParams={route.params}
             />
             <Stack.Screen 
-                name="EditClass" 
+                name="EditClassView" 
                 component={EditClassView}
                 options={{
                     title: 'Edit My Class',

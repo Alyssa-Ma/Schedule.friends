@@ -1,25 +1,23 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, StatusBar, Image, TextInput, 
-        TouchableOpacity,
-        Alert} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity, Alert} from 'react-native';
 import EditSchedule from '../components/EditSchedule';
-
+import {BASE_URL} from '@env'
 
 
 const LoginScreen = ({ navigation, route }) => {
-    const [userEmail, setUserEmail] = useState("blank");
+    const [userName, setUserName] = useState("blank");
     const [userPassword, setUserPassword] = useState("blank");
 
     const logInCall = async () => {
 
         try{
-            let response = await fetch('http://10.0.2.2:8000/api/sf_users/login/', {
+            let response = await fetch(`${BASE_URL}/login/`, {
             method: 'POST', // or 'PUT'
             headers: {
             'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "username": userEmail,
+                "username": userName,
                 "password": userPassword
             }),
             });
@@ -34,7 +32,7 @@ const LoginScreen = ({ navigation, route }) => {
 
             const auth = await response.json();
             
-            response = await fetch(`http://10.0.2.2:8000/api/sf_users/?query=${userEmail}`, {
+            response = await fetch(`${BASE_URL}/?query=${userName}`, {
                 method: 'GET', // or 'PUT'
                 headers: {
                 'Content-Type': 'application/json',
@@ -74,8 +72,8 @@ const LoginScreen = ({ navigation, route }) => {
 
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'enter email' 
-                onChangeText = {(val) => setUserEmail(val)}
+                placeholder = 'enter username' 
+                onChangeText = {(val) => setUserName(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
             <TextInput style={styles.inputBox} 
@@ -96,10 +94,13 @@ const LoginScreen = ({ navigation, route }) => {
                 </TouchableOpacity>
             </View>
 
+
+            {/*
+            Don't think we need this anymore
             <View>
-                <Text>email: {userEmail}</Text>
+                <Text>email: {userName}</Text>
                 <Text>password: {userPassword}</Text>
-            </View>
+            </View> */}
 
         </View>
     

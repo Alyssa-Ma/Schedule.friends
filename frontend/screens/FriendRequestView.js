@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, FlatList} from 'react-native';
 import FriendRequest from '../components/FriendRequest';
+import {BASE_URL} from "@env";
 import Header from '../components/Header';
 
 const FriendRequestView = ({ navigation, route }) => {
@@ -15,7 +16,7 @@ const FriendRequestView = ({ navigation, route }) => {
         async function getInfo(){
 
             try{
-                let response = await fetch(`http://10.0.2.2:8000/api/sf_users/${userID}`, {
+                let response = await fetch(`${BASE_URL}/${userID}`, {
                     method: 'GET', // or 'PUT'
                     headers: {
                     'Content-Type': 'application/json',
@@ -29,7 +30,7 @@ const FriendRequestView = ({ navigation, route }) => {
                 let friend_items = [];
                 for(const id of friend_reqs){
 
-                    response = await fetch(`http://10.0.2.2:8000/api/sf_users/friend_requests/${id}`, {
+                    response = await fetch(`${BASE_URL}/friend_requests/${id}`, {
                         method: 'GET', // or 'PUT'
                         headers: {
                         'Content-Type': 'application/json',
@@ -38,7 +39,7 @@ const FriendRequestView = ({ navigation, route }) => {
                     });
                     response = await response.json();
                     
-                    let friend_info = await fetch(`http://10.0.2.2:8000/api/sf_users/${response.from_user}`, {
+                    let friend_info = await fetch(`${BASE_URL}/${response.from_user}`, {
                         method: 'GET', // or 'PUT'
                         headers: {
                         'Content-Type': 'application/json',
@@ -75,7 +76,7 @@ const FriendRequestView = ({ navigation, route }) => {
     const rejectFriend = (id) => {
 
         console.log(`Rejected Friend`);
-        fetch(`http://10.0.2.2:8000/api/sf_users/friend_requests/${id}`, {
+        fetch(`${BASE_URL}/friend_requests/${id}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
@@ -98,7 +99,7 @@ const FriendRequestView = ({ navigation, route }) => {
     const acceptFriend = (id) => {
 
         console.log(`Accepted Friend`);
-        fetch(`http://10.0.2.2:8000/api/sf_users/friend_requests/${id}`, {
+        fetch(`${BASE_URL}/friend_requests/${id}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',

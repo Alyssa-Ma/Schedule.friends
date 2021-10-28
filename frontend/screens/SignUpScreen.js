@@ -1,14 +1,90 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, StatusBar, Image, TextInput, 
+import {View, Alert, Text, StyleSheet, StatusBar, Image, TextInput, 
         TouchableOpacity} from 'react-native';
-
+import {BASE_URL} from "@env";
 
 const SignUpScreen = ({ navigation }) => {
-    const [userFirstName, setUserFirstName] = useState('blank');
-    const [userLastName, setUserLastName] = useState('blank');
-    const [userEmail, setUserEmail] = useState('blank');
-    const [userPassword, setUserPassword] = useState('blank');
-    
+
+    const [first_name, setFirstName] = useState("");
+    const [last_name, setLastName] = useState("");
+    const [username, setUserName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [schedule, setSchedule] = useState([]);
+
+
+    const forumCheck = () => {
+        const fname = first_name;
+        const lname = last_name;
+        const uname = username; 
+        const em = email; 
+        const pword = password;
+
+        //firstname + lastname regex to check if inputed names follow correct syntax. only allows letters.
+        var nameRegex = /^[A-Za-z]+$/;
+
+        //username regex to check if inputed usernames follow correct syntax. only allows letters and numbers. 
+        var usernameRegex = /^[0-9a-zA-Z]+$/;
+
+        //email regex to check if inputed emails follow correct syntax. (something@something.something)
+        var simpleEmailRegex = /\S+@\S+\.\S+/;  
+
+        //password regex to check if inputed passwords follow correct syntax. only allows 6-20 chars which contain at least one numeric digit, 
+        //one upercase letter and one lowercase letter 
+        var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+       
+        if((fname=="")||!(nameRegex.test(fname)))
+        {
+            Alert.alert("please enter a valid first name.");
+            
+        }
+        else if ((lname=="")||!(nameRegex.test(lname)))
+        {
+            Alert.alert("please enter a valid last name.");
+        }
+        else if ((uname=="")||!(usernameRegex.test(uname)))
+        {
+            Alert.alert("please enter a valid username.");
+        }
+        else if ((em=="")||!(simpleEmailRegex.test(em)))
+        {
+            Alert.alert("please enter a valid email.");
+        }
+        else if ((pword=="")||!(passwordRegex.test(pword)))
+        {
+            Alert.alert("please enter a valid password.");
+        }
+        else 
+        {
+            InsertData();
+            Alert.alert("USER REGISTERED");
+            navigation.navigate('Home');
+        }
+
+    }
+
+    const InsertData = () => {
+        fetch(`${BASE_URL}/create`, {
+            method:"POST", 
+            headers: {
+                'Content-Type':'application/json'
+            }, 
+            body: JSON.stringify({
+                first_name:first_name, 
+                last_name:last_name, 
+                username:username, 
+                email:email, 
+                password:password, 
+                schedule:schedule
+            })
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data)
+        })
+        .catch(error => console.log('Error'))
+    }
+
     return (
         <View style={styles.container}>
 
@@ -24,37 +100,40 @@ const SignUpScreen = ({ navigation }) => {
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
                 placeholder = 'First name' 
-                onChangeText = {(val) => setUserFirstName(val)}
+                onChangeText = {(val) => setFirstName(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
                 placeholder = 'Last name' 
-                onChangeText = {(val) => setUserLastName(val)}
+                onChangeText = {(val) => setLastName(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'enter email' 
-                onChangeText = {(val) => setUserEmail(val)}
-                placeholderTextColor = '#ADC9C6'/>
+                placeholder = 'Username' 
+                onChangeText = {(val) => setUserName(val)}
+                placeholderTextColor = '#ADC9C6'/>        
 
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'enter password' 
-                onChangeText = {(val) => setUserPassword(val)}
+                placeholder = 'Email' 
+                onChangeText = {(val) => setEmail(val)}
+                placeholderTextColor = '#ADC9C6'/> 
+
+            <TextInput style={styles.inputBox} 
+                //underlineColorAndroid='#ADC9C6' 
+                placeholder = 'Password' 
+                onChangeText = {(val) => setPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
             <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>Register</Text>
+                <Text style={styles.buttonText}
+                onPress = {() => forumCheck()}
+                >Register</Text>
             </TouchableOpacity>
 
-            <View>
-                <Text>First name: {userFirstName}</Text>
-                <Text>Last name: {userLastName}</Text>
-                <Text>email: {userEmail}</Text>
-                <Text>password: {userPassword}</Text>
-            </View>
+
             
         </View>
     );
@@ -103,4 +182,3 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
 })
-
