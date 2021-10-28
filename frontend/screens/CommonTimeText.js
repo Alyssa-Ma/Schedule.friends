@@ -5,7 +5,7 @@ import Header from '../components/Header';
 
 const CommonTimeText = ({ navigation, route }) => {
 
-    console.log(route.params, 'COMMON TIME TEXT')
+    console.log(route.params, 'COMMON params')
     //Sets the state items arr with dummy values
     const [items, setItems] = useState([]);
     const [userID, setUserID] = useState(1);    //hard coded curr user

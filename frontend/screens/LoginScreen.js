@@ -33,6 +33,7 @@ const LoginScreen = ({ navigation, route }) => {
             }
 
             const auth = await response.json();
+            
             response = await fetch(`http://10.0.2.2:8000/api/sf_users/?query=${userEmail}`, {
                 method: 'GET', // or 'PUT'
                 headers: {

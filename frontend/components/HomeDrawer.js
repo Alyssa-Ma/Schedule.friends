@@ -14,6 +14,7 @@ const Drawer = createDrawerNavigator();
 const HomeDrawer = ({navigation, route}) => {
   
   const [user, SetUser] = useState(route.params);
+  const [change, SetChange] = useState(true);
   //console.log(user, 'STATE DRAWER');
   return (
       <Drawer.Navigator
@@ -72,6 +73,11 @@ const HomeDrawer = ({navigation, route}) => {
                   headerTitleStyle: {
                     color: 'white',
                   }
+              }}
+              onPress={ () => {
+                console.log('pressed common time text');
+                SetChange(change ? false : true);
+              
               }}
               initialParams={user}
           />
