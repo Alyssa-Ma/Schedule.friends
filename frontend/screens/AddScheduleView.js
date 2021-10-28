@@ -6,6 +6,8 @@ import {BASE_URL} from "@env";
 
 const AddScheduleView = ({ navigation, route }) => {
 
+    console.log(route.params, 'ADD SCHEDULE');
+
     const [returnedJSON, setReturnedJSON] = useState({});
 
     const [loadingButton, setLoadingButton] = useState(false);

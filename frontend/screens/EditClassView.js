@@ -5,6 +5,7 @@ import Header from '../components/Header';
 
 const EditClassView = ({ navigation, item, route }) => {
 
+    console.log(route.params, "EDIT CLASS");
     const { itemId, 
         courseName, 
         courseNumber,

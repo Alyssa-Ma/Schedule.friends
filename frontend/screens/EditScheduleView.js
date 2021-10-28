@@ -11,6 +11,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 const EditScheduleView = ({ navigation, route }) => {
 
+    console.log(route.params, "EDIT SCHEDULE");
     //DAY RAIDO BUTTON START ------
     const [checked, setChecked] = useState();
     const [targetData, setTargetData] = useState();
