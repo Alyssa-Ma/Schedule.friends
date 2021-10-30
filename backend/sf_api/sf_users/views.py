@@ -1,5 +1,3 @@
-import json
-
 from django.shortcuts import render
 
 from rest_framework.response import Response
@@ -71,7 +69,7 @@ def users_detail(request, pk):
         sent_friend_requests.delete()
         recieved_friend_requests.delete()
         user.delete()
-        return Response(f"User ID# {pk} Sucessfully Deleted", status=status.HTTP_200_OK)
+        return Response({'result': f"User ID# {pk} Sucessfully Deleted"}, status=status.HTTP_200_OK)
 
 # ======================================
 
@@ -134,7 +132,7 @@ def schedule_detail(request, user_pk, course_pk):
 
     elif request.method == 'DELETE':
         course.delete()
-        return Response(f"Course ID# {course_pk} Sucessfully Deleted", status=status.HTTP_200_OK)
+        return Response({'result': f"Course ID# {course_pk} Sucessfully Deleted"}, status=status.HTTP_200_OK)
 
 # ======================================
 
@@ -201,12 +199,12 @@ def fr_detail(request, pk):
                 to_user.friend_list.add(from_user.id)
             # After a FriendRequest is accepted or denied, it is deleted
             friend_request.delete()
-            return Response(f"Friend Request ID# {pk} Deleted",status=status.HTTP_200_OK)
+            return Response({'result': f"Friend Request ID# {pk} Deleted"},status=status.HTTP_200_OK)
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         friend_request.delete()
-        return Response(f"Friend Request ID# {pk} Deleted", status=status.HTTP_200_OK)
+        return Response({'result': f"Friend Request ID# {pk} Deleted"}, status=status.HTTP_200_OK)
 
 @api_view(['DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
