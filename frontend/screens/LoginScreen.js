@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Text, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity, Alert} from 'react-native';
 import EditSchedule from '../components/EditSchedule';
+import UserContext from '../context/UserContext';
 import {BASE_URL} from '@env'
 
 
@@ -8,52 +9,52 @@ const LoginScreen = ({ navigation, route }) => {
     const [userName, setUserName] = useState("blank");
     const [userPassword, setUserPassword] = useState("blank");
 
-    const logInCall = async () => {
+    // const logInCall = async () => {
 
-        try{
-            let response = await fetch(`${BASE_URL}/login/`, {
-            method: 'POST', // or 'PUT'
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "username": userName,
-                "password": userPassword
-            }),
-            });
+    //     try{
+    //         let response = await fetch(`${BASE_URL}/login/`, {
+    //         method: 'POST', // or 'PUT'
+    //         headers: {
+    //         'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //             "username": userName,
+    //             "password": userPassword
+    //         }),
+    //         });
 
-            if(response.status >= 400){
-                Alert.alert(
-                    "Invalid Log In",
-                    "The username and/or password is incorrect",
-                  );
-                return; 
-            }
+    //         if(response.status >= 400){
+    //             Alert.alert(
+    //                 "Invalid Log In",
+    //                 "The username and/or password is incorrect",
+    //               );
+    //             return; 
+    //         }
 
-            const auth = await response.json();
+    //         const auth = await response.json();
             
-            response = await fetch(`${BASE_URL}/?query=${userName}`, {
-                method: 'GET', // or 'PUT'
-                headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${auth.token}`
-                },
-            });
+    //         response = await fetch(`${BASE_URL}/?query=${userName}`, {
+    //             method: 'GET', // or 'PUT'
+    //             headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Token ${auth.token}`
+    //             },
+    //         });
 
-            response = await response.json();
+    //         response = await response.json();
             
-            const data = {
-                token: auth.token,
-                user: response[0]
-            }
+    //         const data = {
+    //             token: auth.token,
+    //             user: response[0]
+    //         }
             
-            navigation.navigate('Home', data);
+    //         navigation.navigate('Home', data);
         
-        } catch(error){
-            console.error(error);
-        }   
-    }
-
+    //     } catch(error){
+    //         console.error(error);
+    //     }   
+    // }
+    const user = useContext(UserContext);
     return (
 
         <View style={styles.container}>
@@ -82,7 +83,7 @@ const LoginScreen = ({ navigation, route }) => {
                 onChangeText = {(val) => setUserPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
-            <TouchableOpacity onPress={logInCall} style={styles.button}>
+            <TouchableOpacity onPress={() => user.fetchToken(userName, userPassword)} style={styles.button}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
   

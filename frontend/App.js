@@ -1,11 +1,12 @@
 import 'react-native-gesture-handler';
+import {useState, createContext} from 'react';
 import * as React from 'react';
-import {useState} from 'react';
-import { Button, View, Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import {BASE_URL} from "@env";
+import UserContext from './context/UserContext';
 
 //**********Import the screens here********
 
@@ -44,9 +45,51 @@ function App() {
 
 const Stack = createNativeStackNavigator();
 
-const App = ({navigation, route}) =>{
+
+const App = ({navigation, route}) => {
+
+  const [user, setUser] = useState({userID: 1});
+
+  const fetchToken = async (usernameInput, passwordInput) => {
+    console.log(`Begin of fetchToken(): user:${usernameInput} pass: ${passwordInput}`)
+    try {
+      let response = await fetch(`${BASE_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "username": `${usernameInput}`,
+          "password": `${passwordInput}`
+        })
+      });
+      
+      const jsonResponse = await response.json();
+      console.log(jsonResponse)
+      if (response.status === 200) {
+        let token = "Token " + jsonResponse["token"];
+        console.log(token)
+        let userWithToken = user;
+        console.log(userWithToken)
+        userWithToken.token = token;
+        setUser(userWithToken);
+        console.log(user);
+      }
+      else {
+        console.log(JSON.stringify(jsonResponse));
+      }
+    }
+    catch(error) {
+      console.log(error);
+    }
+  }
+
   return (
-    
+    <UserContext.Provider value={{
+      user: user,
+      setUser: setUser,
+      fetchToken: fetchToken
+    }}>
       <NavigationContainer>
         <Stack.Navigator>
             <Stack.Screen 
@@ -62,8 +105,6 @@ const App = ({navigation, route}) =>{
                   color: 'white',
                 }
               }}
-              
-              
             />
             <Stack.Screen 
               name="SignUp" 
@@ -89,6 +130,7 @@ const App = ({navigation, route}) =>{
             />
           </Stack.Navigator>
       </NavigationContainer>
+    </UserContext.Provider>
   
   );
 
