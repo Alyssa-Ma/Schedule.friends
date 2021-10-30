@@ -48,7 +48,7 @@ const Stack = createNativeStackNavigator();
 
 const App = ({navigation, route}) => {
 
-  const [user, setUser] = useState({userID: 1});
+  const [user, setUser] = useState();
 
   const fetchToken = async (usernameInput, passwordInput) => {
     console.log(`Begin of fetchToken(): user:${usernameInput} pass: ${passwordInput}`)
