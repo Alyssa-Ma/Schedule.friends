@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
@@ -8,13 +8,14 @@ import FriendRequestSend from '../screens/FriendRequestSend';
 import CommonTimeText from '../screens/CommonTimeText';
 import EditScheduleStack from './EditScheduleStack';
 import CombinedScheduleStack from './CombinedScheduleStack';
+import UserContext from '../context/UserContext';
 
 const Drawer = createDrawerNavigator();
-
 const HomeDrawer = ({navigation, route}) => {
-  
-  const [user, SetUser] = useState(route.params);
-  const [change, SetChange] = useState(true);
+  const context = useContext(UserContext);
+  console.log(context);
+  // const [user, SetUser] = useState(route.params);
+  // const [change, SetChange] = useState(true);
   //console.log(user, 'STATE DRAWER');
   return (
       <Drawer.Navigator

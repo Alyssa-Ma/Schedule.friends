@@ -1,13 +1,29 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {View, Text, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity, Alert} from 'react-native';
 import EditSchedule from '../components/EditSchedule';
 import UserContext from '../context/UserContext';
 import {BASE_URL} from '@env'
+import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
 
 
 const LoginScreen = ({ navigation, route }) => {
+    const context = useContext(UserContext);
     const [userName, setUserName] = useState("blank");
     const [userPassword, setUserPassword] = useState("blank");
+    const [navigateToHome, setNavigateToHome] = useState(false);
+
+    useEffect(() => {
+        if (navigateToHome)
+            navigation.navigate('Home');
+    },[navigateToHome])
+
+    const logIn = async () => {
+        if (await context.fetchToken(userName, userPassword))
+            setNavigateToHome(true);
+        else
+            //here can be some error handling
+            console.log("Error");
+    }
 
     // const logInCall = async () => {
 
@@ -54,7 +70,6 @@ const LoginScreen = ({ navigation, route }) => {
     //         console.error(error);
     //     }   
     // }
-    const context = useContext(UserContext);
     return (
 
         <View style={styles.container}>
@@ -83,7 +98,7 @@ const LoginScreen = ({ navigation, route }) => {
                 onChangeText = {(val) => setUserPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
-            <TouchableOpacity onPress={() => context.fetchToken(userName, userPassword)} style={styles.button}>
+            <TouchableOpacity onPress={logIn} style={styles.button}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
   

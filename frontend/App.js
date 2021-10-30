@@ -65,7 +65,7 @@ const App = ({navigation, route}) => {
       });
       
       const jsonResponse = await response.json();
-      console.log(jsonResponse)
+      console.log(jsonResponse);
       if (response.status === 200) {
         setUser(jsonResponse);
         return true;
