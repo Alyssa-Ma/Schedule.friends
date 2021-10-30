@@ -10,16 +10,10 @@ const LoginScreen = ({ navigation, route }) => {
     const context = useContext(UserContext);
     const [userName, setUserName] = useState("blank");
     const [userPassword, setUserPassword] = useState("blank");
-    const [navigateToHome, setNavigateToHome] = useState(false);
-
-    useEffect(() => {
-        if (navigateToHome)
-            navigation.navigate('Home');
-    },[navigateToHome])
 
     const logIn = async () => {
         if (await context.fetchToken(userName, userPassword))
-            setNavigateToHome(true);
+            navigation.navigate('Home');
         else
             //here can be some error handling
             console.log("Error");
