@@ -48,7 +48,7 @@ const Stack = createNativeStackNavigator();
 
 const App = ({navigation, route}) => {
 
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
 
   const fetchToken = async (usernameInput, passwordInput) => {
     console.log(`Begin of fetchToken(): user:${usernameInput} pass: ${passwordInput}`)
@@ -67,13 +67,8 @@ const App = ({navigation, route}) => {
       const jsonResponse = await response.json();
       console.log(jsonResponse)
       if (response.status === 200) {
-        let token = "Token " + jsonResponse["token"];
-        console.log(token)
-        let userWithToken = user;
-        console.log(userWithToken)
-        userWithToken.token = token;
-        setUser(userWithToken);
-        console.log(user);
+        setUser(jsonResponse);
+        return true;
       }
       else {
         console.log(JSON.stringify(jsonResponse));
@@ -82,6 +77,7 @@ const App = ({navigation, route}) => {
     catch(error) {
       console.log(error);
     }
+    return false;
   }
 
   return (

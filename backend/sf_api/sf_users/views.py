@@ -221,3 +221,17 @@ def remove_friend(request, from_user_pk, to_user_pk):
     from_user.friend_list.remove(to_user_pk)
     to_user.friend_list.remove(from_user_pk)
     return Response(f"Friendship from user {from_user_pk} to user {to_user_pk} deleted", status=status.HTTP_200_OK)
+
+# Override for ObtainAuthToken.Post, returns user and token in same response
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+
+class ObtainAuthTokenWithUser(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        user_dict = dict(UserSerializer(user).data)
+        user_dict.update({'token': token.key})
+        return Response(user_dict)

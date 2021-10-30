@@ -54,7 +54,7 @@ const LoginScreen = ({ navigation, route }) => {
     //         console.error(error);
     //     }   
     // }
-    const user = useContext(UserContext);
+    const context = useContext(UserContext);
     return (
 
         <View style={styles.container}>
@@ -83,7 +83,7 @@ const LoginScreen = ({ navigation, route }) => {
                 onChangeText = {(val) => setUserPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
-            <TouchableOpacity onPress={() => user.fetchToken(userName, userPassword)} style={styles.button}>
+            <TouchableOpacity onPress={() => context.fetchToken(userName, userPassword)} style={styles.button}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
   
