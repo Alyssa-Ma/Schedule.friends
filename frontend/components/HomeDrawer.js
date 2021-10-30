@@ -13,7 +13,7 @@ import UserContext from '../context/UserContext';
 const Drawer = createDrawerNavigator();
 const HomeDrawer = ({navigation, route}) => {
   const context = useContext(UserContext);
-  console.log(context);
+  console.log("I'm in HomeDrawel", context);
   // const [user, SetUser] = useState(route.params);
   // const [change, SetChange] = useState(true);
   //console.log(user, 'STATE DRAWER');
@@ -38,7 +38,6 @@ const HomeDrawer = ({navigation, route}) => {
                       color: 'white',
                     }
               }}
-              initialParams={user}
           />
           <Drawer.Screen 
               name="EditScheduleNav" 
@@ -47,7 +46,6 @@ const HomeDrawer = ({navigation, route}) => {
                   headerShown: false,
                   title: 'Edit My Schedule',
               }}
-              initialParams={user}
           />
           <Drawer.Screen 
               name="AddSchedule" 
@@ -61,7 +59,6 @@ const HomeDrawer = ({navigation, route}) => {
                     color: 'white',
                   }
               }}
-              initialParams={user}
           />
           <Drawer.Screen 
               name="CommonTimeText" 
@@ -80,7 +77,6 @@ const HomeDrawer = ({navigation, route}) => {
                 SetChange(change ? false : true);
               
               }}
-              initialParams={user}
           />
           <Drawer.Screen 
               name="FriendRequestView" 
@@ -94,7 +90,6 @@ const HomeDrawer = ({navigation, route}) => {
                     color: 'white',
                   }
               }}
-              initialParams={user}
           />
           <Drawer.Screen 
               name="SendFriendRequest" 
@@ -108,7 +103,6 @@ const HomeDrawer = ({navigation, route}) => {
                     color: 'white',
                   }
               }}
-              initialParams={user}
           />
         </Drawer.Navigator>
       
