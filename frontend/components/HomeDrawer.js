@@ -6,7 +6,7 @@ import AddScheduleView from '../screens/AddScheduleView';
 import FriendRequestView from '../screens/FriendRequestView';
 import FriendRequestSend from '../screens/FriendRequestSend';
 import CommonTimeText from '../screens/CommonTimeText';
-import EditScheduleStack from './EditScheduleStack';
+import MyScheduleStack from './MyScheduleStack';
 import CombinedScheduleStack from './CombinedScheduleStack';
 import UserContext from '../context/UserContext';
 
@@ -41,25 +41,17 @@ const HomeDrawer = ({navigation, route}) => {
               }}
           />
           <Drawer.Screen 
-              name="EditScheduleNav" 
-              component={EditScheduleStack} 
+              name="MySchedule" 
+              component={MyScheduleStack} 
               options={{
-                  headerShown: false,
-                  title: 'Edit My Schedule',
-              }}
-          />
-          <Drawer.Screen 
-              name="AddScheduleStack" 
-              component={AddScheduleView}
-              options={{
-                  title: 'Add Schedule',
-                  headerStyle: {
-                    backgroundColor: 'darkslateblue'},
-                  headerTitleAlign: 'center',
-                  headerTitleStyle: {
-                    color: 'white',
-                  }
-              }}
+                title: 'My Schedule',
+                headerStyle: {
+                  backgroundColor: 'darkslateblue'},
+                headerTitleAlign: 'center',
+                headerTitleStyle: {
+                  color: 'white',
+                }
+            }}
           />
           <Drawer.Screen 
               name="CommonTimeText" 

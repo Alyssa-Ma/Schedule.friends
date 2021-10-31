@@ -1,36 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, View, FlatList, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
 import EditSchedule from '../components/EditSchedule';
 import {BASE_URL} from "@env";
-import EditClassView from './EditClassView';
-import Header from '../components/Header';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+import UserContext from '../context/UserContext';
 
-const EditScheduleView = ({ navigation, route }) => {
 
-    console.log(route.params, "EDIT SCHEDULE");
+const ScheduleListView = ({ navigation, route }) => {
+    const context = useContext(UserContext);
     //DAY RAIDO BUTTON START ------
     const [checked, setChecked] = useState();
     const [targetData, setTargetData] = useState();
 
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(context.user.schedule);
 
     useEffect(() => {
         //schedule data for user 1
-        fetch(`${BASE_URL}/5/schedule/`,{
-            method: 'GET', // or 'PUT'
-            headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${route.params.token}`
-            },
-        })
+        // fetch(`${BASE_URL}/5/schedule/`,{
+        //     method: 'GET', // or 'PUT'
+        //     headers: {
+        //     'Content-Type': 'application/json',
+        //     'Authorization': `Token ${route.params.token}`
+        //     },
+        // })
 
-        .then(resp => resp.json())
+        // .then(resp => resp.json())
 
-        .then(data => {
+        // .then(
+        data => {
 
             setData(
               
@@ -53,8 +50,8 @@ const EditScheduleView = ({ navigation, route }) => {
 
 
             console.log(data);
-        })
-        .catch(error => console.log("Error"));
+        }
+        //.catch(error => console.log("Error"));
     }, [])
 
 
@@ -103,4 +100,4 @@ const styles = StyleSheet.create({
 
 
 
-export default EditScheduleView;
+export default ScheduleListView;

@@ -1,30 +1,23 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import EditScheduleView from '../screens/EditScheduleView';
+import ScheduleListView from '../screens/ScheduleListView';
 import EditClassView from '../screens/EditClassView';
 
 const Stack = createNativeStackNavigator();
 
 //Basically serves like a 'routes' page. Allows for stack nav on the edit pages
-const EditScheduleStack = ({navigation, route}) => {
-
+const MyScheduleStack = ({navigation}) => {
     return (
         <Stack.Navigator>
             <Stack.Screen 
-                name="EditScheduleView" 
-                component={EditScheduleView}
+                name="ScheduleListView" 
+                component={ScheduleListView}
                 options={{
                     title: 'Edit My Schedule',
-                    headerStyle: {
-                      backgroundColor: 'darkslateblue'},
-                    headerTitleAlign: 'center',
-                    headerTitleStyle: {
-                      color: 'white',
-                    }
+                    headerShown: false
                 }}
-                initialParams={route.params}
             />
-            <Stack.Screen 
+            {/* <Stack.Screen 
                 name="EditClassView" 
                 component={EditClassView}
                 options={{
@@ -36,11 +29,10 @@ const EditScheduleStack = ({navigation, route}) => {
                       color: 'white',
                     }
                 }}
-                initialParams={route.params}
-            />
+            /> */}
        </Stack.Navigator>
     )
 
 }
 
-export default EditScheduleStack;
+export default MyScheduleStack;

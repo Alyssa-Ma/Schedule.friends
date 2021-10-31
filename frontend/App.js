@@ -80,6 +80,12 @@ const App = ({navigation, route}) => {
     return false;
   }
   
+  //for developmental purpose, delete before push
+  React.useEffect(() => {
+    fetchUserToken("henryB", "Test01");
+
+  }, [])
+
   return (
     <UserContext.Provider value={{
       user: user,

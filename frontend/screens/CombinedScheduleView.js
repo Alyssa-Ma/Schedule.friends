@@ -56,11 +56,12 @@ const CombinedScheduleView = ({navigation, route}) => {
     }
   ]);
 
-  //nav on tap
+  // nav on tap
   const _eventTapped = (event) => {
-
-    console.log('system 32 deleted', 'H4CK3D');
-    navigation.navigate('EditClass');
+    
+    // Can't work with our data yet
+    // console.log('system 32 deleted', 'H4CK3D');
+    // navigation.navigate('EditClass');
   }
 
   return (

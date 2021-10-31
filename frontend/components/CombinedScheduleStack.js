@@ -26,7 +26,10 @@ const CombinedScheduleStack = ({navigation, route}) => {
                   }
               }}
           />
-          <Stack.Screen 
+          
+          {
+          //Can't work with our model data right now
+          /* <Stack.Screen 
               name="EditClass" 
               component={EditClassView}
               options={{
@@ -38,7 +41,7 @@ const CombinedScheduleStack = ({navigation, route}) => {
                     color: 'white',
                   }
               }}
-          />
+          /> */}
       </Stack.Navigator>
   )
 
