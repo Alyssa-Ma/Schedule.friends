@@ -34,8 +34,11 @@ def get_users_list(request):
 def create_user(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)            
+        user = serializer.save()
+        token, created = Token.objects.get_or_create(user=user)
+        user_dict = dict(UserSerializer(user).data)
+        user_dict.update({'token': token.key})
+        return Response(user_dict, status=status.HTTP_201_CREATED)            
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Need to make PATCH and DELETE authenticated with owner and superuser
