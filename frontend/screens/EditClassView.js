@@ -48,10 +48,9 @@ const EditClassView = ({ navigation, item, route }) => {
                     //returns the json for state handling
                     console.log(jsonResponse)
                     let tempUser = {...context.user};
-                    //console.log(`index of ${jsonResponse.id}: ${tempUser.schedule.findIndex(course => {if(course.id === jsonResponse.id) return true;})}`)
                     tempUser.schedule[tempUser.schedule.findIndex(course => {if(course.id === jsonResponse.id) return true;})] = jsonResponse;
-                    console.log(`tempUser matches context user: ${tempUser === context.user}`)
                     context.setUser(tempUser);
+                    setStatusText(`Course Sucessfully Editted!`);
                     toggleSnackBar();
                     navigation.pop();
                 }
@@ -89,8 +88,11 @@ const EditClassView = ({ navigation, item, route }) => {
                     }
                 });
                 const jsonResponse = await deleteResponse.json();
-                if (deleteResponse === 200) {
+                if (deleteResponse.status === 200) {
                     console.log(jsonResponse)
+                    let tempUser = {...context.user};
+                    tempUser.schedule.splice(tempUser.schedule.findIndex(course => {if(course.id === jsonResponse.id) return true;}), 1);
+                    context.setUser(tempUser);
                     setStatusText(`Course Sucessfully Deleted!`);
                     toggleSnackBar();
                     navigation.pop();

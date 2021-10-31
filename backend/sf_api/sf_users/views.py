@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
@@ -69,7 +67,10 @@ def users_detail(request, pk):
         sent_friend_requests.delete()
         recieved_friend_requests.delete()
         user.delete()
-        return Response(f"User ID# {pk} Sucessfully Deleted", status=status.HTTP_200_OK)
+        return Response(json.dumps({
+            'id': int(pk),
+            'result': f"User ID# {pk} Sucessfully Deleted"
+            }), status=status.HTTP_200_OK)
 
 # ======================================
 
@@ -99,7 +100,7 @@ def schedule_list(request, pk):
             }
             user_serializer = UserSerializer(user, data=user_obj, context={'request': 'PATCH'}, partial=True)
             if user_serializer.is_valid():
-                #user_serializer.save()
+                user_serializer.save()
                 # Find the latest course created, which logically is the highest course ID in
                 # user's schedule
                 course_created = user_serializer.data['schedule'][0]
@@ -132,7 +133,10 @@ def schedule_detail(request, user_pk, course_pk):
 
     elif request.method == 'DELETE':
         course.delete()
-        return Response(f"Course ID# {course_pk} Sucessfully Deleted", status=status.HTTP_200_OK)
+        return Response({
+            'id': int(course_pk),
+            'result': f"Course ID# {course_pk} Sucessfully Deleted"
+            }, status=status.HTTP_200_OK)
 
 # ======================================
 
@@ -199,12 +203,18 @@ def fr_detail(request, pk):
                 to_user.friend_list.add(from_user.id)
             # After a FriendRequest is accepted or denied, it is deleted
             friend_request.delete()
-            return Response(f"Friend Request ID# {pk} Deleted",status=status.HTTP_200_OK)
+            return Response(json.dumps({
+                'id': int(pk),
+                'result': f"Friend Request ID# {pk} Deleted"
+                }),status=status.HTTP_200_OK)
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         friend_request.delete()
-        return Response(f"Friend Request ID# {pk} Deleted", status=status.HTTP_200_OK)
+        return Response({
+            'id': int(pk),
+            'result': f"Friend Request ID# {pk} Deleted"
+        }, status=status.HTTP_200_OK)
 
 @api_view(['DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
@@ -220,7 +230,11 @@ def remove_friend(request, from_user_pk, to_user_pk):
     
     from_user.friend_list.remove(to_user_pk)
     to_user.friend_list.remove(from_user_pk)
-    return Response(f"Friendship from user {from_user_pk} to user {to_user_pk} deleted", status=status.HTTP_200_OK)
+    return Response(json.dumps({
+        'from_user_id': int(from_user_pk),
+        'to_user_id': int(to_user_pk),
+        'result': f"Friendship from user {from_user_pk} to user {to_user_pk} deleted"
+        }), status=status.HTTP_200_OK)
 
 # Override for ObtainAuthToken.Post, returns user and token in same response
 from rest_framework.authtoken.views import ObtainAuthToken

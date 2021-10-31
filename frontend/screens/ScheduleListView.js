@@ -1,22 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, View, FlatList, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
-import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
 import CourseItem from '../components/CourseItem';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 
 
-const ScheduleListView = ({ navigation, route }) => {
+const ScheduleListView = ({ navigation }) => {
     const context = useContext(UserContext);
     //DAY RAIDO BUTTON START ------
-    const [checked, setChecked] = useState();
-    const [targetData, setTargetData] = useState();
+    // const [checked, setChecked] = useState();
+    // const [targetData, setTargetData] = useState();
 
-    const [data, setData] = useState(context.user.schedule);
+    // const [data, setData] = useState(context.user.schedule);
 
-    useEffect(() => {
-      console.log("Schedule List View useEffect()")
-    }, [context.user.schedule])
+    // useEffect(() => {
+    //   console.log("Schedule List View useEffect()")
+    // }, [context.user.schedule])
 
     // useEffect(() => {
     //     //schedule data for user 1
@@ -97,9 +96,5 @@ const styles = StyleSheet.create({
     },
 
 });
-
-
-
-
 
 export default ScheduleListView;

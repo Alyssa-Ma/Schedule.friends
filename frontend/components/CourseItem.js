@@ -1,10 +1,7 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, FlatList } from 'react-native';
-import {Card} from 'react-native-paper';
-import UserContext from '../context/UserContext';
 
 const CourseItem = ({navigation, item}) => {
-    const context = useContext(UserContext);
 
     console.log(item.course_name);
     const clickedItem = (item) => {
