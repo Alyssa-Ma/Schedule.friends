@@ -5,9 +5,9 @@ import { Snackbar } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 
-const AddScheduleView = ({ navigation, route }) => {
+const AddScheduleView = ({ navigation }) => {
     const context = useContext(UserContext);
-    
+    console.log(`${context.user.username} is in AddScheduleView.js`);
     const [returnedJSON, setReturnedJSON] = useState({});
 
     const [loadingButton, setLoadingButton] = useState(false);
@@ -31,9 +31,9 @@ const AddScheduleView = ({ navigation, route }) => {
                     },
                     body: completedForm
                 });
-                //this means the server accepted the post request
                 const jsonResponse = await postResponse.json();
-    
+                //this means the server accepted the post request
+                
                 if (postResponse.status === 201) {
                     //returns the json for state handling
                     console.log(context.user.schedule)
@@ -42,9 +42,9 @@ const AddScheduleView = ({ navigation, route }) => {
                     userCopy.schedule.push(jsonResponse);
                     context.setUser(userCopy)
                     setStatusText(`Course Sucessfully Added!`);
-                    //toggleSnackBar();
-                    //navigation.pop();
-                    navigation.navigate('Home');
+                    toggleSnackBar();
+                    //navigation.navigate('HomePage');
+                    navigation.pop();
                 }
                 else { // something went wrong on the server end
                     trimJSON = JSON.stringify(jsonResponse);
@@ -52,7 +52,7 @@ const AddScheduleView = ({ navigation, route }) => {
                     trimJSON = trimJSON.replace(/[.]/gm, "\n");
                     console.log(trimJSON);
                     setStatusText(`Error ${postResponse.status}: ${trimJSON}`);
-                    //toggleSnackBar();
+                    toggleSnackBar();
                 }
             }
             catch(error) {
@@ -68,30 +68,30 @@ const AddScheduleView = ({ navigation, route }) => {
 
 
         
-        return (
-            <View style={styles.container}>
-                <CourseForm
-                    courseName = {""}
-                    courseNumber = {""}
-                    startHour = {0}
-                    startMin = {0}
-                    endHour = {0}
-                    endMin = {0}
-                    selectedDays = {[]}
-                    setReturnedJSON = {setReturnedJSON}
-                    navigation = {navigation}
-                    loadingButton = {loadingButton}
-                    setLoadingButton = {setLoadingButton}
-                />
-                <Snackbar 
-                    visible={snackVisible}
-                    onDismiss={onDismissSnackBar}
-                    action={{
-                        label: 'OK',
-                        onPress: onDismissSnackBar
-                    }}
-                >{statusText}</Snackbar>
-            </View>
+    return (
+        <View style={styles.container}>
+            <CourseForm
+                courseName = {""}
+                courseNumber = {""}
+                startHour = {0}
+                startMin = {0}
+                endHour = {0}
+                endMin = {0}
+                selectedDays = {[]}
+                setReturnedJSON = {setReturnedJSON}
+                navigation = {navigation}
+                loadingButton = {loadingButton}
+                setLoadingButton = {setLoadingButton}
+            />
+            <Snackbar 
+                visible={snackVisible}
+                onDismiss={onDismissSnackBar}
+                action={{
+                    label: 'OK',
+                    onPress: onDismissSnackBar
+                }}
+            >{statusText}</Snackbar>
+        </View>
     )
 
 }

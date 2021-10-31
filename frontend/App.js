@@ -13,6 +13,7 @@ import UserContext from './context/UserContext';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import HomeDrawer from './components/HomeDrawer';
+import AddScheduleView from './screens/AddScheduleView';
 
 //stack navigator
 //const Stack = createNativeStackNavigator();
@@ -49,8 +50,9 @@ const Stack = createNativeStackNavigator();
 const App = ({navigation, route}) => {
 
   const [user, setUser] = useState({});
-
-  const fetchToken = async (usernameInput, passwordInput) => {
+  console.log(`In App.js, this is user:`);
+  console.log(user)
+  const fetchUserToken = async (usernameInput, passwordInput) => {
     console.log(`Begin of fetchToken(): user:${usernameInput} pass: ${passwordInput}`)
     try {
       let response = await fetch(`${BASE_URL}/login`, {
@@ -65,71 +67,120 @@ const App = ({navigation, route}) => {
       });
       
       const jsonResponse = await response.json();
-      console.log(jsonResponse);
       if (response.status === 200) {
         setUser(jsonResponse);
         return true;
       }
       else {
-        console.log(JSON.stringify(jsonResponse));
+        console.log("Error from server in App.js: ", JSON.stringify(jsonResponse));
       }
     }
     catch(error) {
-      console.log(error);
+      console.log("Error from server in App.js: ", error);
     }
     return false;
   }
-
+  
   return (
     <UserContext.Provider value={{
       user: user,
       setUser: setUser,
-      fetchToken: fetchToken
+      fetchUserToken: fetchUserToken
     }}>
       <NavigationContainer>
         <Stack.Navigator>
-            <Stack.Screen 
-              name="Login" 
-              component={LoginScreen}
-              options={{
-                headerShown: false,
-                title: 'Log In',
-                headerStyle: {
-                  backgroundColor: 'darkslateblue'},
-                headerTitleAlign: 'center',
-                headerTitleStyle: {
-                  color: 'white',
-                }
-              }}
-            />
-            <Stack.Screen 
-              name="SignUp" 
-              component={SignUpScreen} 
-              options={{
-                title: 'Sign Up!',
-                headerStyle: {
-                  backgroundColor: 'darkslateblue'},
-                headerTitleAlign: 'center',
-                headerTitleStyle: {
-                  color: 'white',
-                }
-              }}
-              
-            />
-            <Stack.Screen 
-              name="Home" 
-              component={HomeDrawer}
-              options={{ 
-                headerShown: false 
-              }}
-  
-            />
-          </Stack.Navigator>
+        {
+          Object.keys(user).length
+          ? (
+            <Stack.Group>
+              <Stack.Screen 
+                name="Home" 
+                component={HomeDrawer}
+                options={{ 
+                  headerShown: false 
+                }}
+              />
+            </Stack.Group>
+              )
+              : (
+              <Stack.Group>
+              <Stack.Screen 
+                name="Login" 
+                component={LoginScreen}
+                options={{
+                  headerShown: false,
+                  title: 'Log In',
+                  headerStyle: {
+                    backgroundColor: 'darkslateblue'},
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                      color: 'white',
+                    }
+                  }}
+                  />
+              <Stack.Screen 
+                name="SignUp" 
+                component={SignUpScreen} 
+                options={{
+                  title: 'Sign Up!',
+                  headerStyle: {
+                    backgroundColor: 'darkslateblue'},
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                      color: 'white',
+                    }
+                  }}
+                  />
+                </Stack.Group>
+          )
+        }
+        </Stack.Navigator>
       </NavigationContainer>
     </UserContext.Provider>
-  
-  );
-
+  )
 }
 
 export default App;
+
+
+        
+{/* <NavigationContainer>
+  <Stack.Navigator>
+      <Stack.Screen 
+        name="Login" 
+        component={LoginScreen}
+        options={{
+          headerShown: false,
+          title: 'Log In',
+          headerStyle: {
+            backgroundColor: 'darkslateblue'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white',
+            }
+          }}
+          />
+      <Stack.Screen 
+        name="SignUp" 
+        component={SignUpScreen} 
+        options={{
+          title: 'Sign Up!',
+          headerStyle: {
+            backgroundColor: 'darkslateblue'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white',
+            }
+          }}
+          
+          />
+      <Stack.Screen 
+        name="Home" 
+        component={HomeDrawer}
+        options={{ 
+          headerShown: false 
+        }}
+        
+        />
+    </Stack.Navigator>
+</NavigationContainer> */}

@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import { View, Text, StyleSheet, FlatList, SafeAreaView, Button, Dimensions, TouchableOpacity } from 'react-native';
 import EventCalendar from 'react-native-events-calendar';
 let { width } = Dimensions.get('window');
+import UserContext from '../context/UserContext';
 
 const CombinedScheduleView = ({navigation, route}) => {
-
-  console.log(route.params, 'COMBINED SCHEDULE');
+  const context = useContext(UserContext);
+  console.log(`${context.user.username} is in CombinedScheduleView.js`);
   const [events, setEvents] = useState([
     {
       start: '2021-10-06 22:30:00',

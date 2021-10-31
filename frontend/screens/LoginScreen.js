@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity, A
 import EditSchedule from '../components/EditSchedule';
 import UserContext from '../context/UserContext';
 import {BASE_URL} from '@env'
-import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
+
 
 
 const LoginScreen = ({ navigation, route }) => {
@@ -12,12 +12,111 @@ const LoginScreen = ({ navigation, route }) => {
     const [userPassword, setUserPassword] = useState("blank");
 
     const logIn = async () => {
-        if (await context.fetchToken(userName, userPassword))
-            navigation.navigate('Home');
+        if (await context.fetchUserToken(userName, userPassword))
+            console.log("Done with fetch in LoginScreen.js");
         else
             //here can be some error handling
-            console.log("Error");
+            console.log("Error in fetch in LoginScreen.js");
     }
+    return (
+        
+        <View style={styles.container}>
+
+            <StatusBar
+                backgroundColor="black"
+                barStyle="light-content"
+                />
+
+            <Image source={{uri: 'https://reactjs.org/logo-og.png'}}
+              style={{width: 300, height: 300}} />
+
+            <View>
+                <Text style={styles.logoText}> Welcome to Schedule.Friends </Text> 
+            </View>
+
+            <TextInput style={styles.inputBox} 
+                //underlineColorAndroid='#ADC9C6' 
+                placeholder = 'enter username' 
+                onChangeText = {(val) => setUserName(val)}
+                placeholderTextColor = '#ADC9C6'/>
+
+            <TextInput style={styles.inputBox} 
+                //underlineColorAndroid='#ADC9C6' 
+                placeholder = 'enter password' 
+                onChangeText = {(val) => setUserPassword(val)}
+                placeholderTextColor = '#ADC9C6'/>
+
+            <TouchableOpacity onPress={logIn} style={styles.button}>
+                <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+  
+
+            <View style={styles.newSignUpText}>
+                <Text style ={styles.newSignUpText}> New to Schedule.Friends?</Text> 
+                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                    <Text style={{color: 'blue'}}> Create an account! </Text>
+                </TouchableOpacity>
+            </View>
+
+        </View>
+    
+    );
+}
+
+export default LoginScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1, 
+        backgroundColor: '#009387',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    logoText: {
+        marginVertical: 15,
+        fontSize:18,
+        color:'white'
+    },
+    inputBox: {
+        width:300, 
+        backgroundColor:'#5176A8',
+        borderRadius: 25, 
+        paddingHorizontal: 16, 
+        fontSize: 16, 
+        color: 'white',
+        marginVertical: 10,
+    },
+    button:{
+        backgroundColor:'#007169',
+        borderRadius: 25, 
+        width:300, 
+        marginVertical: 10,
+        paddingVertical: 12,
+        
+    },
+    buttonText: {
+        fontSize: 16, 
+        fontWeight:"500",
+        color:'white',
+        textAlign: 'center'
+    },
+    newSignUpText:{
+        
+        alignItems: 'center',
+        justifyContent: 'center',
+        color:'white',
+        flexDirection: 'row',
+        paddingHorizontal: 8
+        
+    },
+    signUpText:{
+        color: '#5176A8',
+        fontSize: 16,
+        
+    },
+    
+})
+
 
     // const logInCall = async () => {
 
@@ -64,109 +163,3 @@ const LoginScreen = ({ navigation, route }) => {
     //         console.error(error);
     //     }   
     // }
-    return (
-
-        <View style={styles.container}>
-
-            <StatusBar
-                backgroundColor="black"
-                barStyle="light-content"
-            />
-
-            <Image source={{uri: 'https://reactjs.org/logo-og.png'}}
-              style={{width: 300, height: 300}} />
-
-            <View>
-                <Text style={styles.logoText}> Welcome to Schedule.Friends </Text> 
-            </View>
-
-            <TextInput style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'enter username' 
-                onChangeText = {(val) => setUserName(val)}
-                placeholderTextColor = '#ADC9C6'/>
-
-            <TextInput style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'enter password' 
-                onChangeText = {(val) => setUserPassword(val)}
-                placeholderTextColor = '#ADC9C6'/>
-
-            <TouchableOpacity onPress={logIn} style={styles.button}>
-                <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-  
-
-            <View style={styles.newSignUpText}>
-                <Text style ={styles.newSignUpText}> New to Schedule.Friends?</Text> 
-                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                    <Text style={{color: 'blue'}}> Create an account! </Text>
-                </TouchableOpacity>
-            </View>
-
-
-            {/*
-            Don't think we need this anymore
-            <View>
-                <Text>email: {userName}</Text>
-                <Text>password: {userPassword}</Text>
-            </View> */}
-
-        </View>
-    
-    );
-}
-
-export default LoginScreen;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1, 
-        backgroundColor: '#009387',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    logoText: {
-        marginVertical: 15,
-        fontSize:18,
-        color:'white'
-    },
-    inputBox: {
-        width:300, 
-        backgroundColor:'#5176A8',
-        borderRadius: 25, 
-        paddingHorizontal: 16, 
-        fontSize: 16, 
-        color: 'white',
-        marginVertical: 10,
-    },
-    button:{
-        backgroundColor:'#007169',
-        borderRadius: 25, 
-        width:300, 
-        marginVertical: 10,
-        paddingVertical: 12,
-
-    },
-    buttonText: {
-        fontSize: 16, 
-        fontWeight:"500",
-        color:'white',
-        textAlign: 'center'
-    },
-    newSignUpText:{
-       
-        alignItems: 'center',
-        justifyContent: 'center',
-        color:'white',
-        flexDirection: 'row',
-        paddingHorizontal: 8
-
-    },
-    signUpText:{
-        color: '#5176A8',
-        fontSize: 16,
-
-    },
-
-})

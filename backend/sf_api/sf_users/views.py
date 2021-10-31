@@ -99,7 +99,7 @@ def schedule_list(request, pk):
             }
             user_serializer = UserSerializer(user, data=user_obj, context={'request': 'PATCH'}, partial=True)
             if user_serializer.is_valid():
-                user_serializer.save()
+                #user_serializer.save()
                 # Find the latest course created, which logically is the highest course ID in
                 # user's schedule
                 course_created = user_serializer.data['schedule'][0]

@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import AddScheduleView from '../screens/AddScheduleView'
+import AddScheduleView from '../screens/AddScheduleView';
 import FriendRequestView from '../screens/FriendRequestView';
 import FriendRequestSend from '../screens/FriendRequestSend';
 import CommonTimeText from '../screens/CommonTimeText';
@@ -11,9 +11,10 @@ import CombinedScheduleStack from './CombinedScheduleStack';
 import UserContext from '../context/UserContext';
 
 const Drawer = createDrawerNavigator();
+
 const HomeDrawer = ({navigation, route}) => {
   const context = useContext(UserContext);
-  console.log("I'm in HomeDrawel", context);
+  console.log(`${context.user.username} is logged in in HomeDrawer.js`)
   // const [user, SetUser] = useState(route.params);
   // const [change, SetChange] = useState(true);
   //console.log(user, 'STATE DRAWER');
@@ -48,7 +49,7 @@ const HomeDrawer = ({navigation, route}) => {
               }}
           />
           <Drawer.Screen 
-              name="AddSchedule" 
+              name="AddScheduleStack" 
               component={AddScheduleView}
               options={{
                   title: 'Add Schedule',
