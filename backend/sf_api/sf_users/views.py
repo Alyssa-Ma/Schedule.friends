@@ -10,6 +10,9 @@ from .serializers import *
 from rest_framework import permissions as base_permissions
 from sf_users import permissions as custom_permissions
 
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+
 # Users request methods
 # To-do
 # Make query return just a list of user names and friend list (pop out schedule)
@@ -34,8 +37,11 @@ def get_users_list(request):
 def create_user(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)            
+        user = serializer.save()
+        token, created = Token.objects.get_or_create(user=user)
+        user_dict = dict(UserSerializer(user).data)
+        user_dict.update({'token': token.key})
+        return Response(user_dict, status=status.HTTP_201_CREATED)            
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Need to make PATCH and DELETE authenticated with owner and superuser
@@ -234,9 +240,6 @@ def remove_friend(request, from_user_pk, to_user_pk):
         }, status=status.HTTP_200_OK)
 
 # Override for ObtainAuthToken.Post, returns user and token in same response
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
-
 class ObtainAuthTokenWithUser(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
