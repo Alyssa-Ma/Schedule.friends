@@ -50,8 +50,7 @@ const Stack = createNativeStackNavigator();
 const App = ({navigation, route}) => {
 
   const [user, setUser] = useState({});
-  console.log(`In App.js, this is user:`);
-  console.log(user)
+
   const fetchUserToken = async (usernameInput, passwordInput) => {
     console.log(`Begin of fetchToken(): user:${usernameInput} pass: ${passwordInput}`)
     try {
@@ -89,51 +88,51 @@ const App = ({navigation, route}) => {
     }}>
       <NavigationContainer>
         <Stack.Navigator>
-        {
-          Object.keys(user).length
-          ? (
-            <Stack.Group>
-              <Stack.Screen 
-                name="Home" 
-                component={HomeDrawer}
-                options={{ 
-                  headerShown: false 
-                }}
-              />
-            </Stack.Group>
-              )
-              : (
+          {
+            Object.keys(user).length
+            ? (
               <Stack.Group>
-              <Stack.Screen 
-                name="Login" 
-                component={LoginScreen}
-                options={{
-                  headerShown: false,
-                  title: 'Log In',
-                  headerStyle: {
-                    backgroundColor: 'darkslateblue'},
+                <Stack.Screen 
+                  name="Home" 
+                  component={HomeDrawer}
+                  options={{ 
+                    headerShown: false 
+                  }}
+                />
+              </Stack.Group>
+            )
+            : (
+              <Stack.Group>
+                <Stack.Screen 
+                  name="Login" 
+                  component={LoginScreen}
+                  options={{
+                    headerShown: false,
+                    title: 'Log In',
+                    headerStyle: {
+                      backgroundColor: 'darkslateblue'},
                     headerTitleAlign: 'center',
                     headerTitleStyle: {
                       color: 'white',
                     }
                   }}
-                  />
-              <Stack.Screen 
-                name="SignUp" 
-                component={SignUpScreen} 
-                options={{
-                  title: 'Sign Up!',
-                  headerStyle: {
-                    backgroundColor: 'darkslateblue'},
+                />
+                <Stack.Screen 
+                  name="SignUp" 
+                  component={SignUpScreen} 
+                  options={{
+                    title: 'Sign Up!',
+                    headerStyle: {
+                      backgroundColor: 'darkslateblue'},
                     headerTitleAlign: 'center',
                     headerTitleStyle: {
                       color: 'white',
                     }
                   }}
-                  />
-                </Stack.Group>
-          )
-        }
+                />
+              </Stack.Group>
+            )
+          }
         </Stack.Navigator>
       </NavigationContainer>
     </UserContext.Provider>
@@ -142,8 +141,7 @@ const App = ({navigation, route}) => {
 
 export default App;
 
-
-        
+//original state rendering
 {/* <NavigationContainer>
   <Stack.Navigator>
       <Stack.Screen 

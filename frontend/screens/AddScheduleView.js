@@ -43,8 +43,8 @@ const AddScheduleView = ({ navigation }) => {
                     context.setUser(userCopy)
                     setStatusText(`Course Sucessfully Added!`);
                     toggleSnackBar();
-                    //navigation.navigate('HomePage');
                     navigation.pop();
+                    //navigation.navigate('HomePage');
                 }
                 else { // something went wrong on the server end
                     trimJSON = JSON.stringify(jsonResponse);

@@ -1,23 +1,12 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {View, Text, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity, Alert} from 'react-native';
-import EditSchedule from '../components/EditSchedule';
+import {View, Text, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity} from 'react-native';
 import UserContext from '../context/UserContext';
-import {BASE_URL} from '@env'
-
-
 
 const LoginScreen = ({ navigation, route }) => {
     const context = useContext(UserContext);
     const [userName, setUserName] = useState("blank");
     const [userPassword, setUserPassword] = useState("blank");
 
-    const logIn = async () => {
-        if (await context.fetchUserToken(userName, userPassword))
-            console.log("Done with fetch in LoginScreen.js");
-        else
-            //here can be some error handling
-            console.log("Error in fetch in LoginScreen.js");
-    }
     return (
         
         <View style={styles.container}>
@@ -46,10 +35,9 @@ const LoginScreen = ({ navigation, route }) => {
                 onChangeText = {(val) => setUserPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
-            <TouchableOpacity onPress={logIn} style={styles.button}>
+            <TouchableOpacity onPress={async () => await context.fetchUserToken(userName, userPassword)} style={styles.button}>
                 <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-  
+            </TouchableOpacity>  
 
             <View style={styles.newSignUpText}>
                 <Text style ={styles.newSignUpText}> New to Schedule.Friends?</Text> 
@@ -57,6 +45,8 @@ const LoginScreen = ({ navigation, route }) => {
                     <Text style={{color: 'blue'}}> Create an account! </Text>
                 </TouchableOpacity>
             </View>
+
+            <Text>{context.user ? `${context.user.username}` : null}</Text>
 
         </View>
     
