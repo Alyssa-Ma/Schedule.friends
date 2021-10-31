@@ -37,14 +37,12 @@ const AddScheduleView = ({ navigation }) => {
                 if (postResponse.status === 201) {
                     //returns the json for state handling
                     console.log(context.user.schedule)
-                    let userCopy = context.user;
-                    console.log("User copy", userCopy)
+                    let userCopy = {...context.user};
                     userCopy.schedule.push(jsonResponse);
                     context.setUser(userCopy)
                     setStatusText(`Course Sucessfully Added!`);
                     toggleSnackBar();
                     navigation.pop();
-                    //navigation.navigate('HomePage');
                 }
                 else { // something went wrong on the server end
                     trimJSON = JSON.stringify(jsonResponse);

@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ScheduleListView from '../screens/ScheduleListView';
 import EditClassView from '../screens/EditClassView';
+import AddScheduleView from '../screens/AddScheduleView';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,19 @@ const MyScheduleStack = ({navigation}) => {
                 component={EditClassView}
                 options={{
                     title: 'Edit My Class',
+                    headerStyle: {
+                      backgroundColor: 'darkslateblue'},
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                      color: 'white',
+                    }
+                }}
+            />
+            <Stack.Screen 
+                name="AddScheduleView" 
+                component={AddScheduleView}
+                options={{
+                    title: 'Add Course To Schedule',
                     headerStyle: {
                       backgroundColor: 'darkslateblue'},
                     headerTitleAlign: 'center',
