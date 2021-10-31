@@ -109,7 +109,7 @@ const CourseForm = (props) => {
             /> 
             <View style={styles.buttons}>
                 <Button icon="check" loading={props.loadingButton} onPress={submitToParent} mode="contained">Submit</Button>
-                <Button icon="cancel" onPress={() => {props.navigation.navigate('HomePage')}} mode="contained">Discard</Button>
+                <Button icon="cancel" onPress={() => {props.navigation.pop()}} mode="contained">Discard</Button>
             </View>
         </View>
     )
