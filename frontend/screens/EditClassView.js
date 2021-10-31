@@ -5,8 +5,19 @@ import { Button, Snackbar } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 
-const EditClassView = ({ navigation }) => {
-    const context = UserContext(UserContext);
+const EditClassView = ({ navigation, item, route }) => {
+    const { itemId, 
+        courseName, 
+        courseNumber,
+        timeStart, 
+        timeEnd, 
+        dayName,
+        starthr,
+        startmin,
+        endhr,
+        endmin 
+        } = route.params;
+    const context = useContext(UserContext);
     const [returnedJSON, setReturnedJSON] = useState({});
 
     const [loadingButton, setLoadingButton] = useState(false);
@@ -36,7 +47,11 @@ const EditClassView = ({ navigation }) => {
                 if (patchResponse.status === 200) {
                     //returns the json for state handling
                     console.log(jsonResponse)
-                    setStatusText(`Course Sucessfully Edited!`);
+                    let tempUser = {...context.user};
+                    //console.log(`index of ${jsonResponse.id}: ${tempUser.schedule.findIndex(course => {if(course.id === jsonResponse.id) return true;})}`)
+                    tempUser.schedule[tempUser.schedule.findIndex(course => {if(course.id === jsonResponse.id) return true;})] = jsonResponse;
+                    console.log(`tempUser matches context user: ${tempUser === context.user}`)
+                    context.setUser(tempUser);
                     toggleSnackBar();
                     navigation.pop();
                 }

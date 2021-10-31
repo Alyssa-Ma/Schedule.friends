@@ -17,7 +17,7 @@ const MyScheduleStack = ({navigation}) => {
                     headerShown: false
                 }}
             />
-            {/* <Stack.Screen 
+            <Stack.Screen 
                 name="EditClassView" 
                 component={EditClassView}
                 options={{
@@ -29,7 +29,7 @@ const MyScheduleStack = ({navigation}) => {
                       color: 'white',
                     }
                 }}
-            /> */}
+            />
        </Stack.Navigator>
     )
 

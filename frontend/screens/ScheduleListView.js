@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, View, FlatList, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
-import EditSchedule from '../components/EditSchedule';
+import CourseItem from '../components/CourseItem';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 
@@ -15,44 +15,46 @@ const ScheduleListView = ({ navigation, route }) => {
     const [data, setData] = useState(context.user.schedule);
 
     useEffect(() => {
-        //schedule data for user 1
-        // fetch(`${BASE_URL}/5/schedule/`,{
-        //     method: 'GET', // or 'PUT'
-        //     headers: {
-        //     'Content-Type': 'application/json',
-        //     'Authorization': `Token ${route.params.token}`
-        //     },
-        // })
+      console.log("Schedule List View useEffect()")
+    }, [context.user.schedule])
 
-        // .then(resp => resp.json())
+    // useEffect(() => {
+    //     //schedule data for user 1
+    //     // fetch(`${BASE_URL}/5/schedule/`,{
+    //     //     method: 'GET', // or 'PUT'
+    //     //     headers: {
+    //     //     'Content-Type': 'application/json',
+    //     //     'Authorization': `Token ${route.params.token}`
+    //     //     },
+    //     // })
 
-        // .then(
-        data => {
+    //     // .then(resp => resp.json())
 
-            setData(
+    //     // .then(
+
+    //         setData(
               
-              data.sort(function(a,b){
+    //           data.sort(function(a,b){
 
-                if(a.time_start.toLowerCase() < b.time_start.toLowerCase()){
-                  return -1;
-                }
+    //             if(a.time_start.toLowerCase() < b.time_start.toLowerCase()){
+    //               return -1;
+    //             }
 
-                if(a.time_start.toLowerCase() < b.time_start.toLowerCase()){
-                  return -1;
-                }
+    //             if(a.time_start.toLowerCase() < b.time_start.toLowerCase()){
+    //               return -1;
+    //             }
 
-                return 0;
+    //             return 0;
                 
-              })
+    //           })
               
-              );
+    //           );
 
 
 
-            console.log(data);
-        }
-        //.catch(error => console.log("Error"));
-    }, [])
+    //         console.log(data);
+    //     //.catch(error => console.log("Error"));
+    // }, [context.user.schedule])
 
 
     //DATA FILTER TEST LINES START
@@ -67,9 +69,9 @@ const ScheduleListView = ({ navigation, route }) => {
     return(
     
             <View style={styles.container}>
-                <FlatList data={data}
-                keyExtractor={item => item.id}
-                renderItem={({item}) => <EditSchedule item={item} navigation={navigation}/>} />
+                <FlatList data={context.user.schedule}
+                keyExtractor={course => course.id}
+                renderItem={({item}) => <CourseItem item={item} navigation={navigation}/>} />
             </View>
 
     )
