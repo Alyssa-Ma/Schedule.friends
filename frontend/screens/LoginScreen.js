@@ -46,7 +46,7 @@ const LoginScreen = ({ navigation, route }) => {
                 </TouchableOpacity>
             </View>
 
-            <Text>{context.user ? `${context.user.username}` : null}</Text>
+            {/* <Text>{context.user ? `${context.user.username}` : null}</Text> */}
 
         </View>
     

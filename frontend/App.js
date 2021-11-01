@@ -81,9 +81,9 @@ const App = ({navigation, route}) => {
   }
   
   //for developmental purpose, autologins to henryB
-  React.useEffect(() => {
-    fetchUserToken("henryB", "Test01");
-  }, [])
+  // React.useEffect(() => {
+  //   fetchUserToken("henryB", "Test01");
+  // }, [])
 
   return (
     <UserContext.Provider value={{
