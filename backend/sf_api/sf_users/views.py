@@ -70,10 +70,10 @@ def users_detail(request, pk):
         sent_friend_requests.delete()
         recieved_friend_requests.delete()
         user.delete()
-        return Response(json.dumps({
+        return Response({
             'id': int(pk),
             'result': f"User ID# {pk} Sucessfully Deleted"
-            }), status=status.HTTP_200_OK)
+            }, status=status.HTTP_200_OK)
 
 # ======================================
 
@@ -206,10 +206,10 @@ def fr_detail(request, pk):
                 to_user.friend_list.add(from_user.id)
             # After a FriendRequest is accepted or denied, it is deleted
             friend_request.delete()
-            return Response(json.dumps({
+            return Response({
                 'id': int(pk),
                 'result': f"Friend Request ID# {pk} Deleted"
-                }),status=status.HTTP_200_OK)
+                },status=status.HTTP_200_OK)
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
@@ -233,11 +233,11 @@ def remove_friend(request, from_user_pk, to_user_pk):
     
     from_user.friend_list.remove(to_user_pk)
     to_user.friend_list.remove(from_user_pk)
-    return Response(json.dumps({
+    return Response({
         'from_user_id': int(from_user_pk),
         'to_user_id': int(to_user_pk),
         'result': f"Friendship from user {from_user_pk} to user {to_user_pk} deleted"
-        }), status=status.HTTP_200_OK)
+        }, status=status.HTTP_200_OK)
 
 # Override for ObtainAuthToken.Post, returns user and token in same response
 from rest_framework.authtoken.views import ObtainAuthToken
