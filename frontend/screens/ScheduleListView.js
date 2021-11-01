@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StyleSheet, View, FlatList, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import CourseItem from '../components/CourseItem';
 import { Button } from 'react-native-paper'
@@ -62,9 +62,6 @@ const ScheduleListView = ({ navigation }) => {
    
 
     //DATA FILTER TEST LINES END
-
-
-
     return(
     
             <View style={styles.container}>

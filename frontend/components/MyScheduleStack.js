@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ScheduleListView from '../screens/ScheduleListView';
 import EditClassView from '../screens/EditClassView';
@@ -8,45 +8,37 @@ const Stack = createNativeStackNavigator();
 
 //Basically serves like a 'routes' page. Allows for stack nav on the edit pages
 const MyScheduleStack = ({navigation}) => {
-    return (
-        <Stack.Navigator>
-            <Stack.Screen 
-                name="ScheduleListView" 
-                component={ScheduleListView}
-                options={{
-                    title: 'Edit My Schedule',
-                    headerShown: false
-                }}
-            />
-            <Stack.Screen 
-                name="EditClassView" 
-                component={EditClassView}
-                options={{
-                    title: 'Edit My Class',
-                    headerStyle: {
-                      backgroundColor: 'darkslateblue'},
-                    headerTitleAlign: 'center',
-                    headerTitleStyle: {
-                      color: 'white',
-                    }
-                }}
-            />
-            <Stack.Screen 
-                name="AddScheduleView" 
-                component={AddScheduleView}
-                options={{
-                    title: 'Add Course To Schedule',
-                    headerStyle: {
-                      backgroundColor: 'darkslateblue'},
-                    headerTitleAlign: 'center',
-                    headerTitleStyle: {
-                      color: 'white',
-                    }
-                }}
-            />
-       </Stack.Navigator>
-    )
-
+  useEffect(() => {
+    console.log(navigation.getState())
+  }, [])
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="ScheduleListView" 
+        component={ScheduleListView}
+        options={{
+            headerShown: false
+        }}
+      />
+      <Stack.Screen 
+        name="EditClassView" 
+        component={EditClassView}
+        options={{
+            headerShown: false
+        }}
+        navigationOptions={{
+          drawerLockMode: 'locked-closed'
+        }}
+      />
+      <Stack.Screen 
+        name="AddScheduleView" 
+        component={AddScheduleView}
+        options={{
+            headerShown: false
+        }}
+      />
+    </Stack.Navigator>
+  )
 }
 
 export default MyScheduleStack;

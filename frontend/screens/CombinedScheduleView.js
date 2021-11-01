@@ -6,7 +6,6 @@ import UserContext from '../context/UserContext';
 
 const CombinedScheduleView = ({navigation, route}) => {
   const context = useContext(UserContext);
-  console.log(`${context.user.username} is in CombinedScheduleView.js`);
   const [events, setEvents] = useState([
     {
       start: '2021-10-06 22:30:00',

@@ -92,21 +92,13 @@ const App = ({navigation, route}) => {
       fetchUserToken: fetchUserToken
     }}>
       <NavigationContainer>
-        <Stack.Navigator>
-          {
-            Object.keys(user).length
-            ? (
-              <Stack.Group>
-                <Stack.Screen 
-                  name="Home" 
-                  component={HomeDrawer}
-                  options={{ 
-                    headerShown: false 
-                  }}
-                />
-              </Stack.Group>
-            )
-            : (
+        {
+          Object.keys(user).length
+          ? (
+            <HomeDrawer/>
+          )
+          : (
+            <Stack.Navigator>
               <Stack.Group>
                 <Stack.Screen 
                   name="Login" 
@@ -136,9 +128,9 @@ const App = ({navigation, route}) => {
                   }}
                 />
               </Stack.Group>
-            )
-          }
-        </Stack.Navigator>
+            </Stack.Navigator>
+          )
+        }
       </NavigationContainer>
     </UserContext.Provider>
   )

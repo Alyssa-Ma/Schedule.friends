@@ -9,7 +9,6 @@ const Stack = createNativeStackNavigator();
 //Basically serves like a 'routes' page. Allows for stack nav on the edit pages
 const CombinedScheduleStack = ({navigation, route}) => {
   const context = useContext(UserContext);
-  console.log(`CombinedScheduleStack.js: ${context.user.username}`)
   //console.log(user, 'STATE HOME STACK');
   return (
       <Stack.Navigator>
@@ -18,12 +17,7 @@ const CombinedScheduleStack = ({navigation, route}) => {
               component={CombinedScheduleView}
               options={{
                   title: 'Home',
-                  headerStyle: {
-                    backgroundColor: 'darkslateblue'},
-                  headerTitleAlign: 'center',
-                  headerTitleStyle: {
-                    color: 'white',
-                  }
+                  headerShown: false
               }}
           />
           
