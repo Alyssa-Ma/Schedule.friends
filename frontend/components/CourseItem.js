@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, FlatList } from 'react-native';
-import {Card} from 'react-native-paper';
 
+const CourseItem = ({navigation, item}) => {
 
-const EditSchedule = ({navigation,item}) => {
-
+    console.log(item.course_name);
     const clickedItem = (item) => {
 
         const starttimesplit = item.time_start.split(':', 2);
@@ -15,13 +14,13 @@ const EditSchedule = ({navigation,item}) => {
         //console.log(stime[0], ":", stime[1]);
         //console.log(etime[0], ":", etime[1]);
 
-        navigation.navigate('EditClassView', {
+        navigation.push('EditClassView', {
             itemId:item.id, 
-            courseName:item.course_name,
-            courseNumber:item.course_number,
-            timeStart:item.time_start,
-            timeEnd:item.time_end,
-            dayName:item.day_name,
+            courseName: item.course_name,
+            courseNumber: item.course_number,
+            timeStart: item.time_start,
+            timeEnd: item.time_end,
+            dayName: item.day_name,
             starthr:stime[0],
             startmin:stime[1],
             endhr:etime[0],
@@ -94,4 +93,4 @@ const styles = StyleSheet.create({
 
     
 })
-export default EditSchedule;
+export default CourseItem;

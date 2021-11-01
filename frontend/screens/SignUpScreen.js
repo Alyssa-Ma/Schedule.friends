@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Alert, Text, StyleSheet, StatusBar, Image, TextInput, 
         TouchableOpacity} from 'react-native';
 import {BASE_URL} from "@env";
+import UserContext from '../context/UserContext';
 
 const SignUpScreen = ({ navigation }) => {
+    const context = useContext(UserContext);
 
     const [first_name, setFirstName] = useState("");
     const [last_name, setLastName] = useState("");
@@ -56,15 +58,13 @@ const SignUpScreen = ({ navigation }) => {
         }
         else 
         {
-            InsertData();
-            Alert.alert("USER REGISTERED");
-            navigation.navigate('Home');
+            insertData();
         }
 
     }
 
-    const InsertData = () => {
-        fetch(`${BASE_URL}/create`, {
+    const insertData = async () => {
+        await fetch(`${BASE_URL}/create`, {
             method:"POST", 
             headers: {
                 'Content-Type':'application/json'
@@ -80,9 +80,10 @@ const SignUpScreen = ({ navigation }) => {
         })
         .then(resp => resp.json())
         .then(data => {
-            console.log(data)
+            context.setUser(data);
+            Alert.alert("USER REGISTERED");
         })
-        .catch(error => console.log('Error'))
+        .catch(error => console.log(error))
     }
 
     return (
@@ -132,9 +133,6 @@ const SignUpScreen = ({ navigation }) => {
                 onPress = {() => forumCheck()}
                 >Register</Text>
             </TouchableOpacity>
-
-
-            
         </View>
     );
 };

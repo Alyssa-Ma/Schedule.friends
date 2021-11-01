@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CombinedScheduleView from '../screens/CombinedScheduleView';
 import EditClassView from '../screens/EditClassView';
+import UserContext from '../context/UserContext';
 
 const Stack = createNativeStackNavigator();
 
 //Basically serves like a 'routes' page. Allows for stack nav on the edit pages
 const CombinedScheduleStack = ({navigation, route}) => {
-  const [user, SetUser] = useState(route.params);
+  const context = useContext(UserContext);
   //console.log(user, 'STATE HOME STACK');
   return (
       <Stack.Navigator>
@@ -16,16 +17,13 @@ const CombinedScheduleStack = ({navigation, route}) => {
               component={CombinedScheduleView}
               options={{
                   title: 'Home',
-                  headerStyle: {
-                    backgroundColor: 'darkslateblue'},
-                  headerTitleAlign: 'center',
-                  headerTitleStyle: {
-                    color: 'white',
-                  }
+                  headerShown: false
               }}
-              initialParams={user}
           />
-          <Stack.Screen 
+          
+          {
+          //Can't work with our model data right now
+          /* <Stack.Screen 
               name="EditClass" 
               component={EditClassView}
               options={{
@@ -37,8 +35,7 @@ const CombinedScheduleStack = ({navigation, route}) => {
                     color: 'white',
                   }
               }}
-              initialParams={user}
-          />
+          /> */}
       </Stack.Navigator>
   )
 

@@ -1,67 +1,20 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity, Alert} from 'react-native';
-import EditSchedule from '../components/EditSchedule';
-import {BASE_URL} from '@env'
-
+import React, {useState, useContext, useEffect} from 'react';
+import {View, Text, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity} from 'react-native';
+import UserContext from '../context/UserContext';
 
 const LoginScreen = ({ navigation, route }) => {
+    const context = useContext(UserContext);
     const [userName, setUserName] = useState("blank");
     const [userPassword, setUserPassword] = useState("blank");
 
-    const logInCall = async () => {
-
-        try{
-            let response = await fetch(`${BASE_URL}/login/`, {
-            method: 'POST', // or 'PUT'
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "username": userName,
-                "password": userPassword
-            }),
-            });
-
-            if(response.status >= 400){
-                Alert.alert(
-                    "Invalid Log In",
-                    "The username and/or password is incorrect",
-                  );
-                return; 
-            }
-
-            const auth = await response.json();
-            
-            response = await fetch(`${BASE_URL}/?query=${userName}`, {
-                method: 'GET', // or 'PUT'
-                headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${auth.token}`
-                },
-            });
-
-            response = await response.json();
-            
-            const data = {
-                token: auth.token,
-                user: response[0]
-            }
-            
-            navigation.navigate('Home', data);
-        
-        } catch(error){
-            console.error(error);
-        }   
-    }
-
     return (
-
+        
         <View style={styles.container}>
 
             <StatusBar
                 backgroundColor="black"
                 barStyle="light-content"
-            />
+                />
 
             <Image source={{uri: 'https://reactjs.org/logo-og.png'}}
               style={{width: 300, height: 300}} />
@@ -82,10 +35,9 @@ const LoginScreen = ({ navigation, route }) => {
                 onChangeText = {(val) => setUserPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
-            <TouchableOpacity onPress={logInCall} style={styles.button}>
+            <TouchableOpacity onPress={async () => await context.fetchUserToken(userName, userPassword)} style={styles.button}>
                 <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-  
+            </TouchableOpacity>  
 
             <View style={styles.newSignUpText}>
                 <Text style ={styles.newSignUpText}> New to Schedule.Friends?</Text> 
@@ -94,13 +46,7 @@ const LoginScreen = ({ navigation, route }) => {
                 </TouchableOpacity>
             </View>
 
-
-            {/*
-            Don't think we need this anymore
-            <View>
-                <Text>email: {userName}</Text>
-                <Text>password: {userPassword}</Text>
-            </View> */}
+            {/* <Text>{context.user ? `${context.user.username}` : null}</Text> */}
 
         </View>
     
@@ -136,7 +82,7 @@ const styles = StyleSheet.create({
         width:300, 
         marginVertical: 10,
         paddingVertical: 12,
-
+        
     },
     buttonText: {
         fontSize: 16, 
@@ -145,18 +91,65 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     newSignUpText:{
-       
+        
         alignItems: 'center',
         justifyContent: 'center',
         color:'white',
         flexDirection: 'row',
         paddingHorizontal: 8
-
+        
     },
     signUpText:{
         color: '#5176A8',
         fontSize: 16,
-
+        
     },
-
+    
 })
+
+
+    // const logInCall = async () => {
+
+    //     try{
+    //         let response = await fetch(`${BASE_URL}/login/`, {
+    //         method: 'POST', // or 'PUT'
+    //         headers: {
+    //         'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //             "username": userName,
+    //             "password": userPassword
+    //         }),
+    //         });
+
+    //         if(response.status >= 400){
+    //             Alert.alert(
+    //                 "Invalid Log In",
+    //                 "The username and/or password is incorrect",
+    //               );
+    //             return; 
+    //         }
+
+    //         const auth = await response.json();
+            
+    //         response = await fetch(`${BASE_URL}/?query=${userName}`, {
+    //             method: 'GET', // or 'PUT'
+    //             headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Token ${auth.token}`
+    //             },
+    //         });
+
+    //         response = await response.json();
+            
+    //         const data = {
+    //             token: auth.token,
+    //             user: response[0]
+    //         }
+            
+    //         navigation.navigate('Home', data);
+        
+    //     } catch(error){
+    //         console.error(error);
+    //     }   
+    // }

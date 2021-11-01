@@ -1,17 +1,19 @@
 import 'react-native-gesture-handler';
+import {useState, createContext} from 'react';
 import * as React from 'react';
-import {useState} from 'react';
-import { Button, View, Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import {BASE_URL} from "@env";
+import UserContext from './context/UserContext';
 
 //**********Import the screens here********
 
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import HomeDrawer from './components/HomeDrawer';
+import AddScheduleView from './screens/AddScheduleView';
 
 //stack navigator
 //const Stack = createNativeStackNavigator();
@@ -44,54 +46,136 @@ function App() {
 
 const Stack = createNativeStackNavigator();
 
-const App = ({navigation, route}) =>{
-  return (
-    
-      <NavigationContainer>
-        <Stack.Navigator>
-            <Stack.Screen 
-              name="Login" 
-              component={LoginScreen}
-              options={{
-                headerShown: false,
-                title: 'Log In',
-                headerStyle: {
-                  backgroundColor: 'darkslateblue'},
-                headerTitleAlign: 'center',
-                headerTitleStyle: {
-                  color: 'white',
-                }
-              }}
-              
-              
-            />
-            <Stack.Screen 
-              name="SignUp" 
-              component={SignUpScreen} 
-              options={{
-                title: 'Sign Up!',
-                headerStyle: {
-                  backgroundColor: 'darkslateblue'},
-                headerTitleAlign: 'center',
-                headerTitleStyle: {
-                  color: 'white',
-                }
-              }}
-              
-            />
-            <Stack.Screen 
-              name="Home" 
-              component={HomeDrawer}
-              options={{ 
-                headerShown: false 
-              }}
-  
-            />
-          </Stack.Navigator>
-      </NavigationContainer>
-  
-  );
 
+const App = ({navigation, route}) => {
+
+  const [user, setUser] = useState({});
+
+  const fetchUserToken = async (usernameInput, passwordInput) => {
+    console.log(`Begin of fetchToken(): user:${usernameInput} pass: ${passwordInput}`)
+    try {
+      let response = await fetch(`${BASE_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "username": `${usernameInput}`,
+          "password": `${passwordInput}`
+        })
+      });
+      
+      const jsonResponse = await response.json();
+      if (response.status === 200) {
+        setUser(jsonResponse);
+        return true;
+      }
+      else {
+        console.log("Error from server in App.js: ", JSON.stringify(jsonResponse));
+      }
+    }
+    catch(error) {
+      console.log("Error from server in App.js: ", error);
+    }
+    return false;
+  }
+  
+  //for developmental purpose, autologins to henryB
+  // React.useEffect(() => {
+  //   fetchUserToken("henryB", "Test01");
+  // }, [])
+
+  return (
+    <UserContext.Provider value={{
+      user: user,
+      setUser: setUser,
+      fetchUserToken: fetchUserToken
+    }}>
+      <NavigationContainer>
+        {
+          Object.keys(user).length
+          ? (
+            <HomeDrawer/>
+          )
+          : (
+            <Stack.Navigator>
+              <Stack.Group>
+                <Stack.Screen 
+                  name="Login" 
+                  component={LoginScreen}
+                  options={{
+                    headerShown: false,
+                    title: 'Log In',
+                    headerStyle: {
+                      backgroundColor: 'darkslateblue'},
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                      color: 'white',
+                    }
+                  }}
+                />
+                <Stack.Screen 
+                  name="SignUp" 
+                  component={SignUpScreen} 
+                  options={{
+                    title: 'Sign Up!',
+                    headerStyle: {
+                      backgroundColor: 'darkslateblue'},
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                      color: 'white',
+                    }
+                  }}
+                />
+              </Stack.Group>
+            </Stack.Navigator>
+          )
+        }
+      </NavigationContainer>
+    </UserContext.Provider>
+  )
 }
 
 export default App;
+
+//original state rendering
+{/* <NavigationContainer>
+  <Stack.Navigator>
+      <Stack.Screen 
+        name="Login" 
+        component={LoginScreen}
+        options={{
+          headerShown: false,
+          title: 'Log In',
+          headerStyle: {
+            backgroundColor: 'darkslateblue'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white',
+            }
+          }}
+          />
+      <Stack.Screen 
+        name="SignUp" 
+        component={SignUpScreen} 
+        options={{
+          title: 'Sign Up!',
+          headerStyle: {
+            backgroundColor: 'darkslateblue'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white',
+            }
+          }}
+          
+          />
+      <Stack.Screen 
+        name="Home" 
+        component={HomeDrawer}
+        options={{ 
+          headerShown: false 
+        }}
+        
+        />
+    </Stack.Navigator>
+</NavigationContainer> */}

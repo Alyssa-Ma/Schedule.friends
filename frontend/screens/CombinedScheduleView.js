@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import { View, Text, StyleSheet, FlatList, SafeAreaView, Button, Dimensions, TouchableOpacity } from 'react-native';
 import EventCalendar from 'react-native-events-calendar';
 let { width } = Dimensions.get('window');
+import UserContext from '../context/UserContext';
 
 const CombinedScheduleView = ({navigation, route}) => {
-
-  console.log(route.params, 'COMBINED SCHEDULE');
+  const context = useContext(UserContext);
   const [events, setEvents] = useState([
     {
       start: '2021-10-06 22:30:00',
@@ -55,11 +55,12 @@ const CombinedScheduleView = ({navigation, route}) => {
     }
   ]);
 
-  //nav on tap
+  // nav on tap
   const _eventTapped = (event) => {
-
-    console.log('system 32 deleted', 'H4CK3D');
-    navigation.navigate('EditClass');
+    
+    // Can't work with our data yet
+    // console.log('system 32 deleted', 'H4CK3D');
+    // navigation.navigate('EditClass');
   }
 
   return (
