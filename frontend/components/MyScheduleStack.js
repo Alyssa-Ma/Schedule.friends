@@ -3,14 +3,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ScheduleListView from '../screens/ScheduleListView';
 import EditClassView from '../screens/EditClassView';
 import AddScheduleView from '../screens/AddScheduleView';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
+
 
 const Stack = createNativeStackNavigator();
 
 //Basically serves like a 'routes' page. Allows for stack nav on the edit pages
-const MyScheduleStack = ({navigation}) => {
-  useEffect(() => {
-    console.log(navigation.getState())
-  }, [])
+const MyScheduleStack = ({navigation, route}) => {
   return (
     <Stack.Navigator>
       <Stack.Screen 
@@ -25,9 +24,6 @@ const MyScheduleStack = ({navigation}) => {
         component={EditClassView}
         options={{
             headerShown: false
-        }}
-        navigationOptions={{
-          drawerLockMode: 'locked-closed'
         }}
       />
       <Stack.Screen 

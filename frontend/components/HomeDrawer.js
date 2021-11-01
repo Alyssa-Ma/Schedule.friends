@@ -9,11 +9,30 @@ import MyScheduleStack from './MyScheduleStack';
 import CombinedScheduleStack from './CombinedScheduleStack';
 import UserContext from '../context/UserContext';
 import LogOut from './LogOut';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 
 const Drawer = createDrawerNavigator();
 
 const HomeDrawer = ({navigation, route}) => {
   const context = useContext(UserContext);
+  const getHeaderTitle = (route) => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+
+    switch (routeName) {
+      case 'ScheduleListView':
+        return 'My Schedule';
+      case 'EditClassView':
+        return 'Edit Course';
+      case 'AddScheduleView':
+        return 'Add Course';
+      default:
+        return 'ScheduleListView';
+    }
+  }
+  // React.useLayoutEffect(() => {
+  //   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
+  // }, [navigation, route])
+
   // const [user, SetUser] = useState(route.params);
   //console.log(user, 'STATE DRAWER');
   return (
@@ -39,15 +58,16 @@ const HomeDrawer = ({navigation, route}) => {
       <Drawer.Screen 
           name="MySchedule" 
           component={MyScheduleStack} 
-          options={{
-            title: 'My Schedule',
+          options={({route}) => ({
+            title: "My Schedule",
+            headerTitle: getHeaderTitle(route),
             headerStyle: {
               backgroundColor: 'darkslateblue'},
             headerTitleAlign: 'center',
             headerTitleStyle: {
-              color: 'white',
+              color: 'white'
             }
-        }}
+          })}
       />
       <Drawer.Screen 
           name="CommonTimeText" 
