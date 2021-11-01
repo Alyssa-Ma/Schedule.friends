@@ -29,9 +29,6 @@ const HomeDrawer = ({navigation, route}) => {
         return 'ScheduleListView';
     }
   }
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
-  // }, [navigation, route])
 
   // const [user, SetUser] = useState(route.params);
   //console.log(user, 'STATE DRAWER');
