@@ -8,6 +8,7 @@ const LoginScreen = ({ navigation, route }) => {
     const [userPassword, setUserPassword] = useState("blank");
 
     return (
+        
         <View style={styles.container}>
 
             <StatusBar
@@ -44,8 +45,11 @@ const LoginScreen = ({ navigation, route }) => {
                     <Text style={{color: 'blue'}}> Create an account! </Text>
                 </TouchableOpacity>
             </View>
-        </View>
 
+            <Text>{context.user ? `${context.user.username}` : null}</Text>
+
+        </View>
+    
     );
 }
 

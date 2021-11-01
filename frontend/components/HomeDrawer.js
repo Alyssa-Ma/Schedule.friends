@@ -9,6 +9,7 @@ import CommonTimeText from '../screens/CommonTimeText';
 import MyScheduleStack from './MyScheduleStack';
 import CombinedScheduleStack from './CombinedScheduleStack';
 import UserContext from '../context/UserContext';
+import LogOut from './LogOut';
 
 const Drawer = createDrawerNavigator();
 
@@ -96,6 +97,18 @@ const HomeDrawer = ({navigation, route}) => {
                     color: 'white',
                   }
               }}
+          />
+          <Drawer.Screen 
+              name="LogOut"
+              component={LogOut} 
+              options={{
+                title: 'Log Out',
+                headerStyle: {
+                  backgroundColor: 'darkslateblue'},
+                headerTitleAlign: 'center',
+                headerTitleStyle: {
+                  color: 'white',
+                }}}
           />
         </Drawer.Navigator>
       

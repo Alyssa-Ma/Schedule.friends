@@ -133,9 +133,6 @@ const SignUpScreen = ({ navigation }) => {
                 onPress = {() => forumCheck()}
                 >Register</Text>
             </TouchableOpacity>
-
-
-            
         </View>
     );
 };
