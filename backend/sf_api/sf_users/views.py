@@ -222,6 +222,7 @@ def fr_detail(request, pk):
             'result': f"Friend Request ID# {pk} Deleted"
         }, status=status.HTTP_200_OK)
 
+# removes a friend from someone's friend_list (unfriend path)
 @api_view(['DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
 def remove_friend(request, from_user_pk, to_user_pk):
@@ -242,7 +243,7 @@ def remove_friend(request, from_user_pk, to_user_pk):
         'result': f"Friendship from user {from_user_pk} to user {to_user_pk} deleted"
         }, status=status.HTTP_200_OK)
 
-# Specific path to get friend requests only from user in expanded form
+# path to get friend requests only from user in expanded form
 @api_view(['GET'])
 @permission_classes([base_permissions.IsAuthenticated])
 def get_fr_to_user(request, pk):
@@ -260,7 +261,7 @@ def get_fr_to_user(request, pk):
             fr_return_data.append(fr_serializer.data)
     return Response(fr_return_data, status=status.HTTP_200_OK)
 
-# Specific path to get friend requests only from user in expanded form
+# path to get friend requests only from user in expanded form
 @api_view(['GET'])
 @permission_classes([base_permissions.IsAuthenticated])
 def get_fr_from_user(request, pk):

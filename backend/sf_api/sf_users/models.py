@@ -9,7 +9,7 @@ class User(AbstractUser):
     friend_requests = models.ManyToManyField('FriendRequest', blank=True, default=None)
 
     def __str__(self):
-        return self.username
+        return f"{self.username} (ID#: {self.id})"
 
 DAYS_OF_WEEK = [
     ('SUN', 'Sunday'),
@@ -35,7 +35,7 @@ class Course(models.Model):
     time_end = models.CharField(max_length=7)
 
     def __str__(self):
-        return self.course_name
+        return f"{self.course_number} - {self.course_name} for {self.owner}"
 
 class FriendRequest(models.Model):
     from_user = models.IntegerField()
@@ -46,7 +46,7 @@ class FriendRequest(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'From {self.from_user} to {self.to_user}'
+        return f'Friend Request from {self.from_user} to {self.to_user}'
 
 # Leftover Day model, leaving here for now in case we need to rollback
 # class Day(models.Model):
