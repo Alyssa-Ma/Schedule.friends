@@ -38,12 +38,23 @@ class Course(models.Model):
         return f"{self.course_number} - {self.course_name} for {self.owner}"
 
 class FriendRequest(models.Model):
+    # Thinking about making from_user and to_user Foreign Key fields as such:
+    # from_user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='friend_requests_sent')
+    # to_user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='friend_requests_received')
+    # this would require some reworking on all the routes as well as the front end stuff
+    # the payoff would easier to defined uniqueness and automatically handle
+    # user deletions, but msot of that seems handled?
     from_user = models.IntegerField()
     to_user = models.IntegerField()
     pending = models.BooleanField(default=True)
     accepted = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['from_user', 'to_user'], name="unique_request")
+        ]
 
     def __str__(self):
         return f'Friend Request from {self.from_user} to {self.to_user}'
