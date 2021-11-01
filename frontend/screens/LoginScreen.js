@@ -1,12 +1,58 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, StatusBar, Image, TextInput, 
-        TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity, Alert} from 'react-native';
+import EditSchedule from '../components/EditSchedule';
+import {BASE_URL} from '@env'
 
-// import EditSchedule from '../components/EditSchedule';
 
-const LoginScreen = ({ navigation }) => {
-    const [userName, setUserName] = useState('blank');
-    const [userPassword, setUserPassword] = useState('blank');
+const LoginScreen = ({ navigation, route }) => {
+    const [userName, setUserName] = useState("blank");
+    const [userPassword, setUserPassword] = useState("blank");
+
+    const logInCall = async () => {
+
+        try{
+            let response = await fetch(`${BASE_URL}/login/`, {
+            method: 'POST', // or 'PUT'
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": userName,
+                "password": userPassword
+            }),
+            });
+
+            if(response.status >= 400){
+                Alert.alert(
+                    "Invalid Log In",
+                    "The username and/or password is incorrect",
+                  );
+                return; 
+            }
+
+            const auth = await response.json();
+            
+            response = await fetch(`${BASE_URL}/?query=${userName}`, {
+                method: 'GET', // or 'PUT'
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${auth.token}`
+                },
+            });
+
+            response = await response.json();
+            
+            const data = {
+                token: auth.token,
+                user: response[0]
+            }
+            
+            navigation.navigate('Home', data);
+        
+        } catch(error){
+            console.error(error);
+        }   
+    }
 
     return (
 
@@ -36,7 +82,7 @@ const LoginScreen = ({ navigation }) => {
                 onChangeText = {(val) => setUserPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.button}>
+            <TouchableOpacity onPress={logInCall} style={styles.button}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
   

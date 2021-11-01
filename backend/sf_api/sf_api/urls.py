@@ -41,5 +41,5 @@ urlpatterns = [
     re_path(r'^api/sf_users/([0-9]+)/remove/([0-9]+)$', views.remove_friend),
 
     # User Auth Paths
-    re_path(r'^api/sf_users/login', obtain_auth_token)
+    re_path(r'^api/sf_users/login', views.ObtainAuthTokenWithUser.as_view())
 ]

@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, FlatList, SafeAreaView, Button, Dimensions, Tou
 import EventCalendar from 'react-native-events-calendar';
 let { width } = Dimensions.get('window');
 
-const CombinedScheduleView = ({navigation}) => {
-  
+const CombinedScheduleView = ({navigation, route}) => {
+
+  console.log(route.params, 'COMBINED SCHEDULE');
   const [events, setEvents] = useState([
     {
       start: '2021-10-06 22:30:00',
@@ -59,12 +60,12 @@ const CombinedScheduleView = ({navigation}) => {
 
     console.log('system 32 deleted', 'H4CK3D');
     navigation.navigate('EditClass');
-    //<TouchableOpacity onPress={() => console.log(hi)} />
   }
 
-  
   return (
+    
     <View style={{ flex: 1, marginTop: 20 }}>
+      
       <EventCalendar
         
         eventTapped={_eventTapped}

@@ -4,11 +4,12 @@ import Header from '../components/Header';
 import AddFriend from '../components/AddFriend';
 
 //the function that will be rendered
-const FriendRequestSend = ({ navigation }) => {
+const FriendRequestSend = ({ navigation, route }) => {
 
+    console.log(route.params, 'FRIEND REQ SEND');
     return (
         <View style={styles.container}>
-            <AddFriend style={styles.addfriend}/>
+            <AddFriend style={styles.addfriend} route={route}/>
         </View>
     );
 }

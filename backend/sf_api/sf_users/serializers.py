@@ -81,11 +81,12 @@ class UserSerializer(serializers.ModelSerializer):
         #     "is_staff",
         #     "is_active",
         #     "groups",
-        #     "user_permissions":,
+        #     "user_permissions",
         #     "schedule",
         #     "friend_list",
         #     "friend_requests"
         # )
+        extra_kwargs = {'password': {'write_only': True}}
 
 
     # designed only to create a user, as when a new user is made, they did not input a schedule yet

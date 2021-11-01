@@ -4,28 +4,48 @@ import FriendRequest from '../components/FriendRequest';
 import {BASE_URL} from "@env";
 import Header from '../components/Header';
 
-const FriendRequestView = ({ navigation }) => {
+const FriendRequestView = ({ navigation, route }) => {
 
+    console.log(route.params, 'FRIEND REQ');
     //Sets the state items arr with dummy values
     const [items, setItems] = useState();
-    const [userID, setUserID] = useState(1);    //hard coded curr user
+    const [userID, setUserID] = useState(route.params.user.id);    //gets curr user id
 
     useEffect(() => {
 
         async function getInfo(){
 
             try{
-                let response = await fetch(`${BASE_URL}/${userID}`);
+                let response = await fetch(`${BASE_URL}/${userID}`, {
+                    method: 'GET', // or 'PUT'
+                    headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${route.params.token}`
+                    },
+                });
+
                 response = await response.json();
                 const friend_reqs = response.friend_requests;
                 
                 let friend_items = [];
                 for(const id of friend_reqs){
 
-                    response = await fetch(`${BASE_URL}/${id}`);
+                    response = await fetch(`${BASE_URL}/friend_requests/${id}`, {
+                        method: 'GET', // or 'PUT'
+                        headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${route.params.token}`
+                        },
+                    });
                     response = await response.json();
                     
-                    let friend_info = await fetch(`${BASE_URL}/${response.from_user}`);
+                    let friend_info = await fetch(`${BASE_URL}/${response.from_user}`, {
+                        method: 'GET', // or 'PUT'
+                        headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${route.params.token}`
+                        },
+                    });
                     friend_info = await friend_info.json();
                     
                     const friend = {
@@ -60,6 +80,7 @@ const FriendRequestView = ({ navigation }) => {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Token ${route.params.token}`
             },
             body: JSON.stringify({
               pending: false,
@@ -82,6 +103,7 @@ const FriendRequestView = ({ navigation }) => {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Token ${route.params.token}`
             },
             body: JSON.stringify({
               pending: false,

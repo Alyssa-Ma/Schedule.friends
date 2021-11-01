@@ -4,8 +4,9 @@ import TextViewCard from '../components/TextViewCard';
 import {BASE_URL} from "@env";
 import Header from '../components/Header';
 
-const CommonTimeText = ({ navigation }) => {
+const CommonTimeText = ({ navigation, route }) => {
 
+    console.log(route.params, 'COMMON params');
     //Sets the state items arr with dummy values
     const [items, setItems] = useState([]);
     const [userID, setUserID] = useState(1);    //hard coded curr user
@@ -49,6 +50,7 @@ const CommonTimeText = ({ navigation }) => {
     }
 
     const filterSchedule = (schedule, day) => {
+        
         return  schedule.filter(course => course.day_name.includes(day));
     }
 
@@ -106,7 +108,7 @@ const CommonTimeText = ({ navigation }) => {
         async function getInfo(){
 
             try{
-                let response = await fetch(`${BASE_URL}${userID}`);  //gets current user's schedule
+                let response = await fetch(`${BASE_URL}/${userID}`);  //gets current user's schedule
                 response = await response.json();
                 let my_schedule = response.schedule;
                 let my_friends = response.friend_list;
@@ -152,7 +154,6 @@ const CommonTimeText = ({ navigation }) => {
                     friends.push(friend);    
                 }
                 setItems(friends);
-                console.log(items);
             }catch(error){
                 console.error(error);
             }

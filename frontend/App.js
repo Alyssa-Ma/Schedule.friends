@@ -1,14 +1,7 @@
 import 'react-native-gesture-handler';
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import * as React from 'react';
-import { Button, View, Text } from 'react-native';
+import {useState} from 'react';
+import { Button, View, Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -51,7 +44,7 @@ function App() {
 
 const Stack = createNativeStackNavigator();
 
-function App() {
+const App = ({navigation, route}) =>{
   return (
     
       <NavigationContainer>
@@ -60,6 +53,7 @@ function App() {
               name="Login" 
               component={LoginScreen}
               options={{
+                headerShown: false,
                 title: 'Log In',
                 headerStyle: {
                   backgroundColor: 'darkslateblue'},
@@ -68,6 +62,7 @@ function App() {
                   color: 'white',
                 }
               }}
+              
               
             />
             <Stack.Screen 
@@ -82,6 +77,7 @@ function App() {
                   color: 'white',
                 }
               }}
+              
             />
             <Stack.Screen 
               name="Home" 
@@ -89,6 +85,7 @@ function App() {
               options={{ 
                 headerShown: false 
               }}
+  
             />
           </Stack.Navigator>
       </NavigationContainer>

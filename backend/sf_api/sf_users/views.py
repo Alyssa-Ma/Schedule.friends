@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
@@ -11,6 +9,9 @@ from .serializers import *
 
 from rest_framework import permissions as base_permissions
 from sf_users import permissions as custom_permissions
+
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
 # Users request methods
 # To-do
@@ -36,8 +37,11 @@ def get_users_list(request):
 def create_user(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)            
+        user = serializer.save()
+        token, created = Token.objects.get_or_create(user=user)
+        user_dict = dict(UserSerializer(user).data)
+        user_dict.update({'token': token.key})
+        return Response(user_dict, status=status.HTTP_201_CREATED)            
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Need to make PATCH and DELETE authenticated with owner and superuser
@@ -69,7 +73,10 @@ def users_detail(request, pk):
         sent_friend_requests.delete()
         recieved_friend_requests.delete()
         user.delete()
-        return Response(f"User ID# {pk} Sucessfully Deleted", status=status.HTTP_200_OK)
+        return Response({
+            'id': int(pk),
+            'result': f"User ID# {pk} Sucessfully Deleted"
+            }, status=status.HTTP_200_OK)
 
 # ======================================
 
@@ -132,7 +139,10 @@ def schedule_detail(request, user_pk, course_pk):
 
     elif request.method == 'DELETE':
         course.delete()
-        return Response(f"Course ID# {course_pk} Sucessfully Deleted", status=status.HTTP_200_OK)
+        return Response({
+            'id': int(course_pk),
+            'result': f"Course ID# {course_pk} Sucessfully Deleted"
+            }, status=status.HTTP_200_OK)
 
 # ======================================
 
@@ -199,12 +209,15 @@ def fr_detail(request, pk):
                 to_user.friend_list.add(from_user.id)
             # After a FriendRequest is accepted or denied, it is deleted
             friend_request.delete()
-            return Response(f"Friend Request ID# {pk} Deleted",status=status.HTTP_200_OK)
+            return Response({'result': f"Friend Request ID# {pk} Deleted"},status=status.HTTP_200_OK)
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         friend_request.delete()
-        return Response(f"Friend Request ID# {pk} Deleted", status=status.HTTP_200_OK)
+        return Response({
+            'id': int(pk),
+            'result': f"Friend Request ID# {pk} Deleted"
+        }, status=status.HTTP_200_OK)
 
 @api_view(['DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
@@ -220,4 +233,19 @@ def remove_friend(request, from_user_pk, to_user_pk):
     
     from_user.friend_list.remove(to_user_pk)
     to_user.friend_list.remove(from_user_pk)
-    return Response(f"Friendship from user {from_user_pk} to user {to_user_pk} deleted", status=status.HTTP_200_OK)
+    return Response({
+        'from_user_id': int(from_user_pk),
+        'to_user_id': int(to_user_pk),
+        'result': f"Friendship from user {from_user_pk} to user {to_user_pk} deleted"
+        }, status=status.HTTP_200_OK)
+
+# Override for ObtainAuthToken.Post, returns user and token in same response
+class ObtainAuthTokenWithUser(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        user_dict = dict(UserSerializer(user).data)
+        user_dict.update({'token': token.key})
+        return Response(user_dict)

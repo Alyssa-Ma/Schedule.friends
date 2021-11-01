@@ -4,7 +4,9 @@ import CourseForm from '../components/CourseForm';
 import { Snackbar } from 'react-native-paper';
 import {BASE_URL} from "@env";
 
-const AddScheduleView = ({ navigation }) => {
+const AddScheduleView = ({ navigation, route }) => {
+
+    console.log(route.params, 'ADD SCHEDULE');
 
     const [returnedJSON, setReturnedJSON] = useState({});
 
@@ -25,7 +27,7 @@ const AddScheduleView = ({ navigation }) => {
                     headers: {
                         'Content-Type': 'application/json',
                         //This needs to be brought down from props
-                        'Authorization': 'Token 364f5e52246541d210101da81885e3959eb308d1'
+                        'Authorization': `Token ${route.params.token}`
                     },
                     body: completedForm
                 });

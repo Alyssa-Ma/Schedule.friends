@@ -9,8 +9,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 
-const EditScheduleView = ({ navigation }) => {
+const EditScheduleView = ({ navigation, route }) => {
 
+    console.log(route.params, "EDIT SCHEDULE");
     //DAY RAIDO BUTTON START ------
     const [checked, setChecked] = useState();
     const [targetData, setTargetData] = useState();
@@ -19,15 +20,12 @@ const EditScheduleView = ({ navigation }) => {
 
     useEffect(() => {
         //schedule data for user 1
-        fetch(`${BASE_URL}/5/schedule/`, {
-        method:"GET",
-        headers: {
-
+        fetch(`${BASE_URL}/5/schedule/`,{
+            method: 'GET', // or 'PUT'
+            headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Token 238265686177126531075cce6d566edb398cd32d'
-
+            'Authorization': `Token ${route.params.token}`
             },
-
         })
 
         .then(resp => resp.json())
