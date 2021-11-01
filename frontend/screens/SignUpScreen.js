@@ -58,14 +58,12 @@ const SignUpScreen = ({ navigation }) => {
         }
         else 
         {
-            InsertData();
-            Alert.alert("USER REGISTERED");
-            navigation.navigate('Home');
+            insertData();
         }
 
     }
 
-    const InsertData = async () => {
+    const insertData = async () => {
         await fetch(`${BASE_URL}/create`, {
             method:"POST", 
             headers: {
@@ -83,6 +81,7 @@ const SignUpScreen = ({ navigation }) => {
         .then(resp => resp.json())
         .then(data => {
             context.setUser(data);
+            Alert.alert("USER REGISTERED");
         })
         .catch(error => console.log(error))
     }
