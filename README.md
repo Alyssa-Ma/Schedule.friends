@@ -16,7 +16,7 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 2. Clone the repository using Git or download the repository zip file. 
 ###
 	git clone https://github.com/Alyssa-Ma/Schedule.friends.git
-
+[Back to top](#navigation)
 ## First Time Frontend Setup
 
 ### Environment Setup
