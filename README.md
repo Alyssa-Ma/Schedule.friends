@@ -16,7 +16,8 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 2. Clone the repository using Git or download the repository zip file. 
 ###
 	git clone https://github.com/Alyssa-Ma/Schedule.friends.git
-[Back to top](#navigation)
+[Back to Navigation](#navigation)
+
 ## First Time Frontend Setup
 
 ### Environment Setup
@@ -33,6 +34,7 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 6. Follow all steps in the `Android development environment` section.
 7. Skip the `Creating a new application` section.
 8. Follow all steps in the `Preparing the Android device` section for either a physical or virtual device. 
+[Back to Navigation](#navigation)
 
 ### Installing Frontend Dependencies
 1. Navigate into the frontend folder inside the repository using your terminal of choice.
@@ -45,16 +47,8 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 ###
 	BASE_URL=http://10.0.2.2:8000/api/sf_users
 ***Congratulations you are now done setting up the frontend!***
+[Back to Navigation](#navigation)
 
-To run with an Android Studio virtual device: 
-
-**Frontend**  
-First, navigate to the 'frontend' folder.
-1. Open a terminal in the frontend terminal
-`npx react-native start`
-
-2. Open another terminal in the frontend terminal
-`npx react-native run-android`
 
 **Backend**  
 Setting Up Django Backend
@@ -137,4 +131,15 @@ In order to test the other paths, I suggest using a program like Postman in orde
 As of now, the paths for GET and POST is http://127.0.0.1:8000/api/sf_users/ 
 For PUT and DELETE path, http://127.0.0.1:8000/api/sf_users/([0-9]) (an int variable, used to represent the id of the object in the database)
 
-
+## Running The Application
+### Frontend
+1. Navigate into the frontend folder inside the repository using your terminal of choice.
+###
+	cd .\frontend\
+1. Enter the following command with the terminal in the frontend folder.
+###
+	npx react-native start
+2. While leaving the first terminal running, run the following command on another terminal in the frontend folder.
+###
+	npx react-native run-android
+***The frontend is now running.***
