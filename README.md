@@ -6,22 +6,45 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 ## Navigation
 * [Before Setup](#before-setup)
 * [First Time Frontend Setup](#first-time-frontend-setup)
+	* [Environment Setup](#first-time-frontend-setup)
+	* [Dependencies](#first-time-frontend-setup)
 * [First Time Backend Setup](#first-time-backend-setup)
 * [Running The Application](#running)
 
 ## Before Setup
 1. Note that we will be using the terminal on Mac/Linux and Powershell on Windows. 
-1. Clone the repository using Git or download the repository zip file. 
-
-	`git clone https://github.com/Alyssa-Ma/Schedule.friends.git` 
+2. Clone the repository using Git or download the repository zip file. 
+###
+	git clone https://github.com/Alyssa-Ma/Schedule.friends.git
 
 ## First Time Frontend Setup
 
+### Environment Setup
 1. If you do not have Node.js installed, install the LTS version. 
 
-https://nodejs.org/en/
-3. fwea
-## 
+	https://nodejs.org/en/
+	
+1. Go to the link below to set up the environment. 
+
+	https://reactnative.dev/docs/environment-setup
+3. Choose `React Native CLI Quickstart`
+4. Choose your OS and Android as the target OS.
+5. Follow all steps in the `Installing dependencies` section.
+6. Follow all steps in the `Android development environment` section.
+7. Skip the `Creating a new application` section.
+8. Follow all steps in the `Preparing the Android device` section for either a physical or virtual device. 
+
+### Installing Dependencies
+1. Navigate into the frontend folder inside the repository using your terminal of choice.
+###
+	cd .\frontend\
+2. Your terminal should have \Schedule.friends\frontend as the path now. Now we need to install the dependencies.
+###
+	npm install
+3. We also need a .env file in the frontend to connect to the backend. Create a file in the frontend file named `.env` Edit the file, paste and save the following:
+###
+	BASE_URL=http://10.0.2.2:8000/api/sf_users
+***Congratulations you are now done setting up the frontend!***
 
 To run with an Android Studio virtual device: 
 
