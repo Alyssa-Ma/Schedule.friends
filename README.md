@@ -6,8 +6,8 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 ## Navigation
 * [Before Setup](#before-setup)
 * [First Time Frontend Setup](#first-time-frontend-setup)
-	* [Environment Setup](#first-time-frontend-setup)
-	* [Dependencies](#first-time-frontend-setup)
+	* [Environment Setup](#environment-setup)
+	* [Dependencies](#installing-frontend-dependencies)
 * [First Time Backend Setup](#first-time-backend-setup)
 * [Running The Application](#running)
 
@@ -34,7 +34,7 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 7. Skip the `Creating a new application` section.
 8. Follow all steps in the `Preparing the Android device` section for either a physical or virtual device. 
 
-### Installing Dependencies
+### Installing Frontend Dependencies
 1. Navigate into the frontend folder inside the repository using your terminal of choice.
 ###
 	cd .\frontend\
