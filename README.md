@@ -1,11 +1,16 @@
-# Schedule.friends
+# Schedule.friends 
+**Description** 
+
+Schedule.friends is a mobile app that helps you know when your friends are free on an easy to view interface. Aimed towards students, we hope to clear out some of the hassle of coordinating meetups when everyone has a different schedule.
 
 ## Navigation
-* [First Time Frontend Setup](#first-time-frontendsetup)
-* [First Time Backend Setup](#first-time-backendsetup)
+* [First Time Frontend Setup](#first-time-frontend-setup)
+* [First Time Backend Setup](#first-time-backend-setup)
 * [Running The Application](#running)
 
 ## First Time Frontend Setup
+
+## 
 
 To run with an Android Studio virtual device: 
 
