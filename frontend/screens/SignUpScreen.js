@@ -34,27 +34,44 @@ const SignUpScreen = ({ navigation }) => {
         //password regex to check if inputed passwords follow correct syntax. only allows 6-20 chars which contain at least one numeric digit, 
         //one upercase letter and one lowercase letter 
         var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-       
-        if((fname=="")||!(nameRegex.test(fname)))
+
+        //separated and added some new alerts to help out user(right now doesn't tell why user created an error)
+        //first name alerts
+        if (fname=="")
         {
-            Alert.alert("please enter a valid first name.");
+            Alert.alert("Please enter a first name.");
             
         }
-        else if ((lname=="")||!(nameRegex.test(lname)))
+        //both fname and last name use nameregex
+        else if (!(nameRegex.test(fname)) || !(nameRegex.test(lname)))
         {
-            Alert.alert("please enter a valid last name.");
+            Alert.alert("Only alphabetical characters are accepted for first ane last names.");
         }
-        else if ((uname=="")||!(usernameRegex.test(uname)))
+        //last name alerts
+        else if (lname=="")
         {
-            Alert.alert("please enter a valid username.");
+            Alert.alert("Please enter a last name.");
+        }
+        else if (uname=="")
+        {
+            Alert.alert("Please enter a username.");
+        }
+        //weird error: alerts will get cut off on the second line
+        else if (!(usernameRegex.test(uname)))
+        {
+            Alert.alert("Username can only contain letters and numbers.");
         }
         else if ((em=="")||!(simpleEmailRegex.test(em)))
         {
-            Alert.alert("please enter a valid email.");
+            Alert.alert("Please enter a valid email.");
         }
-        else if ((pword=="")||!(passwordRegex.test(pword)))
+        else if ((pword==""))
         {
-            Alert.alert("please enter a valid password.");
+            Alert.alert("Please enter a password.");
+        }
+        else if (!(passwordRegex.test(pword)))
+        {
+            Alert.alert("Password is invalid.");
         }
         else 
         {
@@ -103,7 +120,7 @@ const SignUpScreen = ({ navigation }) => {
                 placeholder = 'First name' 
                 onChangeText = {(val) => setFirstName(val)}
                 placeholderTextColor = '#ADC9C6'/>
-
+            
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
                 placeholder = 'Last name' 
@@ -121,9 +138,10 @@ const SignUpScreen = ({ navigation }) => {
                 placeholder = 'Email' 
                 onChangeText = {(val) => setEmail(val)}
                 placeholderTextColor = '#ADC9C6'/> 
-
+            
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
+                onPress={<Text>Password must contain at least 6 characters, and at least one number, uppercase letter, and lowercase character.</Text>}
                 placeholder = 'Password' 
                 onChangeText = {(val) => setPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
@@ -179,4 +197,10 @@ const styles = StyleSheet.create({
         color:'white',
         textAlign: 'center'
     },
+
+    text: {
+        color: 'white',
+        
+    },
+    
 })
