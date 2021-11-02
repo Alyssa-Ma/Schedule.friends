@@ -167,7 +167,6 @@ def fr_list(request):
        
         fr_serializer = FriendRequestSerializer(data=request.data)
         if fr_serializer.is_valid():
-            print("didnt fail yet")
             fr_serializer.save()
             from_user.friend_requests.add(fr_serializer.data['id'])
             from_user.save()
