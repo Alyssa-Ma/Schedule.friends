@@ -39,6 +39,10 @@ urlpatterns = [
     # DELETE path that removes friend association between two users
     # It is set up that that first user ID (initiator) is unfriending from the second user ID
     re_path(r'^api/sf_users/([0-9]+)/remove/([0-9]+)$', views.remove_friend),
+    # GET friend requests that are only to user by ID, in expanded form
+    re_path(r'^api/sf_users/([0-9]+)/fr_to_user/$', views.get_fr_to_user),
+    # GET friend requests that are only from user by ID, in expanded form
+    re_path(r'^api/sf_users/([0-9]+)/fr_from_user/$', views.get_fr_from_user),
 
     # User Auth Paths
     re_path(r'^api/sf_users/login', views.ObtainAuthTokenWithUser.as_view())

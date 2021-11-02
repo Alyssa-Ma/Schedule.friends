@@ -1,7 +1,10 @@
+from enum import unique
 from rest_framework import serializers
 from .models import User
 from .models import Course
 from .models import FriendRequest
+from rest_framework.validators import UniqueTogetherValidator
+from rest_framework.exceptions import ValidationError
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,7 +41,6 @@ class FriendRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FriendRequest
         fields = '__all__'
-
     # All fields commented out if you wish to customize return fields
         # fields = (
         #     "id",
@@ -49,8 +51,17 @@ class FriendRequestSerializer(serializers.ModelSerializer):
         #     "date_created",
         #     "dated_modified"
         # )
-    
+        validators = [
+            UniqueTogetherValidator(
+                queryset=FriendRequest.objects.all(),
+                fields=['to_user', 'from_user']
+            )
+        ]
+
     def create(self, validated_data):
+        if FriendRequest.objects.get(from_user=validated_data['to_user'], to_user=validated_data['from_user']):
+            raise ValidationError({
+                'non_field_errors': ["The fields from_user, to_user must make a unique set."]}, code=unique)
         friend_request = FriendRequest.objects.create(**validated_data)
         return friend_request
 
@@ -87,7 +98,6 @@ class UserSerializer(serializers.ModelSerializer):
         #     "friend_requests"
         # )
         extra_kwargs = {'password': {'write_only': True}}
-
 
     # designed only to create a user, as when a new user is made, they did not input a schedule yet
     def create(self, validated_data):
