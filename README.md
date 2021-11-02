@@ -1,4 +1,5 @@
 # Schedule.friends
+[Go to First Time Setup](##First Time Setup)
 
 To run with an Android Studio virtual device: 
 
@@ -90,5 +91,5 @@ In order to test the other paths, I suggest using a program like Postman in orde
 
 As of now, the paths for GET and POST is http://127.0.0.1:8000/api/sf_users/ 
 For PUT and DELETE path, http://127.0.0.1:8000/api/sf_users/([0-9]) (an int variable, used to represent the id of the object in the database)
-
+## First Time Setup
 
