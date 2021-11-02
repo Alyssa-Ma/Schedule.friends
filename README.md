@@ -1,5 +1,5 @@
 # Schedule.friends
-[Go to First Time Setup](##First Time Setup)
+[Go to First Time Setup](##first-time-setup)
 
 To run with an Android Studio virtual device: 
 
