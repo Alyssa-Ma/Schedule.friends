@@ -66,12 +66,6 @@ def users_detail(request, pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        # Finds all FriendRequests connected to deleting user
-        # Then deletes them and the user
-        sent_friend_requests = FriendRequest.objects.filter(from_user=pk)
-        recieved_friend_requests = FriendRequest.objects.filter(to_user=pk)
-        sent_friend_requests.delete()
-        recieved_friend_requests.delete()
         user.delete()
         return Response({
             'id': int(pk),
