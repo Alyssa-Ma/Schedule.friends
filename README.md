@@ -4,12 +4,23 @@
 Schedule.friends is a mobile app that helps you know when your friends are free on an easy to view interface. Aimed towards students, we hope to clear out some of the hassle of coordinating meetups when everyone has a different schedule.
 
 ## Navigation
+* [Before Setup](#before-setup)
 * [First Time Frontend Setup](#first-time-frontend-setup)
 * [First Time Backend Setup](#first-time-backend-setup)
 * [Running The Application](#running)
 
+## Before Setup
+1. Note that we will be using the terminal on Mac/Linux and Powershell on Windows. 
+1. Clone the repository using Git or download the repository zip file. 
+
+	`git clone https://github.com/Alyssa-Ma/Schedule.friends.git` 
+
 ## First Time Frontend Setup
 
+1. If you do not have Node.js installed, install the LTS version. 
+
+https://nodejs.org/en/
+3. fwea
 ## 
 
 To run with an Android Studio virtual device: 
