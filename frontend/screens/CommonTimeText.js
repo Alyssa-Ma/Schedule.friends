@@ -129,7 +129,7 @@ const CommonTimeText = ({ navigation, route }) => {
                         },
                     });
                     response = await response.json();
-    
+                    console.log(response);
                     //We technically have our schedule from context now, but whatever
                     //we already have to make the call to get an updated friend list
                     let my_schedule = response.schedule;
