@@ -13,7 +13,8 @@ const SignUpScreen = ({ navigation }) => {
     const [password, setPassword] = useState("");
     const [schedule, setSchedule] = useState([]);
     const [errors, setErrors] = useState("");
-    const [isValid, setIsValid] = useState(false);
+    var [isValid, setIsValid] = useState(false);
+    const [message, setMessage] = useState("");
 
     const forumCheck = () => {
         const fname = first_name;
@@ -25,7 +26,6 @@ const SignUpScreen = ({ navigation }) => {
         let errors = "";
         isHidden = true;
         
-
         //firstname + lastname regex to check if inputed names follow correct syntax. only allows letters.
         var nameRegex = /^[A-Za-z]+$/;
 
@@ -47,6 +47,8 @@ const SignUpScreen = ({ navigation }) => {
             Alert.alert("Please enter a first name.");
             errors = "Please enter a first name.";
             isHidden = false;
+            setIsValid=false;
+            setMessage("error fname");
             //console.log(isHidden);
         }
         //both fname and last name use nameregex
@@ -88,15 +90,21 @@ const SignUpScreen = ({ navigation }) => {
 
     }
 
-    const hiddenTrue = () => {
-        if(this.isHidden == false){
-            return <Text>Not hidden</Text>;
+    const nameRegex = /^[A-Za-z]+$/;
+    const validateFName = (event) => { 
+        const fname = event.target.value;
+        if (nameRegex.test(fname))
+        {
+            setIsValid=true;
+            setMessage("val");
+            //console.log(isHidden);
         }
         else
         {
-            return <Text>fewa</Text>;
+            setIsValid=false;
+            setMessage("false fname");
         }
-    }
+    };
 
     const insertData = async () => {
         await fetch(`${BASE_URL}/create`, {
@@ -138,9 +146,10 @@ const SignUpScreen = ({ navigation }) => {
                 placeholder = 'First name' 
                 onChangeText = {(val) => setFirstName(val)}
                 placeholderTextColor = '#ADC9C6'/>
-
-            <View>
-                {hiddenTrue()}
+            <TextInput type="fname" placeholder="place" className="email-in" onChange={validateFName}/>
+               
+            <View className={`message ${isValid ? 'success' : 'error'}`}>
+                <Text>{message}</Text>
             </View>
             
             <TextInput style={styles.inputBox} 
@@ -227,4 +236,12 @@ const styles = StyleSheet.create({
     textDanger: {
         color: 'red',
     },
+
+    success: {
+        color: 'blue',
+    },
+
+    error: {
+        color: 'red',
+    }
 })
