@@ -1,9 +1,7 @@
 # Schedule.friends 
-**Description** 
-
-Schedule.friends is a mobile app that helps you know when your friends are free on an easy to view interface. Aimed towards students, we hope to clear out some of the hassle of coordinating meetups when everyone has a different schedule.
 
 ## Navigation
+* [Description](#description)
 * [Before Setup](#before-setup)
 * [First Time Frontend Setup](#first-time-frontend-setup)
 	* [Environment Setup](#environment-setup)
@@ -14,6 +12,10 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 * [Running The Application](#running-the-application)
 	* [Frontend](#frontend) 
 	* [Backend](#backend) 
+	
+## Description
+
+Schedule.friends is a mobile app that helps you know when your friends are free on an easy to view interface. Aimed towards students, we hope to clear out some of the hassle of coordinating meetups when everyone has a different schedule.
 
 ## Before Setup
 1. Note that we will be using the terminal on Mac/Linux and Powershell on Windows. 
