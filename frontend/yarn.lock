@@ -5915,7 +5915,7 @@
   "resolved" "https://registry.npmjs.org/react-native-calendar-events/-/react-native-calendar-events-2.2.0.tgz"
   "version" "2.2.0"
 
-"react-native-calendars@^1.1267.0":
+"react-native-calendars@^1.1268.0":
   "integrity" "sha512-aot8/D4zvLUcqOvfo4kZk5IS6gkpT+Ew37Ez035OI8EDx1GDJxkqfO44Nhai1yLnIuvuOfbSIuOD4lJNn8A7hw=="
   "resolved" "https://registry.npmjs.org/react-native-calendars/-/react-native-calendars-1.1268.0.tgz"
   "version" "1.1268.0"

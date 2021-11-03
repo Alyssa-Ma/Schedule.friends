@@ -12,7 +12,7 @@ const SignUpScreen = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [schedule, setSchedule] = useState([]);
-    const [errors, setErrors] = useState("");
+    let [errors, setErrors] = useState("");
 
     const forumCheck = () => {
         const fname = first_name;
@@ -83,11 +83,13 @@ const SignUpScreen = ({ navigation }) => {
     const updateErrors = () => {
         if(errors != "")
         {
+            console.log("errors exist");
             return(
                 <Text>error wow</Text>
             );
         }
         else{
+            console.log("no errors");
             return(
                 <Text>noerre</Text>
             ); 
