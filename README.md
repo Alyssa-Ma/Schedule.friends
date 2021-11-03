@@ -19,7 +19,8 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 1. Note that we will be using the terminal on Mac/Linux and Powershell on Windows. 
 2. Clone the repository using Git or download the repository zip file. 
 ###
-	git clone https://github.com/Alyssa-Ma/Schedule.friends.git
+	git clone https://github.com/Alyssa-Ma/Schedule.friends.git 
+	
 [Back to Navigation](#navigation)
 
 ## First Time Frontend Setup
@@ -38,6 +39,7 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 6. Follow all steps in the `Android development environment` section.
 7. Skip the `Creating a new application` section.
 8. Follow all steps in the `Preparing the Android device` section for either a physical or virtual device. 
+
 [Back to Navigation](#navigation)
 
 ### Installing Frontend Dependencies
@@ -51,55 +53,57 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 ###
 	BASE_URL=http://10.0.2.2:8000/api/sf_users
 ***Congratulations you are now done setting up the frontend!***
+
 [Back to Navigation](#navigation)
 
 ## First Time Backend Setup
+
 ### Django Setup
-Setting Up Django Backend
-If you don’t have python, version 3 or up installed, you’ll need to set that up first. Installation will vary based on your OS/terminal. For windows users, make sure you can use python in your command line terminal as a PATH variable.
+1. If you do not have Python version 3 or higher installed, install it. If you are using Windows, Make sure Python can be used in your terminal as a PATH variable. NOTE: It’s very likely you have it installed. Typically you can check by going into your terminal and typing `python --version`. Could also be `python3 --version`. Otherwise, google how to check if you do.
 
-NOTE: It’s very likely you have it installed. Typically you can check by going into your terminal and typing `python --version`. Could also be `python3 --version`. Otherwise, google how to check if you do.
+	https://www.python.org/downloads/
 
-After that, if you don’t have postgresql installed, you’ll need to do that, and it will vary based on what OS/environment you want to use. It’s less likely you have this installed already, but may be good to check, especially if you’ve done other projects in the past.
+2. After that, if you don’t have postgresql installed, you’ll need to do that, and it will vary based on what OS/environment you want to use. When you install and start your postgreSQL service, make note of the port number,  we will need this later when we set up our dotenv file.
 
-https://www.postgresql.org/download/
+	https://www.postgresql.org/download/
 
-When you install and start your postgreSQL service, make note of the port number,  we will need this later when we set up our dotenv file.
+3. After that’s done, you’ll need to create your database manually, which requires going into postgresql(psql) shell. 
+4. After you do that, you can follow step 1 of these instructions (ignore the rest). REMEMBER: All commands must end with a semicolon. You do not have to do `ALTER ROLE <yourname> SET default_transaction_isolation TO 'read committed';`
 
-After that’s done, you’ll need to create your database manually, which requires going into postgresql shell. After you do that, you can follow step 1 of these instructions (ignore the rest).
+	https://www.section.io/engineering-education/django-app-using-postgresql-database/
 
-https://www.section.io/engineering-education/django-app-using-postgresql-database/
+5. Be sure to remember the following things when you create your database for later:  
+	`Name of database`  
+	`Name of user with permissions created`  
+	`Password of the user`  
 
-REMEMBER: All commands must end with a semicolon.
+[Back to Navigation](#navigation)
 
-NOTE: I personally didn’t do this command:
-ALTER ROLE <yourname> SET default_transaction_isolation TO 'read committed';
-Because I didn’t understand what it did. ¯\\_(ツ)_/¯
+### Virtual Environment Setup
 
-Be sure to remember the following things when you create your database for later:
-Name of database
-Name of user with permissions created
-Password of the user
+1. Once the database is set up, we need to create our python environment. Navigate in your terminal to 
+###
+	/Schedule.friends/backend
 
-Once the database is set up, we need to create our python environment. After starter-backend has merged with main, pull from main. Then navigate in your terminal to `/Schedule.friends/backend`
+2. From there, create your virtual environment by using the command below. (You may need to type python3 depending on your setup).
+###
+	python -m venv venv
 
-From there, create your virtual environment by typing
-`python -m venv venv`
-(you may need to type python3 depending on your setup).
+3. Then you need to activate it by using the command below. 
+#### Mac/Linux
+	. venv/bin/activate
 	
-Then you need to activate it by inputting 
- `. venv/bin/activate`
-
-If you are using powershell/windows, the command will be
-`.\venv\Scripts\activate`
+#### Windows
+	.\venv\Scripts\activate
 	
-You’ll know it works when there’s a (venv) in the start of your terminal path. To get out of your env, just type deactivate
-While your virtual environment is still activated, you will install all the dependencies needed for the django app to run. Type:
-`pip install -r requirements.txt`
-NOTE: if you use python3 as your command instead of python, you will use pip3 instead of pip.
+You’ll know it works when there’s a (venv) in the start of your terminal path. To get out of your env, just type `deactivate`
+4. While your virtual environment is still activated, install all the dependencies needed for the django app to run by using the command below. NOTE: if you use python3 as your command instead of python, you will use pip3 instead of pip.
+###
+	pip install -r requirements.txt
 
-Congrats! You’re almost done with setting up the backend. Now we need to create an dotenv file. In the same directory (/Schedule.friends/backend), create a file named .env (exactly as it is written). Open the file in any plain text editor and put in the following variables:
-
+5. Congrats! You’re almost done with setting up the backend. Now we need to create an dotenv file. In the same directory `(/Schedule.friends/backend)`, create a file named .env (exactly as it is written). 
+6. Open the file in any plain text editor and put in the following variables:
+###
 	SECRET_KEY_DJANGO='django-insecure-wa=kucz290j!8wnr8k5$aezj2woc$xu@^qz5m=d%6nx!9k_vt2'
 	NAME_PSQL=<Name of database you created in step 4>
 	USER_PSQL=<Name of user you created in step 4>
@@ -107,19 +111,17 @@ Congrats! You’re almost done with setting up the backend. Now we need to creat
 	HOST_PSQL=localhost
 	PORT_PSQL=<Port your PostgreSQL service runs on>
 
-Save the file.
+7. Save the file.
+8. You then need to run migrations to configure your postgresql database to work with the model schema we’ve created. Navigate into `/Schedule.friends/backend/sf_api` and type the following:
+###
+	python manage.py migrate
 
-You then need to run migrations to configure your postgresql database to work with the model schema we’ve created. Navigate into `/Schedule.friends/backend/sf_api` and type the following:
+9. At this point you should be able to run the backend. Navigate into /Schedule.friends/backend/sf_api and type the following command:
+###
+	python manage.py runserver
 
-`python manage.py migrate`
-
-At this point you should be able to run the backend. Navigate into /Schedule.friends/backend/sf_api and type the following command:
-
-`python manage.py runserver`
-
-If all works, django will run without any errors. You can test to see if the database is working as intended by typing http://127.0.0.1:8000/api/sf_users/ into your web browser.
-	
-Try adding to the database by inserting into the post field:
+10. If all works, django will run without any errors. You can test to see if the database is working as intended by typing `http://127.0.0.1:8000/api/sf_users/` into your web browser.
+11. Try adding to the database by inserting into the post field:
 
 	{
 		“first_name”: “John”,
@@ -128,13 +130,9 @@ Try adding to the database by inserting into the post field:
 		“password”: “password”
   	}
   
-After hitting POST, it should let you know if it’s successful or not. You can then click on GET in the upper right corner to see the contents of your database.
+11. After hitting POST, it should let you know if it’s successful or not. You can then click on GET in the upper right corner to see the contents of your database.
+12. In order to test the other paths, I suggest using a program like Postman in order to use the other methods, such as PUT and DELETE. As of now, the paths for GET and POST is `http://127.0.0.1:8000/api/sf_users/` For PUT and DELETE path, http://127.0.0.1:8000/api/sf_users/([0-9]) (an int variable, used to represent the id of the object in the database)
 
-In order to test the other paths, I suggest using a program like Postman in order to use the other methods, such as PUT and DELETE. 
-
-As of now, the paths for GET and POST is http://127.0.0.1:8000/api/sf_users/ 
-For PUT and DELETE path, http://127.0.0.1:8000/api/sf_users/([0-9]) (an int variable, used to represent the id of the object in the database)
-### Virtual Environment Setup
 [Back to Navigation](#navigation)
 
 ## Running The Application
@@ -153,5 +151,17 @@ For PUT and DELETE path, http://127.0.0.1:8000/api/sf_users/([0-9]) (an int vari
 [Back to Navigation](#navigation)
 
 ### Backend
-
+1. Navigate into the backend folder inside the repository using your terminal of choice. 
+###
+	cd .\backend\
+2. Activate the virtual environment by using the command below. 
+#### Mac/Linux
+	. venv/bin/activate
+	
+#### Windows
+	.\venv\Scripts\activate
+3. Navigate into `/Schedule.friends/backend/sf_api` and type the following command:
+###
+	python manage.py runserver
+***The backend is now running.***	
 [Back to Navigation](#navigation)	
