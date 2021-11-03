@@ -20,8 +20,6 @@ const SignUpScreen = ({ navigation }) => {
         const uname = username; 
         const em = email; 
         const pword = password;
-        //store errors
-        let errors = "";
         
         //firstname + lastname regex to check if inputed names follow correct syntax. only allows letters.
         var nameRegex = /^[A-Za-z]+$/;
