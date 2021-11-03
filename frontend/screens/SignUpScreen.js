@@ -13,8 +13,6 @@ const SignUpScreen = ({ navigation }) => {
     const [password, setPassword] = useState("");
     const [schedule, setSchedule] = useState([]);
     const [errors, setErrors] = useState("");
-    var [isValid, setIsValid] = useState(false);
-    const [message, setMessage] = useState("");
 
     const forumCheck = () => {
         const fname = first_name;
@@ -24,7 +22,6 @@ const SignUpScreen = ({ navigation }) => {
         const pword = password;
         //store errors
         let errors = "";
-        isHidden = true;
         
         //firstname + lastname regex to check if inputed names follow correct syntax. only allows letters.
         var nameRegex = /^[A-Za-z]+$/;
@@ -46,10 +43,7 @@ const SignUpScreen = ({ navigation }) => {
             //errors{"fname"} = "Please enter your username.";
             Alert.alert("Please enter a first name.");
             errors = "Please enter a first name.";
-            isHidden = false;
-            setIsValid=false;
-            setMessage("error fname");
-            //console.log(isHidden);
+            console.log(errors);
         }
         //both fname and last name use nameregex
         else if (!(nameRegex.test(fname)) || !(nameRegex.test(lname)))
@@ -86,25 +80,22 @@ const SignUpScreen = ({ navigation }) => {
         {
             insertData();
         }
-        console.log(isHidden);
-
     }
 
-    const nameRegex = /^[A-Za-z]+$/;
-    const validateFName = (event) => { 
-        const fname = event.target.value;
-        if (nameRegex.test(fname))
+    const updateErrors = () => {
+        if(errors != "")
         {
-            setIsValid=true;
-            setMessage("val");
-            //console.log(isHidden);
+            return(
+                <Text>error wow</Text>
+            );
         }
-        else
-        {
-            setIsValid=false;
-            setMessage("false fname");
+        else{
+            return(
+                <Text>noerre</Text>
+            ); 
         }
-    };
+
+    }
 
     const insertData = async () => {
         await fetch(`${BASE_URL}/create`, {
@@ -146,11 +137,10 @@ const SignUpScreen = ({ navigation }) => {
                 placeholder = 'First name' 
                 onChangeText = {(val) => setFirstName(val)}
                 placeholderTextColor = '#ADC9C6'/>
-            <TextInput type="fname" placeholder="place" className="email-in" onChange={validateFName}/>
-               
-            <View className={`message ${isValid ? 'success' : 'error'}`}>
-                <Text>{message}</Text>
+            <View>
+                <Text>{updateErrors()}</Text>
             </View>
+
             
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
@@ -178,7 +168,7 @@ const SignUpScreen = ({ navigation }) => {
 
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}
-                onPress = {() => forumCheck()}
+                onPress = {() => { forumCheck(); updateErrors(); }}
                 >Register</Text>
             </TouchableOpacity>
         </View>
@@ -237,11 +227,4 @@ const styles = StyleSheet.create({
         color: 'red',
     },
 
-    success: {
-        color: 'blue',
-    },
-
-    error: {
-        color: 'red',
-    }
 })
