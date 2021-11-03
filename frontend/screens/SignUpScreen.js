@@ -6,14 +6,14 @@ import UserContext from '../context/UserContext';
 
 const SignUpScreen = ({ navigation }) => {
     const context = useContext(UserContext);
-
     const [first_name, setFirstName] = useState("");
     const [last_name, setLastName] = useState("");
     const [username, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [schedule, setSchedule] = useState([]);
-
+    const [errors, setErrors] = useState("");
+    let [isHidden, setHidden] = useState(false);
 
     const forumCheck = () => {
         const fname = first_name;
@@ -21,6 +21,10 @@ const SignUpScreen = ({ navigation }) => {
         const uname = username; 
         const em = email; 
         const pword = password;
+        //store errors
+        let errors = "";
+        let isHidden = true;
+        
 
         //firstname + lastname regex to check if inputed names follow correct syntax. only allows letters.
         var nameRegex = /^[A-Za-z]+$/;
@@ -39,8 +43,11 @@ const SignUpScreen = ({ navigation }) => {
         //first name alerts
         if (fname=="")
         {
+            //errors{"fname"} = "Please enter your username.";
             Alert.alert("Please enter a first name.");
-            
+            errors = "Please enter a first name.";
+            isHidden = false;
+            console.log(errors);
         }
         //both fname and last name use nameregex
         else if (!(nameRegex.test(fname)) || !(nameRegex.test(lname)))
@@ -92,7 +99,8 @@ const SignUpScreen = ({ navigation }) => {
                 username:username, 
                 email:email, 
                 password:password, 
-                schedule:schedule
+                schedule:schedule,
+                errors:errors
             })
         })
         .then(resp => resp.json())
@@ -120,6 +128,9 @@ const SignUpScreen = ({ navigation }) => {
                 placeholder = 'First name' 
                 onChangeText = {(val) => setFirstName(val)}
                 placeholderTextColor = '#ADC9C6'/>
+            <View hide={true} style={styles.textDanger}>
+                <Text>hello</Text>
+            </View>
             
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
@@ -141,7 +152,6 @@ const SignUpScreen = ({ navigation }) => {
             
             <TextInput secureTextEntry={true} style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                onPress={<Text>Password must contain at least 6 characters, and at least one number, uppercase letter, and lowercase character.</Text>}
                 placeholder = 'Password' 
                 onChangeText = {(val) => setPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
@@ -203,4 +213,7 @@ const styles = StyleSheet.create({
         
     },
     
+    textDanger: {
+        color: 'red',
+    },
 })
