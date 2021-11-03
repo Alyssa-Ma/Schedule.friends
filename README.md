@@ -148,6 +148,7 @@ You’ll know it works when there’s a (venv) in the start of your terminal pat
 ###
 	npx react-native run-android
 ***The frontend is now running.***	
+
 [Back to Navigation](#navigation)
 
 ### Backend
@@ -164,4 +165,5 @@ You’ll know it works when there’s a (venv) in the start of your terminal pat
 ###
 	python manage.py runserver
 ***The backend is now running.***	
+
 [Back to Navigation](#navigation)	
