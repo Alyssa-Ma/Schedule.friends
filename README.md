@@ -49,7 +49,7 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 2. Your terminal should have \Schedule.friends\frontend as the path now. Now we need to install the dependencies.
 ###
 	npm install
-3. We also need a .env file in the frontend to connect to the backend. Create a file in the frontend file named `.env` Edit the file, paste and save the following:
+3. We also need a .env file in the frontend to connect to the backend. Create a file in the frontend file named `.env` Edit the file, paste and save the following line. NOTE: You may need to add a new line under this. Press `ENTER` once after copying the text below.
 ###
 	BASE_URL=http://10.0.2.2:8000/api/sf_users
 ***Congratulations you are now done setting up the frontend!***
