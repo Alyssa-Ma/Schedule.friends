@@ -13,7 +13,7 @@ const SignUpScreen = ({ navigation }) => {
     const [password, setPassword] = useState("");
     const [schedule, setSchedule] = useState([]);
     const [errors, setErrors] = useState("");
-    let [isHidden, setHidden] = useState(false);
+    const [isValid, setIsValid] = useState(false);
 
     const forumCheck = () => {
         const fname = first_name;
@@ -23,7 +23,7 @@ const SignUpScreen = ({ navigation }) => {
         const pword = password;
         //store errors
         let errors = "";
-        let isHidden = true;
+        isHidden = true;
         
 
         //firstname + lastname regex to check if inputed names follow correct syntax. only allows letters.
@@ -47,7 +47,7 @@ const SignUpScreen = ({ navigation }) => {
             Alert.alert("Please enter a first name.");
             errors = "Please enter a first name.";
             isHidden = false;
-            console.log(errors);
+            //console.log(isHidden);
         }
         //both fname and last name use nameregex
         else if (!(nameRegex.test(fname)) || !(nameRegex.test(lname)))
@@ -84,7 +84,18 @@ const SignUpScreen = ({ navigation }) => {
         {
             insertData();
         }
+        console.log(isHidden);
 
+    }
+
+    const hiddenTrue = () => {
+        if(this.isHidden == false){
+            return <Text>Not hidden</Text>;
+        }
+        else
+        {
+            return <Text>fewa</Text>;
+        }
     }
 
     const insertData = async () => {
@@ -100,7 +111,6 @@ const SignUpScreen = ({ navigation }) => {
                 email:email, 
                 password:password, 
                 schedule:schedule,
-                errors:errors
             })
         })
         .then(resp => resp.json())
@@ -128,8 +138,9 @@ const SignUpScreen = ({ navigation }) => {
                 placeholder = 'First name' 
                 onChangeText = {(val) => setFirstName(val)}
                 placeholderTextColor = '#ADC9C6'/>
-            <View hide={true} style={styles.textDanger}>
-                <Text>hello</Text>
+
+            <View>
+                {hiddenTrue()}
             </View>
             
             <TextInput style={styles.inputBox} 
