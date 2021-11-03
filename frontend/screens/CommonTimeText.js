@@ -222,12 +222,11 @@ const CommonTimeText = ({ navigation, route }) => {
         }, [])
     )
 
-
     return (
         <View style={styles.container}>
             {   
                 loading
-                ?   <Text>loading</Text>
+                ?   <Text>loading....</Text>
                 : (items === undefined || items.length === 0
                     ? <Text>No one is free now ;(</Text>
                     : <FlatList data={items} style={styles.outerCard} renderItem={({item}) => <TextViewCard item={item} />} />)

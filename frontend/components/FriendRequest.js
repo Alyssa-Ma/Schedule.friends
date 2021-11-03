@@ -12,8 +12,8 @@ const FriendRequest = ({item, rejectFriend, acceptFriend}) => {
 
                 <Image source={imgSource} style={styles.profilePic}/>
                 <Text style={styles.name}>{item.f_name} {item.l_name}</Text>
-                <Icon name='close' size={30} color='#900' onPress={() => rejectFriend(item.id)}/>
-                <Icon name='check' size={30} color='#37ba0f'onPress={() => acceptFriend(item.id)}/>
+                <Icon name='close' size={30} color='#900' onPress={() => rejectFriend(item.id, item.from_user)}/>
+                <Icon name='check' size={30} color='#37ba0f'onPress={() => acceptFriend(item.id, item.from_user)}/>
             </View>
         </TouchableOpacity>
         

@@ -11,7 +11,6 @@ const ScheduleTimes = ({time, index}) => {
 
 const TextViewCard = ({item}) => {
 
-    //console.log(item);
     const imgSource = {uri: 'https://randomuser.me/api/portraits/men/1.jpg'};
 
     return (
