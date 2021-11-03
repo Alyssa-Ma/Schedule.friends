@@ -3,7 +3,6 @@ import {useState, createContext} from 'react';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {BASE_URL} from "@env";
 import UserContext from './context/UserContext';
@@ -14,6 +13,7 @@ import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import HomeDrawer from './components/HomeDrawer';
 import AddScheduleView from './screens/AddScheduleView';
+import { Alert } from 'react-native';
 
 //stack navigator
 //const Stack = createNativeStackNavigator();
@@ -72,6 +72,7 @@ const App = ({navigation, route}) => {
       }
       else {
         console.log("Error from server in App.js: ", JSON.stringify(jsonResponse));
+        Alert.alert("Invalid Log In", "The username and/or password is incorrect",);
       }
     }
     catch(error) {
