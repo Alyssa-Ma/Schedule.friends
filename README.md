@@ -9,7 +9,11 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 	* [Environment Setup](#environment-setup)
 	* [Dependencies](#installing-frontend-dependencies)
 * [First Time Backend Setup](#first-time-backend-setup)
-* [Running The Application](#running)
+	* [Django Setup](#django-setup)
+	* [Virtual Environment Setup](#virtual-environment-setup)
+* [Running The Application](#running-the-application)
+	* [Frontend](#frontend) 
+	* [Backend](#backend) 
 
 ## Before Setup
 1. Note that we will be using the terminal on Mac/Linux and Powershell on Windows. 
@@ -49,8 +53,8 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 ***Congratulations you are now done setting up the frontend!***
 [Back to Navigation](#navigation)
 
-
-**Backend**  
+## First Time Backend Setup
+### Django Setup
 Setting Up Django Backend
 If you don’t have python, version 3 or up installed, you’ll need to set that up first. Installation will vary based on your OS/terminal. For windows users, make sure you can use python in your command line terminal as a PATH variable.
 
@@ -130,8 +134,11 @@ In order to test the other paths, I suggest using a program like Postman in orde
 
 As of now, the paths for GET and POST is http://127.0.0.1:8000/api/sf_users/ 
 For PUT and DELETE path, http://127.0.0.1:8000/api/sf_users/([0-9]) (an int variable, used to represent the id of the object in the database)
+### Virtual Environment Setup
+[Back to Navigation](#navigation)
 
 ## Running The Application
+	
 ### Frontend
 1. Navigate into the frontend folder inside the repository using your terminal of choice.
 ###
@@ -142,4 +149,9 @@ For PUT and DELETE path, http://127.0.0.1:8000/api/sf_users/([0-9]) (an int vari
 2. While leaving the first terminal running, run the following command on another terminal in the frontend folder.
 ###
 	npx react-native run-android
-***The frontend is now running.***
+***The frontend is now running.***	
+[Back to Navigation](#navigation)
+
+### Backend
+
+[Back to Navigation](#navigation)	
