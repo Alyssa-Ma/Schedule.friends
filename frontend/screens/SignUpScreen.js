@@ -139,7 +139,7 @@ const SignUpScreen = ({ navigation }) => {
                 onChangeText = {(val) => setEmail(val)}
                 placeholderTextColor = '#ADC9C6'/> 
             
-            <TextInput style={styles.inputBox} 
+            <TextInput secureTextEntry={true} style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
                 onPress={<Text>Password must contain at least 6 characters, and at least one number, uppercase letter, and lowercase character.</Text>}
                 placeholder = 'Password' 
