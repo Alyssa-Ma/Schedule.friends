@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import { Button, Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
 import {BASE_URL} from "@env";
+import UserContext from '../context/UserContext';
 
 const AddFriend = ({title, route}) => {
 
+    const context = useContext(UserContext);
     const [text, setText] = useState('');
     const [visible, setVisible] = useState(false);
 
@@ -26,7 +28,7 @@ const AddFriend = ({title, route}) => {
                 method: 'GET', // or 'PUT'
                 headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${route.params.token}`
+                'Authorization': `Token ${context.user.token}`
                 },
             });
             friend_json = await resonse.json();
@@ -34,10 +36,11 @@ const AddFriend = ({title, route}) => {
         } catch(error) {
             console.log(error);
         }
+
         const friend_id = friend_json[0].id;
 
         const data = {
-            from_user: route.params.user.id,   //CURRENT USER
+            from_user: context.user.id,   //CURRENT USER
             to_user: friend_id
         }
 
@@ -47,7 +50,7 @@ const AddFriend = ({title, route}) => {
             method: 'POST', // or 'PUT'
             headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Token ${route.params.token}`
+            'Authorization': `Token ${context.user.token}`
             },
             body: JSON.stringify(data),
         }).then( response => response.json())

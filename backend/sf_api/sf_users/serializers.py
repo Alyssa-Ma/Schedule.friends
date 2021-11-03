@@ -1,7 +1,10 @@
+from enum import unique
 from rest_framework import serializers
 from .models import User
 from .models import Course
 from .models import FriendRequest
+from rest_framework.validators import UniqueTogetherValidator
+from rest_framework.exceptions import ValidationError
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,7 +41,6 @@ class FriendRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FriendRequest
         fields = '__all__'
-
     # All fields commented out if you wish to customize return fields
         # fields = (
         #     "id",
@@ -49,10 +51,21 @@ class FriendRequestSerializer(serializers.ModelSerializer):
         #     "date_created",
         #     "dated_modified"
         # )
-    
+        validators = [
+            UniqueTogetherValidator(
+                queryset=FriendRequest.objects.all(),
+                fields=['to_user', 'from_user']
+            )
+        ]
+
     def create(self, validated_data):
-        friend_request = FriendRequest.objects.create(**validated_data)
-        return friend_request
+        try:
+            if FriendRequest.objects.get(from_user=validated_data['to_user'], to_user=validated_data['from_user']):
+                raise ValidationError({
+                    'non_field_errors': ["The fields from_user, to_user must make a unique set."]}, code=unique)
+        except FriendRequest.DoesNotExist:
+            friend_request = FriendRequest.objects.create(**validated_data)
+            return friend_request
 
     def update(self, instance, validated_data):
         instance.from_user = validated_data.get('from_user', instance.from_user)
@@ -88,7 +101,6 @@ class UserSerializer(serializers.ModelSerializer):
         # )
         extra_kwargs = {'password': {'write_only': True}}
 
-
     # designed only to create a user, as when a new user is made, they did not input a schedule yet
     def create(self, validated_data):
         validated_data.pop('schedule')
@@ -106,6 +118,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.username = validated_data.get('username', instance.username)
         instance.password = validated_data.get('password', instance.password)
+        instance.email = validated_data.get('email', instance.email)
         instance.save()
         return instance
 

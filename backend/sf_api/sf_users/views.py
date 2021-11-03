@@ -66,12 +66,6 @@ def users_detail(request, pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        # Finds all FriendRequests connected to deleting user
-        # Then deletes them and the user
-        sent_friend_requests = FriendRequest.objects.filter(from_user=pk)
-        recieved_friend_requests = FriendRequest.objects.filter(to_user=pk)
-        sent_friend_requests.delete()
-        recieved_friend_requests.delete()
         user.delete()
         return Response({
             'id': int(pk),
@@ -222,6 +216,7 @@ def fr_detail(request, pk):
             'result': f"Friend Request ID# {pk} Deleted"
         }, status=status.HTTP_200_OK)
 
+# removes a friend from someone's friend_list (unfriend path)
 @api_view(['DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
 def remove_friend(request, from_user_pk, to_user_pk):
@@ -241,6 +236,42 @@ def remove_friend(request, from_user_pk, to_user_pk):
         'to_user_id': int(to_user_pk),
         'result': f"Friendship from user {from_user_pk} to user {to_user_pk} deleted"
         }, status=status.HTTP_200_OK)
+
+# path to get friend requests only from user in expanded form
+@api_view(['GET'])
+@permission_classes([base_permissions.IsAuthenticated])
+def get_fr_to_user(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    fr_return_data = []
+    
+    for friend_request_id in UserSerializer(user).data['friend_requests']:
+        friend_request = FriendRequest.objects.get(pk=friend_request_id)
+        fr_serializer = FriendRequestSerializer(friend_request)
+        if fr_serializer.data['to_user'] == int(pk):
+            fr_return_data.append(fr_serializer.data)
+    return Response(fr_return_data, status=status.HTTP_200_OK)
+
+# path to get friend requests only from user in expanded form
+@api_view(['GET'])
+@permission_classes([base_permissions.IsAuthenticated])
+def get_fr_from_user(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    fr_return_data = []
+    
+    for friend_request_id in UserSerializer(user).data['friend_requests']:
+        friend_request = FriendRequest.objects.get(pk=friend_request_id)
+        fr_serializer = FriendRequestSerializer(friend_request)
+        if fr_serializer.data['from_user'] == int(pk):
+            fr_return_data.append(fr_serializer.data)
+    return Response(fr_return_data, status=status.HTTP_200_OK)
 
 # Override for ObtainAuthToken.Post, returns user and token in same response
 class ObtainAuthTokenWithUser(ObtainAuthToken):

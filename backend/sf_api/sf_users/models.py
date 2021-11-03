@@ -3,13 +3,14 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
+from django.db.models.query_utils import Q
 
 class User(AbstractUser):
     friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, default=None)
     friend_requests = models.ManyToManyField('FriendRequest', blank=True, default=None)
 
     def __str__(self):
-        return self.username
+        return f"{self.username} (ID#: {self.id})"
 
 DAYS_OF_WEEK = [
     ('SUN', 'Sunday'),
@@ -35,18 +36,23 @@ class Course(models.Model):
     time_end = models.CharField(max_length=7)
 
     def __str__(self):
-        return self.course_name
+        return f"{self.course_number} - {self.course_name} for {self.owner}"
 
 class FriendRequest(models.Model):
-    from_user = models.IntegerField()
-    to_user = models.IntegerField()
+    from_user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='friend_requests_sent')
+    to_user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='friend_requests_received')    
     pending = models.BooleanField(default=True)
     accepted = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['from_user', 'to_user'], name="unique_request")
+        ]
+
     def __str__(self):
-        return f'From {self.from_user} to {self.to_user}'
+        return f'Friend Request from {self.from_user} to {self.to_user}'
 
 # Leftover Day model, leaving here for now in case we need to rollback
 # class Day(models.Model):
