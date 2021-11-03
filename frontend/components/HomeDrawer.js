@@ -26,12 +26,10 @@ const HomeDrawer = ({navigation, route}) => {
       case 'AddScheduleView':
         return 'Add Course';
       default:
-        return 'ScheduleListView';
+        return 'My Schedule';
     }
   }
 
-  // const [user, SetUser] = useState(route.params);
-  //console.log(user, 'STATE DRAWER');
   return (
     <Drawer.Navigator
       screenOptions={{
