@@ -59,11 +59,13 @@ class FriendRequestSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        if FriendRequest.objects.get(from_user=validated_data['to_user'], to_user=validated_data['from_user']):
-            raise ValidationError({
-                'non_field_errors': ["The fields from_user, to_user must make a unique set."]}, code=unique)
-        friend_request = FriendRequest.objects.create(**validated_data)
-        return friend_request
+        try:
+            if FriendRequest.objects.get(from_user=validated_data['to_user'], to_user=validated_data['from_user']):
+                raise ValidationError({
+                    'non_field_errors': ["The fields from_user, to_user must make a unique set."]}, code=unique)
+        except FriendRequest.DoesNotExist:
+            friend_request = FriendRequest.objects.create(**validated_data)
+            return friend_request
 
     def update(self, instance, validated_data):
         instance.from_user = validated_data.get('from_user', instance.from_user)
