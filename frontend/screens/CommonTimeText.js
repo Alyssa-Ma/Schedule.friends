@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, FlatList} from 'react-native';
 import TextViewCard from '../components/TextViewCard';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
+// Needed to check route name
+import { useFocusEffect } from '@react-navigation/native';
 
 const CommonTimeText = ({ navigation, route }) => {
 
@@ -76,6 +78,7 @@ const CommonTimeText = ({ navigation, route }) => {
         }
     }
 
+    // I still don't get what this function does
     const getCommonFreeTime = (my_schedule, friend_schedule) => {
         
        return friend_schedule;
@@ -102,88 +105,118 @@ const CommonTimeText = ({ navigation, route }) => {
         return schedule_times;
     }
 
-    useEffect(() => {
+    // Because a user's friend_list can change outside of the user's control, such as if another friend
+    // accepts their request, or someone defriends them, there can be times where the user's frontend
+    // is behind what's on the backend. So even if we had useEffect listening to context.user.friend_list,
+    // it would rerender only if the user requested a friend request. So we were back at the problem where
+    // this component needed to render whenever a user views it.
 
-        async function getInfo(){
-
-            try{
-                let response = await fetch(`${BASE_URL}/${context.user.id}`, {
-                    method: 'GET', // or 'PUT'
-                    headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${context.user.token}`
-                    },
-                });
-                response = await response.json();
-                let my_schedule = response.schedule;
-                let my_friends = response.friend_list;
-
-                let curr_day = new Date().getDay();
-                const curr_hour = new Date().getHours();
-                const curr_min = new Date().getMinutes();
-                let curr_time = `${curr_hour}:${curr_min}`;
-
-                
-                curr_time = getTimeAsMin(curr_time);    //change curr time into an int 
-                //curr_time = 0;
-                curr_day = convertToDay(curr_day);  //change int into "MON" etc..
-
-                my_schedule = filterSchedule(my_schedule, curr_day); //filter classes for today only
-                let my_time_free = getMinutesOfSchedule(my_schedule, curr_time);
-
-                my_schedule = my_time_free;
-                my_time_free = getFreeTime(my_time_free);
-
-                
-                let friends = [];
-                for(const id of my_friends){
+    // Fortunately, there's this
+    // https://reactnavigation.org/docs/use-focus-effect/
+    // A hook specifically designed to trigger whenever this screen is focused. Now the fetch call will be
+    // made everytime a user switches to this view (NOTE: clicking on the 'Who's Free Now' when the screen is
+    // already in focused will not trigger it).
+    useFocusEffect(
+        React.useCallback(() => {
+            console.log("entered screen!");
+            async function getInfo(){
+                try{
+                    let response = await fetch(`${BASE_URL}/${context.user.id}`, {
+                        method: 'GET', // or 'PUT'
+                        headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${context.user.token}`
+                        },
+                    });
+                    response = await response.json();
+                    console.log(response);
+                    //We technically have our schedule from context now, but whatever
+                    //we already have to make the call to get an updated friend list
+                    let my_schedule = response.schedule;
+                    let my_friends = response.friend_list;
                     
-                    try{
-                        response = await fetch(`${BASE_URL}/${id}`, {
-                            method: 'GET', // or 'PUT'
-                            headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Token ${context.user.token}`
-                            },
-                        });
-                        response = await response.json();
-
-                    } catch (error){
-                        console.error(error);
+                    // Since a user's friend list can change based on other user's actions
+                    // (such as accepting incoming requests or removing a friend),
+                    // we'll take this as an opportunity to update our friend_list from
+                    // the backend
+                    if (context.user.friend_list !== my_friends) {
+                        let userTemp = {...context.user};
+                        userTemp.friend_list = my_friends;
+                        context.setUser(userTemp)
                     }
-
-                    let friend_schedule = filterSchedule(response.schedule, curr_day);
-
-                    if(friend_schedule.length === 0){
-                        continue;
-                    }
-                    friend_schedule = getMinutesOfSchedule(friend_schedule, curr_time);
-                    friend_schedule = getFreeTime(friend_schedule);
-                    friend_schedule = getCommonFreeTime(my_time_free, friend_schedule);
-                    friend_schedule = convertToTime(friend_schedule);
-                    const friend = {
-                        id: response.id,
-                        schedule: friend_schedule,
-                        f_name: response.first_name,
-                        l_name: response.last_name
-                    };
-
                     
-
-                    friends.push(friend);    
-                }
-                setItems(friends);
-
-
-
-            }catch(error){
-                console.error(error);
-            }
-        }
+                    let curr_day = new Date().getDay();
+                    const curr_hour = new Date().getHours();
+                    const curr_min = new Date().getMinutes();
+                    let curr_time = `${curr_hour}:${curr_min}`;
     
-        getInfo();
+                    
+                    curr_time = getTimeAsMin(curr_time);    //change curr time into an int 
+                    //curr_time = 0;
+                    curr_day = convertToDay(curr_day);  //change int into "MON" etc..
+    
+                    my_schedule = filterSchedule(my_schedule, curr_day); //filter classes for today only
+                    let my_time_free = getMinutesOfSchedule(my_schedule, curr_time);
+    
+                    my_schedule = my_time_free;
+                    my_time_free = getFreeTime(my_time_free);
+    
+                    
+                    let friends = [];
+                    for(const id of my_friends){
+                        
+                        try{
+                            response = await fetch(`${BASE_URL}/${id}`, {
+                                method: 'GET', // or 'PUT'
+                                headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Token ${context.user.token}`
+                                },
+                            });
+                            response = await response.json();
+    
+                        } catch (error){
+                            console.error(error);
+                        }
+    
+                        let friend_schedule = filterSchedule(response.schedule, curr_day);
+    
+                        if(friend_schedule.length === 0){
+                            continue;
+                        }
+                        friend_schedule = getMinutesOfSchedule(friend_schedule, curr_time);
+                        friend_schedule = getFreeTime(friend_schedule);
+                        friend_schedule = getCommonFreeTime(my_time_free, friend_schedule);
+                        friend_schedule = convertToTime(friend_schedule);
+                        const friend = {
+                            id: response.id,
+                            schedule: friend_schedule,
+                            f_name: response.first_name,
+                            l_name: response.last_name
+                        };
+    
+                        
+    
+                        friends.push(friend);    
+                    }
+                    setItems(friends);
+    
+    
+    
+                }catch(error){
+                    console.error(error);
+                }
+            }
+            getInfo();
 
-    }, [context]);
+            // This is the cleanup function for useCallback.
+            // It can return nothing, but is needed to run properly (I think)
+            return () => {
+                console.log("leaving screen!");
+            };
+        // Import that it's [], otherwise useFocusEffect may trigger endlessly while focused.
+        }, [])
+    )
 
 
     return (
