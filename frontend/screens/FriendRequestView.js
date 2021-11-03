@@ -1,26 +1,26 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { View, Text, StyleSheet, FlatList} from 'react-native';
 import FriendRequest from '../components/FriendRequest';
 import {BASE_URL} from "@env";
 import Header from '../components/Header';
+import UserContext from '../context/UserContext';
 
 const FriendRequestView = ({ navigation, route }) => {
 
-    console.log(route.params, 'FRIEND REQ');
     //Sets the state items arr with dummy values
+    const context = useContext(UserContext);
     const [items, setItems] = useState();
-    const [userID, setUserID] = useState(route.params.user.id);    //gets curr user id
 
     useEffect(() => {
 
         async function getInfo(){
 
             try{
-                let response = await fetch(`${BASE_URL}/${userID}`, {
+                let response = await fetch(`${BASE_URL}/${context.user.id}`, {
                     method: 'GET', // or 'PUT'
                     headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${route.params.token}`
+                    'Authorization': `Token ${context.user.token}`
                     },
                 });
 
@@ -34,7 +34,7 @@ const FriendRequestView = ({ navigation, route }) => {
                         method: 'GET', // or 'PUT'
                         headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${route.params.token}`
+                        'Authorization': `Token ${context.user.token}`
                         },
                     });
                     response = await response.json();
@@ -43,7 +43,7 @@ const FriendRequestView = ({ navigation, route }) => {
                         method: 'GET', // or 'PUT'
                         headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${route.params.token}`
+                        'Authorization': `Token ${context.user.token}`
                         },
                     });
                     friend_info = await friend_info.json();
@@ -120,7 +120,12 @@ const FriendRequestView = ({ navigation, route }) => {
     }
     return (
         <View style={styles.container}>
-            <FlatList data={items} renderItem={({item}) => <FriendRequest item={item} rejectFriend={rejectFriend} acceptFriend={acceptFriend}/>} />
+            {
+                items === undefined || items.length === 0
+                ? <Text>No incoming Friend Requests</Text>
+                : <FlatList data={items} renderItem={({item}) => <FriendRequest item={item} rejectFriend={rejectFriend} acceptFriend={acceptFriend}/>} />
+            }
+            
         </View>
     )
 

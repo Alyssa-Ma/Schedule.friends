@@ -1,15 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { View, Text, StyleSheet, FlatList} from 'react-native';
 import TextViewCard from '../components/TextViewCard';
 import {BASE_URL} from "@env";
-import Header from '../components/Header';
+import UserContext from '../context/UserContext';
 
 const CommonTimeText = ({ navigation, route }) => {
 
-    console.log(route.params, 'COMMON params');
-    //Sets the state items arr with dummy values
+    //Sets the state 
+    const context = useContext(UserContext);
     const [items, setItems] = useState([]);
-    const [userID, setUserID] = useState(1);    //hard coded curr user
 
     const convertToDay = (day) => {
         if(day === 1){
@@ -58,7 +57,7 @@ const CommonTimeText = ({ navigation, route }) => {
         let free_times = [];
         for( const course of schedule){
             const end_time = getTimeAsMin(course.time_end);
-            if(end_time >= curr_time){
+            if((end_time >= curr_time) || true){
                 const start_time = getTimeAsMin(course.time_start);
                 free_times.push([start_time, end_time]);
             }
@@ -108,7 +107,13 @@ const CommonTimeText = ({ navigation, route }) => {
         async function getInfo(){
 
             try{
-                let response = await fetch(`${BASE_URL}/${userID}`);  //gets current user's schedule
+                let response = await fetch(`${BASE_URL}/${context.user.id}`, {
+                    method: 'GET', // or 'PUT'
+                    headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${context.user.token}`
+                    },
+                });
                 response = await response.json();
                 let my_schedule = response.schedule;
                 let my_friends = response.friend_list;
@@ -118,8 +123,9 @@ const CommonTimeText = ({ navigation, route }) => {
                 const curr_min = new Date().getMinutes();
                 let curr_time = `${curr_hour}:${curr_min}`;
 
-                //curr_time = 0;
+                
                 curr_time = getTimeAsMin(curr_time);    //change curr time into an int 
+                //curr_time = 0;
                 curr_day = convertToDay(curr_day);  //change int into "MON" etc..
 
                 my_schedule = filterSchedule(my_schedule, curr_day); //filter classes for today only
@@ -129,13 +135,25 @@ const CommonTimeText = ({ navigation, route }) => {
                 my_time_free = getFreeTime(my_time_free);
 
                 
-                
                 let friends = [];
                 for(const id of my_friends){
                     
-                    response = await fetch(`${BASE_URL}/${id}`);
-                    response = await response.json();
+                    try{
+                        response = await fetch(`${BASE_URL}/${id}`, {
+                            method: 'GET', // or 'PUT'
+                            headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Token ${context.user.token}`
+                            },
+                        });
+                        response = await response.json();
+
+                    } catch (error){
+                        console.error(error);
+                    }
+
                     let friend_schedule = filterSchedule(response.schedule, curr_day);
+
                     if(friend_schedule.length === 0){
                         continue;
                     }
@@ -150,10 +168,14 @@ const CommonTimeText = ({ navigation, route }) => {
                         l_name: response.last_name
                     };
 
-                
+                    
+
                     friends.push(friend);    
                 }
                 setItems(friends);
+
+
+
             }catch(error){
                 console.error(error);
             }
@@ -161,12 +183,16 @@ const CommonTimeText = ({ navigation, route }) => {
     
         getInfo();
 
-    }, []);
+    }, [context]);
 
 
     return (
         <View style={styles.container}>
-            <FlatList data={items} style={styles.outerCard} renderItem={({item}) => <TextViewCard item={item} />} />
+            {
+                items === undefined || items.length === 0
+                ? <Text>No one is free now ;(</Text>
+                : <FlatList data={items} style={styles.outerCard} renderItem={({item}) => <TextViewCard item={item} />} />
+            }
         </View>
     )
 
