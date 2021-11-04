@@ -84,7 +84,7 @@ const EditClassView = ({ navigation, item, route }) => {
                     method: "DELETE",
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Token 1b038885df7d5518023c040185cea4861ba2a406'
+                        'Authorization': `Token ${context.user.token}`
                     }
                 });
                 const jsonResponse = await deleteResponse.json();
