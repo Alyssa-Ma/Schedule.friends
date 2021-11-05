@@ -7,7 +7,7 @@ import UserContext from '../context/UserContext';
 const CombinedScheduleView = ({navigation, route}) => {
   const context = useContext(UserContext);
   const [events, setEvents] = useState([]);
-  const [initDate, setInitDate] = useState(new Date().toLocaleDateString('en-CA', {year: 'numeric', month: 'numeric', day: 'numeric'}));
+  const [focusDate, setFocusDate] = useState(new Date().toLocaleDateString('en-CA', {year: 'numeric', month: 'numeric', day: 'numeric'}));
 
   const currentWeekday = () => {
     return new Date().toLocaleDateString([], {weekday: 'short'}).substring(0, 3).toUpperCase();
@@ -47,7 +47,10 @@ const CombinedScheduleView = ({navigation, route}) => {
     // console.log('system 32 deleted', 'H4CK3D');
     // navigation.navigate('EditClass');
   }
-  console.log(initDate)
+  console.log(focusDate)
+  const test = (dateObj) => {
+    console.log(`TEST: ${dateObj}`);
+  }
   return (
     
     <View style={{ flex: 1, marginTop: 20 }}>
@@ -57,6 +60,7 @@ const CombinedScheduleView = ({navigation, route}) => {
         eventTapped={_eventTapped}
         events={events}
         width={width}
+        dateChanged={console.log}
         />
     </View>
   );
