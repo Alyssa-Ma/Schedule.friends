@@ -6,31 +6,22 @@ import UserContext from '../context/UserContext';
 
 const CombinedScheduleView = ({navigation, route}) => {
   
-  const getWeekdayString = (dateObj) => {
-    return dateObj.toLocaleDateString([], {weekday: 'short'}).substring(0, 3).toUpperCase();
-  }
+  // const getWeekdayString = (dateObj) => {
+  //   return dateObj.toLocaleDateString('en-CA', {weekday: 'short'}).substring(0, 3).toUpperCase();
+  // }
 
   const getDateString = (dateObj) => {
     return dateObj.toLocaleDateString('en-CA', {year: 'numeric', month: 'numeric', day: 'numeric'});
   }
-
+  
+  const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
   const context = useContext(UserContext);
   const [events, setEvents] = useState([]);
+  const [weekdayIndex, setWeekdayIndex] = useState(new Date().getDay());
   const [focusDate, setFocusDate] = useState(getDateString(new Date()));
-  const [focusWeekday, setFocusWeekday] = useState(getWeekdayString(new Date()));
-
 
   useEffect(() => {
-    //   {
-//     start: '2021-10-06 22:30:00',
-//     end: '2021-10-06 23:30:00',
-//     title: 'Some Event 1',
-//     summary: 'yep test',
-//     color: 'red',
-//   },
-    //filter through each course of context.user.schedule, and see if day_name contains today's day
-    //console.log(new Date().toLocaleDateString([], {weekday: 'short'}).substring(0, 3).toUpperCase());
-    let eventsBuffer = context.user.schedule.filter(course => course.day_name.includes(focusWeekday));
+    let eventsBuffer = context.user.schedule.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
     eventsBuffer = eventsBuffer.map((course) => {
         return {
           start: `${focusDate} ${course.time_start}:00`,
@@ -39,9 +30,8 @@ const CombinedScheduleView = ({navigation, route}) => {
           summary: `${context.user.username}`
         }
     });
-    console.log(`useEffect event buffer: ${eventsBuffer}`)
     setEvents(eventsBuffer);
-  }, [focusDate]);
+  }, [context.user['schedule'], focusDate]);
   
   // nav on tap
   const _eventTapped = (event) => {
@@ -49,14 +39,17 @@ const CombinedScheduleView = ({navigation, route}) => {
   }
 
   const changeFocus = (dateString) => {
+    // means we went forward
+    if (dateString > focusDate)
+      setWeekdayIndex((weekdayIndex + 1) % 7);
+    // means we went backwards
+    else if (dateString < focusDate)
+      setWeekdayIndex(Math.abs((weekdayIndex + 6) % 7));
     setFocusDate(dateString);
-    // console.log(`date with EventVal date: ${new Date(dateString)}`)
-    // console.log(`from changeFocus(): ${getWeekdayString(new Date(`${dateString} 00:00`))}`);
-    setFocusWeekday(getWeekdayString(new Date(`${dateString} 00:00`)));
   }
   return (
     
-    <View style={{ flex: 1, marginTop: 20 }}>
+    <View style={{ flex: 1}}>
       
       <EventCalendar
         
