@@ -41,10 +41,10 @@ const CombinedScheduleView = ({navigation, route}) => {
   const changeFocus = (dateString) => {
     // means we went forward
     if (dateString > focusDate)
-      setWeekdayIndex((weekdayIndex + 1) % 7);
+      setWeekdayIndex((weekdayIndex + 8) % 7);
     // means we went backwards
     else if (dateString < focusDate)
-      setWeekdayIndex(Math.abs((weekdayIndex + 6) % 7));
+      setWeekdayIndex((weekdayIndex + 6) % 7);
     setFocusDate(dateString);
   }
   return (
