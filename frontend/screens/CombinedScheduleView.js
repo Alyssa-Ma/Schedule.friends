@@ -39,7 +39,7 @@ const CombinedScheduleView = ({navigation, route}) => {
           summary: `${context.user.username}`
         }
     });
-    console.log(eventsBuffer)
+    console.log(`useEffect event buffer: ${eventsBuffer}`)
     setEvents(eventsBuffer);
   }, [focusDate]);
   
@@ -47,12 +47,12 @@ const CombinedScheduleView = ({navigation, route}) => {
   const _eventTapped = (event) => {
     console.log(event);
   }
-  console.log(focusDate)
+
   const changeFocus = (dateString) => {
-    console.log(`from changeFocus(): ${dateString}`);
     setFocusDate(dateString);
-    console.log(`from changeFocus(): ${getWeekdayString(new Date(dateString))}`);
-    setFocusWeekday(getWeekdayString(new Date(dateString)));
+    // console.log(`date with EventVal date: ${new Date(dateString)}`)
+    // console.log(`from changeFocus(): ${getWeekdayString(new Date(`${dateString} 00:00`))}`);
+    setFocusWeekday(getWeekdayString(new Date(`${dateString} 00:00`)));
   }
   return (
     
