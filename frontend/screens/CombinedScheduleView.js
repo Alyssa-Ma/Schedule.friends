@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View, Text, StyleSheet, FlatList, SafeAreaView, Button, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Dimensions} from 'react-native';
 import EventCalendar from 'react-native-events-calendar';
 let { width } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
@@ -9,9 +9,36 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [events, setEvents] = useState([]);
   const [initDate, setInitDate] = useState(new Date().toLocaleDateString('en-CA', {year: 'numeric', month: 'numeric', day: 'numeric'}));
 
-  useEffect(() => {
+  const currentWeekday = () => {
+    return new Date().toLocaleDateString([], {weekday: 'short'}).substring(0, 3).toUpperCase();
+  }
 
-  }, []);
+  const currentDate = () => {
+    return new Date().toLocaleDateString('en-CA', {year: 'numeric', month: 'numeric', day: 'numeric'});
+  }
+
+  useEffect(() => {
+    //   {
+//     start: '2021-10-06 22:30:00',
+//     end: '2021-10-06 23:30:00',
+//     title: 'Some Event 1',
+//     summary: 'yep test',
+//     color: 'red',
+//   },
+    //filter through each course of context.user.schedule, and see if day_name contains today's day
+    console.log(new Date().toLocaleDateString([], {weekday: 'short'}).substring(0, 3).toUpperCase());
+    let eventsBuffer = context.user.schedule.filter(course => course.day_name.includes(currentWeekday()));
+    eventsBuffer = eventsBuffer.map((course) => {
+        return {
+          start: `${currentDate()} ${course.time_start}:00`,
+          end: `${currentDate()} ${course.time_end}:00`,
+          title: `${course.course_number} - ${course.course_name}`,
+          summary: `${context.user.username}`
+        }
+    });
+    console.log(eventsBuffer)
+    setEvents(eventsBuffer);
+  }, [context.user.schedule]);
   
   // nav on tap
   const _eventTapped = (event) => {
@@ -30,11 +57,6 @@ const CombinedScheduleView = ({navigation, route}) => {
         eventTapped={_eventTapped}
         events={events}
         width={width}
-        initDate={initDate}
-        scrollToFirst
-        upperCaseHeader
-        uppercase
-        scrollToFirst={false}
         />
     </View>
   );
