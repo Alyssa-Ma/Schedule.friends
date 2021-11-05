@@ -64,6 +64,7 @@ const CombinedScheduleView = ({navigation, route}) => {
         events={events}
         width={width}
         dateChanged={changeFocus}
+        scrollToFirst={true}
         />
     </View>
   );
