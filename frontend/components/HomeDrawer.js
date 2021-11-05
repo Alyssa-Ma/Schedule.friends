@@ -30,7 +30,7 @@ const HomeDrawer = ({navigation, route}) => {
       case 'AddScheduleView':
         return 'Add Course';
       default:
-        return 'ScheduleListView';
+        return 'My Schedule';
     }
   }
 
