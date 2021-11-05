@@ -5,17 +5,20 @@ let { width } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
 
 const CombinedScheduleView = ({navigation, route}) => {
+  
+  const getWeekdayString = (dateObj) => {
+    return dateObj.toLocaleDateString([], {weekday: 'short'}).substring(0, 3).toUpperCase();
+  }
+
+  const getDateString = (dateObj) => {
+    return dateObj.toLocaleDateString('en-CA', {year: 'numeric', month: 'numeric', day: 'numeric'});
+  }
+
   const context = useContext(UserContext);
   const [events, setEvents] = useState([]);
-  const [focusDate, setFocusDate] = useState(new Date().toLocaleDateString('en-CA', {year: 'numeric', month: 'numeric', day: 'numeric'}));
+  const [focusDate, setFocusDate] = useState(getDateString(new Date()));
+  const [focusWeekday, setFocusWeekday] = useState(getWeekdayString(new Date()));
 
-  const currentWeekday = () => {
-    return new Date().toLocaleDateString([], {weekday: 'short'}).substring(0, 3).toUpperCase();
-  }
-
-  const currentDate = () => {
-    return new Date().toLocaleDateString('en-CA', {year: 'numeric', month: 'numeric', day: 'numeric'});
-  }
 
   useEffect(() => {
     //   {
@@ -26,30 +29,30 @@ const CombinedScheduleView = ({navigation, route}) => {
 //     color: 'red',
 //   },
     //filter through each course of context.user.schedule, and see if day_name contains today's day
-    console.log(new Date().toLocaleDateString([], {weekday: 'short'}).substring(0, 3).toUpperCase());
-    let eventsBuffer = context.user.schedule.filter(course => course.day_name.includes(currentWeekday()));
+    //console.log(new Date().toLocaleDateString([], {weekday: 'short'}).substring(0, 3).toUpperCase());
+    let eventsBuffer = context.user.schedule.filter(course => course.day_name.includes(focusWeekday));
     eventsBuffer = eventsBuffer.map((course) => {
         return {
-          start: `${currentDate()} ${course.time_start}:00`,
-          end: `${currentDate()} ${course.time_end}:00`,
+          start: `${focusDate} ${course.time_start}:00`,
+          end: `${focusDate} ${course.time_end}:00`,
           title: `${course.course_number} - ${course.course_name}`,
           summary: `${context.user.username}`
         }
     });
     console.log(eventsBuffer)
     setEvents(eventsBuffer);
-  }, [context.user.schedule]);
+  }, [focusDate]);
   
   // nav on tap
   const _eventTapped = (event) => {
-    
-    // Can't work with our data yet
-    // console.log('system 32 deleted', 'H4CK3D');
-    // navigation.navigate('EditClass');
+    console.log(event);
   }
   console.log(focusDate)
-  const test = (dateObj) => {
-    console.log(`TEST: ${dateObj}`);
+  const changeFocus = (dateString) => {
+    console.log(`from changeFocus(): ${dateString}`);
+    setFocusDate(dateString);
+    console.log(`from changeFocus(): ${getWeekdayString(new Date(dateString))}`);
+    setFocusWeekday(getWeekdayString(new Date(dateString)));
   }
   return (
     
@@ -60,7 +63,7 @@ const CombinedScheduleView = ({navigation, route}) => {
         eventTapped={_eventTapped}
         events={events}
         width={width}
-        dateChanged={console.log}
+        dateChanged={changeFocus}
         />
     </View>
   );
