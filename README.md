@@ -60,14 +60,14 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 ###
 	BASE_URL=http://10.0.2.2:8000/api/sf_users
 
-NOTE: You may need a blank newline below the `BASE_URL` for the file to be read properly.
-4. **For Macs**
-	1. Use the following command in the terminal while it is still in the frontend folder.
-	####
-		npx react-native unlink react-native-vector-icons
-	6. Use the following command in the terminal.
-	####
-		cd ios && pod install && cd ../ 
+NOTE: You may need a blank newline below the `BASE_URL` for the file to be read properly.  
+4. **For Macs** 
+   Use the following command in the terminal while it is still in the frontend folder.  
+####
+	npx react-native unlink react-native-vector-icons  
+  Use the following command in the terminal.  
+####
+	cd ios && pod install && cd ../  
 
 ***Congratulations you are now done setting up the frontend!***
 
