@@ -1,8 +1,8 @@
-import React, {useContext, useEffect} from 'react';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FriendRequestSend from '../screens/FriendRequestSend';
 import FriendRequestView from '../screens/FriendRequestView';
-
+import ViewFriends from '../screens/ViewFriends';
 const Tab = createBottomTabNavigator();
 
 const FriendTabs = ({navigation, route}) => {
