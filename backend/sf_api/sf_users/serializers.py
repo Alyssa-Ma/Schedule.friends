@@ -60,9 +60,12 @@ class FriendRequestSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         try:
-            if FriendRequest.objects.get(from_user=validated_data['to_user'], to_user=validated_data['from_user']):
+            if validated_data['to_user'] == validated_data['from_user']:
                 raise ValidationError({
-                    'non_field_errors': ["The fields from_user, to_user must make a unique set."]}, code=unique)
+                    'non_field_errors': ["The fields to_user and from_user cannot be the same value."]}, code=unique) 
+            elif FriendRequest.objects.get(from_user=validated_data['to_user'], to_user=validated_data['from_user']):
+                raise ValidationError({
+                    'non_field_errors': ["The fields from_user, to_user must make a unique set."]}, code=unique) 
         except FriendRequest.DoesNotExist:
             friend_request = FriendRequest.objects.create(**validated_data)
             return friend_request
@@ -121,25 +124,3 @@ class UserSerializer(serializers.ModelSerializer):
         instance.email = validated_data.get('email', instance.email)
         instance.save()
         return instance
-
-# Leftover serializer for Day model; leaving here for now in case we need to rollback
-# class DaySerializer(serializers.ModelSerializer):
-#     courses = CourseSerializer(many = True, allow_null = True)
-#     class Meta:
-#         model = Day
-#         fields = (
-#             "day_name",
-#             "courses"
-#         )
-    
-#     def create(self, validated_data):
-#         courses_data = validated_data.pop('courses')
-#         day = Day.objects.create(**validated_data)
-#         for courses_data in courses_data:
-#             Course.objects.create(day=day, **courses_data)
-#         return day
-
-#     def update(self, instance, validated_data):
-#         instance.day_name = validated_data.get('day_name', instance.day_name)
-#         instance.courses.set(validated.get('courses'))
-#         return instance
