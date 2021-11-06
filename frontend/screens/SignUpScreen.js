@@ -16,6 +16,7 @@ const SignUpScreen = ({ navigation }) => {
     const onChangeFText = first_name => setFirstName(first_name);
     const onChangeLText = last_name => setLastName(last_name);
     const onChangeUText = username => setUserName(username);
+    const onChangeEText = email => setEmail(email);
     
     // HELPER TEXT CHECKER FUNCS
     const fnameValid = () => {
@@ -31,6 +32,11 @@ const SignUpScreen = ({ navigation }) => {
     const unameValid = () => {
         var usernameRegex = /^[0-9a-zA-Z]+$/;
         return !(usernameRegex.test(username));
+    };
+
+    const emailValid = () => {
+        var simpleEmailRegex = /\S+@\S+\.\S+/; 
+        return !(simpleEmailRegex.test(email));
     }
 
     const forumCheck = () => {
@@ -186,12 +192,24 @@ const SignUpScreen = ({ navigation }) => {
             <HelperText type="error" visible={unameValid()} style={styles.error}>
                 Error: Only letters and numbers are allowed
             </HelperText>
+
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'Email' 
-                onChangeText = {(val) => setEmail(val)}
-                placeholderTextColor = '#ADC9C6'/> 
-            
+                label="Email"
+                placeholder = 'Enter a valid email.' 
+                onChangeText = {(val) => setEmail(val), email => onChangeEText(email)}
+                theme={{
+                    colors: {
+                        //placeholder: 'purple',
+                        text: 'white',
+                        //primary: 'white',
+                        underlineColor: 'transparent'
+                    }
+                }}/> 
+            <HelperText type="error" visible={emailValid()} style={styles.error}>
+                Error: Invalid email
+            </HelperText>    
+
             <TextInput secureTextEntry={true} style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
                 placeholder = 'Password' 
@@ -236,7 +254,7 @@ const styles = StyleSheet.create({
         fontSize: 16, 
         color: 'white',
         
-        marginVertical: 10,
+        marginVertical: 5,
     },
     
     button:{
