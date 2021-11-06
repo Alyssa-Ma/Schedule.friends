@@ -17,6 +17,7 @@ const SignUpScreen = ({ navigation }) => {
     const onChangeLText = last_name => setLastName(last_name);
     const onChangeUText = username => setUserName(username);
     const onChangeEText = email => setEmail(email);
+    const onChangePText = password => setPassword(password);
     
     // HELPER TEXT CHECKER FUNCS
     const fnameValid = () => {
@@ -39,6 +40,10 @@ const SignUpScreen = ({ navigation }) => {
         return !(simpleEmailRegex.test(email));
     }
 
+    const passwordValid = () => {
+        var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+        return !(passwordRegex.test(password));
+    }
     const forumCheck = () => {
         const fname = first_name;
         const lname = last_name;
@@ -179,7 +184,7 @@ const SignUpScreen = ({ navigation }) => {
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
                 label="Username"
-                placeholder = 'Enter your username. Letters and numbers only.' 
+                placeholder = 'Enter your username. Letters and numbers only' 
                 onChangeText = {(val) => setUserName(val), username => onChangeUText(username)}
                 theme={{
                     colors: {
@@ -196,7 +201,7 @@ const SignUpScreen = ({ navigation }) => {
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
                 label="Email"
-                placeholder = 'Enter a valid email.' 
+                placeholder = 'Enter a valid email' 
                 onChangeText = {(val) => setEmail(val), email => onChangeEText(email)}
                 theme={{
                     colors: {
@@ -212,10 +217,20 @@ const SignUpScreen = ({ navigation }) => {
 
             <TextInput secureTextEntry={true} style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'Password' 
-                onChangeText = {(val) => setPassword(val)}
-                placeholderTextColor = '#ADC9C6'/>
-
+                label="Password"
+                placeholder = 'Enter a valid password' 
+                onChangeText = {(val) => setPassword(val), password => onChangePText(password)}
+                theme={{
+                    colors: {
+                        //placeholder: 'purple',
+                        text: 'white',
+                        //primary: 'white',
+                        underlineColor: 'transparent'
+                    }
+                }}/>
+            <HelperText type="error" visible={passwordValid()} style={styles.error}>
+                Error: Invalid password. Password must be 6-20 characters with at least one number, one uppercase letter, and one lowercase letter.
+            </HelperText>   
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}
                 onPress = {() => { forumCheck()}}
