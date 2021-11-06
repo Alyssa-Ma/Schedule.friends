@@ -2,7 +2,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FriendRequestSend from '../screens/FriendRequestSend';
 import FriendRequestView from '../screens/FriendRequestView';
-import ViewFriends from '../screens/ViewFriends';
+import FriendsListStack from '../screens/FriendsListView';
 const Tab = createBottomTabNavigator();
 
 const FriendTabs = ({navigation, route}) => {
@@ -10,21 +10,21 @@ const FriendTabs = ({navigation, route}) => {
     return (
         <Tab.Navigator>
             <Tab.Screen 
-                name="ViewFriends" 
-                component={ViewFriends}
+                name="FriendListView" 
+                component={FriendsListStack}
                 options={{
                     headerShown: false
                 }}
             />
             <Tab.Screen 
-                name="Friend Requests" 
+                name="FriendRequestsView" 
                 component={FriendRequestView}
                 options={{
                     headerShown: false
                 }}
             />
             <Tab.Screen 
-                name="Send a Friend Request" 
+                name="FriendRequestSend" 
                 component={FriendRequestSend}
                 options={{
                     headerShown: false

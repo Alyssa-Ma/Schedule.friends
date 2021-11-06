@@ -6,13 +6,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {BASE_URL} from "@env";
 import UserContext from './context/UserContext';
+import { Provider as PaperProvider}  from 'react-native-paper';
 
 //**********Import the screens here********
 
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import HomeDrawer from './components/HomeDrawer';
-import AddScheduleView from './screens/AddScheduleView';
 import { Alert } from 'react-native';
 
 //stack navigator
@@ -82,9 +82,9 @@ const App = ({navigation, route}) => {
   }
   
   //for developmental purpose, autologins to HenryB
-  // React.useEffect(() => {
-  //   fetchUserToken("henryB", "Test01");
-  // }, [])
+  React.useEffect(() => {
+    fetchUserToken("david", "test");
+  }, [])
 
   return (
     <UserContext.Provider value={{
@@ -92,47 +92,49 @@ const App = ({navigation, route}) => {
       setUser: setUser,
       fetchUserToken: fetchUserToken
     }}>
-      <NavigationContainer>
-        {
-          Object.keys(user).length
-          ? (
-            <HomeDrawer/>
-          )
-          : (
-            <Stack.Navigator>
-              <Stack.Group>
-                <Stack.Screen 
-                  name="Login" 
-                  component={LoginScreen}
-                  options={{
-                    headerShown: false,
-                    title: 'Log In',
-                    headerStyle: {
-                      backgroundColor: 'darkslateblue'},
-                    headerTitleAlign: 'center',
-                    headerTitleStyle: {
-                      color: 'white',
-                    }
-                  }}
-                />
-                <Stack.Screen 
-                  name="SignUp" 
-                  component={SignUpScreen} 
-                  options={{
-                    title: 'Sign Up!',
-                    headerStyle: {
-                      backgroundColor: 'darkslateblue'},
-                    headerTitleAlign: 'center',
-                    headerTitleStyle: {
-                      color: 'white',
-                    }
-                  }}
-                />
-              </Stack.Group>
-            </Stack.Navigator>
-          )
-        }
-      </NavigationContainer>
+      <PaperProvider>
+        <NavigationContainer>
+          {
+            Object.keys(user).length
+            ? (
+              <HomeDrawer/>
+            )
+            : (
+              <Stack.Navigator>
+                <Stack.Group>
+                  <Stack.Screen 
+                    name="Login" 
+                    component={LoginScreen}
+                    options={{
+                      headerShown: false,
+                      title: 'Log In',
+                      headerStyle: {
+                        backgroundColor: 'darkslateblue'},
+                      headerTitleAlign: 'center',
+                      headerTitleStyle: {
+                        color: 'white',
+                      }
+                    }}
+                  />
+                  <Stack.Screen 
+                    name="SignUp" 
+                    component={SignUpScreen} 
+                    options={{
+                      title: 'Sign Up!',
+                      headerStyle: {
+                        backgroundColor: 'darkslateblue'},
+                      headerTitleAlign: 'center',
+                      headerTitleStyle: {
+                        color: 'white',
+                      }
+                    }}
+                  />
+                </Stack.Group>
+              </Stack.Navigator>
+            )
+          }
+        </NavigationContainer>
+      </PaperProvider>
     </UserContext.Provider>
   )
 }

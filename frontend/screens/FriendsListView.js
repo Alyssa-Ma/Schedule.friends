@@ -6,7 +6,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Provider } from 'react-native-paper';
 import Friend from '../components/Friend';
 
-const ViewFriends = () => {
+const FriendsListView = () => {
 
     const context = useContext(UserContext);
     const [items, setItems] = useState();
@@ -94,7 +94,6 @@ const ViewFriends = () => {
     }
     return (
 
-        <Provider>
             <View>
                 {
                     loading
@@ -104,8 +103,7 @@ const ViewFriends = () => {
                         : <FlatList data={items} renderItem={({item}) => <Friend item={item} deleteFriend={deleteFriend}/>} />)
                 }
             </View>
-        </Provider>
     )
 }
 
-export default ViewFriends;
+export default FriendsListView;
