@@ -17,6 +17,7 @@ const EditMyProfileView = ({ navigation, route }) => {
     const [lName, setLName] = useState(user.last_name);
     const [email, setEmail] = useState(user.email);
 
+    const [loadingButton, setLoadingButton] = useState(false);
 
     const forumCheck = () => {
 
@@ -40,7 +41,7 @@ const EditMyProfileView = ({ navigation, route }) => {
     }
     
         const confirmPressHandle = async () => {
-
+            setLoadingButton(true);
             try {
                 const response = await fetch(`${BASE_URL}/${user.id}`, {
                     method:"PATCH",
@@ -58,14 +59,18 @@ const EditMyProfileView = ({ navigation, route }) => {
                 
                 const jsonResponse = await response.json();
                 if (response.status === 200) {
+                    setLoadingButton(false);
                     context.setUser(jsonResponse);
                     navigation.pop();
                 }
-                else
+                else {
+                    setLoadingButton(false);
                     console.log(`Server Error ${response.status}`)
+                }
             } catch(error) {
                 console.log(error)
             }
+            setLoadingButton(false);
         }
     
    
@@ -144,7 +149,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.buttons}>
-                <Button icon="check"  onPress={() => forumCheck() } mode="contained">Confirm</Button>
+                <Button icon="check" loading={loadingButton} onPress={() => forumCheck() } mode="contained">Confirm</Button>
                 </View>
                 <View style={styles.buttons}>
                 <Button icon="cancel" onPress={() => cancelPressHandle()} mode="contained">Cancel</Button>

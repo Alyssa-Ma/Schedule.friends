@@ -61,8 +61,11 @@ def users_detail(request, pk):
     elif request.method == 'PATCH':
         serializer = UserSerializer(user, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            user = serializer.save()
+            token, created = Token.objects.get_or_create(user=user)
+            user_dict = dict(UserSerializer(user).data)
+            user_dict.update({'token': token.key})
+            return Response(user_dict, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
