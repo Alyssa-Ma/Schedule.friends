@@ -66,26 +66,26 @@ const AddFriend = ({title, route}) => {
     return (
 
         <Provider>
-        <View style={styles.container}>
-            <TextInput placeholder="Enter Username" style={styles.input} onChangeText={onChange}/>
-            
-            <Portal>
-                <Dialog visible={visible} onDismiss={hideDialog}>
-                    <Dialog.Title>Friend Request Sent!</Dialog.Title>
-                    <Dialog.Content>
-                        <Paragraph>Friend request sent to {text}! They will see it in their friend requests!</Paragraph>
-                    </Dialog.Content>
-                    <Dialog.Actions>
-                        <Button onPress={hideDialog}>Done</Button>
-                    </Dialog.Actions>
-                </Dialog>
-            </Portal>
-            
-            <TouchableOpacity style={styles.btn} onPress={onPressBtn}>
-                <Text style={styles.btnText}> Send Request</Text>
-            </TouchableOpacity>
+            <View style={styles.container}>
+                <TextInput placeholder="Enter Username" style={styles.input} onChangeText={onChange}/>
+                
+                <Portal>
+                    <Dialog visible={visible} onDismiss={hideDialog}>
+                        <Dialog.Title>Friend Request Sent!</Dialog.Title>
+                        <Dialog.Content>
+                            <Paragraph>Friend request sent to {text}! They will see it in their friend requests!</Paragraph>
+                        </Dialog.Content>
+                        <Dialog.Actions>
+                            <Button onPress={hideDialog}>Done</Button>
+                        </Dialog.Actions>
+                    </Dialog>
+                </Portal>
+                
+                <TouchableOpacity style={styles.btn} onPress={onPressBtn}>
+                    <Text style={styles.btnText}> Send Request</Text>
+                </TouchableOpacity>
 
-        </View>
+            </View>
 
         </Provider>
     )

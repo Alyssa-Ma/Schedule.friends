@@ -57,6 +57,7 @@ const FriendRequestView = ({ navigation, route }) => {
                 
                 }catch(error){
                     console.log(error);
+                    setLoading(true);
                 }
             }
         
