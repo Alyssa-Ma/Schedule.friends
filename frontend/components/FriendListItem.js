@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Button, Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
+import { Button, Paragraph, Dialog, Portal, Avatar, Title, Caption } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const Friend = ({ item, deleteFriend }) => {
-
-    const imgSource = { uri: 'https://randomuser.me/api/portraits/men/1.jpg' };
+const FriendListItem = ({ item, deleteFriend }) => {
 
     const [visible, setVisible] = useState(false);
     const showDialog = () => setVisible(true);
@@ -20,9 +18,14 @@ const Friend = ({ item, deleteFriend }) => {
         
         <TouchableOpacity style={styles.friendRequest}>
             <View style={styles.itemView}>
-
-                <Image source={imgSource} style={styles.profilePic} />
-                <Text style={styles.name}>{item.f_name} {item.l_name}</Text>
+                <Avatar.Text 
+                        label={`${item.first_name.charAt(0).toUpperCase()}${item.last_name.charAt(0).toUpperCase()}`}
+                        size={55}
+                        />
+                <View>
+                <Title style={styles.name}>{item.first_name} {item.last_name}</Title>
+                <Caption>{item.username}</Caption>
+                </View>
                 <Icon name='close' size={30} color='#900' onPress={showDialog} />
 
                 <Portal>
@@ -71,4 +74,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default Friend;
+export default FriendListItem;

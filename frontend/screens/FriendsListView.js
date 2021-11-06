@@ -4,7 +4,7 @@ import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
 import { Provider } from 'react-native-paper';
-import Friend from '../components/Friend';
+import FriendListItem from '../components/FriendListItem';
 
 const FriendsListView = () => {
 
@@ -99,7 +99,7 @@ const FriendsListView = () => {
                     : <FlatList 
                         data={friends}
                         keyExtractor={friend => friend.id}
-                        renderItem={({item}) => <Friend item={item} deleteFriend={deleteFriend}/>} 
+                        renderItem={({item}) => <FriendListItem item={item} deleteFriend={deleteFriend}/>} 
                     />)
             }
         </View>
