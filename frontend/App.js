@@ -20,6 +20,7 @@ const Stack = createNativeStackNavigator();
 const App = ({navigation, route}) => {
 
   const [user, setUser] = useState({});
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const fetchUserToken = async (usernameInput, passwordInput) => {
     console.log(`Begin of fetchToken(): user:${usernameInput} pass: ${passwordInput}`)
@@ -38,6 +39,7 @@ const App = ({navigation, route}) => {
       const jsonResponse = await response.json();
       if (response.status === 200) {
         setUser(jsonResponse);
+        setIsSignedIn(true);
         return true;
       }
       else {
@@ -59,19 +61,29 @@ const App = ({navigation, route}) => {
   return (
     <UserContext.Provider value={{
       user: user,
+      isSignedIn: isSignedIn,
       setUser: setUser,
+      setIsSignedIn: setIsSignedIn,
       fetchUserToken: fetchUserToken
     }}>
       <PaperProvider>
         <NavigationContainer>
           {
-            Object.keys(user).length
+            isSignedIn
             ? (
-              <HomeDrawer/>
+              <Stack.Navigator>
+                  <Stack.Screen 
+                    name="HomeDrawer" 
+                    component={HomeDrawer}
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
+              {/* <HomeDrawer/> */}
+              </Stack.Navigator>
             )
             : (
               <Stack.Navigator>
-                <Stack.Group>
                   <Stack.Screen 
                     name="Login" 
                     component={LoginScreen}
@@ -99,7 +111,6 @@ const App = ({navigation, route}) => {
                       }
                     }}
                   />
-                </Stack.Group>
               </Stack.Navigator>
             )
           }

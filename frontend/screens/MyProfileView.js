@@ -25,8 +25,6 @@ const MyProfileView = ({ navigation }) => {
 
     const LogoutPressHandler = () => {
       navigation.navigate('LogOut');
-      
-      console.log("LogOut Pressed");
     }
 
     return (

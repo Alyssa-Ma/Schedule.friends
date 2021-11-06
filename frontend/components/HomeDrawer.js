@@ -135,7 +135,7 @@ const HomeDrawer = ({navigation, route}) => {
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white',
-            }}}
+          }}}
       />
     </Drawer.Navigator>      
   );
