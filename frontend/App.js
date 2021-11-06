@@ -15,37 +15,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import HomeDrawer from './components/HomeDrawer';
 import { Alert } from 'react-native';
 
-//stack navigator
-//const Stack = createNativeStackNavigator();
-//tab navigator
-//const Tab = createBottomTabNavigator();
-
-/**
- * Stack Navigator stuff
- * <Stack.Navigator initialRouteName="CombinedView">
-            <Stack.Screen name="CombinedView" component={CombinedScheduleView}/>
-            <Stack.Screen name="Hello World" component={HelloWorld}/>
-          </Stack.Navigator>
- */
-
-/*App function that will be what is rendered to phone
-function App() {
-  //return which screen you want to see rendered********
-
-  //return <ReactNativeHome />;
-  //return <HelloWorld />;
-  //return <FriendRequestView />;
-  //return <FriendRequestSend />;
-  //return <CommonTimeText />;
-  //return <EditClassView />;
-  //return <EditScheduleView />;
-  //return <LoginScreen />;
-  //return <SignUpScreen />;
-}
-*/
-
 const Stack = createNativeStackNavigator();
-
 
 const App = ({navigation, route}) => {
 
@@ -140,45 +110,3 @@ const App = ({navigation, route}) => {
 }
 
 export default App;
-
-//original state rendering
-{/* <NavigationContainer>
-  <Stack.Navigator>
-      <Stack.Screen 
-        name="Login" 
-        component={LoginScreen}
-        options={{
-          headerShown: false,
-          title: 'Log In',
-          headerStyle: {
-            backgroundColor: 'darkslateblue'},
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              color: 'white',
-            }
-          }}
-          />
-      <Stack.Screen 
-        name="SignUp" 
-        component={SignUpScreen} 
-        options={{
-          title: 'Sign Up!',
-          headerStyle: {
-            backgroundColor: 'darkslateblue'},
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              color: 'white',
-            }
-          }}
-          
-          />
-      <Stack.Screen 
-        name="Home" 
-        component={HomeDrawer}
-        options={{ 
-          headerShown: false 
-        }}
-        
-        />
-    </Stack.Navigator>
-</NavigationContainer> */}

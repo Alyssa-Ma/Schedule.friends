@@ -9,7 +9,7 @@ import Friend from '../components/Friend';
 const FriendsListView = () => {
 
     const context = useContext(UserContext);
-    const [items, setItems] = useState();
+    const [friends, setFriends] = useState([]);
     const [loading, setLoading] = useState(true);
 
     
@@ -28,30 +28,29 @@ const FriendsListView = () => {
                         },
                     });
                     response = await response.json();
-                    response = response.friend_list;
+                    
+                    if (context.user.friend_list !== response.friend_list) {
+                        let userTemp = {...context.user};
+                        userTemp.friend_list = response.friend_list;
+                        context.setUser(userTemp)
+                    }
 
-                    let friend_list = [];
-                    for(const id of response){
+                    let friendListData = [];
+                    for(const id of response.friend_list){
 
-                        let friend_info = await fetch(`${BASE_URL}/${id}`, {
+                        let friendFetch = await fetch(`${BASE_URL}/${id}`, {
                             method: 'GET', 
                             headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Token ${context.user.token}`
                             },
                         });
-                        friend_info = await friend_info.json();
-                        
-                        const friend = {
-                            id: friend_info.id,
-                            f_name: friend_info.first_name,
-                            l_name: friend_info.last_name
-                        };
+                        const friendData = await friendFetch.json();
     
-                        friend_list.push(friend);    
+                        friendListData.push(friendData);    
                     }
 
-                    setItems(friend_list);
+                    setFriends(friendListData);
                     setLoading(false);
                 }
                 catch(error){
@@ -61,11 +60,9 @@ const FriendsListView = () => {
 
             getInfo();
 
-            
             return () => {
                 console.log("leaving screen!");
             };
-        // Import that it's [], otherwise useFocusEffect may trigger endlessly while focused.
         }, [])
     )   
 
@@ -87,22 +84,25 @@ const FriendsListView = () => {
         catch (error){
             console.error(error);
         }
-        
-        setItems(prevItems => {
+        //needs to set userContext
+        setFriends(prevItems => {
             return prevItems.filter(item => item.id != id);
         });
     }
     return (
-
-            <View>
-                {
-                    loading
-                    ?   <Text>Loading.....</Text>
-                    :   (items === undefined || items.length === 0
-                        ? <Text>No Friends</Text>
-                        : <FlatList data={items} renderItem={({item}) => <Friend item={item} deleteFriend={deleteFriend}/>} />)
-                }
-            </View>
+        <View>
+            {
+                loading
+                ?   <Text>Loading.....</Text>
+                :   (friends === undefined || friends.length === 0
+                    ? <Text>No Friends</Text>
+                    : <FlatList 
+                        data={friends}
+                        keyExtractor={friend => friend.id}
+                        renderItem={({item}) => <Friend item={item} deleteFriend={deleteFriend}/>} 
+                    />)
+            }
+        </View>
     )
 }
 
