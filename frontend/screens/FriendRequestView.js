@@ -64,66 +64,71 @@ const FriendRequestView = ({ navigation, route }) => {
 
             return () => {
                 console.log("leaving screen!");
+                setLoading(true);
             };
         // Import that it's [], otherwise useFocusEffect may trigger endlessly while focused.
         }, [])
     )
     
     //reject using PATCH and DELETE request. remove from list
-    const rejectFriend = (id) => {
+    const rejectFriend = async (id) => {
 
         console.log(`Rejected Friend`);
-        fetch(`${BASE_URL}/friend_requests/${id}`, {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Token ${context.user.token}`
-            },
-            body: JSON.stringify({
-              pending: false,
-              accepted: false
-            }),
-        })
-        .then((res) => res.json())
-        .then((result) => console.log(result))
-        .catch((err) => console.log('error: ', err))
+        try{
+            let response = await fetch(`${BASE_URL}/friend_requests/${id}`, {
+                method: 'PATCH',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Token ${context.user.token}`
+                },
+                body: JSON.stringify({
+                  pending: false,
+                  accepted: false
+                }),
+            });
+
+            response = await response.json();
+            console.log(response);
+        }
+        catch(error){
+            console.error(error);
+        }
         setItems(prevItems => {
             return prevItems.filter(item => item.id != id);
         });
     }
 
     //accept using PATCH and DELETE request. remove from list
-    const acceptFriend = (id) => {
+    const acceptFriend = async (id) => {
 
-        console.log(`Accepted Friend`);
-        fetch(`${BASE_URL}/friend_requests/${id}`, {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Token ${context.user.token}`
-            },
-            body: JSON.stringify({
-              pending: false,
-              accepted: true
-            }),
-        })
-        .then((res) => res.json())
-        .then((result) => console.log(result))
-        .catch((err) => console.log('error: ', err))
+        console.log(`Accepted Friend`, id);
+
+        
+        try{
+            let response = await fetch(`${BASE_URL}/friend_requests/${id}`, {
+                method: 'PATCH',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Token ${context.user.token}`
+                },
+                body: JSON.stringify({
+                  pending: false,
+                  accepted: true
+                }),
+            });
+            response = await response.json();
+            console.log(response);
+        }
+        catch(error){
+            console.error(error);
+        }
+        
+        
 
         setItems(prevItems => {
             return prevItems.filter(item => item.id != id);
         });
 
-        /*
-        // Since a user's friend list can change based on other user's actions
-        // (such as accepting incoming requests or removing a friend),
-        // we'll take this as an opportunity to update our friend_list from
-        // the backend
-        let userTemp = {...context.user};
-        userTemp.friend_list.push(from_user);
-        context.setUser(userTemp)
-        */
     }
     return (
         <View style={styles.container}>
