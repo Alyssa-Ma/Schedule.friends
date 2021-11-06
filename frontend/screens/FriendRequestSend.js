@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import AddFriend from '../components/AddFriend';
-
+import SearchList from '../components/SearchList';
 //the function that will be rendered
 const FriendRequestSend = ({ navigation, route }) => {
 
@@ -13,13 +13,13 @@ const FriendRequestSend = ({ navigation, route }) => {
     return (
         <View>
             <Searchbar
-                placeholder="Search"
+                placeholder="Enter a username"
                 onChangeText={onChangeSearch}
                 value={searchQuery}
             />
             {
                 searchQuery.length > 3
-                    ? <Text>list of users</Text>
+                    ? <SearchList usernames={searchQuery}/>
                     : <Text> No users match that username</Text>
             }
 
