@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
+import FriendTabs from './FriendTabs';
 import FriendRequestView from '../screens/FriendRequestView';
 import FriendRequestSend from '../screens/FriendRequestSend';
 import CommonTimeText from '../screens/CommonTimeText';
@@ -10,6 +11,10 @@ import CombinedScheduleStack from './CombinedScheduleStack';
 import UserContext from '../context/UserContext';
 import LogOut from './LogOut';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
+import MyProfileView from '../screens/MyProfileView';
+import EditMyProfileView from '../screens/EditMyProfileView';
+import MyProfileStack from './MyProfileStack';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -30,6 +35,8 @@ const HomeDrawer = ({navigation, route}) => {
     }
   }
 
+  // const [user, SetUser] = useState(route.params);
+  //console.log(user, 'STATE DRAWER');
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -77,11 +84,11 @@ const HomeDrawer = ({navigation, route}) => {
               }
           }}
       />
-      <Drawer.Screen 
-          name="FriendRequestView" 
-          component={FriendRequestView} 
+      <Drawer.Screen
+          name="Friends"
+          component={FriendTabs}
           options={{
-              title: 'Friend Requests',
+            title: 'Friends',
               headerStyle: {
                 backgroundColor: 'darkslateblue'},
               headerTitleAlign: 'center',
@@ -90,19 +97,22 @@ const HomeDrawer = ({navigation, route}) => {
               }
           }}
       />
+
       <Drawer.Screen 
-          name="SendFriendRequest" 
-          component={FriendRequestSend} 
-          options={{
-              title: 'Send a Friend Request',
-              headerStyle: {
-                backgroundColor: 'darkslateblue'},
-              headerTitleAlign: 'center',
-              headerTitleStyle: {
-                color: 'white',
-              }
-          }}
+          name="MyProfile" 
+          component={MyProfileStack} 
+          options={({route}) => ({
+            title: "My Profile",
+            headerTitle: "My Profile",
+            headerStyle: {
+              backgroundColor: 'darkslateblue'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white'
+            }
+          })}
       />
+
       <Drawer.Screen 
           name="LogOut"
           component={LogOut} 

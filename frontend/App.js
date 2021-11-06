@@ -81,7 +81,7 @@ const App = ({navigation, route}) => {
     return false;
   }
   
-  //for developmental purpose, autologins to henryB
+  //for developmental purpose, autologins to HenryB
   // React.useEffect(() => {
   //   fetchUserToken("henryB", "Test01");
   // }, [])

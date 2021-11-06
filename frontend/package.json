@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "@react-navigation/bottom-tabs": "^6.0.7",
-        "@react-navigation/drawer": "^6.1.6",
+        "@react-navigation/drawer": "^6.1.8",
         "@react-navigation/native": "^6.0.4",
         "@react-navigation/native-stack": "^6.2.2",
         "react": "^17.0.2",
@@ -19,7 +19,7 @@
         "react-native-calendar-events": "^2.2.0",
         "react-native-calendars": "^1.1268.0",
         "react-native-dotenv": "^3.2.0",
-        "react-native-events-calendar": "^1.0.8",
+        "react-native-events-calendar": "github:goferboy/react-native-event-calendar",
         "react-native-gesture-handler": "^1.10.3",
         "react-native-paper": "^4.9.2",
         "react-native-paper-dates": "^0.4.6",
