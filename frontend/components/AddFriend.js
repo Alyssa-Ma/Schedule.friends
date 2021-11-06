@@ -1,6 +1,5 @@
 import React, {useState, useContext} from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert} from 'react-native';
-import { Button, Paragraph, Dialog, Portal, Provider } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 
@@ -98,7 +97,7 @@ const AddFriend = ({title, route}) => {
    
     return (
 
-        <Provider>
+      
 
         <View style={styles.container}>
             <TextInput placeholder="Enter Username" style={styles.input} onChangeText={onChange}/>
@@ -108,7 +107,7 @@ const AddFriend = ({title, route}) => {
             </TouchableOpacity>
 
         </View>
-        </Provider>
+        
     )
 };
 
