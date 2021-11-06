@@ -15,6 +15,7 @@ const SignUpScreen = ({ navigation }) => {
     const [schedule, setSchedule] = useState([]);
     const onChangeFText = first_name => setFirstName(first_name);
     const onChangeLText = last_name => setLastName(last_name);
+    const onChangeUText = username => setUserName(username);
     
     // HELPER TEXT CHECKER FUNCS
     const fnameValid = () => {
@@ -25,6 +26,11 @@ const SignUpScreen = ({ navigation }) => {
     const lnameValid = () => {
         var nameRegex = /^[A-Za-z]+$/;
         return !(nameRegex.test(last_name));
+    };
+
+    const unameValid = () => {
+        var usernameRegex = /^[0-9a-zA-Z]+$/;
+        return !(usernameRegex.test(username));
     }
 
     const forumCheck = () => {
@@ -166,10 +172,20 @@ const SignUpScreen = ({ navigation }) => {
 
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'Username' 
-                onChangeText = {(val) => setUserName(val)}
-                placeholderTextColor = '#ADC9C6'/>        
-
+                label="Username"
+                placeholder = 'Enter your username. Letters and numbers only.' 
+                onChangeText = {(val) => setUserName(val), username => onChangeUText(username)}
+                theme={{
+                    colors: {
+                        //placeholder: 'purple',
+                        text: 'white',
+                        //primary: 'white',
+                        underlineColor: 'transparent'
+                    }
+                }}/>        
+            <HelperText type="error" visible={unameValid()} style={styles.error}>
+                Error: Only letters and numbers are allowed
+            </HelperText>
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
                 placeholder = 'Email' 
