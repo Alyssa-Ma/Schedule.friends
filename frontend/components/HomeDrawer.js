@@ -20,7 +20,9 @@ const Drawer = createDrawerNavigator();
 
 const HomeDrawer = ({navigation, route}) => {
   const context = useContext(UserContext);
-  const getHeaderTitle = (route) => {
+
+
+  const getScheduleHeaderTitle = (route) => {
     const routeName = getFocusedRouteNameFromRoute(route);
 
     switch (routeName) {
@@ -35,8 +37,17 @@ const HomeDrawer = ({navigation, route}) => {
     }
   }
 
-  // const [user, SetUser] = useState(route.params);
-  //console.log(user, 'STATE DRAWER');
+  const getFriendsHeaderTitle = (route) => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+
+    switch (routeName) {
+      case 'FriendsTab':
+        return 'My Friends';
+      default:
+        return 'My Friends';
+    }
+  }
+
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -62,7 +73,7 @@ const HomeDrawer = ({navigation, route}) => {
           component={MyScheduleStack} 
           options={({route}) => ({
             title: "My Schedule",
-            headerTitle: getHeaderTitle(route),
+            headerTitle: getScheduleHeaderTitle(route),
             headerStyle: {
               backgroundColor: 'darkslateblue'},
             headerTitleAlign: 'center',
@@ -87,15 +98,16 @@ const HomeDrawer = ({navigation, route}) => {
       <Drawer.Screen
           name="Friends"
           component={FriendTabs}
-          options={{
-            title: 'Friends',
-              headerStyle: {
-                backgroundColor: 'darkslateblue'},
-              headerTitleAlign: 'center',
-              headerTitleStyle: {
-                color: 'white',
-              }
-          }}
+          options={({route}) => ({
+            title: 'My Friends',
+            headerTitle: getFriendsHeaderTitle(route),
+            headerStyle: {
+              backgroundColor: 'darkslateblue'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white',
+            }
+          })}
       />
 
       <Drawer.Screen 
