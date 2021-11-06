@@ -14,7 +14,9 @@ const SignUpScreen = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [schedule, setSchedule] = useState([]);
-    const onChangeText = first_name => setFirstName(first_name);
+    const [text, setText] = useState("")
+    const onChangeFText = first_name => setFirstName(first_name);
+    //const onChangeText = text => setText(text);
 
     const fnameValid = () => {
         var nameRegex = /^[A-Za-z]+$/;
@@ -140,9 +142,9 @@ const SignUpScreen = ({ navigation }) => {
 
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                label="testlabel"
-                placeholder = 'First name'
-                onChangeText = {(val) => setFirstName(val), first_name => onChangeText(first_name)}
+                label="First Name"
+                placeholder = 'Enter your first name'
+                onChangeText = {(val) => setFirstName(val), first_name => onChangeFText(first_name)}
                 value={first_name}
                 //stylesheet doesn't work for colors for react native paper, change it here
                 theme={{
@@ -153,7 +155,7 @@ const SignUpScreen = ({ navigation }) => {
                         underlineColor: 'transparent'
                     }
                 }}/>
-            <HelperText type="error" visible={fnameValid()}>
+            <HelperText type="error" visible={fnameValid()} style={styles.error}>
                 Error: Only letters are allowed
             </HelperText>
             
@@ -242,8 +244,9 @@ const styles = StyleSheet.create({
         
     },
     
-    textDanger: {
+    error: {
         color: 'red',
+        fontSize: 13,
     },
 
 })
