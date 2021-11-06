@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react';
-import {View, Alert, Text, StyleSheet, StatusBar, Image, TextInput, 
-        TouchableOpacity} from 'react-native';
+import {View, Alert, Text, StyleSheet, StatusBar, Image,
+        TouchableOpacity, TextInput, HelperText } from 'react-native';
+//import {  } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 
@@ -12,8 +13,10 @@ const SignUpScreen = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [schedule, setSchedule] = useState([]);
+    const [name, onChangeText] = useState("");
     let [errors, setErrors] = useState("");
 
+    const fnameValid = () => /^[A-Za-z]+$/.test();
     const forumCheck = () => {
         const fname = first_name;
         const lname = last_name;
@@ -134,13 +137,15 @@ const SignUpScreen = ({ navigation }) => {
 
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'First name' 
-                onChangeText = {(val) => setFirstName(val)}
+                label="testlabel"
+                placeholder = 'First name'
+                onChangeText = {(val) => setFirstName(val), text => onChangeText(text)}
+                value={name}
+                error={!fnameValid(name)}
                 placeholderTextColor = '#ADC9C6'/>
-            <View>
-                <Text>{updateErrors()}</Text>
-            </View>
-
+            <HelperText type="error" visible={!fnameValid(name)}>
+                Error: Only letters are allowed
+            </HelperText>
             
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
