@@ -5,9 +5,11 @@ import {Avatar, Title, Caption, Text, TextInput, TouchableRipple, Button} from '
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {BASE_URL} from "@env";
+import { continueStatement } from '@babel/types';
 
 const EditMyProfileView = ({ navigation, route }) => {
 
+    const context = useContext(UserContext);
     
     const {user} = route.params;
 
@@ -37,41 +39,39 @@ const EditMyProfileView = ({ navigation, route }) => {
 
     }
     
-        const confirmPressHandle = () => {
+        const confirmPressHandle = async () => {
 
-
-        
-          fetch(`${BASE_URL}/${user.id}`, {
-              method:"PATCH",
-              headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Token ${user.token}`
-              
-              },
-              body: JSON.stringify({
-                  "first_name": fName,
-                  "last_name": lName
-              })
-        
-            })
-       
-            .then(data => {
-            })
-            .catch(error => console.log("Error"));
-
-
-            
-            navigation.pop();
-
-
+            try {
+                const response = await fetch(`${BASE_URL}/${user.id}`, {
+                    method:"PATCH",
+                    headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${user.token}`
+                    
+                    },
+                    body: JSON.stringify({
+                        "first_name": fName,
+                        "last_name": lName,
+                        "email": email
+                    })
+                })
+                
+                const jsonResponse = await response.json();
+                if (response.status === 200) {
+                    context.setUser(jsonResponse);
+                    navigation.pop();
+                }
+                else
+                    console.log(`Server Error ${response.status}`)
+            } catch(error) {
+                console.log(error)
+            }
         }
     
    
 
     const cancelPressHandle = () => {
-
         navigation.pop();
-        
     }
 
 

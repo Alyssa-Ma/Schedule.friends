@@ -53,7 +53,7 @@ const App = ({navigation, route}) => {
   
   //for developmental purpose, autologins to HenryB
   React.useEffect(() => {
-    fetchUserToken("david", "test");
+    fetchUserToken("henryB", "Test01");
   }, [])
 
   return (
