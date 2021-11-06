@@ -44,48 +44,50 @@ const AddFriend = ({title, route}) => {
             to_user: friend_id
         }
 
-        //actual POST. Create the friend request
-        //swap url with actual server when deployed
-        fetch(`${BASE_URL}/friend_requests/`, {
-            method: 'POST', // or 'PUT'
-            headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${context.user.token}`
-            },
-            body: JSON.stringify(data),
-        }).then( response => response.json())
-        .then( data => {
-            console.log(data);
-        })
-        .catch( error => {
-            console.log(error);
-        })
-         
+
+        try{
+            //actual POST. Create the friend request
+            //swap url with actual server when deployed
+            let friendPost = await fetch(`${BASE_URL}/friend_requests/`, {
+                method: 'POST', // or 'PUT'
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${context.user.token}`
+                },
+                body: JSON.stringify(data),
+            });
+
+            friendPost = await friendPost.json();
+        }
+        catch(error){
+            console.error(error);
+        }
+        
     }
    
     return (
 
         <Provider>
-        <View style={styles.container}>
-            <TextInput placeholder="Enter Username" style={styles.input} onChangeText={onChange}/>
-            
-            <Portal>
-                <Dialog visible={visible} onDismiss={hideDialog}>
-                    <Dialog.Title>Friend Request Sent!</Dialog.Title>
-                    <Dialog.Content>
-                        <Paragraph>Friend request sent to {text}! They will see it in their friend requests!</Paragraph>
-                    </Dialog.Content>
-                    <Dialog.Actions>
-                        <Button onPress={hideDialog}>Done</Button>
-                    </Dialog.Actions>
-                </Dialog>
-            </Portal>
-            
-            <TouchableOpacity style={styles.btn} onPress={onPressBtn}>
-                <Text style={styles.btnText}> Send Request</Text>
-            </TouchableOpacity>
+            <View style={styles.container}>
+                <TextInput placeholder="Enter Username" style={styles.input} onChangeText={onChange}/>
+                
+                <Portal>
+                    <Dialog visible={visible} onDismiss={hideDialog}>
+                        <Dialog.Title>Friend Request Sent!</Dialog.Title>
+                        <Dialog.Content>
+                            <Paragraph>Friend request sent to {text}! They will see it in their friend requests!</Paragraph>
+                        </Dialog.Content>
+                        <Dialog.Actions>
+                            <Button onPress={hideDialog}>Done</Button>
+                        </Dialog.Actions>
+                    </Dialog>
+                </Portal>
+                
+                <TouchableOpacity style={styles.btn} onPress={onPressBtn}>
+                    <Text style={styles.btnText}> Send Request</Text>
+                </TouchableOpacity>
 
-        </View>
+            </View>
 
         </Provider>
     )
