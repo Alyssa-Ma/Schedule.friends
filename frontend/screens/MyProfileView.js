@@ -3,6 +3,7 @@ import {View, SafeAreaView, StyleSheet, StatusBar, Image, TextInput, TouchableOp
 import UserContext from '../context/UserContext';
 import {Avatar, Title, Caption, Text, TouchableRipple} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import UserInfo from '../components/UserInfo';
 import {BASE_URL} from "@env";
 
 
@@ -32,39 +33,7 @@ const MyProfileView = ({ navigation }) => {
         
         <SafeAreaView style={styles.container}>
 
-            {/*//////////////USER INFO////////////////*/}
-            <View style = {styles.userInfoSection}>
-                <View style={{flexDirection: 'row', marginTop: 15}}>
-
-                    <Avatar.Text 
-                        size = {90} 
-                        backgroundColor = 'turquoise'
-                       label = {context.user.first_name.charAt(0)+context.user.last_name.charAt(0)}
-
-                    />
-
-                    <View style={{marginLeft: 20}}>
-
-                        <Title style={styles.title, {marginTop:10, marginBottom: 5,}}>
-                            {context.user.first_name}{' '}
-                            {context.user.last_name}
-                        </Title>
-                        <Caption style={styles.caption}>{context.user.username}</Caption>
-               
-                    </View>
-                </View>
-
-
-            </View>
-
-            <View style={styles.userInfoSection}>
-                <View style={styles.row}>
-                    <Icon name = "email" size={20} />
-                    <Text style={{marginLeft:20}}>{context.user.email}</Text>
-                </View>
-
-            </View>
-
+            <UserInfo user={context.user}/>
             <View
             style={{
             borderBottomColor: 'black',
