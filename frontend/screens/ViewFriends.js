@@ -1,8 +1,9 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import { View, Text, StyleSheet, FlatList} from 'react-native';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
+import { Provider } from 'react-native-paper';
 import Friend from '../components/Friend';
 
 const ViewFriends = () => {
@@ -11,6 +12,7 @@ const ViewFriends = () => {
     const [items, setItems] = useState();
     const [loading, setLoading] = useState(true);
 
+    
     useFocusEffect(
         React.useCallback(() => {
 
@@ -65,15 +67,14 @@ const ViewFriends = () => {
             };
         // Import that it's [], otherwise useFocusEffect may trigger endlessly while focused.
         }, [])
-    )
+    )   
 
-
-    //reject using PATCH and DELETE request. remove from list
+    //reject using DELETE request. remove from list
     const deleteFriend = async (id) => {
 
         console.log(`deleted Friend`);
         try{
-            let response = await fetch(`${BASE_URL}/friend_requests/${context.user.id}/remove/${id}`, {
+            let response = await fetch(`${BASE_URL}/${context.user.id}/remove/${id}`, {
                 method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json',
@@ -92,15 +93,18 @@ const ViewFriends = () => {
         });
     }
     return (
-        <View>
-            {
-                loading
-                ?   <Text>Loading.....</Text>
-                :   (items === undefined || items.length === 0
-                    ? <Text>No incoming Friend Requests</Text>
-                    : <FlatList data={items} renderItem={({item}) => <Friend item={item}/>} />)
-            }
-        </View>
+
+        <Provider>
+            <View>
+                {
+                    loading
+                    ?   <Text>Loading.....</Text>
+                    :   (items === undefined || items.length === 0
+                        ? <Text>No Friends</Text>
+                        : <FlatList data={items} renderItem={({item}) => <Friend item={item} deleteFriend={deleteFriend}/>} />)
+                }
+            </View>
+        </Provider>
     )
 }
 

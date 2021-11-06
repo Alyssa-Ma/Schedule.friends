@@ -70,7 +70,7 @@ const FriendRequestView = ({ navigation, route }) => {
     )
     
     //reject using PATCH and DELETE request. remove from list
-    const rejectFriend = (id, from_user) => {
+    const rejectFriend = (id) => {
 
         console.log(`Rejected Friend`);
         fetch(`${BASE_URL}/friend_requests/${id}`, {
@@ -93,7 +93,7 @@ const FriendRequestView = ({ navigation, route }) => {
     }
 
     //accept using PATCH and DELETE request. remove from list
-    const acceptFriend = (id, from_user) => {
+    const acceptFriend = (id) => {
 
         console.log(`Accepted Friend`);
         fetch(`${BASE_URL}/friend_requests/${id}`, {
