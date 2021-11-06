@@ -104,6 +104,20 @@ const HomeDrawer = ({navigation, route}) => {
               }
           }}
       />
+
+      <Drawer.Screen
+          name="Friends"
+          component={FriendTabs}
+          options={{
+            title: 'Friends',
+              headerStyle: {
+                backgroundColor: 'darkslateblue'},
+              headerTitleAlign: 'center',
+              headerTitleStyle: {
+                color: 'white',
+              }
+          }}
+      />
       <Drawer.Screen 
           name="LogOut"
           component={LogOut} 
