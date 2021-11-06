@@ -44,23 +44,25 @@ const AddFriend = ({title, route}) => {
             to_user: friend_id
         }
 
-        //actual POST. Create the friend request
-        //swap url with actual server when deployed
-        fetch(`${BASE_URL}/friend_requests/`, {
-            method: 'POST', // or 'PUT'
-            headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${context.user.token}`
-            },
-            body: JSON.stringify(data),
-        }).then( response => response.json())
-        .then( data => {
-            console.log(data);
-        })
-        .catch( error => {
-            console.log(error);
-        })
-         
+
+        try{
+            //actual POST. Create the friend request
+            //swap url with actual server when deployed
+            let friendPost = await fetch(`${BASE_URL}/friend_requests/`, {
+                method: 'POST', // or 'PUT'
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${context.user.token}`
+                },
+                body: JSON.stringify(data),
+            });
+
+            friendPost = await friendPost.json();
+        }
+        catch(error){
+            console.error(error);
+        }
+        
     }
    
     return (
