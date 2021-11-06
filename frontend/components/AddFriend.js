@@ -18,7 +18,9 @@ const AddFriend = ({title, route}) => {
     }
 
     const validation = () => {
-        if((text == "")||(text == " "))
+
+        //checks if input is just whitespace(nothing inputed)
+        if(!text.replace(/\s/g, "").length)
         {
             Alert.alert("please enter a username");
         }
@@ -30,7 +32,6 @@ const AddFriend = ({title, route}) => {
 
     const onPressBtn = async () => {
         
-        showDialog();
         console.log("**** onPressBtn is running... ****");
 
         //GET friend info based on user input
@@ -44,7 +45,6 @@ const AddFriend = ({title, route}) => {
                 },
             });
             friend_json = await resonse.json();
-            
         } catch(error) {
             console.log(error);
         }
@@ -55,52 +55,45 @@ const AddFriend = ({title, route}) => {
             console.log("user not found");
             Alert.alert("user not found");
         }
-        else
+        else 
         {
             console.log("user found");
-            Alert.alert("Friend Request has been sent or pending");
             const friend_id = friend_json[0].id;
-
             const data = {
                 from_user: context.user.id,   //CURRENT USER
                 to_user: friend_id
             }
 
-            //actual POST. Create the friend request
-            //swap url with actual server when deployed
-            fetch(`${BASE_URL}/friend_requests/`, {
-                method: 'POST', // or 'PUT'
-                headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${context.user.token}`
-                },
-                body: JSON.stringify(data),
-            }).then( response => response.json())
-            .then( data => {
-                console.log(data);
-            })
-            .catch( error => {
+            try {
+                //Fetch URL should be an dotenv variable
+                const postResponse = await fetch(`${BASE_URL}/friend_requests/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //This needs to be brought down from props
+                        'Authorization': `Token ${context.user.token}`
+                    },
+                    body: JSON.stringify(data),
+                });
+                //const jsonResponse = await postResponse.json();
+                //this means the server did not accepted the post request
+                if (postResponse.status !== 201)
+                {
+                    console.log("Friend Request Already Pending");
+                    Alert.alert("Friend Request Already Pending");
+                }
+                else if(postResponse.status === 201)
+                {
+                    console.log("Friend request sent");
+                    Alert.alert("Friend request sent");
+                }
+            }
+            catch(error) {
                 console.log(error);
-            })
-        }
+            }
+        }   
     }
    
-/*
-            <Portal>
-                <Dialog visible={visible} onDismiss={hideDialog}>
-                    
-                    <Dialog.Title>Friend Request Sent!</Dialog.Title>
-                    <Dialog.Content>
-                        <Paragraph>Friend request sent to {text}! They will see it in their friend requests!</Paragraph>
-                    </Dialog.Content>
-                    <Dialog.Actions>
-                        <Button onPress={hideDialog}>Done</Button>
-                    </Dialog.Actions>
-                </Dialog>
-            </Portal>
-*/
-
-
     return (
 
         <Provider>
@@ -151,3 +144,48 @@ const styles = StyleSheet.create({
 
 })
 export default AddFriend;
+
+
+
+
+
+/*
+            <Portal>
+                <Dialog visible={visible} onDismiss={hideDialog}>
+                    
+                    <Dialog.Title>Friend Request Sent!</Dialog.Title>
+                    <Dialog.Content>
+                        <Paragraph>Friend request sent to {text}! They will see it in their friend requests!</Paragraph>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button onPress={hideDialog}>Done</Button>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
+*/
+
+
+/*
+
+            //actual POST. Create the friend request
+            //swap url with actual server when deployed
+            fetch(`${BASE_URL}/friend_requests/`, {
+                method: 'POST', // or 'PUT'
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${context.user.token}`
+                },
+                body: JSON.stringify(data),
+            })
+            .then( response => response.json())
+            .then( data => {
+                console.log(data);     
+            })
+            .catch( error => {
+                console.log(error);
+            })
+
+            */
+
+            //showDialog();
+        
