@@ -4,7 +4,6 @@ import { View, Alert, Text, StyleSheet, StatusBar, Image,
 import { TextInput, HelperText } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
-import { white } from 'react-native-paper/lib/typescript/styles/colors';
 
 const SignUpScreen = ({ navigation }) => {
     const context = useContext(UserContext);
@@ -14,14 +13,20 @@ const SignUpScreen = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [schedule, setSchedule] = useState([]);
-    const [text, setText] = useState("")
     const onChangeFText = first_name => setFirstName(first_name);
-    //const onChangeText = text => setText(text);
-
+    const onChangeLText = last_name => setLastName(last_name);
+    
+    // HELPER TEXT CHECKER FUNCS
     const fnameValid = () => {
         var nameRegex = /^[A-Za-z]+$/;
         return !(nameRegex.test(first_name));
     };
+
+    const lnameValid = () => {
+        var nameRegex = /^[A-Za-z]+$/;
+        return !(nameRegex.test(last_name));
+    }
+
     const forumCheck = () => {
         const fname = first_name;
         const lname = last_name;
@@ -88,23 +93,6 @@ const SignUpScreen = ({ navigation }) => {
         }
     }
 
-    const updateErrors = () => {
-        if(errors != "")
-        {
-            console.log("errors exist");
-            return(
-                <Text>error wow</Text>
-            );
-        }
-        else{
-            console.log("no errors");
-            return(
-                <Text>noerre</Text>
-            ); 
-        }
-
-    }
-
     const insertData = async () => {
         await fetch(`${BASE_URL}/create`, {
             method:"POST", 
@@ -161,9 +149,20 @@ const SignUpScreen = ({ navigation }) => {
             
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'Last name' 
-                onChangeText = {(val) => setLastName(val)}
-                placeholderTextColor = '#ADC9C6'/>
+                label="Last Name"
+                placeholder = 'Enter your last name' 
+                onChangeText = {(val) => setLastName(val), last_name => onChangeLText(last_name)}
+                theme={{
+                    colors: {
+                        //placeholder: 'purple',
+                        text: 'white',
+                        //primary: 'white',
+                        underlineColor: 'transparent'
+                    }
+                }}/>
+            <HelperText type="error" visible={lnameValid()} style={styles.error}>
+                Error: Only letters are allowed
+            </HelperText>
 
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
@@ -185,7 +184,7 @@ const SignUpScreen = ({ navigation }) => {
 
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}
-                onPress = {() => { forumCheck(); updateErrors(); }}
+                onPress = {() => { forumCheck()}}
                 >Register</Text>
             </TouchableOpacity>
         </View>
