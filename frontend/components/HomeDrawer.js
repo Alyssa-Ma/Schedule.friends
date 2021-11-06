@@ -78,33 +78,6 @@ const HomeDrawer = ({navigation, route}) => {
               }
           }}
       />
-      <Drawer.Screen 
-          name="FriendRequestView" 
-          component={FriendRequestView} 
-          options={{
-              title: 'Friend Requests',
-              headerStyle: {
-                backgroundColor: 'darkslateblue'},
-              headerTitleAlign: 'center',
-              headerTitleStyle: {
-                color: 'white',
-              }
-          }}
-      />
-      <Drawer.Screen 
-          name="SendFriendRequest" 
-          component={FriendRequestSend} 
-          options={{
-              title: 'Send a Friend Request',
-              headerStyle: {
-                backgroundColor: 'darkslateblue'},
-              headerTitleAlign: 'center',
-              headerTitleStyle: {
-                color: 'white',
-              }
-          }}
-      />
-
       <Drawer.Screen
           name="Friends"
           component={FriendTabs}
