@@ -18,15 +18,15 @@ const FriendListItem = ({ item, deleteFriend }) => {
         
         <TouchableOpacity style={styles.friendRequest}>
             <View style={styles.itemView}>
-                <Avatar.Text 
+                <Avatar.Text
                         label={`${item.first_name.charAt(0).toUpperCase()}${item.last_name.charAt(0).toUpperCase()}`}
                         size={55}
                         />
-                <View>
-                <Title style={styles.name}>{item.first_name} {item.last_name}</Title>
-                <Caption>{item.username}</Caption>
+                <View style={styles.textInfo}>
+                    <Title style={styles.name}>{item.first_name} {item.last_name}</Title>
+                    <Caption>{item.username}</Caption>
                 </View>
-                <Icon name='close' size={30} color='#900' onPress={showDialog} />
+                {/* <Icon name='close' size={30} color='#900' onPress={showDialog} />
 
                 <Portal>
                     <Dialog visible={visible} onDismiss={hideDialog}>
@@ -39,7 +39,7 @@ const FriendListItem = ({ item, deleteFriend }) => {
                             <Button onPress={() => delFriend(item.id)}>Yes</Button>
                         </Dialog.Actions>
                     </Dialog>
-                </Portal>
+                </Portal> */}
             </View>
         </TouchableOpacity>
         
@@ -56,11 +56,11 @@ const styles = StyleSheet.create({
 
     },
 
-    profilePic: {
-        width: 75,
-        height: 75,
-        borderRadius: 75 / 2,
-    },
+    // profilePic: {
+    //     width: 75,
+    //     height: 75,
+    //     borderRadius: 75 / 2,
+    // },
 
     name: {
         fontSize: 20,
@@ -68,8 +68,12 @@ const styles = StyleSheet.create({
 
     itemView: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'center',
+    },
+
+    textInfo: {
+        paddingLeft: 15
     }
 
 })
