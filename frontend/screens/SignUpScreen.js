@@ -4,6 +4,7 @@ import { View, Alert, Text, StyleSheet, StatusBar, Image,
 import { TextInput, HelperText } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
+import { white } from 'react-native-paper/lib/typescript/styles/colors';
 
 const SignUpScreen = ({ navigation }) => {
     const context = useContext(UserContext);
@@ -143,7 +144,15 @@ const SignUpScreen = ({ navigation }) => {
                 placeholder = 'First name'
                 onChangeText = {(val) => setFirstName(val), first_name => onChangeText(first_name)}
                 value={first_name}
-                placeholderTextColor = '#ADC9C6'/>
+                //stylesheet doesn't work for colors for react native paper, change it here
+                theme={{
+                    colors: {
+                        //placeholder: 'purple',
+                        text: 'white',
+                        //primary: 'white',
+                        underlineColor: 'transparent'
+                    }
+                }}/>
             <HelperText type="error" visible={fnameValid()}>
                 Error: Only letters are allowed
             </HelperText>
@@ -202,10 +211,14 @@ const styles = StyleSheet.create({
     inputBox: {
         width:300, 
         backgroundColor:'#5176A8',
-        borderRadius: 25, 
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10, 
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
         paddingHorizontal: 16, 
         fontSize: 16, 
         color: 'white',
+        
         marginVertical: 10,
     },
     
