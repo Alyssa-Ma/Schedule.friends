@@ -55,6 +55,7 @@ const AddFriend = ({title, route}) => {
             console.log("user not found");
             Alert.alert("user not found");
         }
+
         else 
         {
             console.log("user found");
@@ -92,11 +93,13 @@ const AddFriend = ({title, route}) => {
                 console.log(error);
             }
         }   
+
     }
    
     return (
 
         <Provider>
+
         <View style={styles.container}>
             <TextInput placeholder="Enter Username" style={styles.input} onChangeText={onChange}/>
             
@@ -105,7 +108,6 @@ const AddFriend = ({title, route}) => {
             </TouchableOpacity>
 
         </View>
-
         </Provider>
     )
 };
