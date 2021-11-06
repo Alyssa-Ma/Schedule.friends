@@ -217,6 +217,7 @@ const CommonTimeText = ({ navigation, route }) => {
             // It can return nothing, but is needed to run properly (I think)
             return () => {
                 console.log("leaving screen!");
+                setLoading(true);
             };
         // Import that it's [], otherwise useFocusEffect may trigger endlessly while focused.
         }, [])

@@ -36,12 +36,20 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 
 	https://reactnative.dev/docs/environment-setup
 3. Choose `React Native CLI Quickstart`
-4. Choose your OS and Android as the target OS.
-5. Follow all steps in the `Installing dependencies` section.
-6. Follow all steps in the `Android development environment` section.
-7. Skip the `Creating a new application` section.
-8. Follow all steps in the `Preparing the Android device` section for either a physical or virtual device. 
 
+	#### For Windows/Linux
+	1. Choose your computer's operating system as the Development OS and Android as the target OS.
+	2. Follow all steps in the `Installing dependencies` section.
+	3. Follow all steps in the `Android development environment` section.
+	4. Skip the `Creating a new application` section.
+	5. Follow all steps in the `Preparing the Android device` section for either a physical or virtual device. 
+	
+	#### For Macs
+	1. Choose macOS as the Development OS and iOS as the target OS.
+	2. Follow all steps in the `Installing dependencies` section.
+	3. When you install an iOS Simulator in Xcode, use an iPhone 12 with iOS 14.5 on the virtual device.
+	4. Use the command `open -a simulator` in the terminal to open the simulator.
+	
 [Back to Navigation](#navigation)
 
 ### Installing Frontend Dependencies
@@ -55,7 +63,14 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 ###
 	BASE_URL=http://10.0.2.2:8000/api/sf_users
 
-NOTE: You may need a blank newline below the `BASE_URL` for the file to be read properly.
+NOTE: You may need a blank newline below the `BASE_URL` for the file to be read properly.  
+4. **For Macs** 
+   Use the following command in the terminal while it is still in the frontend folder.  
+####
+	npx react-native unlink react-native-vector-icons  
+  Use the following command in the terminal.  
+####
+	cd ios && pod install && cd ../  
 
 ***Congratulations you are now done setting up the frontend!***
 
@@ -194,9 +209,12 @@ Or by creating a user with the POST request at `http://127.0.0.1:8000/sf_users/c
 1. Enter the following command with the terminal in the frontend folder.
 ###
 	npx react-native start
-2. While leaving the first terminal running, run the following command on another terminal in the frontend folder.
-###
+2. While leaving the first terminal running, open on another terminal in the frontend folder. Run the command based on which virtual device OS you're using.
+### Android
 	npx react-native run-android
+### iOS
+	npx react-native run-ios
+	
 ***The frontend is now running.***	
 
 [Back to Navigation](#navigation)

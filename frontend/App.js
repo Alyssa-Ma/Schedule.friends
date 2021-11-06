@@ -81,10 +81,10 @@ const App = ({navigation, route}) => {
     return false;
   }
   
-  //for developmental purpose, autologins to henryB
-  React.useEffect(() => {
-    fetchUserToken("henryB", "Test01");
-  }, [])
+  //for developmental purpose, autologins to HenryB
+  // React.useEffect(() => {
+  //   fetchUserToken("henryB", "Test01");
+  // }, [])
 
   return (
     <UserContext.Provider value={{
