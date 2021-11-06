@@ -36,16 +36,19 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 
 	https://reactnative.dev/docs/environment-setup
 3. Choose `React Native CLI Quickstart`
-4. Choose your computer's operating system as the Development OS and Android as the target OS.
-5. Follow all steps in the `Installing dependencies` section.
-6. Follow all steps in the `Android development environment` section.
-7. Skip the `Creating a new application` section.
-8. Set up the virtual device based on your operating system: 
-	#### For Windows
-	1. Follow all steps in the `Preparing the Android device` section for either a physical or virtual device. 
-	#### For Macs 
-	1. Download iPhone Simulator. 
-	2. Use iPhone 12 with iOS 14.5 on the virtual device.
+
+	#### For Windows/Linux
+	1. Choose your computer's operating system as the Development OS and Android as the target OS.
+	2. Follow all steps in the `Installing dependencies` section.
+	3. Follow all steps in the `Android development environment` section.
+	4. Skip the `Creating a new application` section.
+	5. Follow all steps in the `Preparing the Android device` section for either a physical or virtual device. 
+	
+	#### For Macs
+	1. Choose macOS as the Development OS and iOS as the target OS.
+	2. Follow all steps in the `Installing dependencies` section.
+	3. When you install an iOS Simulator in Xcode, use an iPhone 12 with iOS 14.5 on the virtual device.
+	4. Use the command `open -a simulator` in the terminal to open the simulator.
 	
 [Back to Navigation](#navigation)
 

@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
+import FriendTabs from './FriendTabs';
 import FriendRequestView from '../screens/FriendRequestView';
 import FriendRequestSend from '../screens/FriendRequestSend';
 import CommonTimeText from '../screens/CommonTimeText';
@@ -83,24 +84,11 @@ const HomeDrawer = ({navigation, route}) => {
               }
           }}
       />
-      <Drawer.Screen 
-          name="FriendRequestView" 
-          component={FriendRequestView} 
+      <Drawer.Screen
+          name="Friends"
+          component={FriendTabs}
           options={{
-              title: 'Friend Requests',
-              headerStyle: {
-                backgroundColor: 'darkslateblue'},
-              headerTitleAlign: 'center',
-              headerTitleStyle: {
-                color: 'white',
-              }
-          }}
-      />
-      <Drawer.Screen 
-          name="SendFriendRequest" 
-          component={FriendRequestSend} 
-          options={{
-              title: 'Send a Friend Request',
+            title: 'Friends',
               headerStyle: {
                 backgroundColor: 'darkslateblue'},
               headerTitleAlign: 'center',
