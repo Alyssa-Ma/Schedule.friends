@@ -9,14 +9,12 @@ import {BASE_URL} from "@env";
 const EditMyProfileView = ({ navigation, route }) => {
 
     
-    const {con} = route.params;
+    const {user} = route.params;
 
-    const [fName, setFName] = useState("");
-    const [lName, setLName] = useState("");
+    const [fName, setFName] = useState(user.first_name);
+    const [lName, setLName] = useState(user.last_name);
+    const [email, setEmail] = useState(user.email);
 
-    //const [uname, setUname] = useState();
-    //const [data, setData] = useState([]);
-    //const { username, firstName, lastName } = route.params;
 
     const forumCheck = () => {
 
@@ -43,11 +41,11 @@ const EditMyProfileView = ({ navigation, route }) => {
 
 
         
-          fetch(`${BASE_URL}/${con.id}`, {
+          fetch(`${BASE_URL}/${user.id}`, {
               method:"PATCH",
               headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Token ${con.token}`
+              'Authorization': `Token ${user.token}`
               
               },
               body: JSON.stringify({
@@ -63,14 +61,7 @@ const EditMyProfileView = ({ navigation, route }) => {
 
 
             
-            navigation.navigate('MyProfileView',{ 
-
-            
-            con: con.first_name = fName,
-            con: con.last_name = lName,
-            
-
-            })
+            navigation.pop();
 
 
         }
@@ -100,7 +91,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                         size = {100} 
                         backgroundColor = 'turquoise'
                         label=
-                        {con.first_name.charAt(0)+con.last_name.charAt(0)}
+                        {user.first_name.charAt(0)+user.last_name.charAt(0)}
                         />
 
                         </View>
@@ -108,7 +99,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                     </TouchableOpacity>
 
                     <Text style = {styles.fnamelname}>
-                        {con.first_name + " " + con.last_name}
+                        {user.first_name + " " + user.last_name}
                     </Text>
 
                 </View>
@@ -116,7 +107,9 @@ const EditMyProfileView = ({ navigation, route }) => {
                 <View style={styles.inputfields}>
                 <FontAwesome name="user-o" size={30} />
                     <TextInput
-                        placeholder="First Name"
+                        mode="outlined"
+                        label="First Name"
+                        value={fName}
                         placeholderTextColor = "#666666"
                         onChangeText = {(val) => setFName(val)}
                         autoCorrect={false}
@@ -127,7 +120,9 @@ const EditMyProfileView = ({ navigation, route }) => {
                 <View style={styles.inputfields}>
                 <FontAwesome name="user-o" size={30} />
                     <TextInput
-                        placeholder="Last Name"
+                        mode="outlined"
+                        label="Last Name"
+                        value={lName}
                         placeholderTextColor = "#666666"
                         onChangeText = {(val) => setLName(val)}
                         autoCorrect={false}
@@ -135,6 +130,18 @@ const EditMyProfileView = ({ navigation, route }) => {
                     />
                 </View>
      
+                <View style={styles.inputfields}>
+                <FontAwesome name="user-o" size={30} />
+                    <TextInput
+                        mode="outlined"
+                        label="E-Mail"
+                        value={email}
+                        placeholderTextColor = "#666666"
+                        onChangeText = {(val) => setEmail(val)}
+                        autoCorrect={false}
+                        style={styles.textInput}
+                    />
+                </View>
 
                 <View style={styles.buttons}>
                 <Button icon="check"  onPress={() => forumCheck() } mode="contained">Confirm</Button>

@@ -14,8 +14,8 @@ const MyProfileView = ({ navigation }) => {
 
     const editProfilePressHandler = () => {
       
-      navigation.navigate('EditMyProfileView', {
-        con: context.user
+      navigation.push('EditMyProfileView', {
+        user: context.user
       
       })
 
