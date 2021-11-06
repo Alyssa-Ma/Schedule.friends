@@ -10,6 +10,13 @@ const FriendTabs = ({navigation, route}) => {
     return (
         <Tab.Navigator>
             <Tab.Screen 
+                name="ViewFriends" 
+                component={ViewFriends}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Tab.Screen 
                 name="Friend Requests" 
                 component={FriendRequestView}
                 options={{
