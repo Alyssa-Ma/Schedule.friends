@@ -11,6 +11,10 @@ import CombinedScheduleStack from './CombinedScheduleStack';
 import UserContext from '../context/UserContext';
 import LogOut from './LogOut';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
+import MyProfileView from '../screens/MyProfileView';
+import EditMyProfileView from '../screens/EditMyProfileView';
+import MyProfileStack from './MyProfileStack';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -31,6 +35,8 @@ const HomeDrawer = ({navigation, route}) => {
     }
   }
 
+  // const [user, SetUser] = useState(route.params);
+  //console.log(user, 'STATE DRAWER');
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -91,6 +97,22 @@ const HomeDrawer = ({navigation, route}) => {
               }
           }}
       />
+
+      <Drawer.Screen 
+          name="MyProfile" 
+          component={MyProfileStack} 
+          options={({route}) => ({
+            title: "My Profile",
+            headerTitle: "My Profile",
+            headerStyle: {
+              backgroundColor: 'darkslateblue'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white'
+            }
+          })}
+      />
+
       <Drawer.Screen 
           name="LogOut"
           component={LogOut} 
