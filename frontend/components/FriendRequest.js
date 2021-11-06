@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
 const FriendRequest = ({item, rejectFriend, acceptFriend}) => {
 
     //console.log(item);
