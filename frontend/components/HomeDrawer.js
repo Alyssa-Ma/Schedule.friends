@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
+import FriendTabs from './FriendTabs';
 import FriendRequestView from '../screens/FriendRequestView';
 import FriendRequestSend from '../screens/FriendRequestSend';
 import CommonTimeText from '../screens/CommonTimeText';

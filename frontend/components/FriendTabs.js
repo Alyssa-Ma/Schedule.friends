@@ -9,8 +9,20 @@ const FriendTabs = ({navigation, route}) => {
 
     return (
         <Drawer.Navigator>
-            <Drawer.Screen name="Send a Friend Request" component={FriendRequestSend} />
-            <Drawer.Screen name="Friend Requests" component={FriendRequestView} />
+            <Drawer.Screen 
+                name="Send a Friend Request" 
+                component={FriendRequestSend}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Drawer.Screen 
+                name="Friend Requests" 
+                component={FriendRequestView}
+                options={{
+                    headerShown: false
+                }}
+            />
         </Drawer.Navigator>
     )
 }
