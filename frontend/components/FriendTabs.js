@@ -8,7 +8,7 @@ const Tab = createBottomTabNavigator();
 const FriendTabs = ({navigation, route}) => {
 
     return (
-        <Tab.Navigator>
+        <Tab.Navigator initialRouteName="ViewFriends">
             <Tab.Screen 
                 name="ViewFriends" 
                 component={ViewFriends}

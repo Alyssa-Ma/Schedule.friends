@@ -15,13 +15,13 @@ const FriendRequestSend = ({ navigation, route }) => {
     const onChangeSearch = query => setSearchQuery(query);
     const context = useContext(UserContext);
 
+    //gets incoming friend requests for the curr user
     useFocusEffect(
         React.useCallback(() => {
             console.log('Entering Screen')
 
             const getInfo = async() =>{
                 try{
-
                     let response = await fetch(`${BASE_URL}/${context.user.id}/fr_to_user`, {
                         method: 'GET', 
                         headers: {
@@ -51,6 +51,11 @@ const FriendRequestSend = ({ navigation, route }) => {
         // Import that it's [], otherwise useFocusEffect may trigger endlessly while focused.
         }, [])
     )
+
+    /*
+        searchbar handles text input
+        if the input exceeds 2 chars output findings
+    */
     return (
         <View>
             <Searchbar

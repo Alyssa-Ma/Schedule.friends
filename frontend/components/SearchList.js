@@ -10,6 +10,7 @@ const SearchList = ({query, incFriends}) => {
 
     const context = useContext(UserContext);
 
+    //gets the usernames that correlate to the query
     useEffect(() => {
         
         const getInfo = async () => {
@@ -48,14 +49,13 @@ const SearchList = ({query, incFriends}) => {
             catch(error){
                 console.error(error);
             }
-            
-
-            console.log(items);
         }
 
         getInfo();
 
     }, [query])
+
+    //renders each user found in AddFriend
     return (
         <FlatList data={items} renderItem={({item}) => <AddFriend item={item}/>} />
     )

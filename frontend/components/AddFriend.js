@@ -7,12 +7,15 @@ import UserContext from '../context/UserContext';
 const AddFriend = ({item}) => {
 
     const context = useContext(UserContext);
-
-   
-
+    const [buttonStatus, setButtonStatus] = useState(item.friend_status === 'NONE' ? false : true)
+    const [buttonInfo, setButtonInfo] = useState(item.friend_status);
+    //sends the friend request
     const sendRequest = async (id) => {
         
-        item.friend_status = 'FRIEND';
+        item.friend_status = 'PENDING';
+        setButtonStatus(true);
+        setButtonInfo('PENDING');
+        
         const data = {
             from_user: context.user.id,   //CURRENT USER
             to_user: id
@@ -33,26 +36,41 @@ const AddFriend = ({item}) => {
         catch(error) {
             console.log(error);
         }
-          
-
+        
     }
    
     const imgSource = {uri: 'https://randomuser.me/api/portraits/men/1.jpg'};
 
+    //Lists the user as a list item
+    //renders a button that reflects the status of the user's friend status in correlation to the curr user
     return (
         <TouchableOpacity style={styles.friendRequest}>
             <View style={styles.itemView}>
                 <Image source={imgSource} style={styles.profilePic}/>
                 <Text style={styles.name}>@{item.username}</Text>
 
-                {
-                    item.friend_status === 'NONE'
-                    ? <Button mode='contained'  onPress={() => sendRequest(item.id)}> Send Request</Button>
-                    : (item.friend_status === 'PENDING'
-                        ? <Button mode='contained' disabled='true'> Pending</Button>
-                        : <Button mode='contained' disabled='true'> Friended</Button>
-                        )
+                
+                {   //'NONE' -> Not friends
+                    //'PENDING' -> Has a pending friend request
+                    //'FRIEND' -> already a friend
                 }
+                <Button 
+                    mode='contained'  
+                    onPress={() => sendRequest(item.id)}
+                    disabled={buttonStatus}
+                > 
+                    
+                    {buttonInfo === 'NONE'
+                        ? 'Send a Request'
+                        : (
+                            buttonInfo === 'PENDING'
+                            ? 'Pending'
+                            : 'Friended'
+                        )
+                    }
+                </Button>
+                    
+                
                 
             </View>
         </TouchableOpacity>
