@@ -223,7 +223,7 @@ const CommonTimeText = ({ navigation, route }) => {
         // Import that it's [], otherwise useFocusEffect may trigger endlessly while focused.
         }, [])
     )
-
+    
     return (
         <View style={styles.container}>
             {   

@@ -13,7 +13,7 @@ const size = 30;
 const FriendTabs = ({navigation, route}) => {
 
     return (
-        <Tab.Navigator >
+        <Tab.Navigator initialRouteName="ViewFriends">
             <Tab.Screen 
                 name="FriendListStack"
                 component={FriendsListStack}
