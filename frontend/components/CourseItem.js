@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, FlatList } from 'react-native';
+import UserContext from '../context/UserContext';
 
 const CourseItem = ({navigation, item}) => {
-
+    const context = useContext(UserContext);
     console.log(item.course_name);
     const clickedItem = (item) => {
 
@@ -39,7 +40,9 @@ const CourseItem = ({navigation, item}) => {
    // console.log("yut");
 
     return (
-        <TouchableOpacity onPress={ () => clickedItem(item)} style={styles.Block}>
+        <TouchableOpacity onPress={ (item.owner === context.user.id)
+                                    ? () => clickedItem(item)
+                                    : () => {}} style={styles.Block}>
             <View>
                 <Text style={styles.classTitle}>{item.course_name}{' '}{item.course_number}</Text>
                 <Text style={styles.timeFont}>

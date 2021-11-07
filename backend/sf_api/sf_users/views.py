@@ -232,8 +232,8 @@ def remove_friend(request, from_user_pk, to_user_pk):
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
-    from_user.friend_list.remove(to_user_pk)
-    to_user.friend_list.remove(from_user_pk)
+    # from_user.friend_list.remove(to_user_pk)
+    # to_user.friend_list.remove(from_user_pk)
     return Response({
         'from_user_id': int(from_user_pk),
         'to_user_id': int(to_user_pk),

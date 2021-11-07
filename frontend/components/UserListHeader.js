@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Button, Paragraph, Dialog, Portal, Avatar, Title, Caption } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
+import React from 'react';
+import { View, StyleSheet, Image } from 'react-native';
+import { Avatar, Title, Caption } from 'react-native-paper';
 
 const UserListHeader = ({ navigation, route, user}) => {
     return (

@@ -2,7 +2,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FriendRequestSend from '../screens/FriendRequestSend';
 import FriendRequestView from '../screens/FriendRequestView';
-import FriendsListStack from '../screens/FriendsListView';
+import FriendsListStack from './FriendsListStack';
 // import OutgoingFriendRequestView from '../screens/OutgoingFriendRequestView'
 const Tab = createBottomTabNavigator();
 

@@ -5,8 +5,8 @@ import UserContext from '../context/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
 import FriendListItem from '../components/FriendListItem';
 import LoadingIndicator from '../components/LoadingIndicator';
+import { Button } from 'react-native-paper';
 
-// console.log("headerheight");
 const FriendsListView = ({navigation, route}) => {
 
     const context = useContext(UserContext);
@@ -66,30 +66,6 @@ const FriendsListView = ({navigation, route}) => {
         }, [])
     )   
 
-    //reject using DELETE request. remove from list
-    const deleteFriend = async (id) => {
-
-        console.log(`deleted Friend`);
-        try{
-            let response = await fetch(`${BASE_URL}/${context.user.id}/remove/${id}`, {
-                method: 'DELETE',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Token ${context.user.token}`
-                },
-            });
-
-            response = await response.json();
-        }
-        catch (error){
-            console.error(error);
-        }
-        //needs to set userContext
-        setFriends(prevItems => {
-            return prevItems.filter(item => item.id != id);
-        });
-    }
-
     return (
         <View>
             {
@@ -100,7 +76,7 @@ const FriendsListView = ({navigation, route}) => {
                     : <FlatList 
                         data={friends}
                         keyExtractor={friend => friend.id}
-                        renderItem={({item}) => <FriendListItem item={item} deleteFriend={deleteFriend}/>} 
+                        renderItem={({item}) => <FriendListItem user={item} navigation={navigation}/>} 
                     />)
             }
         </View>
