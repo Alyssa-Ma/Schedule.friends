@@ -2,18 +2,26 @@ import React, {useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import UserListHeader from './UserListHeader';
-const FriendRequestItem = ({friendRequest, rejectFriend, acceptFriend}) => {
-
-    //console.log(item);
-    const imgSource = {uri: 'https://randomuser.me/api/portraits/men/1.jpg'};
+const FriendRequestItem = ({friendRequest,  displayOptions, rejectFriend, acceptFriend}) => {
 
     return (
         <TouchableOpacity style={styles.friendRequest}>
-            <View style={styles.itemView}>
-                <UserListHeader user={friendRequest.from_user_data} />
-                <Icon name='close' size={30} color='#900' onPress={() => rejectFriend(friendRequest.id)}/>
-                <Icon name='check' size={30} color='#37ba0f'onPress={() => acceptFriend(friendRequest.id)}/>
-            </View>
+            {
+                displayOptions === "from_user"
+                ? (
+                    <View style={styles.itemView}>
+                        <UserListHeader user={friendRequest.to_user_data} />
+                        <Icon name='cancel' size={30} color='#900' onPress={() => rejectFriend(friendRequest.id)}/>
+                    </View>
+                )
+                : (
+                    <View style={styles.itemView}>
+                        <UserListHeader user={friendRequest.from_user_data} />
+                        <Icon name='close' size={30} color='#900' onPress={() => rejectFriend(friendRequest.id)}/>
+                        <Icon name='check' size={30} color='#37ba0f'onPress={() => acceptFriend(friendRequest.id)}/>
+                    </View>
+                )
+            }
         </TouchableOpacity>
         
     )
