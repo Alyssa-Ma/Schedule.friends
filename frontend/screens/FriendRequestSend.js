@@ -57,7 +57,7 @@ const FriendRequestSend = ({ navigation, route }) => {
         if the input exceeds 2 chars output findings
     */
     return (
-        <View>
+        <View style={styles.container}>
             <Searchbar
                 placeholder="Enter a username"
                 onChangeText={onChangeSearch}
@@ -66,9 +66,12 @@ const FriendRequestSend = ({ navigation, route }) => {
             {
                 searchQuery.length >= 2
                     ? <SearchList query={searchQuery} pendingRequests={pendingRequests}/>
-                    : <Text> No users match that username</Text>
+                    : (
+                        <View style={styles.noResults}>
+                            <Text> No results found</Text>
+                        </View>
+                    )
             }
-
         </View>
 
     );
@@ -81,12 +84,12 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 0,
     },
-
-    addfriend: {
-
+    noResults: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center' 
     }
-
 });
 
-//eporting the funtion that will be rendered
 export default FriendRequestSend;

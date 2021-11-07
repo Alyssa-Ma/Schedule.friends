@@ -101,7 +101,7 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                     ? (
                         <View style={styles.noRequests}>
                             <Icon name="account-group" size={100} color="#6200EE"/>
-                            <Title >No Outgoing Friend Requests</Title>
+                            <Title>No Outgoing Friend Requests</Title>
                         </View>
 
                     )

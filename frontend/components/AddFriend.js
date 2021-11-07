@@ -67,7 +67,7 @@ const AddFriend = ({item}) => {
                                     buttonInfo === 'NONE'
                                     ? ('account-plus')
                                     : buttonInfo === 'PENDING'
-                                        ? ('account-arrow-right')
+                                        ? ('account-clock')
                                         : 'account-heart'
                                 }
                                 size={30}

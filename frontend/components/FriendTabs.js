@@ -55,7 +55,7 @@ const FriendTabs = ({navigation, route}) => {
                     tabBarLabel: 'Outgoing Requests',
                     tabBarActiveTintColor: color,
                     tabBarIcon: ({color}) => (
-                        <Icon name="account-arrow-left" color={color} size={size}/>
+                        <Icon name="account-arrow-right" color={color} size={size}/>
                     )
                 }}
             />
