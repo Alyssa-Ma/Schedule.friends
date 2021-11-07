@@ -1,11 +1,12 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 import { View, Text, StyleSheet, FlatList} from 'react-native';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
-import { Provider } from 'react-native-paper';
 import FriendListItem from '../components/FriendListItem';
+import LoadingIndicator from '../components/LoadingIndicator';
 
+// console.log("headerheight");
 const FriendsListView = () => {
 
     const context = useContext(UserContext);
@@ -89,11 +90,12 @@ const FriendsListView = () => {
             return prevItems.filter(item => item.id != id);
         });
     }
+
     return (
         <View>
             {
                 loading
-                ?   <Text>Loading.....</Text>
+                ?   <LoadingIndicator isLoading={loading} />
                 :   (friends === undefined || friends.length === 0
                     ? <Text>No Friends</Text>
                     : <FlatList 

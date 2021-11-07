@@ -3,18 +3,13 @@ import React, {useState, useEffect, useContext} from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import FriendTabs from './FriendTabs';
-import FriendRequestView from '../screens/FriendRequestView';
-import FriendRequestSend from '../screens/FriendRequestSend';
 import CommonTimeText from '../screens/CommonTimeText';
 import MyScheduleStack from './MyScheduleStack';
 import CombinedScheduleStack from './CombinedScheduleStack';
 import UserContext from '../context/UserContext';
 import LogOut from './LogOut';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
-import MyProfileView from '../screens/MyProfileView';
-import EditMyProfileView from '../screens/EditMyProfileView';
 import MyProfileStack from './MyProfileStack';
-
 
 const Drawer = createDrawerNavigator();
 
