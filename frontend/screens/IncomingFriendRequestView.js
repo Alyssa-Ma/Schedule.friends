@@ -4,8 +4,9 @@ import FriendRequestItem from '../components/FriendRequestItem';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
+import LoadingIndicator from '../components/LoadingIndicator';
 
-const FriendRequestView = ({ navigation, route }) => {
+const IncomingFriendRequestView = ({ navigation, route }) => {
 
     //Sets the state items arr with dummy values
     const context = useContext(UserContext);
@@ -17,7 +18,7 @@ const FriendRequestView = ({ navigation, route }) => {
             setLoading(true);
             console.log("entered screen!");
 
-            async function getInfo(){
+            async function getIncomingFR(){
                 try{
                     let response = await fetch(`${BASE_URL}/${context.user.id}/fr_to_user`, {
                         method: 'GET', 
@@ -26,9 +27,7 @@ const FriendRequestView = ({ navigation, route }) => {
                         'Authorization': `Token ${context.user.token}`
                         },
                     });
-                    response = await response.json();
-                    
-                    const friend_reqs = response;
+                    const friend_reqs = await response.json();
                     
                     let friend_items = [];
                     for(const req of friend_reqs){
@@ -40,16 +39,9 @@ const FriendRequestView = ({ navigation, route }) => {
                             'Authorization': `Token ${context.user.token}`
                             },
                         });
-                        friend_info = await friend_info.json();
-                        
-                        const friend = {
-                            id: req.id,
-                            from_user: req.from_user,
-                            f_name: friend_info.first_name,
-                            l_name: friend_info.last_name
-                        };
+                        friendData = await friend_info.json();
     
-                    friend_items.push(friend);    
+                    friend_items.push(friendData);    
                 }
     
                 setItems(friend_items);
@@ -61,13 +53,11 @@ const FriendRequestView = ({ navigation, route }) => {
                 }
             }
         
-            getInfo();
+            getIncomingFR();
 
             return () => {
                 console.log("leaving screen!");
-                setLoading(true);
             };
-        // Import that it's [], otherwise useFocusEffect may trigger endlessly while focused.
         }, [])
     )
     
@@ -135,7 +125,7 @@ const FriendRequestView = ({ navigation, route }) => {
         <View style={styles.container}>
             {
                 loading
-                ?   <Text>Loading.....</Text>
+                ?   <LoadingIndicator isLoading={loading} />
                 :   (items === undefined || items.length === 0
                     ? <Text>No incoming Friend Requests</Text>
                     : <FlatList data={items} renderItem={({item}) => <FriendRequestItem item={item} rejectFriend={rejectFriend} acceptFriend={acceptFriend}/>} />)
@@ -156,4 +146,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default FriendRequestView;
+export default IncomingFriendRequestView;
