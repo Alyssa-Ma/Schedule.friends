@@ -130,10 +130,6 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
             console.error(error);
         }
         
-        
-
-
-
     }
     return (
         <View style={styles.container}>
@@ -144,7 +140,7 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                     ? (
                         <View style={styles.noRequests}>
                             <Icon name="account-group" size={100} color="#6200EE"/>
-                            <Title >No incoming Friend Requests</Title>
+                            <Title >No Incoming Friend Requests</Title>
                         </View>
 
                     )

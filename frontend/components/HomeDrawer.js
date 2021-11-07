@@ -36,10 +36,27 @@ const HomeDrawer = ({navigation, route}) => {
     const routeName = getFocusedRouteNameFromRoute(route);
 
     switch (routeName) {
-      case 'FriendsTab':
-        return 'My Friends';
+      case 'FriendListStack':
+        return 'Friend List';
+      case 'IncomingFriendRequestsView':
+        return 'Friend Requests';
+      case 'FriendRequestSend':
+        return 'Find Friends';
       default:
-        return 'My Friends';
+        return 'Friend List';
+    }
+  }
+
+  const getProfileHeaderTitle = (route) => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+
+    switch (routeName) {
+      case 'MyProfileView':
+        return 'My Profile';
+      case 'EditMyProfileView':
+        return 'Edit Profile';
+      default:
+        return 'My Profile';
     }
   }
 
@@ -110,7 +127,7 @@ const HomeDrawer = ({navigation, route}) => {
           component={MyProfileStack} 
           options={({route}) => ({
             title: "My Profile",
-            headerTitle: "My Profile",
+            headerTitle: getProfileHeaderTitle(route),
             headerStyle: {
               backgroundColor: 'darkslateblue'},
             headerTitleAlign: 'center',
