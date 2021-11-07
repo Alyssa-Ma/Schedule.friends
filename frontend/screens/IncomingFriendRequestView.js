@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { View, Text, StyleSheet, FlatList} from 'react-native';
+import { Title } from 'react-native-paper'
 import FriendRequestItem from '../components/FriendRequestItem';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
@@ -10,15 +11,13 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
 
     //Sets the state items arr with dummy values
     const context = useContext(UserContext);
-    const [items, setItems] = useState();
+    const [friendRequests, setFriendRequests] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useFocusEffect(
         React.useCallback(() => {
-            setLoading(true);
-            console.log("entered screen!");
-
             async function getIncomingFR(){
+                setLoading(true);
                 try{
                     let response = await fetch(`${BASE_URL}/${context.user.id}/fr_to_user`, {
                         method: 'GET', 
@@ -27,29 +26,36 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                         'Authorization': `Token ${context.user.token}`
                         },
                     });
-                    const friend_reqs = await response.json();
-                    
-                    let friend_items = [];
-                    for(const req of friend_reqs){
-                        
-                        let friend_info = await fetch(`${BASE_URL}/${req.from_user}`, {
-                            method: 'GET', 
-                            headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Token ${context.user.token}`
-                            },
-                        });
-                        friendData = await friend_info.json();
-    
-                    friend_items.push(friendData);    
-                }
-    
-                setItems(friend_items);
-                setLoading(false);
-                
+
+                    if (response.status === 200) {
+                        const friendReqData = await response.json();
+                        for(const friendRequest of friendReqData){
+                            
+                            let response = await fetch(`${BASE_URL}/${friendRequest.from_user}`, {
+                                method: 'GET', 
+                                headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Token ${context.user.token}`
+                                },
+                            });
+                            if (response.status === 200) {
+                                friendRequest['from_user_data'] = await response.json();
+                            }
+                            else {
+                                console.log(`Error from server ${response.status}`);
+                                setLoading(false);
+                            }   
+                        }
+                        setFriendRequests(friendReqData);
+                        setLoading(false);
+                    }
+                    else {
+                        console.log(`Error from server ${response.status}`);
+                        setLoading(false);
+                    }
                 }catch(error){
                     console.log(error);
-                    setLoading(true);
+                    setLoading(false);
                 }
             }
         
@@ -63,8 +69,6 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
     
     //reject using PATCH and DELETE request. remove from list
     const rejectFriend = async (id) => {
-
-        console.log(`Rejected Friend`);
         try{
             let response = await fetch(`${BASE_URL}/friend_requests/${id}`, {
                 method: 'PATCH',
@@ -77,9 +81,13 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                   accepted: false
                 }),
             });
+            let jsonResponse = await response.json();
+            if (response.status === 200){
+                getIncomingFR();
+            }
+            else {
 
-            response = await response.json();
-            console.log(response);
+            }
         }
         catch(error){
             console.error(error);
@@ -126,9 +134,12 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
             {
                 loading
                 ?   <LoadingIndicator isLoading={loading} />
-                :   (items === undefined || items.length === 0
-                    ? <Text>No incoming Friend Requests</Text>
-                    : <FlatList data={items} renderItem={({item}) => <FriendRequestItem item={item} rejectFriend={rejectFriend} acceptFriend={acceptFriend}/>} />)
+                :   (friendData === undefined || friendData.length === 0
+                    ? <Title>No incoming Friend Requests</Title>
+                    : <FlatList 
+                        data={friendRequests}
+                        keyExtractor={friendRequest => friendRequest.id} 
+                        renderItem={({item}) => <FriendRequestItem friendRequest={item} rejectFriend={rejectFriend} acceptFriend={acceptFriend}/>} />)
             }
             
         </View>
