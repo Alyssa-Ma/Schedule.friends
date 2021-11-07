@@ -1,11 +1,9 @@
-import React, {useState, useContext, useEffect} from 'react';
-import {View, SafeAreaView, StyleSheet, StatusBar, Image, TouchableOpacity, Alert} from 'react-native';
+import React, {useState, useContext} from 'react';
+import {View, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import UserContext from '../context/UserContext';
-import {Avatar, Title, Caption, Text, TextInput, TouchableRipple, Button} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {Avatar, Text, TextInput, Button} from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {BASE_URL} from "@env";
-import { continueStatement } from '@babel/types';
 
 const EditMyProfileView = ({ navigation, route }) => {
 

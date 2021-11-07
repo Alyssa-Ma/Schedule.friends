@@ -6,68 +6,43 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import UserInfo from '../components/UserInfo';
 
 const MyProfileView = ({ navigation }) => {
+  const context = useContext(UserContext);
 
-    const context = useContext(UserContext);
-
-    const editProfilePressHandler = () => {
-      
-      navigation.push('EditMyProfileView', {
-        user: context.user
-      
-      })
-
-      console.log("Edit MY Profile Pressed");
-
-    }
-
-    const LogoutPressHandler = () => {
-      navigation.navigate('LogOut');
-    }
-
-    return (
-        
-        <SafeAreaView style={styles.container}>
-
-            <UserInfo user={context.user}/>
-            <View
-              style={{
-                borderBottomColor: 'black',
-                borderBottomWidth: 1,
-            }}
-            />
-
-
-            {/*////////////// TOUCHABLES //////////*/}
-
-            <View style={styles.listWrapper}>
-                <TouchableRipple onPress={() => editProfilePressHandler() }>
-                    <View style={styles.listItem}>
-
-                        <Icon name="person" size={25} color='darkslateblue'  />
-                        <Text style={styles.listItemText}>Edit My Profile</Text>
-
-                    </View>
-
-                </TouchableRipple>
-
-                <TouchableRipple onPress={() => LogoutPressHandler()}>
-                    <View style={styles.listItem}>
-
-                        <Icon name="logout" size={25} color='darkslateblue'  />
-                        <Text style={styles.listItemText}>Logout</Text>
-
-                    </View>
-
-                </TouchableRipple>
-
-
-
-            </View>
-
-
-        </SafeAreaView>
-    
-    );
+  const editProfilePressHandler = () => {
+    navigation.push('EditMyProfileView', {
+      user: context.user
+    })
+    console.log("Edit MY Profile Pressed");
+  }
+  const LogoutPressHandler = () => {
+    navigation.navigate('LogOut');
+  }
+  
+  return (
+    <SafeAreaView style={styles.container}>
+      <UserInfo user={context.user}/>
+      <View
+        style={{
+          borderBottomColor: 'black',
+          borderBottomWidth: 1,
+        }}
+      />
+      <View style={styles.listWrapper}>
+        <TouchableRipple onPress={() => editProfilePressHandler() }>
+          <View style={styles.listItem}>
+            <Icon name="person" size={25} color='darkslateblue'  />
+            <Text style={styles.listItemText}>Edit My Profile</Text>
+          </View>
+        </TouchableRipple>
+        <TouchableRipple onPress={() => LogoutPressHandler()}>
+          <View style={styles.listItem}>
+            <Icon name="logout" size={25} color='darkslateblue'  />
+            <Text style={styles.listItemText}>Logout</Text>
+          </View>
+        </TouchableRipple>
+      </View>
+    </SafeAreaView>
+  );
 }
 
 export default MyProfileView;

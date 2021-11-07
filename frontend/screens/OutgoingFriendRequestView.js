@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useContext} from 'react';
-import { View, Text, StyleSheet, FlatList} from 'react-native';
+import React, {useState, useContext} from 'react';
+import { View, StyleSheet, FlatList} from 'react-native';
 import { Title } from 'react-native-paper'
 import FriendRequestItem from '../components/FriendRequestItem';
 import {BASE_URL} from "@env";
@@ -110,10 +110,8 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                         keyExtractor={friendRequest => friendRequest.id} 
                         renderItem={({item}) => <FriendRequestItem friendRequest={item} displayOptions={"from_user"} rejectFriend={rejectFriend}/>} />)
             }
-            
         </View>
     )
-
 }
 
 //Style Sheet

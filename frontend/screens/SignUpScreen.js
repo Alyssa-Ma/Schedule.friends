@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import { View, Alert, Text, StyleSheet, StatusBar, Image,
+import { View, Alert, Text, StyleSheet, StatusBar,
         TouchableOpacity } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 import {BASE_URL} from "@env";

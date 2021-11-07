@@ -12,9 +12,6 @@ const CourseItem = ({navigation, item}) => {
 
         stime = starttimesplit;
         etime = endtimesplit;
-        //console.log(stime[0], ":", stime[1]);
-        //console.log(etime[0], ":", etime[1]);
-
         navigation.push('EditClassView', {
             itemId:item.id, 
             courseName: item.course_name,
@@ -29,15 +26,6 @@ const CourseItem = ({navigation, item}) => {
 
         })
     }
-
-    //const [shr, setshr] = useState([]);
-
-
-
-
-    //const test = "12:31";
-    //const res = test.split(':', 2);
-   // console.log("yut");
 
     return (
         <TouchableOpacity onPress={ (item.owner === context.user.id)

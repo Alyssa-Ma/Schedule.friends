@@ -20,22 +20,6 @@ const CombinedScheduleStack = ({navigation, route}) => {
                   headerShown: false
               }}
           />
-          
-          {
-          //Can't work with our model data right now
-          /* <Stack.Screen 
-              name="EditClass" 
-              component={EditClassView}
-              options={{
-                  title: 'Edit Class',
-                  headerStyle: {
-                    backgroundColor: 'darkslateblue'},
-                  headerTitleAlign: 'center',
-                  headerTitleStyle: {
-                    color: 'white',
-                  }
-              }}
-          /> */}
       </Stack.Navigator>
   )
 

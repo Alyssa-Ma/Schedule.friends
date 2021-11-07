@@ -74,7 +74,10 @@ const SearchList = ({query, pendingRequests}) => {
 
     //renders each user found in AddFriend
     return (
-        <FlatList keyboardShouldPersistTaps='always' data={items} renderItem={({item}) => <AddFriend item={item}/>} />
+        <FlatList 
+            keyboardShouldPersistTaps='always' 
+            data={items} 
+            renderItem={({item}) => <AddFriend item={item}/>} />
     )
 }
 

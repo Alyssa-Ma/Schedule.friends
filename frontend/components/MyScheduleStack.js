@@ -7,7 +7,6 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 
 const Stack = createNativeStackNavigator();
 
-//Basically serves like a 'routes' page. Allows for stack nav on the edit pages
 const MyScheduleStack = ({navigation, route}) => {
   return (
     <Stack.Navigator>

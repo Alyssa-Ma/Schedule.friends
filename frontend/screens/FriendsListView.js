@@ -5,7 +5,6 @@ import UserContext from '../context/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
 import FriendListItem from '../components/FriendListItem';
 import LoadingIndicator from '../components/LoadingIndicator';
-import { Button } from 'react-native-paper';
 
 const FriendsListView = ({navigation, route}) => {
 

@@ -1,5 +1,5 @@
-import React, {useState, useContext, useEffect} from 'react';
-import {View, SafeAreaView, StyleSheet, FlatList, StatusBar, Image, TextInput, TouchableOpacity} from 'react-native';
+import React, {useState, useContext} from 'react';
+import {View, SafeAreaView, StyleSheet, FlatList} from 'react-native';
 import UserContext from '../context/UserContext';
 import {Button, Paragraph, Dialog, Portal, ActivityIndicator} from 'react-native-paper';
 

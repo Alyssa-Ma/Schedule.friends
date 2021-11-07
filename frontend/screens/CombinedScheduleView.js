@@ -34,9 +34,9 @@ const CombinedScheduleView = ({navigation, route}) => {
   }, [context.user['schedule'], focusDate]);
   
   // nav on tap
-  const _eventTapped = (event) => {
-    console.log(event);
-  }
+  // const _eventTapped = (event) => {
+  //   console.log(event);
+  // }
 
   const changeFocus = (dateString) => {
     // means we went forward
@@ -53,7 +53,7 @@ const CombinedScheduleView = ({navigation, route}) => {
       
       <EventCalendar
         
-        eventTapped={_eventTapped}
+        // eventTapped={_eventTapped}
         events={events}
         width={width}
         dateChanged={changeFocus}

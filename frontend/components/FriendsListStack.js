@@ -5,7 +5,6 @@ import FriendProfileView from '../screens/FriendProfileView';
 
 const Stack = createNativeStackNavigator();
 
-//Basically serves like a 'routes' page. Allows for stack nav on the edit pages
 const FriendsListStack = ({navigation, route}) => {
   return (
     <Stack.Navigator>

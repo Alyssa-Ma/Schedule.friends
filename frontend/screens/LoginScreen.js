@@ -45,9 +45,6 @@ const LoginScreen = ({ navigation, route }) => {
                     <Text style={{color: 'blue'}}> Create an account! </Text>
                 </TouchableOpacity>
             </View>
-
-            {/* <Text>{context.user ? `${context.user.username}` : null}</Text> */}
-
         </View>
     
     );
@@ -106,50 +103,3 @@ const styles = StyleSheet.create({
     },
     
 })
-
-
-    // const logInCall = async () => {
-
-    //     try{
-    //         let response = await fetch(`${BASE_URL}/login/`, {
-    //         method: 'POST', // or 'PUT'
-    //         headers: {
-    //         'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({
-    //             "username": userName,
-    //             "password": userPassword
-    //         }),
-    //         });
-
-    //         if(response.status >= 400){
-    //             Alert.alert(
-    //                 "Invalid Log In",
-    //                 "The username and/or password is incorrect",
-    //               );
-    //             return; 
-    //         }
-
-    //         const auth = await response.json();
-            
-    //         response = await fetch(`${BASE_URL}/?query=${userName}`, {
-    //             method: 'GET', // or 'PUT'
-    //             headers: {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': `Token ${auth.token}`
-    //             },
-    //         });
-
-    //         response = await response.json();
-            
-    //         const data = {
-    //             token: auth.token,
-    //             user: response[0]
-    //         }
-            
-    //         navigation.navigate('Home', data);
-        
-    //     } catch(error){
-    //         console.error(error);
-    //     }   
-    // }

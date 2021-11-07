@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Searchbar } from 'react-native-paper';
-import AddFriend from '../components/AddFriend';
 import SearchList from '../components/SearchList';
 import UserContext from '../context/UserContext';
 import {BASE_URL} from "@env";
@@ -47,8 +46,7 @@ const FriendRequestSend = ({ navigation, route }) => {
 
             return () => {
                 setSearchQuery('');
-            };
-        // Import that it's [], otherwise useFocusEffect may trigger endlessly while focused.
+            }
         }, [])
     )
 
