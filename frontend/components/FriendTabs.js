@@ -4,24 +4,38 @@ import FriendRequestSend from '../screens/FriendRequestSend';
 import FriendsListStack from './FriendsListStack';
 import IncomingFriendRequestView from '../screens/IncomingFriendRequestView';
 // import OutgoingFriendRequestView from '../screens/OutgoingFriendRequestView'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const Tab = createBottomTabNavigator();
+
+const color = "#6200EE";
+const size = 30;
 
 const FriendTabs = ({navigation, route}) => {
 
     return (
-        <Tab.Navigator>
+        <Tab.Navigator >
             <Tab.Screen 
-                name="FriendListStack" 
+                name="FriendListStack"
                 component={FriendsListStack}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    tabBarLabel: 'Friend List',
+                    tabBarActiveTintColor: color,
+                    tabBarIcon: ({color}) => (
+                        <Icon name="account-group" color={color} size={size}/>
+                    )
                 }}
             />
             <Tab.Screen 
                 name="IncomingFriendRequestsView" 
                 component={IncomingFriendRequestView}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    tabBarLabel: 'Incoming Requests',
+                    tabBarActiveTintColor: color,
+                    tabBarIcon: ({color}) => (
+                        <Icon name="account-arrow-left" color={color} size={size}/>
+                    )
                 }}
             />
             {/* <Tab.Screen 
@@ -35,7 +49,12 @@ const FriendTabs = ({navigation, route}) => {
                 name="FriendRequestSend" 
                 component={FriendRequestSend}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    tabBarLabel: 'Find Friends',
+                    tabBarActiveTintColor: color,
+                    tabBarIcon: ({color}) => (
+                        <Icon name="account-search" color={color} size={size}/>
+                    )
                 }}
             />
         </Tab.Navigator>

@@ -2,7 +2,7 @@ import React, {useState, useContext, useEffect} from 'react';
 import {View, SafeAreaView, StyleSheet, FlatList, StatusBar, Image, TextInput, TouchableOpacity} from 'react-native';
 import UserContext from '../context/UserContext';
 import {Button, Paragraph, Dialog, Portal, ActivityIndicator} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import UserInfo from '../components/UserInfo';
 import CourseItem from '../components/CourseItem';
 
@@ -81,8 +81,6 @@ const FriendProfileView = ({ navigation, route}) => {
                 keyExtractor={course => course.id}
                 renderItem={({item}) => <CourseItem item={item} navigation={navigation}/>} />
             </View>
-
-
         </SafeAreaView>
     
     );
