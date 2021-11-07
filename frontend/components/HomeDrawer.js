@@ -3,24 +3,21 @@ import React, {useState, useEffect, useContext} from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import FriendTabs from './FriendTabs';
-import FriendRequestView from '../screens/FriendRequestView';
-import FriendRequestSend from '../screens/FriendRequestSend';
 import CommonTimeText from '../screens/CommonTimeText';
 import MyScheduleStack from './MyScheduleStack';
 import CombinedScheduleStack from './CombinedScheduleStack';
 import UserContext from '../context/UserContext';
 import LogOut from './LogOut';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
-import MyProfileView from '../screens/MyProfileView';
-import EditMyProfileView from '../screens/EditMyProfileView';
 import MyProfileStack from './MyProfileStack';
-
 
 const Drawer = createDrawerNavigator();
 
 const HomeDrawer = ({navigation, route}) => {
   const context = useContext(UserContext);
-  const getHeaderTitle = (route) => {
+
+
+  const getScheduleHeaderTitle = (route) => {
     const routeName = getFocusedRouteNameFromRoute(route);
 
     switch (routeName) {
@@ -35,8 +32,36 @@ const HomeDrawer = ({navigation, route}) => {
     }
   }
 
-  // const [user, SetUser] = useState(route.params);
-  //console.log(user, 'STATE DRAWER');
+  const getFriendsHeaderTitle = (route) => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+
+    switch (routeName) {
+      case 'FriendListStack':
+        return 'Friend List';
+      case 'IncomingFriendRequestsView':
+        return 'Incoming Requests';
+        case 'OutgoingFriendRequestsView':
+          return 'Outgoing Requests';
+      case 'FriendRequestSend':
+        return 'Find Friends';
+      default:
+        return 'Friend List';
+    }
+  }
+
+  const getProfileHeaderTitle = (route) => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+
+    switch (routeName) {
+      case 'MyProfileView':
+        return 'My Profile';
+      case 'EditMyProfileView':
+        return 'Edit Profile';
+      default:
+        return 'My Profile';
+    }
+  }
+
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -62,7 +87,7 @@ const HomeDrawer = ({navigation, route}) => {
           component={MyScheduleStack} 
           options={({route}) => ({
             title: "My Schedule",
-            headerTitle: getHeaderTitle(route),
+            headerTitle: getScheduleHeaderTitle(route),
             headerStyle: {
               backgroundColor: 'darkslateblue'},
             headerTitleAlign: 'center',
@@ -87,15 +112,16 @@ const HomeDrawer = ({navigation, route}) => {
       <Drawer.Screen
           name="Friends"
           component={FriendTabs}
-          options={{
-            title: 'Friends',
-              headerStyle: {
-                backgroundColor: 'darkslateblue'},
-              headerTitleAlign: 'center',
-              headerTitleStyle: {
-                color: 'white',
-              }
-          }}
+          options={({route}) => ({
+            title: 'My Friends',
+            headerTitle: getFriendsHeaderTitle(route),
+            headerStyle: {
+              backgroundColor: 'darkslateblue'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white',
+            }
+          })}
       />
 
       <Drawer.Screen 
@@ -103,7 +129,7 @@ const HomeDrawer = ({navigation, route}) => {
           component={MyProfileStack} 
           options={({route}) => ({
             title: "My Profile",
-            headerTitle: "My Profile",
+            headerTitle: getProfileHeaderTitle(route),
             headerStyle: {
               backgroundColor: 'darkslateblue'},
             headerTitleAlign: 'center',
@@ -123,7 +149,7 @@ const HomeDrawer = ({navigation, route}) => {
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white',
-            }}}
+          }}}
       />
     </Drawer.Navigator>      
   );

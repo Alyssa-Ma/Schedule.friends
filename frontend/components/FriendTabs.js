@@ -1,33 +1,65 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FriendRequestSend from '../screens/FriendRequestSend';
-import FriendRequestView from '../screens/FriendRequestView';
-import ViewFriends from '../screens/ViewFriends';
+import FriendsListStack from './FriendsListStack';
+import IncomingFriendRequestView from '../screens/IncomingFriendRequestView';
+import OutgoingFriendRequestView from '../screens/OutgoingFriendRequestView'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const Tab = createBottomTabNavigator();
+
+const color = "#6200EE";
+const size = 30;
 
 const FriendTabs = ({navigation, route}) => {
 
     return (
         <Tab.Navigator initialRouteName="ViewFriends">
             <Tab.Screen 
-                name="ViewFriends" 
-                component={ViewFriends}
+                name="FriendListStack"
+                component={FriendsListStack}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    tabBarLabel: 'Friend List',
+                    tabBarActiveTintColor: color,
+                    tabBarIcon: ({color}) => (
+                        <Icon name="account-group" color={color} size={size}/>
+                    )
                 }}
             />
             <Tab.Screen 
-                name="Friend Requests" 
-                component={FriendRequestView}
+                name="IncomingFriendRequestsView" 
+                component={IncomingFriendRequestView}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    tabBarLabel: 'Incoming Requests',
+                    tabBarActiveTintColor: color,
+                    tabBarIcon: ({color}) => (
+                        <Icon name="account-arrow-left" color={color} size={size}/>
+                    )
                 }}
             />
             <Tab.Screen 
-                name="Send a Friend Request" 
+                name="OutgoingFriendRequestsView" 
+                component={OutgoingFriendRequestView}
+                options={{
+                    headerShown: false,
+                    tabBarLabel: 'Outgoing Requests',
+                    tabBarActiveTintColor: color,
+                    tabBarIcon: ({color}) => (
+                        <Icon name="account-arrow-left" color={color} size={size}/>
+                    )
+                }}
+            />
+            <Tab.Screen 
+                name="FriendRequestSend" 
                 component={FriendRequestSend}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    tabBarLabel: 'Find Friends',
+                    tabBarActiveTintColor: color,
+                    tabBarIcon: ({color}) => (
+                        <Icon name="account-search" color={color} size={size}/>
+                    )
                 }}
             />
         </Tab.Navigator>

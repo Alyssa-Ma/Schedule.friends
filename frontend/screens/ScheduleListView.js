@@ -5,7 +5,7 @@ import { Button } from 'react-native-paper'
 import UserContext from '../context/UserContext';
 
 
-const ScheduleListView = ({ navigation }) => {
+const ScheduleListView = ({ navigation, route }) => {
     const context = useContext(UserContext);
     //DAY RAIDO BUTTON START ------
     // const [checked, setChecked] = useState();
@@ -81,18 +81,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 0,
         backgroundColor: "#fff",
-    },
-
-    daysRadioBar: {
-        flexDirection: "row",
-        justifyContent: "space-evenly"
-    },
-
-    daysRadio: {
-        flexDirection: "column",
-        alignItems: "center"
-    },
-
+    }
 });
 
 export default ScheduleListView;

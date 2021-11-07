@@ -61,8 +61,11 @@ def users_detail(request, pk):
     elif request.method == 'PATCH':
         serializer = UserSerializer(user, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            user = serializer.save()
+            token, created = Token.objects.get_or_create(user=user)
+            user_dict = dict(UserSerializer(user).data)
+            user_dict.update({'token': token.key})
+            return Response(user_dict, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
@@ -158,7 +161,12 @@ def fr_list(request):
             to_user = User.objects.get(pk=request.data['to_user'])
         except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-       
+        
+        if UserSerializer(to_user).data['id'] in UserSerializer(from_user).data['friend_list']:
+            return Response({
+                "non_field_errors": [f"User {request.data['from_user']} is already friends with {request.data['to_user']}"]
+            }, status=status.HTTP_400_BAD_REQUEST)
+
         fr_serializer = FriendRequestSerializer(data=request.data)
         if fr_serializer.is_valid():
             fr_serializer.save()

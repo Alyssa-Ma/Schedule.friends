@@ -25,13 +25,6 @@ const MyProfileStack = ({navigation, route}) => {
             headerShown: false
         }}
       />
-      <Stack.Screen 
-        name="LogOut" 
-        component={LogOut}
-        options={{
-            headerShown: false
-        }}
-      />
     </Stack.Navigator>
   )
 }

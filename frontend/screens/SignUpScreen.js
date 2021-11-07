@@ -81,6 +81,7 @@ const SignUpScreen = ({ navigation }) => {
         .then(resp => resp.json())
         .then(data => {
             context.setUser(data);
+            context.setIsSignedIn(true);
             Alert.alert("USER REGISTERED");
         })
         .catch(error => console.log(error))
