@@ -6,6 +6,7 @@ import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
 import LoadingIndicator from '../components/LoadingIndicator';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const IncomingFriendRequestView = ({ navigation, route }) => {
 
@@ -29,6 +30,7 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
 
                     if (response.status === 200) {
                         const friendReqData = await response.json();
+                        
                         for(const friendRequest of friendReqData){
                             
                             let response = await fetch(`${BASE_URL}/${friendRequest.from_user}`, {
@@ -83,18 +85,17 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
             });
             let jsonResponse = await response.json();
             if (response.status === 200){
-                getIncomingFR();
+                setFriendRequests(prevItems => {
+                    return prevItems.filter(item => item.id != id);
+                });
             }
             else {
-
+                console.log(`Error from server: ${response.status}`)
             }
         }
         catch(error){
             console.error(error);
         }
-        setItems(prevItems => {
-            return prevItems.filter(item => item.id != id);
-        });
     }
 
     //accept using PATCH and DELETE request. remove from list
@@ -115,8 +116,15 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                   accepted: true
                 }),
             });
-            response = await response.json();
-            console.log(response);
+            let jsonResponse = await response.json();
+            if (response.status === 200){
+                setFriendRequests(prevItems => {
+                    return prevItems.filter(item => item.id != id);
+                });
+            }
+            else {
+                console.log(`Error from server: ${response.status}`)
+            }
         }
         catch(error){
             console.error(error);
@@ -124,9 +132,7 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
         
         
 
-        setItems(prevItems => {
-            return prevItems.filter(item => item.id != id);
-        });
+
 
     }
     return (
@@ -134,8 +140,14 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
             {
                 loading
                 ?   <LoadingIndicator isLoading={loading} />
-                :   (friendData === undefined || friendData.length === 0
-                    ? <Title>No incoming Friend Requests</Title>
+                :   (friendRequests === undefined || friendRequests.length === 0
+                    ? (
+                        <View style={styles.noRequests}>
+                            <Icon name="account-group" size={100} color="#6200EE"/>
+                            <Title >No incoming Friend Requests</Title>
+                        </View>
+
+                    )
                     : <FlatList 
                         data={friendRequests}
                         keyExtractor={friendRequest => friendRequest.id} 
@@ -155,6 +167,12 @@ const styles = StyleSheet.create({
         paddingTop: 0,
     },
 
+    noRequests: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center' 
+    }
 });
 
 export default IncomingFriendRequestView;

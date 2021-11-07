@@ -4,13 +4,10 @@ import UserContext from '../context/UserContext';
 import {Avatar, Title, Caption, Text, TouchableRipple} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import UserInfo from '../components/UserInfo';
-import {BASE_URL} from "@env";
-
 
 const MyProfileView = ({ navigation }) => {
 
     const context = useContext(UserContext);
-    //const [data, setData] = useState([]);
 
     const editProfilePressHandler = () => {
       
@@ -33,9 +30,9 @@ const MyProfileView = ({ navigation }) => {
 
             <UserInfo user={context.user}/>
             <View
-            style={{
-            borderBottomColor: 'black',
-            borderBottomWidth: 1,
+              style={{
+                borderBottomColor: 'black',
+                borderBottomWidth: 1,
             }}
             />
 
