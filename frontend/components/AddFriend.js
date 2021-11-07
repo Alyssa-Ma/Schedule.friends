@@ -2,13 +2,14 @@ import React, {useState, useContext} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native';
 import { Button } from 'react-native-paper';
 import {BASE_URL} from "@env";
+import UserListHeader from './UserListHeader';
 import UserContext from '../context/UserContext';
 
 const AddFriend = ({item}) => {
 
     const context = useContext(UserContext);
-    const [buttonStatus, setButtonStatus] = useState(item.friend_status === 'NONE' ? false : true)
-    const [buttonInfo, setButtonInfo] = useState(item.friend_status);
+    const [buttonStatus, setButtonStatus] = useState(item.status === 'NONE' ? false : true)
+    const [buttonInfo, setButtonInfo] = useState(item.status);
     //sends the friend request
     const sendRequest = async (id) => {
         
@@ -39,15 +40,13 @@ const AddFriend = ({item}) => {
         
     }
    
-    const imgSource = {uri: 'https://randomuser.me/api/portraits/men/1.jpg'};
 
     //Lists the user as a list item
     //renders a button that reflects the status of the user's friend status in correlation to the curr user
     return (
         <TouchableOpacity style={styles.friendRequest}>
             <View style={styles.itemView}>
-                <Image source={imgSource} style={styles.profilePic}/>
-                <Text style={styles.name}>@{item.username}</Text>
+                <UserListHeader user={item} />
 
                 
                 {   //'NONE' -> Not friends

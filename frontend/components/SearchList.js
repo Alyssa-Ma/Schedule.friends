@@ -23,27 +23,35 @@ const SearchList = ({query, incFriends}) => {
                     'Authorization': `Token ${context.user.token}`
                     },
                 });
-                response = await response.json();
-                let users = [];
-                for(const user of response){
-
-                    const isFriend = user.friend_list.includes(context.user.id) 
-                        ? 'FRIEND'
-                        :   (incFriends.includes(user.id)
-                            ? 'PENDING'
-                            : 'NONE');
-
-                    const userInfo = {
-                        id: user.id,
-                        f_name: user.first_name,
-                        l_name: user.last_name,
-                        friend_status: isFriend,
-                        username: user.username
+                jsonResponse = await response.json();
+                if (response.status === 200)
+                {
+                    let users = [];
+                    for(const user of jsonResponse){
+    
+                        const userStatus = user.friend_list.includes(context.user.id) 
+                            ? 'FRIEND'
+                            :   (incFriends.includes(user.id)
+                                ? 'PENDING'
+                                : (user.id === context.user.id
+                                    ? 'SAME'
+                                    : 'NONE'));
+    
+                        const userInfo = {
+                            id: user.id,
+                            first_name: user.first_name,
+                            last_name: user.last_name,
+                            status: userStatus,
+                            username: user.username
+                        }
+    
+                        users.push(userInfo);
                     }
-
-                    users.push(userInfo);
+                    setItems(users);
                 }
-                setItems(users);
+                else {
+                    console.log(`Error from sever: ${response.status}`)
+                }
                 
             }
             catch(error){

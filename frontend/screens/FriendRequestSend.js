@@ -19,7 +19,7 @@ const FriendRequestSend = ({ navigation, route }) => {
     useFocusEffect(
         React.useCallback(() => {
             console.log('Entering Screen')
-
+            
             const getInfo = async() =>{
                 try{
                     let response = await fetch(`${BASE_URL}/${context.user.id}/fr_to_user`, {
@@ -46,7 +46,7 @@ const FriendRequestSend = ({ navigation, route }) => {
             getInfo();
 
             return () => {
-                console.log("leaving screen!");
+                setSearchQuery('');
             };
         // Import that it's [], otherwise useFocusEffect may trigger endlessly while focused.
         }, [])

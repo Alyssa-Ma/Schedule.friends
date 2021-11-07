@@ -13,7 +13,16 @@ const size = 30;
 const FriendTabs = ({navigation, route}) => {
 
     return (
-        <Tab.Navigator initialRouteName="ViewFriends">
+        <Tab.Navigator initialRouteName="ViewFriends"
+            screenOptions={{
+                tabBarHideOnKeyboard: true,
+                tabBarStyle: [
+                    {
+                        "display": "flex"
+                    },
+                    null
+                ]
+            }}>
             <Tab.Screen 
                 name="FriendListStack"
                 component={FriendsListStack}
