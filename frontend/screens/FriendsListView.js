@@ -1,10 +1,12 @@
 import React, {useContext, useState} from 'react';
-import { View, Text, StyleSheet, FlatList} from 'react-native';
+import { View, StyleSheet, FlatList} from 'react-native';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
+import { Title } from 'react-native-paper'
 import FriendListItem from '../components/FriendListItem';
 import LoadingIndicator from '../components/LoadingIndicator';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const FriendsListView = ({navigation, route}) => {
 
@@ -66,12 +68,17 @@ const FriendsListView = ({navigation, route}) => {
     )   
 
     return (
-        <View>
+        <View style={styles.container}>
             {
                 loading
                 ?   <LoadingIndicator isLoading={loading} />
                 :   (friends === undefined || friends.length === 0
-                    ? <Text>No Friends</Text>
+                    ? (
+                        <View style={styles.noFriends}>
+                            <Icon name="account-group" size={100} color="#6200EE"/>
+                            <Title>Friend list is empty, find some friends!</Title>
+                        </View>
+                    )
                     : <FlatList 
                         data={friends}
                         keyExtractor={friend => friend.id}
@@ -81,5 +88,21 @@ const FriendsListView = ({navigation, route}) => {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+
+    container: {
+        flex: 1,
+        paddingTop: 0,
+    },
+
+    noFriends: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center' 
+    }
+});
+
 
 export default FriendsListView;
