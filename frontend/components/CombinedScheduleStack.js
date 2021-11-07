@@ -13,7 +13,7 @@ const CombinedScheduleStack = ({navigation, route}) => {
   return (
       <Stack.Navigator>
           <Stack.Screen 
-              name="Home" 
+              name="CombinedScheduleView" 
               component={CombinedScheduleView}
               options={{
                   title: 'Home',

@@ -29,9 +29,9 @@ const LoginScreen = ({ navigation, route }) => {
                 onChangeText = {(val) => setUserName(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
-            <TextInput style={styles.inputBox} 
+            <TextInput secureTextEntry={true} style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'enter password' 
+                placeholder = 'enter password'                
                 onChangeText = {(val) => setUserPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
 

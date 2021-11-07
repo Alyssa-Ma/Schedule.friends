@@ -5,6 +5,7 @@ import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 // Needed to check route name
 import { useFocusEffect } from '@react-navigation/native';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 const CommonTimeText = ({ navigation, route }) => {
 
@@ -222,15 +223,17 @@ const CommonTimeText = ({ navigation, route }) => {
         // Import that it's [], otherwise useFocusEffect may trigger endlessly while focused.
         }, [])
     )
-
+    
     return (
         <View style={styles.container}>
             {   
                 loading
-                ?   <Text>loading....</Text>
-                : (items === undefined || items.length === 0
-                    ? <Text>No one is free now ;(</Text>
-                    : <FlatList data={items} style={styles.outerCard} renderItem={({item}) => <TextViewCard item={item} />} />)
+                ?  <LoadingIndicator isLoading={loading} />
+                :  context.user.friend_list.length === 0
+                    ? <Text>No Friends, Add Some!</Text>
+                    : (items === undefined || items.length === 0
+                        ? <Text>No one is free now</Text>
+                        : <FlatList data={items} style={styles.outerCard} renderItem={({item}) => <TextViewCard item={item} />} />)
             }
         </View>
     )

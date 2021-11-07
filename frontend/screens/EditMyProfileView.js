@@ -5,18 +5,20 @@ import {Avatar, Title, Caption, Text, TextInput, TouchableRipple, Button} from '
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {BASE_URL} from "@env";
+import { continueStatement } from '@babel/types';
 
 const EditMyProfileView = ({ navigation, route }) => {
 
+    const context = useContext(UserContext);
     
-    const {con} = route.params;
+    const {user} = route.params;
 
-    const [fName, setFName] = useState("");
-    const [lName, setLName] = useState("");
+    const [fName, setFName] = useState(user.first_name);
+    const [lName, setLName] = useState(user.last_name);
+    const [userName, setUsername] = useState(user.username);
+    const [email, setEmail] = useState(user.email);
 
-    //const [uname, setUname] = useState();
-    //const [data, setData] = useState([]);
-    //const { username, firstName, lastName } = route.params;
+    const [loadingButton, setLoadingButton] = useState(false);
 
     const forumCheck = () => {
 
@@ -39,84 +41,73 @@ const EditMyProfileView = ({ navigation, route }) => {
 
     }
     
-        const confirmPressHandle = () => {
-
-
-        
-          fetch(`${BASE_URL}/${con.id}`, {
-              method:"PATCH",
-              headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Token ${con.token}`
-              
-              },
-              body: JSON.stringify({
-                  "first_name": fName,
-                  "last_name": lName
-              })
-        
-            })
-       
-            .then(data => {
-            })
-            .catch(error => console.log("Error"));
-
-
-            
-            navigation.navigate('MyProfileView',{ 
-
-            
-            con: con.first_name = fName,
-            con: con.last_name = lName,
-            
-
-            })
-
-
+        const confirmPressHandle = async () => {
+            setLoadingButton(true);
+            try {
+                const response = await fetch(`${BASE_URL}/${user.id}`, {
+                    method:"PATCH",
+                    headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${user.token}`
+                    
+                    },
+                    body: JSON.stringify({
+                        "first_name": fName,
+                        "last_name": lName,
+                        "email": email,
+                        "username": userName
+                    })
+                })
+                
+                const jsonResponse = await response.json();
+                if (response.status === 200) {
+                    setLoadingButton(false);
+                    context.setUser(jsonResponse);
+                    navigation.pop();
+                }
+                else {
+                    setLoadingButton(false);
+                    console.log(`Server Error ${response.status}`)
+                }
+            } catch(error) {
+                console.log(error)
+            }
+            setLoadingButton(false);
         }
     
    
 
     const cancelPressHandle = () => {
-
         navigation.pop();
-        
     }
 
 
     return (
         
         <View syle={styles.container}> 
-
             <View style={{margin: 20}}>
-
                 <View style={{alignItems: 'center'}}>
-
                     <TouchableOpacity onPress={() => {}}>
-
                         <View style={styles.icon}>
-                        
-                        <Avatar.Text 
-                        size = {100} 
-                        backgroundColor = 'turquoise'
-                        label=
-                        {con.first_name.charAt(0)+con.last_name.charAt(0)}
-                        />
-
+                            <Avatar.Text 
+                                size = {100} 
+                                backgroundColor = 'turquoise'
+                                label=
+                                {user.first_name.charAt(0)+user.last_name.charAt(0)}
+                            />
                         </View>
-
                     </TouchableOpacity>
-
                     <Text style = {styles.fnamelname}>
-                        {con.first_name + " " + con.last_name}
+                        {user.first_name + " " + user.last_name}
                     </Text>
-
                 </View>
 
                 <View style={styles.inputfields}>
                 <FontAwesome name="user-o" size={30} />
                     <TextInput
-                        placeholder="First Name"
+                        mode="outlined"
+                        label="First Name"
+                        value={fName}
                         placeholderTextColor = "#666666"
                         onChangeText = {(val) => setFName(val)}
                         autoCorrect={false}
@@ -127,7 +118,9 @@ const EditMyProfileView = ({ navigation, route }) => {
                 <View style={styles.inputfields}>
                 <FontAwesome name="user-o" size={30} />
                     <TextInput
-                        placeholder="Last Name"
+                        mode="outlined"
+                        label="Last Name"
+                        value={lName}
                         placeholderTextColor = "#666666"
                         onChangeText = {(val) => setLName(val)}
                         autoCorrect={false}
@@ -135,22 +128,38 @@ const EditMyProfileView = ({ navigation, route }) => {
                     />
                 </View>
      
-
-                <View style={styles.buttons}>
-                <Button icon="check"  onPress={() => forumCheck() } mode="contained">Confirm</Button>
+                <View style={styles.inputfields}>
+                    <FontAwesome name="user-o" size={30} />
+                        <TextInput
+                            mode="outlined"
+                            label="E-Mail"
+                            value={email}
+                            placeholderTextColor = "#666666"
+                            onChangeText = {(val) => setEmail(val)}
+                            autoCorrect={false}
+                            style={styles.textInput}
+                        />
+                </View>
+                <View style={styles.inputfields}>
+                    <FontAwesome name="user-o" size={30} />
+                        <TextInput
+                            mode="outlined"
+                            label="Username"
+                            value={userName}
+                            placeholderTextColor = "#666666"
+                            onChangeText = {(val) => setUsername(val)}
+                            autoCorrect={false}
+                            style={styles.textInput}
+                        />
                 </View>
                 <View style={styles.buttons}>
-                <Button icon="cancel" onPress={() => cancelPressHandle()} mode="contained">Cancel</Button>
+                    <Button icon="check" loading={loadingButton} onPress={() => forumCheck() } mode="contained">Confirm</Button>
                 </View>
-            
-
-
-
+                <View style={styles.buttons}>
+                    <Button icon="cancel" onPress={() => cancelPressHandle()} mode="contained">Cancel</Button>
+                </View>
             </View>
-
-
         </View>
-    
     );
 }
 
@@ -198,45 +207,3 @@ const styles = StyleSheet.create({
     },
 
   });
-
-    /*
-    const forumCheck = () => {
-
-        
-        console.log("Did I navigate?");
-        navigation.pop();
-        
-
-        const fname = firstName;
-        const lname = lastName;
-        const uname = username;  
-
-        //firstname + lastname regex to check if inputed names follow correct syntax. only allows letters.
-        var nameRegex = /^[A-Za-z]+$/;
-
-        //username regex to check if inputed usernames follow correct syntax. only allows letters and numbers. 
-        var usernameRegex = /^[0-9a-zA-Z]+$/;
-
-        //password regex to check if inputed passwords follow correct syntax. only allows 6-20 chars which contain at least one numeric digit, 
-        //one upercase letter and one lowercase letter 
-        var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-       
-        if((fname=="")||!(nameRegex.test(fname)))
-        {
-            Alert.alert("please enter a valid first name.");
-            
-        }
-        else if ((lname=="")||!(nameRegex.test(lname)))
-        {
-            Alert.alert("please enter a valid last name.");
-        }
-        else if ((uname=="")||!(usernameRegex.test(uname)))
-        {
-            Alert.alert("please enter a valid username.");
-        }
-        else 
-        {
-            confirmPressHandle();
-        }
-        */
-  

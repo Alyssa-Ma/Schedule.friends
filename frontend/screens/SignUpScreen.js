@@ -1,27 +1,56 @@
 import React, {useState, useContext} from 'react';
-import {View, Alert, Text, StyleSheet, StatusBar, Image, TextInput, 
-        TouchableOpacity} from 'react-native';
+import { View, Alert, Text, StyleSheet, StatusBar, Image,
+        TouchableOpacity } from 'react-native';
+import { TextInput, HelperText } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 
 const SignUpScreen = ({ navigation }) => {
     const context = useContext(UserContext);
-
     const [first_name, setFirstName] = useState("");
     const [last_name, setLastName] = useState("");
     const [username, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [schedule, setSchedule] = useState([]);
+    const onChangeFText = first_name => setFirstName(first_name);
+    const onChangeLText = last_name => setLastName(last_name);
+    const onChangeUText = username => setUserName(username);
+    const onChangeEText = email => setEmail(email);
+    const onChangePText = password => setPassword(password);
+    
+    // HELPER TEXT CHECKER FUNCS
+    const fnameValid = () => {
+        var nameRegex = /^[A-Za-z]+$/;
+        return !(nameRegex.test(first_name));
+    };
 
+    const lnameValid = () => {
+        var nameRegex = /^[A-Za-z]+$/;
+        return !(nameRegex.test(last_name));
+    };
 
+    const unameValid = () => {
+        var usernameRegex = /^[0-9a-zA-Z]+$/;
+        return !(usernameRegex.test(username));
+    };
+
+    const emailValid = () => {
+        var simpleEmailRegex = /\S+@\S+\.\S+/; 
+        return !(simpleEmailRegex.test(email));
+    }
+
+    const passwordValid = () => {
+        var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+        return !(passwordRegex.test(password));
+    }
     const forumCheck = () => {
         const fname = first_name;
         const lname = last_name;
         const uname = username; 
         const em = email; 
         const pword = password;
-
+        
         //firstname + lastname regex to check if inputed names follow correct syntax. only allows letters.
         var nameRegex = /^[A-Za-z]+$/;
 
@@ -34,33 +63,51 @@ const SignUpScreen = ({ navigation }) => {
         //password regex to check if inputed passwords follow correct syntax. only allows 6-20 chars which contain at least one numeric digit, 
         //one upercase letter and one lowercase letter 
         var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-       
-        if((fname=="")||!(nameRegex.test(fname)))
+
+        //separated and added some new alerts to help out user(right now doesn't tell why user created an error)
+        //first name alerts
+        if (fname=="")
         {
-            Alert.alert("please enter a valid first name.");
-            
+            //errors{"fname"} = "Please enter your username.";
+            Alert.alert("Please enter a first name.");
+            errors = "Please enter a first name.";
+            console.log(errors);
         }
-        else if ((lname=="")||!(nameRegex.test(lname)))
+        //both fname and last name use nameregex
+        else if (!(nameRegex.test(fname)) || !(nameRegex.test(lname)))
         {
-            Alert.alert("please enter a valid last name.");
+            Alert.alert("Only alphabetical characters are accepted for first ane last names.");
         }
-        else if ((uname=="")||!(usernameRegex.test(uname)))
+        //last name alerts
+        else if (lname=="")
         {
-            Alert.alert("please enter a valid username.");
+            Alert.alert("Please enter a last name.");
+        }
+        else if (uname=="")
+        {
+            Alert.alert("Please enter a username.");
+        }
+        //weird error: alerts will get cut off on the second line
+        else if (!(usernameRegex.test(uname)))
+        {
+            Alert.alert("Username can only contain letters and numbers.");
         }
         else if ((em=="")||!(simpleEmailRegex.test(em)))
         {
-            Alert.alert("please enter a valid email.");
+            Alert.alert("Please enter a valid email.");
         }
-        else if ((pword=="")||!(passwordRegex.test(pword)))
+        else if ((pword==""))
         {
-            Alert.alert("please enter a valid password.");
+            Alert.alert("Please enter a password.");
+        }
+        else if (!(passwordRegex.test(pword)))
+        {
+            Alert.alert("Password is invalid.");
         }
         else 
         {
             insertData();
         }
-
     }
 
     const insertData = async () => {
@@ -75,12 +122,13 @@ const SignUpScreen = ({ navigation }) => {
                 username:username, 
                 email:email, 
                 password:password, 
-                schedule:schedule
+                schedule:schedule,
             })
         })
         .then(resp => resp.json())
         .then(data => {
             context.setUser(data);
+            context.setIsSignedIn(true);
             Alert.alert("USER REGISTERED");
         })
         .catch(error => console.log(error))
@@ -100,37 +148,93 @@ const SignUpScreen = ({ navigation }) => {
 
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'First name' 
-                onChangeText = {(val) => setFirstName(val)}
-                placeholderTextColor = '#ADC9C6'/>
+                label="First Name"
+                placeholder = 'Enter your first name'
+                onChangeText = {(val) => setFirstName(val), first_name => onChangeFText(first_name)}
+                value={first_name}
+                //stylesheet doesn't work for colors for react native paper, change it here
+                theme={{
+                    colors: {
+                        //placeholder: 'purple',
+                        text: 'white',
+                        //primary: 'white',
+                        underlineColor: 'transparent'
+                    }
+                }}/>
+            <HelperText type="error" visible={fnameValid()} style={styles.error}>
+                Error: Only letters are allowed
+            </HelperText>
+            
+            <TextInput style={styles.inputBox} 
+                //underlineColorAndroid='#ADC9C6' 
+                label="Last Name"
+                placeholder = 'Enter your last name' 
+                onChangeText = {(val) => setLastName(val), last_name => onChangeLText(last_name)}
+                theme={{
+                    colors: {
+                        //placeholder: 'purple',
+                        text: 'white',
+                        //primary: 'white',
+                        underlineColor: 'transparent'
+                    }
+                }}/>
+            <HelperText type="error" visible={lnameValid()} style={styles.error}>
+                Error: Only letters are allowed
+            </HelperText>
 
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'Last name' 
-                onChangeText = {(val) => setLastName(val)}
-                placeholderTextColor = '#ADC9C6'/>
+                label="Username"
+                placeholder = 'Enter your username. Letters and numbers only' 
+                onChangeText = {(val) => setUserName(val), username => onChangeUText(username)}
+                theme={{
+                    colors: {
+                        //placeholder: 'purple',
+                        text: 'white',
+                        //primary: 'white',
+                        underlineColor: 'transparent'
+                    }
+                }}/>        
+            <HelperText type="error" visible={unameValid()} style={styles.error}>
+                Error: Only letters and numbers are allowed
+            </HelperText>
 
             <TextInput style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'Username' 
-                onChangeText = {(val) => setUserName(val)}
-                placeholderTextColor = '#ADC9C6'/>        
+                label="Email"
+                placeholder = 'Enter a valid email' 
+                onChangeText = {(val) => setEmail(val), email => onChangeEText(email)}
+                theme={{
+                    colors: {
+                        //placeholder: 'purple',
+                        text: 'white',
+                        //primary: 'white',
+                        underlineColor: 'transparent'
+                    }
+                }}/> 
+            <HelperText type="error" visible={emailValid()} style={styles.error}>
+                Error: Invalid email
+            </HelperText>    
 
-            <TextInput style={styles.inputBox} 
+            <TextInput secureTextEntry={true} style={styles.inputBox} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'Email' 
-                onChangeText = {(val) => setEmail(val)}
-                placeholderTextColor = '#ADC9C6'/> 
-
-            <TextInput style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'Password' 
-                onChangeText = {(val) => setPassword(val)}
-                placeholderTextColor = '#ADC9C6'/>
-
+                label="Password"
+                placeholder = 'Enter a valid password' 
+                onChangeText = {(val) => setPassword(val), password => onChangePText(password)}
+                theme={{
+                    colors: {
+                        //placeholder: 'purple',
+                        text: 'white',
+                        //primary: 'white',
+                        underlineColor: 'transparent'
+                    }
+                }}/>
+            <HelperText type="error" visible={passwordValid()} style={styles.error}>
+                Error: Invalid password. Password must be 6-20 characters with at least one number, one uppercase letter, and one lowercase letter.
+            </HelperText>   
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}
-                onPress = {() => forumCheck()}
+                onPress = {() => { forumCheck()}}
                 >Register</Text>
             </TouchableOpacity>
         </View>
@@ -158,11 +262,15 @@ const styles = StyleSheet.create({
     inputBox: {
         width:300, 
         backgroundColor:'#5176A8',
-        borderRadius: 25, 
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10, 
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
         paddingHorizontal: 16, 
         fontSize: 16, 
         color: 'white',
-        marginVertical: 10,
+        
+        marginVertical: 5,
     },
     
     button:{
@@ -179,4 +287,15 @@ const styles = StyleSheet.create({
         color:'white',
         textAlign: 'center'
     },
+
+    text: {
+        color: 'white',
+        
+    },
+    
+    error: {
+        color: 'red',
+        fontSize: 13,
+    },
+
 })

@@ -5,7 +5,6 @@ import EditClassView from '../screens/EditClassView';
 import AddScheduleView from '../screens/AddScheduleView';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 
-
 const Stack = createNativeStackNavigator();
 
 //Basically serves like a 'routes' page. Allows for stack nav on the edit pages
