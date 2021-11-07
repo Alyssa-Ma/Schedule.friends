@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const FriendRequest = ({item, rejectFriend, acceptFriend}) => {
+const FriendRequestItem = ({item, rejectFriend, acceptFriend}) => {
 
     //console.log(item);
     const imgSource = {uri: 'https://randomuser.me/api/portraits/men/1.jpg'};
@@ -47,4 +47,4 @@ const styles = StyleSheet.create({
     }
     
 })
-export default FriendRequest;
+export default FriendRequestItem;

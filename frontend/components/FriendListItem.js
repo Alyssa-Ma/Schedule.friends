@@ -2,30 +2,24 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Button, Paragraph, Dialog, Portal, Avatar, Title, Caption } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
+import UserListHeader from './UserListHeader';
 
-const FriendListItem = ({ item, deleteFriend }) => {
+const FriendListItem = ({ navigation, route, item, deleteFriend }) => {
 
     const [visible, setVisible] = useState(false);
     const showDialog = () => setVisible(true);
     const hideDialog = () => setVisible(false);
-
+    // const [focusedView, setFocusedView] = useState(getFocusedRouteNameFromRoute(route))
     const delFriend = async (id) => {
         setVisible(false);
         await deleteFriend(id);
     }
-
+    console.log(route)
     return (
         
         <TouchableOpacity style={styles.friendRequest}>
-            <View style={styles.itemView}>
-                <Avatar.Text
-                        label={`${item.first_name.charAt(0).toUpperCase()}${item.last_name.charAt(0).toUpperCase()}`}
-                        size={55}
-                        />
-                <View style={styles.textInfo}>
-                    <Title style={styles.name}>{item.first_name} {item.last_name}</Title>
-                    <Caption>{item.username}</Caption>
-                </View>
+            <UserListHeader user={item} />
                 {/* <Icon name='close' size={30} color='#900' onPress={showDialog} />
 
                 <Portal>
@@ -40,7 +34,6 @@ const FriendListItem = ({ item, deleteFriend }) => {
                         </Dialog.Actions>
                     </Dialog>
                 </Portal> */}
-            </View>
         </TouchableOpacity>
         
     )

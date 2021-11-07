@@ -7,13 +7,12 @@ import FriendListItem from '../components/FriendListItem';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 // console.log("headerheight");
-const FriendsListView = () => {
+const FriendsListView = ({navigation, route}) => {
 
     const context = useContext(UserContext);
     const [friends, setFriends] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    
     useFocusEffect(
         React.useCallback(() => {
 

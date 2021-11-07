@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { View, Text, StyleSheet, FlatList} from 'react-native';
-import FriendRequest from '../components/FriendRequest';
+import FriendRequestItem from '../components/FriendRequestItem';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
@@ -138,7 +138,7 @@ const FriendRequestView = ({ navigation, route }) => {
                 ?   <Text>Loading.....</Text>
                 :   (items === undefined || items.length === 0
                     ? <Text>No incoming Friend Requests</Text>
-                    : <FlatList data={items} renderItem={({item}) => <FriendRequest item={item} rejectFriend={rejectFriend} acceptFriend={acceptFriend}/>} />)
+                    : <FlatList data={items} renderItem={({item}) => <FriendRequestItem item={item} rejectFriend={rejectFriend} acceptFriend={acceptFriend}/>} />)
             }
             
         </View>
