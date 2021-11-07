@@ -161,7 +161,12 @@ def fr_list(request):
             to_user = User.objects.get(pk=request.data['to_user'])
         except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-       
+        
+        if UserSerializer(to_user).data['id'] in UserSerializer(from_user).data['friend_list']:
+            return Response({
+                "non_field_errors": [f"User {request.data['from_user']} is already friends with {request.data['to_user']}"]
+            }, status=status.HTTP_400_BAD_REQUEST)
+
         fr_serializer = FriendRequestSerializer(data=request.data)
         if fr_serializer.is_valid():
             fr_serializer.save()
@@ -232,8 +237,8 @@ def remove_friend(request, from_user_pk, to_user_pk):
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
-    # from_user.friend_list.remove(to_user_pk)
-    # to_user.friend_list.remove(from_user_pk)
+    from_user.friend_list.remove(to_user_pk)
+    to_user.friend_list.remove(from_user_pk)
     return Response({
         'from_user_id': int(from_user_pk),
         'to_user_id': int(to_user_pk),
