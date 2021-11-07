@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, FlatList } from 'react-native';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 import AddFriend from './AddFriend';
+import FriendRequestItem from './FriendRequestItem';
 
-const SearchList = ({query, incFriends}) => {
+const SearchList = ({query, pendingRequests}) => {
 
     const [items, setItems] = useState([]);
 
@@ -26,17 +27,26 @@ const SearchList = ({query, incFriends}) => {
                 jsonResponse = await response.json();
                 if (response.status === 200)
                 {
+                    console.log(pendingRequests)
+                    let pending = false;
                     let users = [];
                     for(const user of jsonResponse){
-    
+                        let pending = !pendingRequests.every(request => {
+                            if (request.to_user === context.user.id || request.from_user === context.user.id) {
+                                console.log("hit!")
+                                return false;
+                            }
+                            return true;
+                        })
+
                         const userStatus = user.friend_list.includes(context.user.id) 
                             ? 'FRIEND'
-                            :   (incFriends.includes(user.id)
-                                ? 'PENDING'
-                                : (user.id === context.user.id
-                                    ? 'SAME'
+                            :   (user.id === context.user.id
+                                ? 'SAME'
+                                : (pending
+                                    ? 'PENDING'
                                     : 'NONE'));
-    
+
                         const userInfo = {
                             id: user.id,
                             first_name: user.first_name,
@@ -44,8 +54,7 @@ const SearchList = ({query, incFriends}) => {
                             status: userStatus,
                             username: user.username
                         }
-    
-                        users.push(userInfo);
+                            users.push(userInfo);
                     }
                     setItems(users);
                 }
@@ -65,7 +74,7 @@ const SearchList = ({query, incFriends}) => {
 
     //renders each user found in AddFriend
     return (
-        <FlatList data={items} renderItem={({item}) => <AddFriend item={item}/>} />
+        <FlatList keyboardShouldPersistTaps='always' data={items} renderItem={({item}) => <AddFriend item={item}/>} />
     )
 }
 

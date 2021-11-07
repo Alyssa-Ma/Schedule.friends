@@ -281,6 +281,23 @@ def get_fr_from_user(request, pk):
             fr_return_data.append(fr_serializer.data)
     return Response(fr_return_data, status=status.HTTP_200_OK)
 
+# path to get all friend requests to and from user, expanded
+@api_view(['GET'])
+@permission_classes([base_permissions.IsAuthenticated])
+def get_fr_with_user(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    fr_return_data = []
+    
+    for friend_request_id in UserSerializer(user).data['friend_requests']:
+        friend_request = FriendRequest.objects.get(pk=friend_request_id)
+        fr_serializer = FriendRequestSerializer(friend_request)
+        fr_return_data.append(fr_serializer.data)
+    return Response(fr_return_data, status=status.HTTP_200_OK)
+
 # Override for ObtainAuthToken.Post, returns user and token in same response
 class ObtainAuthTokenWithUser(ObtainAuthToken):
     def post(self, request, *args, **kwargs):

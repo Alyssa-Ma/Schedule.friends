@@ -43,6 +43,8 @@ urlpatterns = [
     re_path(r'^api/sf_users/([0-9]+)/fr_to_user/$', views.get_fr_to_user),
     # GET friend requests that are only from user by ID, in expanded form
     re_path(r'^api/sf_users/([0-9]+)/fr_from_user/$', views.get_fr_from_user),
+    # GET friend requests that are both to and from user by ID, in expanded form
+    re_path(r'^api/sf_users/([0-9]+)/fr_with_user/$', views.get_fr_with_user),
 
     # User Auth Paths
     re_path(r'^api/sf_users/login', views.ObtainAuthTokenWithUser.as_view())

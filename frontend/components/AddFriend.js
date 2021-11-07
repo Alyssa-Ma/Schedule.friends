@@ -4,35 +4,40 @@ import { Button } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserListHeader from './UserListHeader';
 import UserContext from '../context/UserContext';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const AddFriend = ({item}) => {
 
     const context = useContext(UserContext);
     const [buttonStatus, setButtonStatus] = useState(item.status === 'NONE' ? false : true)
     const [buttonInfo, setButtonInfo] = useState(item.status);
+    const [loading, setLoading] = useState(false)
     //sends the friend request
-    const sendRequest = async (id) => {
-        
-        item.friend_status = 'PENDING';
-        setButtonStatus(true);
-        setButtonInfo('PENDING');
-        
-        const data = {
-            from_user: context.user.id,   //CURRENT USER
-            to_user: id
-        }
+    const sendRequest = async (id) => {   
         try {
+            setLoading(true);
             let postResponse = await fetch(`${BASE_URL}/friend_requests/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    //This needs to be brought down from props
                     'Authorization': `Token ${context.user.token}`
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify({
+                    from_user: context.user.id,
+                    to_user: id
+                }),
             });
-            postResponse = await postResponse.json();
-            console.log(postResponse);
+            let jsonResponse = await postResponse.json();
+            if (postResponse.status === 201) {        
+                setLoading(false);
+                setButtonStatus(true);
+                setButtonInfo('PENDING');
+                item.status = 'PENDING';
+            }
+            else {
+                console.log(`Error from server: ${postResponse.status}`);
+                setLoading(false);
+            }
         }
         catch(error) {
             console.log(error);
@@ -47,30 +52,29 @@ const AddFriend = ({item}) => {
         <TouchableOpacity style={styles.friendRequest}>
             <View style={styles.itemView}>
                 <UserListHeader user={item} />
-
-                
-                {   //'NONE' -> Not friends
-                    //'PENDING' -> Has a pending friend request
-                    //'FRIEND' -> already a friend
+                {
+                    buttonInfo === 'SAME'
+                    ? <React.Fragment/>
+                    :  (
+                        <Button 
+                            mode='contained'
+                            loading={loading} 
+                            onPress={() => sendRequest(item.id)}
+                            disabled={buttonStatus}
+                        >
+                            <Icon 
+                                name={
+                                    buttonInfo === 'NONE'
+                                    ? ('account-plus')
+                                    : buttonInfo === 'PENDING'
+                                        ? ('account-arrow-right')
+                                        : 'account-heart'
+                                }
+                                size={30}
+                            />    
+                        </Button>
+                    )
                 }
-                <Button 
-                    mode='contained'  
-                    onPress={() => sendRequest(item.id)}
-                    disabled={buttonStatus}
-                > 
-                    
-                    {buttonInfo === 'NONE'
-                        ? 'Send a Request'
-                        : (
-                            buttonInfo === 'PENDING'
-                            ? 'Pending'
-                            : 'Friended'
-                        )
-                    }
-                </Button>
-                    
-                
-                
             </View>
         </TouchableOpacity>
     )

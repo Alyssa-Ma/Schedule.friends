@@ -11,7 +11,7 @@ import { useFocusEffect } from '@react-navigation/native';
 const FriendRequestSend = ({ navigation, route }) => {
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [incomingFriendReq, setIncomingFriendReq] = useState([]);
+    const [pendingRequests, setPendingRequests] = useState([]);
     const onChangeSearch = query => setSearchQuery(query);
     const context = useContext(UserContext);
 
@@ -22,21 +22,21 @@ const FriendRequestSend = ({ navigation, route }) => {
             
             const getInfo = async() =>{
                 try{
-                    let response = await fetch(`${BASE_URL}/${context.user.id}/fr_to_user`, {
+                    let response = await fetch(`${BASE_URL}/${context.user.id}/fr_with_user`, {
                         method: 'GET', 
                         headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Token ${context.user.token}`
                         },
                     });
-                    response = await response.json();
-                    
-                    let incomingFriend = [];
-                    for(const req of response){
-                        incomingFriend.push(req.from_user);
+                    let jsonResponse = await response.json();
+                    if (response.status === 200) {
+                        setPendingRequests(jsonResponse)
+                    }
+                    else {
+                        console.log(`Error with server ${response.status}`)
                     }
 
-                    setIncomingFriendReq(incomingFriend);
                 }
                 catch(error){
                     console.error(error);
@@ -65,7 +65,7 @@ const FriendRequestSend = ({ navigation, route }) => {
             />
             {
                 searchQuery.length >= 2
-                    ? <SearchList query={searchQuery} incFriends={incomingFriendReq}/>
+                    ? <SearchList query={searchQuery} pendingRequests={pendingRequests}/>
                     : <Text> No users match that username</Text>
             }
 
