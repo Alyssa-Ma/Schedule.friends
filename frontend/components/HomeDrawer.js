@@ -39,7 +39,9 @@ const HomeDrawer = ({navigation, route}) => {
       case 'FriendListStack':
         return 'Friend List';
       case 'IncomingFriendRequestsView':
-        return 'Friend Requests';
+        return 'Incoming Requests';
+        case 'OutgoingFriendRequestsView':
+          return 'Outgoing Requests';
       case 'FriendRequestSend':
         return 'Find Friends';
       default:

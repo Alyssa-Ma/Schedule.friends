@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FriendRequestSend from '../screens/FriendRequestSend';
 import FriendsListStack from './FriendsListStack';
 import IncomingFriendRequestView from '../screens/IncomingFriendRequestView';
-// import OutgoingFriendRequestView from '../screens/OutgoingFriendRequestView'
+import OutgoingFriendRequestView from '../screens/OutgoingFriendRequestView'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const Tab = createBottomTabNavigator();
 
@@ -38,13 +38,18 @@ const FriendTabs = ({navigation, route}) => {
                     )
                 }}
             />
-            {/* <Tab.Screen 
+            <Tab.Screen 
                 name="OutgoingFriendRequestsView" 
                 component={OutgoingFriendRequestView}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    tabBarLabel: 'Outgoing Requests',
+                    tabBarActiveTintColor: color,
+                    tabBarIcon: ({color}) => (
+                        <Icon name="account-arrow-left" color={color} size={size}/>
+                    )
                 }}
-            /> */}
+            />
             <Tab.Screen 
                 name="FriendRequestSend" 
                 component={FriendRequestSend}

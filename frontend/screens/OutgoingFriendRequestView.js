@@ -69,19 +69,14 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
         }, [])
     )
     
-    //reject using PATCH and DELETE request. remove from list
     const rejectFriend = async (id) => {
         try{
             let response = await fetch(`${BASE_URL}/friend_requests/${id}`, {
-                method: 'PATCH',
+                method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json',
                   'Authorization': `Token ${context.user.token}`
-                },
-                body: JSON.stringify({
-                  pending: false,
-                  accepted: false
-                }),
+                }
             });
             let jsonResponse = await response.json();
             if (response.status === 200){
@@ -106,14 +101,14 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                     ? (
                         <View style={styles.noRequests}>
                             <Icon name="account-group" size={100} color="#6200EE"/>
-                            <Title >No Incoming Friend Requests</Title>
+                            <Title >No Outgoing Friend Requests</Title>
                         </View>
 
                     )
                     : <FlatList 
                         data={friendRequests}
                         keyExtractor={friendRequest => friendRequest.id} 
-                        renderItem={({item}) => <FriendRequestItem friendRequest={item} rejectFriend={rejectFriend} acceptFriend={acceptFriend}/>} />)
+                        renderItem={({item}) => <FriendRequestItem friendRequest={item} displayOptions={"from_user"} rejectFriend={rejectFriend}/>} />)
             }
             
         </View>
