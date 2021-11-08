@@ -5,6 +5,7 @@ let { width } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
 import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
+import { useFocusEffect } from '@react-navigation/core';
 
 const CombinedScheduleView = ({navigation, route}) => {
   const colors = ["#d4f48d", "#f4b18d", "#bc90dd", "#99b8e8" ]
@@ -25,19 +26,23 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const createEventsFromArray = (scheduleArray, user, colorIndex) => {
+    let events = scheduleArray.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
+    events = events.map((course) => {
+      return {
+        start: `${focusDate} ${course.time_start}:00`,
+        end: `${focusDate} ${course.time_end}:00`,
+        title: `${course.course_number} - ${course.course_name}`,
+        summary: `${user.username}`,
+        color: colors[colorIndex]
+      }
+    });
+    return events;
+  }
+
   const createEvents = async () => {
     setLoading(true);
-    let eventsBuffer = context.user.schedule.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
-    eventsBuffer = eventsBuffer.map((course) => {
-        return {
-          start: `${focusDate} ${course.time_start}:00`,
-          end: `${focusDate} ${course.time_end}:00`,
-          title: `${course.course_number} - ${course.course_name}`,
-          summary: `${context.user.username}`,
-          color: colors[0]
-        }
-    });
-
+    let eventsBuffer = createEventsFromArray(context.user.schedule, context.user, 0);
     for (let i = 0; i < 3 && i < context.user.friend_list.length; i++) {
       try {
         const response = await fetch(`${BASE_URL}/${context.user.friend_list[i]}`, {
@@ -49,18 +54,8 @@ const CombinedScheduleView = ({navigation, route}) => {
         });
         const jsonResponse = await response.json();
         if (response.status === 200) {
-          let friendSchedule = jsonResponse.schedule.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
-          friendSchedule = friendSchedule.map((course) => {
-            return {
-              start: `${focusDate} ${course.time_start}:00`,
-              end: `${focusDate} ${course.time_end}:00`,
-              title: `${course.course_number} - ${course.course_name}`,
-              summary: `${jsonResponse.username}`,
-              color: colors[i+1]
-            }
-          });
+          let friendSchedule = createEventsFromArray(jsonResponse.schedule, jsonResponse, i+1);
           friendSchedule.forEach((course) => eventsBuffer.push(course));
-          console.log(eventsBuffer);
           setEvents(eventsBuffer);
         }
         else {
@@ -72,6 +67,15 @@ const CombinedScheduleView = ({navigation, route}) => {
     }
     setLoading(false);
   }
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     createEvents();
+  //     return () => {
+        
+  //     }
+  //   }, [])
+  // )
 
   useEffect(() => {
     // let eventsBuffer = context.user.schedule.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
@@ -115,7 +119,7 @@ const CombinedScheduleView = ({navigation, route}) => {
             width={width}
             dateChanged={changeFocus}
             scrollToFirst={true}
-            size={6}
+            size={2}
           />
       }
     </View>
