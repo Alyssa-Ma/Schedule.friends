@@ -190,6 +190,7 @@ Or by creating a user with the POST request at `http://127.0.0.1:8000/sf_users/c
 	{
 		“first_name”: “<first name>”,
 		“last_name”: “<last name>”,
+		"username" : "<username>",
 		“email” : “<proper email address>”,
 		“password”: “<password>”,
 		"schedule": []
