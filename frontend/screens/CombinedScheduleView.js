@@ -7,7 +7,7 @@ import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
 
 const CombinedScheduleView = ({navigation, route}) => {
-  
+  const colors = ["#d4f48d", "#f4b18d", "#bc90dd", "#99b8e8" ]
   // const getWeekdayString = (dateObj) => {
   //   return dateObj.toLocaleDateString('en-CA', {weekday: 'short'}).substring(0, 3).toUpperCase();
   // }
@@ -33,7 +33,8 @@ const CombinedScheduleView = ({navigation, route}) => {
           start: `${focusDate} ${course.time_start}:00`,
           end: `${focusDate} ${course.time_end}:00`,
           title: `${course.course_number} - ${course.course_name}`,
-          summary: `${context.user.username}`
+          summary: `${context.user.username}`,
+          color: colors[0]
         }
     });
 
@@ -54,7 +55,8 @@ const CombinedScheduleView = ({navigation, route}) => {
               start: `${focusDate} ${course.time_start}:00`,
               end: `${focusDate} ${course.time_end}:00`,
               title: `${course.course_number} - ${course.course_name}`,
-              summary: `${jsonResponse.username}`
+              summary: `${jsonResponse.username}`,
+              color: colors[i+1]
             }
           });
           friendSchedule.forEach((course) => eventsBuffer.push(course));
@@ -84,7 +86,7 @@ const CombinedScheduleView = ({navigation, route}) => {
     // setEvents(eventsBuffer);
     createEvents();
 
-  }, [context.user['schedule'], focusDate]);
+  }, [context.user.schedule, context.user.friend_list, focusDate]);
   
   // nav on tap
   // const _eventTapped = (event) => {
