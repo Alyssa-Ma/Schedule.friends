@@ -22,27 +22,27 @@ const SignUpScreen = ({ navigation }) => {
     // HELPER TEXT CHECKER FUNCS
     const fnameValid = () => {
         var nameRegex = /^[A-Za-z]+$/;
-        return !(nameRegex.test(first_name));
+        return (!(nameRegex.test(first_name)) && first_name.length > 0);
     };
 
     const lnameValid = () => {
         var nameRegex = /^[A-Za-z]+$/;
-        return !(nameRegex.test(last_name));
+        return (!(nameRegex.test(last_name)) && last_name.length > 0);
     };
 
     const unameValid = () => {
         var usernameRegex = /^[0-9a-zA-Z]+$/;
-        return !(usernameRegex.test(username));
+        return !(usernameRegex.test(username)) && username.length > 0;
     };
 
     const emailValid = () => {
         var simpleEmailRegex = /\S+@\S+\.\S+/; 
-        return !(simpleEmailRegex.test(email));
+        return !(simpleEmailRegex.test(email)) && email.length > 0;
     }
 
     const passwordValid = () => {
         var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-        return !(passwordRegex.test(password));
+        return !(passwordRegex.test(password)) && password.length > 0;
     }
     const forumCheck = () => {
         const fname = first_name;
