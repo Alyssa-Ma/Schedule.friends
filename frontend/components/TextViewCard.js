@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet,Image } from 'react-native';
+import { View, Text, StyleSheet} from 'react-native';
+import { Avatar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const ScheduleTimes = ({time, index}) => {
@@ -11,13 +12,16 @@ const ScheduleTimes = ({time, index}) => {
 
 const TextViewCard = ({item}) => {
 
-    const imgSource = {uri: 'https://randomuser.me/api/portraits/men/1.jpg'};
-
     return (
         <View style={styles.friendRequest}>
             <View style={styles.itemView}>
 
-                <Image source={imgSource} style={styles.profilePic}/>
+                <Avatar.Text 
+                        size = {80} 
+                        backgroundColor = 'turquoise'
+                        label = {item.f_name.charAt(0)+item.l_name.charAt(0)}
+                        style={styles.profilePic}
+                />
                 <Text style={styles.name}>{item.f_name} {item.l_name}</Text>
                 {
                     item.schedule.map( (time, index) => {
@@ -49,9 +53,6 @@ const styles = StyleSheet.create({
     },
 
     profilePic: {
-        width: 75,
-        height: 75,
-        borderRadius: 75/2,
         alignSelf: 'center',
     },
 
