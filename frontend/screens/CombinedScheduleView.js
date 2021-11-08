@@ -3,6 +3,7 @@ import { View, Dimensions} from 'react-native';
 import EventCalendar from 'react-native-events-calendar';
 let { width } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
+import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
 
 const CombinedScheduleView = ({navigation, route}) => {
@@ -25,6 +26,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [loading, setLoading] = useState(false);
 
   const createEvents = async () => {
+    setLoading(true);
     let eventsBuffer = context.user.schedule.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
     eventsBuffer = eventsBuffer.map((course) => {
         return {
@@ -60,12 +62,13 @@ const CombinedScheduleView = ({navigation, route}) => {
           setEvents(eventsBuffer);
         }
         else {
-          console.log(`Error from server ${response.status}`)
+          console.log(`Error from server ${response.status}`);
         }
       } catch(error) {
         console.log(error)
       }
     }
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -100,15 +103,19 @@ const CombinedScheduleView = ({navigation, route}) => {
   return (
     
     <View style={{ flex: 1}}>
-      
-      <EventCalendar
-        // eventTapped={_eventTapped}
-        events={events}
-        width={width}
-        dateChanged={changeFocus}
-        scrollToFirst={true}
-        size={6}
-        />
+      {
+        loading
+        ? <LoadingIndicator isLoading={loading} />
+        : <EventCalendar
+            initDate={focusDate}
+            eventTapped={() => {}}
+            events={events}
+            width={width}
+            dateChanged={changeFocus}
+            scrollToFirst={true}
+            size={6}
+          />
+      }
     </View>
   );
   
