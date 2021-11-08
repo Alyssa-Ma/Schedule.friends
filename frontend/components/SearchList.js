@@ -28,31 +28,30 @@ const SearchList = ({query, pendingRequests}) => {
                 if (response.status === 200)
                 {
                     console.log(pendingRequests)
-                    let pending = false;
                     let users = [];
-                    for(const user of jsonResponse){
+                    for(const queryUser of jsonResponse){
                         let pending = !pendingRequests.every(request => {
-                            if (request.to_user === context.user.id || request.from_user === context.user.id) {
+                            if ((request.to_user === context.user.id && request.from_user === queryUser.id)
+                                || request.from_user === context.user.id && request.to_user === queryUser.id) {
                                 console.log("hit!")
                                 return false;
                             }
                             return true;
                         })
-
-                        const userStatus = user.friend_list.includes(context.user.id) 
+                        const queryUserStatus = queryUser.friend_list.includes(context.user.id) 
                             ? 'FRIEND'
-                            :   (user.id === context.user.id
+                            :   (queryUser.id === context.user.id
                                 ? 'SAME'
                                 : (pending
                                     ? 'PENDING'
                                     : 'NONE'));
 
                         const userInfo = {
-                            id: user.id,
-                            first_name: user.first_name,
-                            last_name: user.last_name,
-                            status: userStatus,
-                            username: user.username
+                            id: queryUser.id,
+                            first_name: queryUser.first_name,
+                            last_name: queryUser.last_name,
+                            status: queryUserStatus,
+                            username: queryUser.username
                         }
                             users.push(userInfo);
                     }
