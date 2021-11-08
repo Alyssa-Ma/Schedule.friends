@@ -5,6 +5,7 @@ let { width } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
 import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
+import { useFocusEffect } from '@react-navigation/core';
 
 const CombinedScheduleView = ({navigation, route}) => {
   // const getWeekdayString = (dateObj) => {
@@ -20,6 +21,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   const bufferSpace = 3;
   const context = useContext(UserContext);
   const [events, setEvents] = useState([]);
+  const [friendList, setFriendList] = useState([]);
   const [weekdayIndex, setWeekdayIndex] = useState(new Date().getDay());
   const [focusDate, setFocusDate] = useState(getDateString(new Date()));
   const [loading, setLoading] = useState(false);
@@ -44,11 +46,9 @@ const CombinedScheduleView = ({navigation, route}) => {
     return events;
   }
 
-  const createEvents = async () => {
+  const fetchFriends = async () => {
     setLoading(true);
-    let latest = {value: latestHour};
-    let earliest = {value: earliestHour};
-    let eventsBuffer = createEventsFromArray(context.user.schedule, context.user, 0, earliest, latest);
+    let friendData = [];
     for (let i = 0; i < 3 && i < context.user.friend_list.length; i++) {
       try {
         const response = await fetch(`${BASE_URL}/${context.user.friend_list[i]}`, {
@@ -60,25 +60,46 @@ const CombinedScheduleView = ({navigation, route}) => {
         });
         const jsonResponse = await response.json();
         if (response.status === 200) {
-          let friendSchedule = createEventsFromArray(jsonResponse.schedule, jsonResponse, i+1, earliest, latest);
-          friendSchedule.forEach((course) => eventsBuffer.push(course));
-          setEarliestHour(earliest.value);
-          setLatestHour(latest.value);
-          setEvents(eventsBuffer);
+          friendData.push(jsonResponse);
         }
         else {
           console.log(`Error from server ${response.status}`);
+          break;
         }
       } catch(error) {
-        console.log(error)
+        console.log(error);
+        break;
       }
     }
+    setFriendList(friendData);
     setLoading(false);
   }
 
+  const createEvents = async () => {
+    let latest = {value: latestHour};
+    let earliest = {value: earliestHour};
+    let eventsBuffer = createEventsFromArray(context.user.schedule, context.user, 0, earliest, latest);
+    for (let i = 0; i < friendList.length; i++) {
+      let friendSchedule = createEventsFromArray(friendList[i].schedule, friendList[i], i+1, earliest, latest);
+      friendSchedule.forEach((course) => eventsBuffer.push(course));
+    }
+    setEarliestHour(earliest.value);
+    setLatestHour(latest.value);
+    setEvents(eventsBuffer);
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchFriends();
+      return () => {
+
+      }
+    },[])
+  )
+
   useEffect(() => {
     createEvents();
-  }, [focusDate, context.user]);
+  }, [focusDate, context.user, friendList]);
   
   // const _eventTapped = (event) => {
   //   console.log(event);
@@ -108,12 +129,11 @@ const CombinedScheduleView = ({navigation, route}) => {
             width={width}
             dateChanged={changeFocus}
             scrollToFirst={true}
-            size={3}
-            start={earliestHour}
-            end={latestHour}
-            headerStyle={{
-              backgroundColor: "black"
-            }}
+            size={1}
+            // start={earliestHour}
+            // end={latestHour}
+            start={7}
+            end={24}
             virtualizedListProps={{
               scrollEnabled: false
             }}
