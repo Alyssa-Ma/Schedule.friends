@@ -17,7 +17,7 @@ const CombinedScheduleView = ({navigation, route}) => {
     
   const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const colors = ["#d4f48d", "#f4b18d", "#bc90dd", "#99b8e8" ];
-  const bufferSpace = 2;
+  const bufferSpace = 3;
   const context = useContext(UserContext);
   const [events, setEvents] = useState([]);
   const [weekdayIndex, setWeekdayIndex] = useState(new Date().getDay());
@@ -78,7 +78,7 @@ const CombinedScheduleView = ({navigation, route}) => {
 
   useEffect(() => {
     createEvents();
-  }, [focusDate]);
+  }, [focusDate, context.user]);
   
   // const _eventTapped = (event) => {
   //   console.log(event);
@@ -108,9 +108,15 @@ const CombinedScheduleView = ({navigation, route}) => {
             width={width}
             dateChanged={changeFocus}
             scrollToFirst={true}
-            size={2}
+            size={3}
             start={earliestHour}
             end={latestHour}
+            headerStyle={{
+              backgroundColor: "black"
+            }}
+            virtualizedListProps={{
+              scrollEnabled: false
+            }}
           />
       }
     </View>
