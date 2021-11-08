@@ -3,6 +3,7 @@ import { View, Dimensions} from 'react-native';
 import EventCalendar from 'react-native-events-calendar';
 let { width } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
+import {BASE_URL} from "@env";
 
 const CombinedScheduleView = ({navigation, route}) => {
   
@@ -14,13 +15,16 @@ const CombinedScheduleView = ({navigation, route}) => {
     return dateObj.toLocaleDateString('en-CA', {year: 'numeric', month: 'numeric', day: 'numeric'});
   }
   
+  
   const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
   const context = useContext(UserContext);
   const [events, setEvents] = useState([]);
   const [weekdayIndex, setWeekdayIndex] = useState(new Date().getDay());
   const [focusDate, setFocusDate] = useState(getDateString(new Date()));
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const createEvents = async () => {
     let eventsBuffer = context.user.schedule.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
     eventsBuffer = eventsBuffer.map((course) => {
         return {
@@ -30,7 +34,53 @@ const CombinedScheduleView = ({navigation, route}) => {
           summary: `${context.user.username}`
         }
     });
-    setEvents(eventsBuffer);
+
+    for (let i = 0; i < 3 && i < context.user.friend_list.length; i++) {
+      try {
+        const response = await fetch(`${BASE_URL}/${context.user.friend_list[i]}`, {
+          method: 'GET', 
+          headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${context.user.token}`
+          },
+        });
+        const jsonResponse = await response.json();
+        if (response.status === 200) {
+          let friendSchedule = jsonResponse.schedule.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
+          friendSchedule = friendSchedule.map((course) => {
+            return {
+              start: `${focusDate} ${course.time_start}:00`,
+              end: `${focusDate} ${course.time_end}:00`,
+              title: `${course.course_number} - ${course.course_name}`,
+              summary: `${jsonResponse.username}`
+            }
+          });
+          friendSchedule.forEach((course) => eventsBuffer.push(course));
+          console.log(eventsBuffer);
+          setEvents(eventsBuffer);
+        }
+        else {
+          console.log(`Error from server ${response.status}`)
+        }
+      } catch(error) {
+        console.log(error)
+      }
+    }
+  }
+
+  useEffect(() => {
+    // let eventsBuffer = context.user.schedule.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
+    // eventsBuffer = eventsBuffer.map((course) => {
+    //     return {
+    //       start: `${focusDate} ${course.time_start}:00`,
+    //       end: `${focusDate} ${course.time_end}:00`,
+    //       title: `${course.course_number} - ${course.course_name}`,
+    //       summary: `${context.user.username}`
+    //     }
+    // });
+    // setEvents(eventsBuffer);
+    createEvents();
+
   }, [context.user['schedule'], focusDate]);
   
   // nav on tap
@@ -52,12 +102,12 @@ const CombinedScheduleView = ({navigation, route}) => {
     <View style={{ flex: 1}}>
       
       <EventCalendar
-        
         // eventTapped={_eventTapped}
         events={events}
         width={width}
         dateChanged={changeFocus}
         scrollToFirst={true}
+        size={6}
         />
     </View>
   );
