@@ -7,7 +7,6 @@ import UserContext from '../context/UserContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const AddFriend = ({item}) => {
-
     const context = useContext(UserContext);
     const [buttonStatus, setButtonStatus] = useState(item.status === 'NONE' ? false : true)
     const [buttonInfo, setButtonInfo] = useState(item.status);
