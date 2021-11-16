@@ -104,13 +104,15 @@ const CommonTimeText = ({ navigation, route }) => {
             if(minutes === 0){
                 minutes = "00"
             }
-            const start_time = `${(times[0]-(times[0]%60))/60}:${minutes}`;
+            let start_time = `${(times[0]-(times[0]%60))/60}:${minutes}`;
+            start_time = convertTo12Hr(start_time);
 
             minutes = times[1]%60;
             if(minutes === 0){
                 minutes = "00"
             }
-            const end_time = `${(times[1]-(times[1]%60))/60}:${minutes}`;
+            let end_time = `${(times[1]-(times[1]%60))/60}:${minutes}`;
+            end_time = convertTo12Hr(end_time);
             schedule_times.push(`${start_time} - ${end_time}`);
         }
         return schedule_times;
