@@ -42,7 +42,7 @@ const CommonTimeText = ({ navigation, route }) => {
         const timeParts = time.split(':');
         const amOrpm = parseInt(timeParts[0]) >= 12 ? 'PM' : 'AM';
         const hours = (parseInt(timeParts[0]) % 12) || 12;
-        return `${hours} : ${timeParts[1]} ${amOrpm}`;
+        return `${hours}:${timeParts[1]} ${amOrpm}`;
     }
 
     const getFreeTime = (times_arr, curr_time) => {
