@@ -14,6 +14,7 @@ const CommonTimeText = ({ navigation, route }) => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    //Converts the passed in into a Day string
     const convertToDay = (day) => {
         if(day === 1){
             return "MON";
@@ -31,6 +32,7 @@ const CommonTimeText = ({ navigation, route }) => {
         return "SUN"
     }
 
+    //Converts the 24hr time passed into an INT that can be used to compare easily
     const getTimeAsMin = (time) => {
         const timeParts = time.split(":");
         const timeInMinutes = (parseInt(timeParts[0] * 60)) + parseInt(timeParts[1]);
@@ -38,6 +40,7 @@ const CommonTimeText = ({ navigation, route }) => {
         return timeInMinutes;
     }
 
+    //Converts the 24 hr time passed into 12hr time
     const convertTo12Hr = (time) => {
         const timeParts = time.split(':');
         const amOrpm = parseInt(timeParts[0]) >= 12 ? 'PM' : 'AM';
@@ -45,6 +48,7 @@ const CommonTimeText = ({ navigation, route }) => {
         return `${hours}:${timeParts[1]} ${amOrpm}`;
     }
 
+    //Gets the intervals between classes.This is the free time
     const getFreeTime = (times_arr, curr_time) => {
         if(times_arr.length <= 1){
             return [];
@@ -55,6 +59,7 @@ const CommonTimeText = ({ navigation, route }) => {
             const start_time = times_arr[i][1];
             const end_time = times_arr[i+1][0];
             
+            //Makes sure we get times relevant to current time
             if(end_time > curr_time){
                 free_time.push([start_time, end_time]);
             }
@@ -63,11 +68,13 @@ const CommonTimeText = ({ navigation, route }) => {
         return free_time;
     }
 
+    //Gets classes for a specifc day. The current day
     const filterSchedule = (schedule, day) => {
         
         return  schedule.filter(course => course.day_name.includes(day));
     }
 
+    //Converts whole schedule into minutes.
     const getMinutesOfSchedule = (schedule) => {
         let schedule_times = [];
         for( const course of schedule){
@@ -80,6 +87,7 @@ const CommonTimeText = ({ navigation, route }) => {
         return schedule_times;
     }
 
+    //Sorts schedule
     const sortFunction = (a, b) =>{
         if (a[0] === b[0]) {
             return 0;
@@ -95,6 +103,7 @@ const CommonTimeText = ({ navigation, route }) => {
        return friend_schedule;
     }
 
+    //Converts from int minutes format into string time easily readible to users.
     const convertToTime = (schedule) => {
         
         let schedule_times = [];
