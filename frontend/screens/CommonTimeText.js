@@ -38,6 +38,13 @@ const CommonTimeText = ({ navigation, route }) => {
         return timeInMinutes;
     }
 
+    const convertTo12Hr = (time) => {
+        const timeParts = time.split(':');
+        const amOrpm = parseInt(timeParts[0]) >= 12 ? 'PM' : 'AM';
+        const hours = (parseInt(timeParts[0]) % 12) || 12;
+        return `${hours} : ${timeParts[1]} ${amOrpm}`;
+    }
+
     const getFreeTime = (times_arr, curr_time) => {
         if(times_arr.length <= 1){
             return [];
