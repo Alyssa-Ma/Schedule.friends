@@ -12,12 +12,14 @@ const SignUpScreen = ({ navigation }) => {
     const [username, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confPassword, setConfPassword] = useState("");
     const [schedule, setSchedule] = useState([]);
     const onChangeFText = first_name => setFirstName(first_name);
     const onChangeLText = last_name => setLastName(last_name);
     const onChangeUText = username => setUserName(username);
     const onChangeEText = email => setEmail(email);
     const onChangePText = password => setPassword(password);
+    const onChangeCTest = confPassword => setConfPassword(confPassword);
     
     // HELPER TEXT CHECKER FUNCS
     const fnameValid = () => {
@@ -43,6 +45,10 @@ const SignUpScreen = ({ navigation }) => {
     const passwordValid = () => {
         var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
         return !(passwordRegex.test(password)) && password.length > 0;
+    }
+
+    const confPasswordValid = () => {
+        return !(password === confPassword) && confPassword.length >= 6;
     }
     const forumCheck = () => {
         const fname = first_name;
@@ -231,7 +237,25 @@ const SignUpScreen = ({ navigation }) => {
                 }}/>
             <HelperText type="error" visible={passwordValid()} style={styles.error}>
                 Error: Invalid password. Password must be 6-20 characters with at least one number, one uppercase letter, and one lowercase letter.
-            </HelperText>   
+            </HelperText>
+
+            <TextInput secureTextEntry={true} style={styles.inputBox} 
+                //underlineColorAndroid='#ADC9C6' 
+                label="Password Confirmation"
+                placeholder = 'Enter a valid password' 
+                onChangeText = {confPassword => onChangeCTest(confPassword)}
+                theme={{
+                    colors: {
+                        //placeholder: 'purple',
+                        text: 'white',
+                        //primary: 'white',
+                        underlineColor: 'transparent'
+                    }
+                }}/>
+            <HelperText type="error" visible={confPasswordValid()} style={styles.error}>
+                Passwords do not match.
+            </HelperText> 
+             
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}
                 onPress = {() => { forumCheck()}}
@@ -253,7 +277,8 @@ const styles = StyleSheet.create({
     },
 
     logoText: {
-        marginVertical: 15,
+        marginTop: 40,
+        marginBottom: 15,
         fontSize:18,
         color:'white',
         
@@ -270,14 +295,15 @@ const styles = StyleSheet.create({
         fontSize: 16, 
         color: 'white',
         
-        marginVertical: 5,
+        marginTop: 0
+        
     },
     
     button:{
         backgroundColor:'#007169',
         borderRadius: 25, 
         width:300, 
-        marginVertical: 10,
+        marginBottom: 50,
         paddingVertical: 12,
 
     },
@@ -285,7 +311,8 @@ const styles = StyleSheet.create({
         fontSize: 15, 
         fontWeight:"500",
         color:'white',
-        textAlign: 'center'
+        textAlign: 'center',
+        
     },
 
     text: {

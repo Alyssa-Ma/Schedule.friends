@@ -19,7 +19,7 @@ const TextViewCard = ({item}) => {
                 <Avatar.Text 
                         size = {80} 
                         backgroundColor = 'turquoise'
-                        label = {item.f_name.charAt(0)+item.l_name.charAt(0)}
+                        label = {item.f_name.charAt(0).toUpperCase()+item.l_name.charAt(0).toUpperCase()}
                         style={styles.profilePic}
                 />
                 <Text style={styles.name}>{item.f_name} {item.l_name}</Text>
