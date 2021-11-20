@@ -12,7 +12,7 @@ const FriendListItem = ({ navigation, route, user }) => {
         <TouchableOpacity style={styles.friendItem}
             onPress={() => navigation.push('FriendProfileView', {
                 friend: user})}>
-            <UserListHeader user={user} color='#5cdbd5'/>
+            <UserListHeader user={user} textColor='#5cdbd5' bgColor='white'/>
             <View style={styles.accountIcon}>
                 <Icon
                     
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 15,
-        backgroundColor: '#5cdbd5',
+        backgroundColor: '#5cdbd5',         //STATIC BACKGROUND
         borderBottomWidth: 1,
         borderColor: '#ccc',
         borderRadius: 40 / 2,
@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
     },
 
     accountIcon: {
-        alignSelf: 'flex-end'
+        alignSelf: 'flex-end',
+        marginBottom: -15
     }
 })
 

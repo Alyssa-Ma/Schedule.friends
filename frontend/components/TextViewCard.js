@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     friendTimeCard: {
         width: 330,
         borderRadius: 50 / 2,
-        backgroundColor: 'darkslateblue',
+        backgroundColor: 'darkslateblue',       //STATIC BACKGROUND COLOR
         alignSelf: 'center',
         marginTop: 50,
         flex: 1,
