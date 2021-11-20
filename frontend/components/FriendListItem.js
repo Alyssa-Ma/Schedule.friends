@@ -13,9 +13,9 @@ const FriendListItem = ({ navigation, route, user }) => {
             onPress={() => navigation.push('FriendProfileView', {
                 friend: user})}>
             <UserListHeader user={user} />
-            <View>
+            <View style={styles.accountIcon}>
                 <Icon
-                    style={{paddingRight:15}}
+                    
                     name="account-details"
                     size={45}
                     color="#6200EE"
@@ -36,6 +36,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#f8f8f8',
         borderBottomWidth: 1,
         borderColor: '#ccc',
+        borderRadius: 40 / 2,
+        width: 350,
+        alignSelf: 'center',
+        marginTop: 15
+    },
+
+    accountIcon: {
+        alignSelf: 'flex-end'
     }
 })
 

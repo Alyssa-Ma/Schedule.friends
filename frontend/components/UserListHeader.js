@@ -11,7 +11,7 @@ const UserListHeader = ({ navigation, route, user}) => {
                 />
             <View style={styles.textInfo}>
                 <Title style={styles.name}>{user.first_name} {user.last_name}</Title>
-                <Caption>{user.username}</Caption>
+                <Caption style={styles.username}>{user.username}</Caption>
             </View>
         </View>
     )
@@ -19,15 +19,13 @@ const UserListHeader = ({ navigation, route, user}) => {
 
 const styles = StyleSheet.create({
 
-    // profilePic: {
-    //     width: 75,
-    //     height: 75,
-    //     borderRadius: 75 / 2,
-    // },
-
     name: {
-        fontSize: 20,
+        fontSize: 21,
     },
+
+    username: {
+        fontSize: 15
+    },  
 
     itemView: {
         flexDirection: 'row',
