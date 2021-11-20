@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 20,
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
     },
 
     name_col: {
@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
 
         fontSize: 25,
         marginLeft: 15,
+        alignSelf: 'flex-start'
     },
 
     time: {
