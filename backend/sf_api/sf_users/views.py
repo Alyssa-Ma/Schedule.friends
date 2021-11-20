@@ -61,6 +61,8 @@ def users_detail(request, pk):
         return Response(serializer.data)
 
     elif request.method == 'PATCH':
+        if user != request.user or request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         serializer = UserSerializer(user, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
             user = serializer.save()
@@ -71,6 +73,8 @@ def users_detail(request, pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
+        if user != request.user or request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         user.delete()
         return Response({
             'id': int(pk),
