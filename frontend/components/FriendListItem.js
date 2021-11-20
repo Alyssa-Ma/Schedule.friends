@@ -18,7 +18,7 @@ const FriendListItem = ({ navigation, route, user }) => {
                     
                     name="account-details"
                     size={45}
-                    color="#6200EE"
+                    color="white"
                 />
             </View>
         </TouchableOpacity>
@@ -33,13 +33,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 15,
-        backgroundColor: '#f8f8f8',
+        backgroundColor: '#5cdbd5',
         borderBottomWidth: 1,
         borderColor: '#ccc',
         borderRadius: 40 / 2,
         width: 350,
         alignSelf: 'center',
-        marginTop: 15
+        marginTop: 15,
+        
     },
 
     accountIcon: {
