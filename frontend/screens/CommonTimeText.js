@@ -212,6 +212,9 @@ const CommonTimeText = ({ navigation, route }) => {
                         if(friend_schedule.length === 0){
                             continue;
                         }
+                        
+                        const now_bool = (curr_time > friend_schedule[0][0]) && (curr_time < friend_schedule[0][1]);
+                        console.log(now_bool);
                         friend_schedule = getCommonFreeTime(my_time_free, friend_schedule);
                         friend_schedule = convertToTime(friend_schedule);
 
@@ -219,7 +222,8 @@ const CommonTimeText = ({ navigation, route }) => {
                             id: response.id,
                             schedule: friend_schedule,
                             f_name: response.first_name,
-                            l_name: response.last_name
+                            l_name: response.last_name,
+                            now: now_bool
                         };
         
                         friends.push(friend);    

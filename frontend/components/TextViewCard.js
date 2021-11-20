@@ -3,16 +3,74 @@ import { View, Text, StyleSheet} from 'react-native';
 import { Avatar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const ScheduleTimes = ({time, index}) => {
-    return (
-        <Text style={styles.times}> {time[index]}</Text>
-    )
-}
 
 
 const TextViewCard = ({item}) => {
 
+    const [times, setTimes] = useState(item.schedule);
+    
+    const NowTime = () => {
+        let sched = item.schedule;
+        return (
+            <View style={styles.now_row}>
+                <Text style={styles.now_upcoming}>Now:</Text>
+                <Text style={styles.time}>{sched[0]}</Text>
+            </View>
+        )
+    }
+
+    const UpcomingTime = () => {
+
+        let static_times = ['19:45 PM - 19:30 PM', '91:15 PM - 9:30 PM', '9:15 PM - 9:30 PM', '9:15 PM - 9:30 PM'];
+        return (
+            <View style={styles.upcoming_row}>
+                <Text style={styles.now_upcoming}>Upcoming:</Text>
+            
+                <View style={styles.upcoming_times_col}>
+                    {
+                        static_times.map( (time, index) => {
+                            return (
+                                <Text key={index} style={styles.time}>{time}</Text>
+                            )
+                        })
+                    }
+                </View>
+            </View>
+        )
+    }
+
     return (
+
+        <View style={styles.friendTimeCard}>
+
+            <View style={styles.avatar_name_row}>
+                <Avatar.Text 
+                            size = {75} 
+                            backgroundColor = 'turquoise'
+                            label = {item.f_name.charAt(0).toUpperCase()+item.l_name.charAt(0).toUpperCase()}
+                            style = {styles.avatar}
+                />
+
+                <View style={styles.name_col}>
+                    <Text style={styles.name_text}>{item.f_name}</Text>
+                    <Text style={styles.name_text}>{item.l_name}</Text>
+                </View>
+                
+            </View>
+
+            {
+                !item.now && (<NowTime />)
+            }
+            
+            {
+                
+               !item.now && <UpcomingTime />
+            }
+
+        </View>
+
+        /*
+        
         <View style={styles.friendRequest}>
             <View style={styles.itemView}>
 
@@ -33,48 +91,73 @@ const TextViewCard = ({item}) => {
                 
             </View>
         </View>
+
+        */
     )
 }
 
 
 const styles = StyleSheet.create({
 
-    friendRequest : {
-        padding: 15,
-        backgroundColor: 'darkslateblue',
-        borderWidth: 1,
-        borderColor: '#ccc',
-        alignItems: 'center',
-        alignSelf: 'center',
-        width: 250,
-        marginTop: 50,
-        shadowColor: '#ccc',
-        
-    },
-
-    profilePic: {
-        alignSelf: 'center',
-    },
-
-    name: {
-        fontSize: 20,
-        color: 'white',
-        alignSelf: 'center',
-    },
-
-    times:{
-        color: 'white',
-        backgroundColor: 'brown',
-        textAlign: 'center',
-        width: 175,
+    friendTimeCard: {
+        width: 320,
         borderRadius: 50 / 2,
+        backgroundColor: 'darkslateblue',
+        alignSelf: 'center',
+        marginTop: 50,
+        flex: 1,
+    },
+
+    avatar_name_row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         marginTop: 10,
     },
 
-    schedule: {
+    now_row: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        marginTop: 20,
+        alignItems: 'center'
+    },
+
+    upcoming_row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 20,
+        alignItems: 'center'
+    },
+
+    name_col: {
+        flexDirection: 'column',
+        alignSelf: 'center',
+        marginRight: 60
+    },
+
+    upcoming_times_col: {
+        flexDirection: 'column',
+        alignSelf: 'center',
+
+    },
+
+    name_text: {
+        fontSize: 30,
+    },
+
+    avatar: {
+        marginLeft: 40
+       
+    },    
+
+    now_upcoming: {
+
+        fontSize: 25,
+        marginLeft: 15
+
+    },
+
+    time: {
+        fontSize: 20,
     }
-    
 })
 export default TextViewCard;
