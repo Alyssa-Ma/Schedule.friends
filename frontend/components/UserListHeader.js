@@ -2,13 +2,13 @@ import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { Avatar, Title, Caption } from 'react-native-paper';
 
-const UserListHeader = ({ navigation, route, user}) => {
+const UserListHeader = ({ navigation, route, user, color}) => {
     return (
         <View style={styles.itemView}>
             <Avatar.Text
                 label={`${user.first_name.charAt(0).toUpperCase()}${user.last_name.charAt(0).toUpperCase()}`}
                 size={55}
-                color='#5cdbd5'
+                color={color}
                 backgroundColor='white'
                 />
             <View style={styles.textInfo}>
