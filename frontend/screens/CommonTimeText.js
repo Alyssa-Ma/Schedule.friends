@@ -44,7 +44,8 @@ const CommonTimeText = ({ navigation, route }) => {
     const convertTo12Hr = (time) => {
         const timeParts = time.split(':');
         const amOrpm = parseInt(timeParts[0]) >= 12 ? 'PM' : 'AM';
-        const hours = (parseInt(timeParts[0]) % 12) || 12;
+        let hours = (parseInt(timeParts[0]) % 12) || 12;
+        hours = (parseInt(hours) < 10) ? '  '+hours : hours;
         return `${hours}:${timeParts[1]} ${amOrpm}`;
     }
 

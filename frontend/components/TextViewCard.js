@@ -104,12 +104,13 @@ const TextViewCard = ({item}) => {
 const styles = StyleSheet.create({
 
     friendTimeCard: {
-        width: 320,
+        width: 330,
         borderRadius: 50 / 2,
         backgroundColor: 'darkslateblue',
         alignSelf: 'center',
         marginTop: 50,
         flex: 1,
+        paddingBottom: 10
     },
 
     avatar_name_row: {
@@ -129,19 +130,22 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 20,
-        alignItems: 'center'
+        alignItems: 'flex-start'
     },
 
     name_col: {
         flexDirection: 'column',
         alignSelf: 'center',
-        marginRight: 60
+        alignItems: 'flex-start',
+        marginRight: 60,
+        
     },
 
     upcoming_times_col: {
         flexDirection: 'column',
         alignSelf: 'center',
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        marginRight: 10
 
     },
 
@@ -157,8 +161,7 @@ const styles = StyleSheet.create({
     now_upcoming: {
 
         fontSize: 25,
-        marginLeft: 15
-
+        marginLeft: 15,
     },
 
     time: {
