@@ -141,9 +141,10 @@ const CommonTimeText = ({ navigation, route }) => {
     // already in focused will not trigger it).
     useFocusEffect(
         React.useCallback(() => {
-            setLoading(true);
-            console.log("entered screen!");
-            async function getInfo(){
+            
+            const getInfo = async() =>{
+                setLoading(true);
+                console.log("entered screen!");
                 try{
                     let response = await fetch(`${BASE_URL}/${context.user.id}`, {
                         method: 'GET', 
@@ -241,6 +242,7 @@ const CommonTimeText = ({ navigation, route }) => {
             // It can return nothing, but is needed to run properly (I think)
             return () => {
                 console.log("leaving screen!");
+                setLoading(true);
             };
         }, [])
     )
