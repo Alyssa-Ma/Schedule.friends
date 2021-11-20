@@ -11,6 +11,9 @@ const TextViewCard = ({item}) => {
     
     const NowTime = () => {
         let sched = item.schedule;
+        let temp = item.schedule;
+        temp.splice(0,1);
+        setTimes(temp);
         return (
             <View style={styles.now_row}>
                 <Text style={styles.now_upcoming}>Now:</Text>
@@ -20,15 +23,16 @@ const TextViewCard = ({item}) => {
     }
 
     const UpcomingTime = () => {
-
-        let static_times = ['19:45 PM - 19:30 PM', '91:15 PM - 9:30 PM', '9:15 PM - 9:30 PM', '9:15 PM - 9:30 PM'];
+        if(times.length < 1)
+            return <View></View>
+        
         return (
             <View style={styles.upcoming_row}>
                 <Text style={styles.now_upcoming}>Upcoming:</Text>
             
                 <View style={styles.upcoming_times_col}>
                     {
-                        static_times.map( (time, index) => {
+                        times.map( (time, index) => {
                             return (
                                 <Text key={index} style={styles.time}>{time}</Text>
                             )
@@ -59,13 +63,13 @@ const TextViewCard = ({item}) => {
             </View>
 
             {
-                !item.now && (<NowTime />)
+                item.now &&<NowTime />
             }
+
+            <UpcomingTime />
             
-            {
-                
-               !item.now && <UpcomingTime />
-            }
+            
+            
 
         </View>
 
@@ -137,6 +141,7 @@ const styles = StyleSheet.create({
     upcoming_times_col: {
         flexDirection: 'column',
         alignSelf: 'center',
+        alignItems: 'flex-start'
 
     },
 
