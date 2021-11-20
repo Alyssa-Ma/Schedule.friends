@@ -1,6 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
+from rest_framework import exceptions
+
 
 from .models import User
 from .models import Course
@@ -22,7 +24,7 @@ from rest_framework.authtoken.models import Token
 def get_users_list(request):
     if request.method == 'GET':
         # First checks if query parameter exists
-        # Then filters Users by the string in the 'username' property
+        # Then filters Users by the string in the 'username' propegit rty
         if request.query_params.get('query'):
             results = User.objects.filter(username__iregex=request.query_params.get('query'))
             serializer = UserSerializer(results, context={'request': request}, many=True)
@@ -118,6 +120,8 @@ def schedule_list(request, pk):
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
 def schedule_detail(request, user_pk, course_pk):
+    print(request.user)
+    print(request.user.is_staff)
     try:
         course = Course.objects.get(pk=course_pk)
     except Course.DoesNotExist:
@@ -128,6 +132,10 @@ def schedule_detail(request, user_pk, course_pk):
         return Response(serializer.data)
 
     elif request.method == 'PATCH':
+        print(course.owner)
+        print(request.user)
+        if course.owner != request.user or request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         serializer = CourseSerializer(course, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -135,6 +143,8 @@ def schedule_detail(request, user_pk, course_pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
+        if course.owner != request.user or request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         course.delete()
         return Response({
             'id': int(course_pk),
