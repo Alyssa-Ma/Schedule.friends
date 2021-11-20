@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import { View, Text, StyleSheet, FlatList} from 'react-native';
+import { View, Text, StyleSheet, FlatList, ScrollView} from 'react-native';
 import TextViewCard from '../components/TextViewCard';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
@@ -237,6 +237,7 @@ const CommonTimeText = ({ navigation, route }) => {
     // already in focused will not trigger it).
     useFocusEffect(
         React.useCallback(() => {
+            //Does all fetch calls
             getInfo();
             // This is the cleanup function for useCallback.
             // It can return nothing, but is needed to run properly (I think)
@@ -248,6 +249,7 @@ const CommonTimeText = ({ navigation, route }) => {
     )
     
     return (
+        
         <View style={styles.container}>
             {   
                 loading
@@ -267,8 +269,7 @@ const CommonTimeText = ({ navigation, route }) => {
 const styles = StyleSheet.create({
 
     container: {
-        flex: 1,
-        paddingTop: 0,
+        
     },
 
     outerCard: {
