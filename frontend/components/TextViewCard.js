@@ -10,10 +10,13 @@ const TextViewCard = ({item}) => {
     const [times, setTimes] = useState(item.schedule);
     
     const NowTime = () => {
+        //removes the first time from times state
         let sched = item.schedule;
         let temp = item.schedule;
         temp.splice(0,1);
         setTimes(temp);
+
+        //renders the first schedule time
         return (
             <View style={styles.now_row}>
                 <Text style={styles.now_upcoming}>Now:</Text>
@@ -23,9 +26,11 @@ const TextViewCard = ({item}) => {
     }
 
     const UpcomingTime = () => {
+        //if no times return nothing
         if(times.length < 1)
             return <View></View>
         
+        //returns the upcoming times section
         return (
             <View style={styles.upcoming_row}>
                 <Text style={styles.now_upcoming}>Upcoming:</Text>
@@ -62,14 +67,9 @@ const TextViewCard = ({item}) => {
                 
             </View>
 
-            {
-                item.now &&<NowTime />
-            }
+            {item.now &&<NowTime />}
 
             <UpcomingTime />
-            
-            
-            
 
         </View>
 
