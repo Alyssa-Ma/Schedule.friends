@@ -214,7 +214,7 @@ const CommonTimeText = ({ navigation, route }) => {
                             continue;
                         }
 
-                        const now_bool = (curr_time > friend_schedule[0][0]) && (curr_time < friend_schedule[0][1]);
+                        const now_bool = (curr_time >= friend_schedule[0][0]) && (curr_time < friend_schedule[0][1]);
                         console.log(now_bool);
                         friend_schedule = getCommonFreeTime(my_time_free, friend_schedule);
                         friend_schedule = convertToTime(friend_schedule);

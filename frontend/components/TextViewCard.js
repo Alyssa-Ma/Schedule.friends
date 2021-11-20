@@ -8,19 +8,15 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const TextViewCard = ({item}) => {
 
     const [times, setTimes] = useState(item.schedule);
-    
-    const NowTime = () => {
-        //removes the first time from times state
-        let sched = item.schedule;
-        let temp = item.schedule;
-        temp.splice(0,1);
-        setTimes(temp);
-
+    const [trigger, setTrigger] = useState(false);
+    const NowTime = ({trigger}) => {
+        
         //renders the first schedule time
+        trigger=true;
         return (
             <View style={styles.now_row}>
                 <Text style={styles.now_upcoming}>Now:</Text>
-                <Text style={styles.time}>{sched[0]}</Text>
+                <Text style={styles.time}>{times[0]}</Text>
             </View>
         )
     }
@@ -30,6 +26,11 @@ const TextViewCard = ({item}) => {
         if(times.length < 1)
             return <View></View>
         
+        //removes the first time if there is a 'Now'
+        let tmp_times = [...times];
+        if(trigger)
+           tmp_times.splice(0,1);
+
         //returns the upcoming times section
         return (
             <View style={styles.upcoming_row}>
@@ -37,7 +38,7 @@ const TextViewCard = ({item}) => {
             
                 <View style={styles.upcoming_times_col}>
                     {
-                        times.map( (time, index) => {
+                        tmp_times.map( (time, index) => {
                             return (
                                 <Text key={index} style={styles.time}>{time}</Text>
                             )
@@ -67,7 +68,7 @@ const TextViewCard = ({item}) => {
                 
             </View>
 
-            {item.now &&<NowTime />}
+            {item.now &&<NowTime trigger={trigger}/>}
 
             <UpcomingTime />
 
@@ -115,7 +116,8 @@ const styles = StyleSheet.create({
 
     avatar_name_row: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
+        
         marginTop: 10,
     },
 
@@ -123,7 +125,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 20,
-        alignItems: 'center'
+        alignItems: 'center',
+        marginRight: 10
     },
 
     upcoming_row: {
@@ -137,7 +140,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignSelf: 'center',
         alignItems: 'flex-start',
-        marginRight: 60,
+        marginLeft: 20,
         
     },
 
