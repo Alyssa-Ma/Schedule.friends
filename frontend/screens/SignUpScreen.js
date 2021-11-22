@@ -142,18 +142,15 @@ const SignUpScreen = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.container}>
-            <ScrollView>
+        <ScrollView>
+            <View style={styles.container}>
+            
                 <StatusBar
                     backgroundColor="black"
                     barStyle="light-content"
                 />
 
-                <View>
-                    <Text style={styles.logoText}> Create an account </Text> 
-                </View>
-
-                <TextInput style={styles.inputBox} 
+                <TextInput style={styles.inputBox1} 
                     //underlineColorAndroid='#ADC9C6' 
                     label="First Name"
                     placeholder = 'Enter your first name'
@@ -262,8 +259,9 @@ const SignUpScreen = ({ navigation }) => {
                     onPress = {() => { forumCheck()}}
                     >Register</Text>
                 </TouchableOpacity>
-            </ScrollView>
-        </View>
+            
+            </View>
+        </ScrollView>
     );
 };
 
@@ -273,7 +271,7 @@ export default SignUpScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 3, 
-        backgroundColor: '#009387',
+        backgroundColor: '#ffff',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -286,6 +284,20 @@ const styles = StyleSheet.create({
         
     },
 
+    inputBox1: {
+        width:300, 
+        backgroundColor:'#5176A8',
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10, 
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        paddingHorizontal: 16, 
+        fontSize: 16, 
+        color: 'white',
+        
+        marginTop: 0
+
+    },
     inputBox: {
         width:300, 
         backgroundColor:'#5176A8',
@@ -298,7 +310,7 @@ const styles = StyleSheet.create({
         color: 'white',
         
         marginTop: 0
-        
+
     },
     
     button:{
