@@ -2,11 +2,13 @@ import React, {useState, useContext, useEffect} from 'react';
 import {View, Text, StyleSheet, StatusBar, Image, TouchableOpacity} from 'react-native';
 import { TextInput } from 'react-native-paper';
 import UserContext from '../context/UserContext';
+import analogousLogo from '../logo/analogousLogo.png';
 
 const LoginScreen = ({ navigation, route }) => {
     const context = useContext(UserContext);
     const [userName, setUserName] = useState("blank");
     const [userPassword, setUserPassword] = useState("blank");
+    const logo = Image.resolveAssetSource(analogousLogo).uri;
 
     return (
         
@@ -17,8 +19,9 @@ const LoginScreen = ({ navigation, route }) => {
                 barStyle="light-content"
                 />
 
-            <Image source={{uri: require('./logo/analogousLogo.png')}}
-              style={{width: 300, height: 300}} />
+            <Image source={{uri: logo}}
+              style={{width: 300, height: 350}}
+              resizeMode="stretch" />
 
             <View>
                 <Text style={styles.logoText}> Welcome to Schedule.Friends </Text> 
