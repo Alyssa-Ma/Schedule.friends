@@ -36,7 +36,8 @@ const LoginScreen = ({ navigation, route }) => {
 
             <TextInput secureTextEntry={true} style={styles.inputBox2} 
                 //underlineColorAndroid='#ADC9C6' 
-                placeholder = 'enter password'                
+                label="Password"
+                placeholder = 'Enter password'                
                 onChangeText = {(val) => setUserPassword(val)}
                 placeholderTextColor = '#ADC9C6'/>
 
@@ -101,24 +102,23 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     button:{
-        backgroundColor:'#007169',
-        borderRadius: 25, 
-        width:300, 
+        backgroundColor:'#53C2FF',
+        borderRadius: 20, 
+        width:350, 
         marginVertical: 10,
         paddingVertical: 12,
         
     },
     buttonText: {
-        fontSize: 16, 
-        fontWeight:"500",
+        fontSize: 18, 
+        fontWeight:"900",
         color:'white',
         textAlign: 'center'
     },
     newSignUpText:{
-        
         alignItems: 'center',
         justifyContent: 'center',
-        color:'white',
+        color:'#68B0D8',
         flexDirection: 'row',
         paddingHorizontal: 8
         
