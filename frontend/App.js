@@ -44,6 +44,7 @@ const App = ({navigation, route}) => {
       }
       else {
         console.log("Error from server in App.js: ", JSON.stringify(jsonResponse));
+        //may not always be an invalid username or password
         Alert.alert("Invalid Log In", "The username and/or password is incorrect",);
       }
     }

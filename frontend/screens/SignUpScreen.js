@@ -117,27 +117,33 @@ const SignUpScreen = ({ navigation }) => {
     }
 
     const insertData = async () => {
-        await fetch(`${BASE_URL}/create`, {
-            method:"POST", 
-            headers: {
-                'Content-Type':'application/json'
-            }, 
-            body: JSON.stringify({
-                first_name:first_name, 
-                last_name:last_name, 
-                username:username, 
-                email:email, 
-                password:password, 
-                schedule:schedule,
+        try {
+            let response =  await fetch(`${BASE_URL}/create`, {
+                method:"POST", 
+                headers: {
+                    'Content-Type':'application/json'
+                }, 
+                body: JSON.stringify({
+                    first_name:first_name, 
+                    last_name:last_name, 
+                    username:username, 
+                    email:email, 
+                    password:password, 
+                    schedule:schedule,
+                })
             })
-        })
-        .then(resp => resp.json())
-        .then(data => {
-            context.setUser(data);
-            context.setIsSignedIn(true);
-            Alert.alert("USER REGISTERED");
-        })
-        .catch(error => console.log(error))
+            const jsonResponse = await response.json();
+            if (response.status === 201) {
+                setUser(jsonResponse);
+                setIsSignedIn(true);
+            }
+            else {
+                console.log(JSON.stringify(jsonResponse))
+            }
+        }
+        catch(error) {
+            console.log(error);
+        }
     }
 
     return (

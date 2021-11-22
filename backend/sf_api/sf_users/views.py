@@ -29,6 +29,7 @@ def get_users_list(request):
             results = User.objects.filter(username__iregex=request.query_params.get('query'))
             serializer = UserSerializer(results, context={'request': request}, many=True)
             return Response(serializer.data)
+        # To-do: This should be an admin only call
         # Otherwise, returns all Users in the database
         data = User.objects.all()
         serializer = UserSerializer(data, context={'request': request}, many=True)
@@ -55,6 +56,7 @@ def users_detail(request, pk):
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+    # to-think-about: should only friends and admin get the schedule data of a user?
     # Get User object by iD
     if request.method == 'GET':
         serializer = UserSerializer(user, context={'request': request})
@@ -92,11 +94,14 @@ def schedule_list(request, pk):
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
+    # to-think-about: should only friends, owner and admin get the schedule data of a user?
     if request.method == 'GET':
         serializer = CourseSerializer(user.schedule, context={'request': request}, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
+        if user != request.user or request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         # First validates the request.data to fit the Course model
         course_serializer = CourseSerializer(data=request.data)
         if course_serializer.is_valid():
@@ -124,8 +129,8 @@ def schedule_list(request, pk):
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
 def schedule_detail(request, user_pk, course_pk):
-    print(request.user)
-    print(request.user.is_staff)
+
+    # to-think-about: should only friends, owner and admin get the schedule data of a user? 
     try:
         course = Course.objects.get(pk=course_pk)
     except Course.DoesNotExist:
@@ -136,8 +141,6 @@ def schedule_detail(request, user_pk, course_pk):
         return Response(serializer.data)
 
     elif request.method == 'PATCH':
-        print(course.owner)
-        print(request.user)
         if course.owner != request.user or request.user.is_staff:
             raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         serializer = CourseSerializer(course, data=request.data, context={'request': request}, partial=True)
@@ -161,6 +164,7 @@ def schedule_detail(request, user_pk, course_pk):
 @api_view(['GET','POST'])
 @permission_classes([base_permissions.IsAuthenticated])
 def fr_list(request):
+    # to-do: only admin should get all friend requests
     if request.method == 'GET':
         data = FriendRequest.objects.all()
         serializer = FriendRequestSerializer(data, context={'request': request}, many=True)
@@ -176,6 +180,9 @@ def fr_list(request):
         except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         
+        if from_user != request.user or request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="Friend Requests can only be sent from auth user")
+
         if UserSerializer(to_user).data['id'] in UserSerializer(from_user).data['friend_list']:
             return Response({
                 "non_field_errors": [f"User {request.data['from_user']} is already friends with {request.data['to_user']}"]
@@ -199,11 +206,13 @@ def fr_detail(request, pk):
     except FriendRequest.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+    # to-do: only to and from users can look up friend requests
     if request.method == 'GET':
         serializer = FriendRequestSerializer(friend_request, context={'request': request})
         return Response(serializer.data)
 
-    # PATCHing a FriendRequest is called when a user accepts or denies a friend request
+    # to-do: only to and from users can patch friend requests
+    # PATCHing a FriendReq1uest is called when a user accepts or denies a friend request
     # by sending "accepted": true or false.
     elif request.method == 'PATCH':
         fr_serializer = FriendRequestSerializer(friend_request, data=request.data, context={'request': request}, partial=True)
@@ -230,7 +239,8 @@ def fr_detail(request, pk):
                 'result': f"Friend Request ID# {pk} Deleted"
                 },status=status.HTTP_200_OK)
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    
+    # to-do: only to and from users can delete friend requests
     elif request.method == 'DELETE':
         friend_request.delete()
         return Response({
@@ -242,6 +252,7 @@ def fr_detail(request, pk):
 @api_view(['DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
 def remove_friend(request, from_user_pk, to_user_pk):
+    # to-do: only to and from users can unfriend someone
     try:
         from_user = User.objects.get(pk=from_user_pk)
     except User.DoesNotExist:
@@ -263,6 +274,7 @@ def remove_friend(request, from_user_pk, to_user_pk):
 @api_view(['GET'])
 @permission_classes([base_permissions.IsAuthenticated])
 def get_fr_to_user(request, pk):
+    # to-do: only owner and admin can request this path
     try:
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
@@ -281,6 +293,7 @@ def get_fr_to_user(request, pk):
 @api_view(['GET'])
 @permission_classes([base_permissions.IsAuthenticated])
 def get_fr_from_user(request, pk):
+    # to-do: only owner and admin can request this path
     try:
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
@@ -299,6 +312,7 @@ def get_fr_from_user(request, pk):
 @api_view(['GET'])
 @permission_classes([base_permissions.IsAuthenticated])
 def get_fr_with_user(request, pk):
+    # to-do: only owner and admin can request this path
     try:
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
