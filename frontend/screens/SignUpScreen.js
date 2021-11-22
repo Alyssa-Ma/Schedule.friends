@@ -285,17 +285,17 @@ const styles = StyleSheet.create({
     },
 
     inputBox1: {
-        width:300, 
-        backgroundColor:'#5176A8',
-        borderBottomRightRadius: 10,
-        borderBottomLeftRadius: 10, 
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
+        width:350, 
+        backgroundColor:'#D7A4FF',
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20, 
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
         paddingHorizontal: 16, 
         fontSize: 16, 
         color: 'white',    
-        marginTop: 50
-
+        marginTop: 50,
+        height: 55
     },
     inputBox2: {
         width:300, 
