@@ -29,8 +29,9 @@ def get_users_list(request):
         if request.query_params.get('query'):
             results = User.objects.filter(username__iregex=request.query_params.get('query'))
             serializer_to_filter = UserSerializer(results, context={'request': request}, many=True).data
-            serializer_to_filter.pop('friend_requests')
-            serializer_to_filter.pop('schedule')
+            for user in serializer_to_filter:
+                user.pop('friend_requests')
+                user.pop('schedule')
             return Response(serializer_to_filter, status=status.HTTP_200_OK)
         # Otherwise, returns all Users in the database
         # Since this call is really only used for debugging, it is an admin only call
@@ -111,8 +112,10 @@ def schedule_list(request, pk):
     
     # TO-DO: raise exception if user not owner, friend, or admin
     if request.method == 'GET':
+        if user != request.user and not request.user.is_staff and request.user.id not in UserSerializer(user).data['friend_list']:
+            raise exceptions.PermissionDenied(detail="User does not have permission to view schedule")
         serializer = CourseSerializer(user.schedule, context={'request': request}, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     elif request.method == 'POST':
         if user != request.user and not request.user.is_staff:
