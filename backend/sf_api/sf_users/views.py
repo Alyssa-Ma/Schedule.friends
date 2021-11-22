@@ -16,24 +16,22 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 
 # Users request methods
-# To-do
-# Make query return just a list of user names and friend list (pop out schedule)
-# Make get list all a superuser privilege only
 @api_view(['GET'])
 @permission_classes([base_permissions.IsAuthenticated])
 def get_users_list(request):
     if request.method == 'GET':
         # First checks if query parameter exists
-        # Then filters Users by the string in the 'username' propegit rty
+        # Then filters Users by the string in the 'username' property
+        # *** TO-DO: Pop out schedule, friend_requests, possibly others in query
         if request.query_params.get('query'):
             results = User.objects.filter(username__iregex=request.query_params.get('query'))
             serializer = UserSerializer(results, context={'request': request}, many=True)
             return Response(serializer.data)
-        # To-do: This should be an admin only call
+        # *** TO-DO: This should be an admin only call
         # Otherwise, returns all Users in the database
         data = User.objects.all()
         serializer = UserSerializer(data, context={'request': request}, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 @permission_classes([base_permissions.AllowAny])
@@ -47,7 +45,6 @@ def create_user(request):
         return Response(user_dict, status=status.HTTP_201_CREATED)            
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# Need to make PATCH and DELETE authenticated with owner and superuser
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
 def users_detail(request, pk):
@@ -56,14 +53,20 @@ def users_detail(request, pk):
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    # to-think-about: should only friends and admin get the schedule data of a user?
-    # Get User object by iD
     if request.method == 'GET':
-        serializer = UserSerializer(user, context={'request': request})
-        return Response(serializer.data)
+        serializer_to_filter = UserSerializer(user, context={'request': request}).data
+        print(request.user)
+        print(user != request.user)
+        # Only owner or admin can see friend_requests
+        if user != request.user and not request.user.is_staff:
+            serializer_to_filter.pop('friend_requests')
+            # Only friends, owner and admin can retrieve schedule
+            if request.user.id not in serializer_to_filter['friend_list']:
+                serializer_to_filter.pop('schedule')
+        return Response(serializer_to_filter, status=status.HTTP_200_OK)
 
     elif request.method == 'PATCH':
-        if user != request.user or request.user.is_staff:
+        if user != request.user and not request.user.is_staff:
             raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         serializer = UserSerializer(user, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
@@ -75,7 +78,7 @@ def users_detail(request, pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        if user != request.user or request.user.is_staff:
+        if user != request.user and not request.user.is_staff:
             raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         user.delete()
         return Response({
@@ -100,7 +103,7 @@ def schedule_list(request, pk):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        if user != request.user or request.user.is_staff:
+        if user != request.user and not request.user.is_staff:
             raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         # First validates the request.data to fit the Course model
         course_serializer = CourseSerializer(data=request.data)
@@ -141,7 +144,7 @@ def schedule_detail(request, user_pk, course_pk):
         return Response(serializer.data)
 
     elif request.method == 'PATCH':
-        if course.owner != request.user or request.user.is_staff:
+        if course.owner != request.user and not request.user.is_staff:
             raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         serializer = CourseSerializer(course, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
@@ -150,7 +153,7 @@ def schedule_detail(request, user_pk, course_pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        if course.owner != request.user or request.user.is_staff:
+        if course.owner != request.user and not request.user.is_staff:
             raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         course.delete()
         return Response({
@@ -180,7 +183,7 @@ def fr_list(request):
         except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         
-        if from_user != request.user or request.user.is_staff:
+        if from_user != request.user and not request.user.is_staff:
             raise exceptions.PermissionDenied(detail="Friend Requests can only be sent from auth user")
 
         if UserSerializer(to_user).data['id'] in UserSerializer(from_user).data['friend_list']:
