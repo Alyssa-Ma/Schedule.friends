@@ -48,7 +48,7 @@ const LoginScreen = ({ navigation, route }) => {
             <View style={styles.newSignUpText}>
                 <Text style ={styles.newSignUpText}> New to Schedule.Friends?</Text> 
                 <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                    <Text style={{color: 'blue'}}> Create an account! </Text>
+                    <Text style={styles.createAnAccountText}> Create an account! </Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -120,13 +120,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         color:'#68B0D8',
         flexDirection: 'row',
-        paddingHorizontal: 8
-        
-    },
-    signUpText:{
-        color: '#5176A8',
+        paddingHorizontal: 8,
         fontSize: 16,
-        
+        fontWeight: '500'
+    },
+    createAnAccountText:{
+        alignItems: 'center',
+        justifyContent: 'center',
+        color:'#4CD2CC',
+        flexDirection: 'row',
+        paddingHorizontal: 8,
+        fontSize: 16,
+        fontWeight: '500'
     },
     
 })
