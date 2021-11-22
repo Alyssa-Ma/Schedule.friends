@@ -122,5 +122,6 @@ class UserSerializer(serializers.ModelSerializer):
         instance.username = validated_data.get('username', instance.username)
         instance.password = validated_data.get('password', instance.password)
         instance.email = validated_data.get('email', instance.email)
+        instance.image = validated_data.get('image', instance.image)
         instance.save()
         return instance

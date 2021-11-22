@@ -13,6 +13,11 @@ from sf_users import permissions as custom_permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.views import APIView
+from rest_framework.decorators import parser_classes
+
+
 # Users request methods
 # To-do
 # Make query return just a list of user names and friend list (pop out schedule)
@@ -47,7 +52,8 @@ def create_user(request):
 # Need to make PATCH and DELETE authenticated with owner and superuser
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
-def users_detail(request, pk):
+@parser_classes([MultiPartParser, FormParser])
+def users_detail(request, pk, format=None):
     try:
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
@@ -308,3 +314,18 @@ class ObtainAuthTokenWithUser(ObtainAuthToken):
         user_dict = dict(UserSerializer(user).data)
         user_dict.update({'token': token.key})
         return Response(user_dict)
+
+
+    
+#class UserImageUpload(APIView):
+  #  permission_classes = [base_permissions.IsAuthenticated]
+   # parser_classes = [MultiPartParser, FormParser]
+
+   # def post(self, request, format=None):
+     #   print(request.data)
+      #  serializer = UserSerializer(data=request.data, context={'request': request})
+       # if serializer.is_valid():
+         #   serializer.save()
+         #   return Response(serializer.data, status=status.HTTP_200_OK)
+       # else:
+        #    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
