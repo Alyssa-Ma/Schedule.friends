@@ -110,7 +110,6 @@ def schedule_list(request, pk):
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
-    # TO-DO: raise exception if user not owner, friend, or admin
     if request.method == 'GET':
         if user != request.user and not request.user.is_staff and request.user.id not in UserSerializer(user).data['friend_list']:
             raise exceptions.PermissionDenied(detail="User does not have permission to view schedule")
@@ -155,6 +154,8 @@ def schedule_detail(request, user_pk, course_pk):
     
     # TO-DO: raise exception if user not owner, friend, or admin of a specific course
     if request.method == 'GET':
+        if course.owner != request.user and not request.user.is_staff and request.user.id not in UserSerializer(course.owner).data['friend_list']:
+            raise exceptions.PermissionDenied(detail="User does not have permission to view schedule")
         serializer = CourseSerializer(course, context={'request': request})
         return Response(serializer.data)
 
