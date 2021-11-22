@@ -152,7 +152,6 @@ def schedule_detail(request, user_pk, course_pk):
     except Course.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
-    # TO-DO: raise exception if user not owner, friend, or admin of a specific course
     if request.method == 'GET':
         if course.owner != request.user and not request.user.is_staff and request.user.id not in UserSerializer(course.owner).data['friend_list']:
             raise exceptions.PermissionDenied(detail="User does not have permission to view schedule")
@@ -185,8 +184,9 @@ def schedule_detail(request, user_pk, course_pk):
 @api_view(['GET','POST'])
 @permission_classes([base_permissions.IsAuthenticated])
 def fr_list(request):
-    #TO-DO: only admin should get all friend requests
     if request.method == 'GET':
+        if not request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="User does not have permission")
         data = FriendRequest.objects.all()
         serializer = FriendRequestSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
@@ -207,7 +207,7 @@ def fr_list(request):
         if UserSerializer(to_user).data['id'] in UserSerializer(from_user).data['friend_list']:
             return Response({
                 "non_field_errors": [f"User {request.data['from_user']} is already friends with {request.data['to_user']}"]
-            }, status=status.HTTP_400_BAD_REQUEST)
+            }, status=status.HTTP_409_CONFLICT)
 
         fr_serializer = FriendRequestSerializer(data=request.data)
         if fr_serializer.is_valid():
@@ -228,12 +228,14 @@ def fr_detail(request, pk):
     except FriendRequest.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    # TO-DO: only to and from users can look up friend requests
+    # only to and from users can get requests by ID and patch friend requests
+    serializer = FriendRequestSerializer(friend_request, context={'request': request})
+    if request.user != serializer.data['to_user'] and request.user != serializer.data['from_user'] and not request.user.is_staff:
+        raise exceptions.PermissionDenied(detail="User not involved in friend request")
+
     if request.method == 'GET':
-        serializer = FriendRequestSerializer(friend_request, context={'request': request})
         return Response(serializer.data)
 
-    # TO-DO: only to and from users can patch friend requests
     # PATCHing a FriendReq1uest is called when a user accepts or denies a friend request
     # by sending "accepted": true or false.
     elif request.method == 'PATCH':
@@ -262,8 +264,9 @@ def fr_detail(request, pk):
                 },status=status.HTTP_200_OK)
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    # TO-DO: only from users can delete friend requests (cancel request)
     elif request.method == 'DELETE':
+        if request.user != serializer.data['from_user'] and not request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="User did not create friend request")
         friend_request.delete()
         return Response({
             'id': int(pk),
@@ -275,7 +278,6 @@ def fr_detail(request, pk):
 @api_view(['DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
 def remove_friend(request, from_user_pk, to_user_pk):
-    # TO-DO: only to and from users can unfriend someone
     try:
         from_user = User.objects.get(pk=from_user_pk)
     except User.DoesNotExist:
@@ -284,6 +286,9 @@ def remove_friend(request, from_user_pk, to_user_pk):
         to_user = User.objects.get(pk=to_user_pk)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.user.id != from_user_pk and request.user.id != to_user_pk and not request.user.is_staff:
+        raise exceptions.PermissionDenied(detail="User does not have permission")
     
     from_user.friend_list.remove(to_user_pk)
     to_user.friend_list.remove(from_user_pk)
@@ -298,12 +303,14 @@ def remove_friend(request, from_user_pk, to_user_pk):
 @api_view(['GET'])
 @permission_classes([base_permissions.IsAuthenticated])
 def get_fr_to_user(request, pk):
-    # TO-DO: only owner and admin can request this path
     try:
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
+    if user != request.user and not request.user.is_staff:
+        raise exceptions.PermissionDenied(detail="Only owner has permissions")
+
     fr_return_data = []
     
     for friend_request_id in UserSerializer(user).data['friend_requests']:
@@ -318,12 +325,14 @@ def get_fr_to_user(request, pk):
 @api_view(['GET'])
 @permission_classes([base_permissions.IsAuthenticated])
 def get_fr_from_user(request, pk):
-    # TO-DO: only owner and admin can request this path
     try:
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
+    if user != request.user and not request.user.is_staff:
+        raise exceptions.PermissionDenied(detail="Only owner has permissions")
+
     fr_return_data = []
     
     for friend_request_id in UserSerializer(user).data['friend_requests']:
@@ -338,12 +347,14 @@ def get_fr_from_user(request, pk):
 @api_view(['GET'])
 @permission_classes([base_permissions.IsAuthenticated])
 def get_fr_with_user(request, pk):
-    # TO-DO: only owner and admin can request this path
     try:
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
+
+    if user != request.user and not request.user.is_staff:
+        raise exceptions.PermissionDenied(detail="Only owner has permissions")
+
     fr_return_data = []
     
     for friend_request_id in UserSerializer(user).data['friend_requests']:
@@ -366,4 +377,4 @@ class ObtainAuthTokenWithUser(ObtainAuthToken):
         token, created = Token.objects.get_or_create(user=user)
         user_dict = dict(UserSerializer(user).data)
         user_dict.update({'token': token.key})
-        return Response(user_dict)
+        return Response(user_dict, status=status.HTTP_200_OK)
