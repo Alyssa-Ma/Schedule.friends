@@ -1,5 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {View, Text, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Image, TouchableOpacity} from 'react-native';
+import { TextInput } from 'react-native-paper';
 import UserContext from '../context/UserContext';
 
 const LoginScreen = ({ navigation, route }) => {
@@ -16,7 +17,7 @@ const LoginScreen = ({ navigation, route }) => {
                 barStyle="light-content"
                 />
 
-            <Image source={{uri: 'https://reactjs.org/logo-og.png'}}
+            <Image source={{uri: require('./logo/analogousLogo.png')}}
               style={{width: 300, height: 300}} />
 
             <View>
