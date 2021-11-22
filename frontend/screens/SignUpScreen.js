@@ -4,6 +4,7 @@ import { View, Alert, Text, StyleSheet, StatusBar,
 import { TextInput, HelperText } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const SignUpScreen = ({ navigation }) => {
     const context = useContext(UserContext);
@@ -142,125 +143,126 @@ const SignUpScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <ScrollView>
+                <StatusBar
+                    backgroundColor="black"
+                    barStyle="light-content"
+                />
 
-            <StatusBar
-                backgroundColor="black"
-                barStyle="light-content"
-            />
+                <View>
+                    <Text style={styles.logoText}> Create an account </Text> 
+                </View>
 
-            <View>
-                <Text style={styles.logoText}> Create an account </Text> 
-            </View>
+                <TextInput style={styles.inputBox} 
+                    //underlineColorAndroid='#ADC9C6' 
+                    label="First Name"
+                    placeholder = 'Enter your first name'
+                    onChangeText = {(val) => setFirstName(val), first_name => onChangeFText(first_name)}
+                    value={first_name}
+                    //stylesheet doesn't work for colors for react native paper, change it here
+                    theme={{
+                        colors: {
+                            //placeholder: 'purple',
+                            text: 'white',
+                            //primary: 'white',
+                            underlineColor: 'transparent'
+                        }
+                    }}/>
+                <HelperText type="error" visible={fnameValid()} style={styles.error}>
+                    Error: Only letters are allowed
+                </HelperText>
+                
+                <TextInput style={styles.inputBox} 
+                    //underlineColorAndroid='#ADC9C6' 
+                    label="Last Name"
+                    placeholder = 'Enter your last name' 
+                    onChangeText = {(val) => setLastName(val), last_name => onChangeLText(last_name)}
+                    theme={{
+                        colors: {
+                            //placeholder: 'purple',
+                            text: 'white',
+                            //primary: 'white',
+                            underlineColor: 'transparent'
+                        }
+                    }}/>
+                <HelperText type="error" visible={lnameValid()} style={styles.error}>
+                    Error: Only letters are allowed
+                </HelperText>
 
-            <TextInput style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                label="First Name"
-                placeholder = 'Enter your first name'
-                onChangeText = {(val) => setFirstName(val), first_name => onChangeFText(first_name)}
-                value={first_name}
-                //stylesheet doesn't work for colors for react native paper, change it here
-                theme={{
-                    colors: {
-                        //placeholder: 'purple',
-                        text: 'white',
-                        //primary: 'white',
-                        underlineColor: 'transparent'
-                    }
-                }}/>
-            <HelperText type="error" visible={fnameValid()} style={styles.error}>
-                Error: Only letters are allowed
-            </HelperText>
-            
-            <TextInput style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                label="Last Name"
-                placeholder = 'Enter your last name' 
-                onChangeText = {(val) => setLastName(val), last_name => onChangeLText(last_name)}
-                theme={{
-                    colors: {
-                        //placeholder: 'purple',
-                        text: 'white',
-                        //primary: 'white',
-                        underlineColor: 'transparent'
-                    }
-                }}/>
-            <HelperText type="error" visible={lnameValid()} style={styles.error}>
-                Error: Only letters are allowed
-            </HelperText>
+                <TextInput style={styles.inputBox} 
+                    //underlineColorAndroid='#ADC9C6' 
+                    label="Username"
+                    placeholder = 'Enter your username. Letters and numbers only' 
+                    onChangeText = {(val) => setUserName(val), username => onChangeUText(username)}
+                    theme={{
+                        colors: {
+                            //placeholder: 'purple',
+                            text: 'white',
+                            //primary: 'white',
+                            underlineColor: 'transparent'
+                        }
+                    }}/>        
+                <HelperText type="error" visible={unameValid()} style={styles.error}>
+                    Error: Only letters and numbers are allowed
+                </HelperText>
 
-            <TextInput style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                label="Username"
-                placeholder = 'Enter your username. Letters and numbers only' 
-                onChangeText = {(val) => setUserName(val), username => onChangeUText(username)}
-                theme={{
-                    colors: {
-                        //placeholder: 'purple',
-                        text: 'white',
-                        //primary: 'white',
-                        underlineColor: 'transparent'
-                    }
-                }}/>        
-            <HelperText type="error" visible={unameValid()} style={styles.error}>
-                Error: Only letters and numbers are allowed
-            </HelperText>
+                <TextInput style={styles.inputBox} 
+                    //underlineColorAndroid='#ADC9C6' 
+                    label="Email"
+                    placeholder = 'Enter a valid email' 
+                    onChangeText = {(val) => setEmail(val), email => onChangeEText(email)}
+                    theme={{
+                        colors: {
+                            //placeholder: 'purple',
+                            text: 'white',
+                            //primary: 'white',
+                            underlineColor: 'transparent'
+                        }
+                    }}/> 
+                <HelperText type="error" visible={emailValid()} style={styles.error}>
+                    Error: Invalid email
+                </HelperText>    
 
-            <TextInput style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                label="Email"
-                placeholder = 'Enter a valid email' 
-                onChangeText = {(val) => setEmail(val), email => onChangeEText(email)}
-                theme={{
-                    colors: {
-                        //placeholder: 'purple',
-                        text: 'white',
-                        //primary: 'white',
-                        underlineColor: 'transparent'
-                    }
-                }}/> 
-            <HelperText type="error" visible={emailValid()} style={styles.error}>
-                Error: Invalid email
-            </HelperText>    
+                <TextInput secureTextEntry={true} style={styles.inputBox} 
+                    //underlineColorAndroid='#ADC9C6' 
+                    label="Password"
+                    placeholder = 'Enter a valid password' 
+                    onChangeText = {(val) => setPassword(val), password => onChangePText(password)}
+                    theme={{
+                        colors: {
+                            //placeholder: 'purple',
+                            text: 'white',
+                            //primary: 'white',
+                            underlineColor: 'transparent'
+                        }
+                    }}/>
+                <HelperText type="error" visible={passwordValid()} style={styles.error}>
+                    Error: Invalid password. Password must be 6-20 characters with at least one number, one uppercase letter, and one lowercase letter.
+                </HelperText>
 
-            <TextInput secureTextEntry={true} style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                label="Password"
-                placeholder = 'Enter a valid password' 
-                onChangeText = {(val) => setPassword(val), password => onChangePText(password)}
-                theme={{
-                    colors: {
-                        //placeholder: 'purple',
-                        text: 'white',
-                        //primary: 'white',
-                        underlineColor: 'transparent'
-                    }
-                }}/>
-            <HelperText type="error" visible={passwordValid()} style={styles.error}>
-                Error: Invalid password. Password must be 6-20 characters with at least one number, one uppercase letter, and one lowercase letter.
-            </HelperText>
-
-            <TextInput secureTextEntry={true} style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                label="Password Confirmation"
-                placeholder = 'Enter a valid password' 
-                onChangeText = {confPassword => onChangeCTest(confPassword)}
-                theme={{
-                    colors: {
-                        //placeholder: 'purple',
-                        text: 'white',
-                        //primary: 'white',
-                        underlineColor: 'transparent'
-                    }
-                }}/>
-            <HelperText type="error" visible={confPasswordValid()} style={styles.error}>
-                Passwords do not match.
-            </HelperText> 
-             
-            <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}
-                onPress = {() => { forumCheck()}}
-                >Register</Text>
-            </TouchableOpacity>
+                <TextInput secureTextEntry={true} style={styles.inputBox} 
+                    //underlineColorAndroid='#ADC9C6' 
+                    label="Password Confirmation"
+                    placeholder = 'Enter a valid password' 
+                    onChangeText = {confPassword => onChangeCTest(confPassword)}
+                    theme={{
+                        colors: {
+                            //placeholder: 'purple',
+                            text: 'white',
+                            //primary: 'white',
+                            underlineColor: 'transparent'
+                        }
+                    }}/>
+                <HelperText type="error" visible={confPasswordValid()} style={styles.error}>
+                    Passwords do not match.
+                </HelperText> 
+                
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}
+                    onPress = {() => { forumCheck()}}
+                    >Register</Text>
+                </TouchableOpacity>
+            </ScrollView>
         </View>
     );
 };
