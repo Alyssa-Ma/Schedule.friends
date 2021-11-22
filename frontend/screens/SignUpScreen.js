@@ -169,7 +169,7 @@ const SignUpScreen = ({ navigation }) => {
                     Error: Only letters are allowed
                 </HelperText>
                 
-                <TextInput style={styles.inputBox} 
+                <TextInput style={styles.inputBox2} 
                     //underlineColorAndroid='#ADC9C6' 
                     label="Last Name"
                     placeholder = 'Enter your last name' 
@@ -186,7 +186,7 @@ const SignUpScreen = ({ navigation }) => {
                     Error: Only letters are allowed
                 </HelperText>
 
-                <TextInput style={styles.inputBox} 
+                <TextInput style={styles.inputBox3} 
                     //underlineColorAndroid='#ADC9C6' 
                     label="Username"
                     placeholder = 'Enter your username. Letters and numbers only' 
@@ -203,7 +203,7 @@ const SignUpScreen = ({ navigation }) => {
                     Error: Only letters and numbers are allowed
                 </HelperText>
 
-                <TextInput style={styles.inputBox} 
+                <TextInput style={styles.inputBox4} 
                     //underlineColorAndroid='#ADC9C6' 
                     label="Email"
                     placeholder = 'Enter a valid email' 
@@ -220,7 +220,7 @@ const SignUpScreen = ({ navigation }) => {
                     Error: Invalid email
                 </HelperText>    
 
-                <TextInput secureTextEntry={true} style={styles.inputBox} 
+                <TextInput secureTextEntry={true} style={styles.inputBox5} 
                     //underlineColorAndroid='#ADC9C6' 
                     label="Password"
                     placeholder = 'Enter a valid password' 
@@ -237,7 +237,7 @@ const SignUpScreen = ({ navigation }) => {
                     Error: Invalid password. Password must be 6-20 characters with at least one number, one uppercase letter, and one lowercase letter.
                 </HelperText>
 
-                <TextInput secureTextEntry={true} style={styles.inputBox} 
+                <TextInput secureTextEntry={true} style={styles.inputBox2} 
                     //underlineColorAndroid='#ADC9C6' 
                     label="Password Confirmation"
                     placeholder = 'Enter a valid password' 
@@ -293,12 +293,11 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 10,
         paddingHorizontal: 16, 
         fontSize: 16, 
-        color: 'white',
-        
-        marginTop: 0
+        color: 'white',    
+        marginTop: 50
 
     },
-    inputBox: {
+    inputBox2: {
         width:300, 
         backgroundColor:'#5176A8',
         borderBottomRightRadius: 10,
@@ -308,14 +307,48 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16, 
         fontSize: 16, 
         color: 'white',
-        
         marginTop: 0
-
+    },
+    inputBox3: {
+        width:300, 
+        backgroundColor:'#5176A8',
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10, 
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        paddingHorizontal: 16, 
+        fontSize: 16, 
+        color: 'white',
+        marginTop: 0
+    },
+    inputBox4: {
+        width:300, 
+        backgroundColor:'#5176A8',
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10, 
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        paddingHorizontal: 16, 
+        fontSize: 16, 
+        color: 'white',
+        marginTop: 0
+    },
+    inputBox5: {
+        width:300, 
+        backgroundColor:'#5176A8',
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10, 
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        paddingHorizontal: 16, 
+        fontSize: 16, 
+        color: 'white',
+        marginTop: 0
     },
     
     button:{
-        backgroundColor:'#007169',
-        borderRadius: 25, 
+        backgroundColor:'#53C2FF',
+        borderRadius: 15, 
         width:300, 
         marginBottom: 50,
         paddingVertical: 12,
@@ -335,8 +368,9 @@ const styles = StyleSheet.create({
     },
     
     error: {
-        color: 'red',
-        fontSize: 13,
+        color: '#4CD2CC',
+        fontSize: 16,
+        fontWeight: 'bold'
     },
 
 })
