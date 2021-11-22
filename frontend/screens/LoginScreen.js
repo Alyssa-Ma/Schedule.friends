@@ -20,7 +20,7 @@ const LoginScreen = ({ navigation, route }) => {
                 />
 
             <Image source={{uri: logo}}
-              style={{width: 300, height: 350}}
+              style={{width: 275, height: 325}}
               resizeMode="stretch" />
 
             <View>
@@ -28,9 +28,9 @@ const LoginScreen = ({ navigation, route }) => {
             </View>
 
             <TextInput style={styles.inputBox1} 
-                //underlineColorAndroid='#ADC9C6' 
+                underlineColorAndroid='#ADC9C6' 
                 label="Username"
-                placeholder = 'enter username' 
+                placeholder = 'Enter username' 
                 onChangeText = {(val) => setUserName(val)}
                 placeholderTextColor = '#fffff'/>
 
@@ -66,8 +66,9 @@ const styles = StyleSheet.create({
     },
     logoText: {
         marginVertical: 15,
-        fontSize:18,
-        color:'white'
+        fontSize:20,
+        color:'#68B0D8',
+        fontWeight: 'bold'
     },
     inputBox1: {
         width:300, 
