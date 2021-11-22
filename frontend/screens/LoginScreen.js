@@ -27,13 +27,14 @@ const LoginScreen = ({ navigation, route }) => {
                 <Text style={styles.logoText}> Welcome to Schedule.Friends </Text> 
             </View>
 
-            <TextInput style={styles.inputBox} 
+            <TextInput style={styles.inputBox1} 
                 //underlineColorAndroid='#ADC9C6' 
+                label="Username"
                 placeholder = 'enter username' 
                 onChangeText = {(val) => setUserName(val)}
-                placeholderTextColor = '#ADC9C6'/>
+                placeholderTextColor = '#fffff'/>
 
-            <TextInput secureTextEntry={true} style={styles.inputBox} 
+            <TextInput secureTextEntry={true} style={styles.inputBox2} 
                 //underlineColorAndroid='#ADC9C6' 
                 placeholder = 'enter password'                
                 onChangeText = {(val) => setUserPassword(val)}
@@ -59,7 +60,7 @@ export default LoginScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
-        backgroundColor: '#009387',
+        backgroundColor: '#ffffff',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -68,9 +69,19 @@ const styles = StyleSheet.create({
         fontSize:18,
         color:'white'
     },
-    inputBox: {
+    inputBox1: {
         width:300, 
-        backgroundColor:'#5176A8',
+        backgroundColor:'#D7A4FF',
+        borderRadius: 25, 
+        paddingHorizontal: 16, 
+        fontSize: 16, 
+        color: 'black',
+        marginVertical: 10,
+        
+    },
+    inputBox2: {
+        width:300, 
+        backgroundColor:'#9E8DFF',
         borderRadius: 25, 
         paddingHorizontal: 16, 
         fontSize: 16, 
