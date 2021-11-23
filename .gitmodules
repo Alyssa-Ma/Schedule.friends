@@ -1,0 +1,3 @@
+[submodule "frontend/node_modules/react-native-event-calendar"]
+	path = frontend/node_modules/react-native-event-calendar
+	url = git@github.com:goferboy/react-native-event-calendar.git
