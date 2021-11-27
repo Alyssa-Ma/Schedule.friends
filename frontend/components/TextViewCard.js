@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 
-const TextViewCard = ({item}) => {
+const TextViewCard = ({item, bgColor}) => {
 
     const [times, setTimes] = useState(item.schedule);
     const [trigger, setTrigger] = useState(false);
@@ -51,7 +51,7 @@ const TextViewCard = ({item}) => {
 
     return (
 
-        <View style={styles.friendTimeCard}>
+        <View style={[styles.friendTimeCard, {backgroundColor: bgColor}]}>
 
             <View style={styles.avatar_name_row}>
                 <Avatar.Text 
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     friendTimeCard: {
         width: 330,
         borderRadius: 50 / 2,
-        backgroundColor: 'darkslateblue',       //STATIC BACKGROUND COLOR
+        //backgroundColor: 'darkslateblue',       //STATIC BACKGROUND COLOR
         alignSelf: 'center',
         marginTop: 50,
         flex: 1,

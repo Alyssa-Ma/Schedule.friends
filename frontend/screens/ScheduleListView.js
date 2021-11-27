@@ -11,7 +11,7 @@ const ScheduleListView = ({ navigation, route }) => {
             
             <FlatList data={context.user.schedule}
             keyExtractor={course => course.id}
-            renderItem={({item}) => <CourseItem item={item} navigation={navigation}/>} />
+            renderItem={({item, index}) => <CourseItem item={item} navigation={navigation} bgColor={context.bgColors[index % context.bgColors.length]}/>} />
 
             <FAB
                 style={styles.fab}

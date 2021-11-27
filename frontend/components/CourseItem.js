@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, FlatList } from 'react-native';
 import UserContext from '../context/UserContext';
 
-const CourseItem = ({navigation, item}) => {
+const CourseItem = ({navigation, item, bgColor}) => {
     const context = useContext(UserContext);
     console.log(item.course_name);
 
@@ -38,7 +38,7 @@ const CourseItem = ({navigation, item}) => {
     return (
         <TouchableOpacity onPress={ (item.owner === context.user.id)
                                     ? () => clickedItem(item)
-                                    : () => {}} style={styles.Block}>
+                                    : () => {}} style={[styles.Block, {backgroundColor: bgColor}]}>
             <View style={styles.courseInfoRow}>
                 <Text style={styles.classTitle}>{item.course_name}{' '}{item.course_number}</Text>
 
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         width: 350,
         alignSelf: 'center',
 
-        backgroundColor: '#5cdbd5',         //STATIC BACKGROUND
+        //backgroundColor: '#5cdbd5',         //STATIC BACKGROUND
 
         borderBottomWidth: 1,
         borderColor: '#ccc',
