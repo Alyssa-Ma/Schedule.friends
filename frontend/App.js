@@ -91,7 +91,7 @@ const App = ({navigation, route}) => {
                       headerShown: false,
                       title: 'Log In',
                       headerStyle: {
-                        backgroundColor: 'darkslateblue'},
+                        backgroundColor: '#9E8DFF'},
                       headerTitleAlign: 'center',
                       headerTitleStyle: {
                         color: 'white',
@@ -104,7 +104,7 @@ const App = ({navigation, route}) => {
                     options={{
                       title: 'Sign Up!',
                       headerStyle: {
-                        backgroundColor: 'darkslateblue'},
+                        backgroundColor: '#9E8DFF'},
                       headerTitleAlign: 'center',
                       headerTitleStyle: {
                         color: 'white',

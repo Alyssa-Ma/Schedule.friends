@@ -75,7 +75,7 @@ const HomeDrawer = ({navigation, route}) => {
         options={{
             title: 'Home',
             headerStyle: {
-              backgroundColor: 'darkslateblue'},
+              backgroundColor: '#9E8DFF'},
               headerTitleAlign: 'center',
               headerTitleStyle: {
                 color: 'white',
@@ -89,7 +89,7 @@ const HomeDrawer = ({navigation, route}) => {
             title: "My Schedule",
             headerTitle: getScheduleHeaderTitle(route),
             headerStyle: {
-              backgroundColor: 'darkslateblue'},
+              backgroundColor: '#9E8DFF'},
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white'
@@ -102,7 +102,7 @@ const HomeDrawer = ({navigation, route}) => {
           options={{
               title: `Who's Free Now`,
               headerStyle: {
-                backgroundColor: 'darkslateblue'},
+                backgroundColor: '#9E8DFF'},
               headerTitleAlign: 'center',
               headerTitleStyle: {
                 color: 'white',
@@ -116,7 +116,7 @@ const HomeDrawer = ({navigation, route}) => {
             title: 'My Friends',
             headerTitle: getFriendsHeaderTitle(route),
             headerStyle: {
-              backgroundColor: 'darkslateblue'},
+              backgroundColor: '#9E8DFF'},
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white',
@@ -131,7 +131,7 @@ const HomeDrawer = ({navigation, route}) => {
             title: "My Profile",
             headerTitle: getProfileHeaderTitle(route),
             headerStyle: {
-              backgroundColor: 'darkslateblue'},
+              backgroundColor: '#9E8DFF'},
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white'
@@ -145,7 +145,7 @@ const HomeDrawer = ({navigation, route}) => {
           options={{
             title: 'Log Out',
             headerStyle: {
-              backgroundColor: 'darkslateblue'},
+              backgroundColor: '#9E8DFF'},
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white',

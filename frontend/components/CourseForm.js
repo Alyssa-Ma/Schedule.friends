@@ -77,12 +77,40 @@ const CourseForm = (props) => {
                 label="Course Name"
                 value={courseName}
                 onChangeText={text => setcourseName(text)}
+                
+                underlineColor='#D7A4FF'
+                activeUndelineColor='#D7A4FF'
+                activeOutlineColor='#D7A4FF'
+                outlineColor='#D7A4FF'        //HARDCODED TEXT COLOR
+                selectionColor='#D7A4FF'
+                theme={{
+                    colors: {
+                      primary: '#D7A4FF',
+                      underlineColor: '#D7A4FF',
+                      
+                    }
+                }}
+                style={styles.courseInfoInput}
             />
             <TextInput 
                 mode="outlined"
                 label="Course Number"
                 value={courseNumber}
                 onChangeText={text => setCourseNumber(text)}
+
+                underlineColor='#5CDBD5'
+                activeUndelineColor='#5CDBD5'
+                activeOutlineColor='#5CDBD5'
+                outlineColor='#5CDBD5'        //HARDCODED TEXT COLOR
+                selectionColor='#5CDBD5'
+                theme={{
+                    colors: {
+                      primary: '#5CDBD5',
+                      underlineColor: '#5CDBD5',
+                      
+                    }
+                }}
+                style={styles.courseInfoInput}
             />
             <View style={styles.daysRadioBar}>
                 <DaysRadioButton index={0} day="SUN" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
@@ -93,6 +121,7 @@ const CourseForm = (props) => {
                 <DaysRadioButton index={5} day="FRI" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
                 <DaysRadioButton index={6} day="SAT" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
             </View>
+
             <TimePickerInput
                 label="Start Time"
                 hour={startHour}
@@ -100,6 +129,7 @@ const CourseForm = (props) => {
                 setHour={setStartHour}
                 setMin={setStartMin}
             />
+
             <TimePickerInput
                 label="End Time"
                 hour={endHour}
@@ -107,9 +137,10 @@ const CourseForm = (props) => {
                 setHour={setEndHour}
                 setMin={setEndMin}
             /> 
+
             <View style={styles.buttons}>
-                <Button icon="check" loading={props.loadingButton} onPress={submitToParent} mode="contained">Submit</Button>
-                <Button icon="cancel" onPress={() => {props.navigation.pop()}} mode="contained">Cancel</Button>
+                <Button icon="check" loading={props.loadingButton} onPress={submitToParent} mode="contained" style={{ backgroundColor: '#D7A4FF'}}>Submit</Button>
+                <Button icon="cancel" onPress={() => {props.navigation.pop()}} mode="contained" style={{ backgroundColor: '#5CDBD5'}}>Cancel</Button>
             </View>
         </View>
     )
@@ -118,15 +149,23 @@ const CourseForm = (props) => {
 const styles = StyleSheet.create({
     buttons: {
         flexDirection: "row",
-        justifyContent: "space-evenly"
+        justifyContent: "space-evenly",
+        marginTop: 30,
+        
     },
     daysRadioBar: {
+        marginTop: 30,
         flexDirection: "row",
         justifyContent: "space-evenly"
     },
     daysRadio: {
         flexDirection: "column",
         alignItems: "center"
+    },
+
+    courseInfoInput: {
+        marginTop: 30,
+        
     }
 })
 
