@@ -62,6 +62,7 @@ const App = ({navigation, route}) => {
     <UserContext.Provider value={{
       user: user,
       isSignedIn: isSignedIn,
+      bgColors: ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'],  //added colors to context
       setUser: setUser,
       setIsSignedIn: setIsSignedIn,
       fetchUserToken: fetchUserToken

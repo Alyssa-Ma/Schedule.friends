@@ -13,7 +13,6 @@ const CommonTimeText = ({ navigation, route }) => {
     const context = useContext(UserContext);
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
-
     //Converts the passed in into a Day string
     const convertToDay = (day) => {
         if(day === 1){
