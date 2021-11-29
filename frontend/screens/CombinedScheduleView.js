@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View, Dimensions, ScrollView, FlatList, InteractionManager} from 'react-native';
+import { View, Dimensions, ScrollView, FlatList, RefreshControl} from 'react-native';
 import EventCalendar from 'react-native-events-calendar';
 const { width, height } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
@@ -7,7 +7,6 @@ import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
 import { useFocusEffect } from '@react-navigation/core';
 import { Button, Portal, Dialog, Paragraph, Checkbox } from 'react-native-paper'
-import FriendListItem from '../components/FriendListItem';
 import CombinedScheduleFriendListItem from '../components/CombinedScheduleFriendListItem';
 
 const CombinedScheduleView = ({navigation, route}) => {
@@ -15,9 +14,9 @@ const CombinedScheduleView = ({navigation, route}) => {
     //   return dateObj.toLocaleDateString('en-CA', {weekday: 'short'}).substring(0, 3).toUpperCase();
     // }
     
-    const getDateString = (dateObj) => {
-      return dateObj.toLocaleDateString('en-CA', {year: 'numeric', month: 'numeric', day: 'numeric'});
-    }
+  const getDateString = (dateObj) => {
+    return dateObj.toLocaleDateString('en-CA', {year: 'numeric', month: 'numeric', day: 'numeric'});
+  }
     
   const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const colors = ["#d4f48d", "#f4b18d", "#bc90dd", "#99b8e8" ];
@@ -32,12 +31,20 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [earliestHour, setEarliestHour] = useState(24);
   const [latestHour, setLatestHour] = useState(0);
   const [dialogVisible, setDialogVisible] = useState(false);
-  const showDialog = () => setDialogVisible(true);
+  const [selectedUsers, setSelectedUsers] = useState(new Array(0));
+  // const [refresh, setRefresh] = useState(false);
+  // const onRefresh = () => {
+  //   setRefresh(true);
+  //   fetchFriends();
+  //   setRefresh(false);
+  // }
+  const showDialog = () => {
+    setDialogVisible(true);
+  }
   const hideDialog = () => {
     createEvents();
     setDialogVisible(false);
   }
-  const [selectedUsers, setSelectedUsers] = useState(new Array(0));
 
   const createEventsFromArray = (user, colorIndex, earliest, latest) => {
     let events = user.schedule.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
@@ -82,17 +89,19 @@ const CombinedScheduleView = ({navigation, route}) => {
         break;
       }
     }
-    setFriendList(friendData);
-    //Select the first 6 friends in the friend list
-    let selection = [];
-    for (let i = 0; i < maxUsers; i++) {
-      selection.push(i)
+    if (friendData) {
+      setFriendList(friendData);
+      let selection = [];
+      //Select up to maxUsers
+      for (let i = 0; i < maxUsers && friendData.length; i++) {
+        selection.push(i)
+      }
+      setSelectedUsers(selection);
     }
-    setSelectedUsers(selection);
     setLoading(false);
   }
 
-  const createEvents = async () => {
+  const createEvents = () => {
     let latest = {value: latestHour};
     let earliest = {value: earliestHour};
     let eventsBuffer = createEventsFromArray(context.user, 0, earliest, latest);
@@ -131,8 +140,9 @@ const CombinedScheduleView = ({navigation, route}) => {
   }
 
   useEffect(() => {
+    // fetchFriends();
     createEvents();
-  }, [focusDate, context.user, friendList]);
+  }, [focusDate, selectedUsers]);
   
   // const _eventTapped = (event) => {
   //   console.log(event);
@@ -177,18 +187,18 @@ const CombinedScheduleView = ({navigation, route}) => {
             <Portal>
               <Dialog visible={dialogVisible} onDismiss={hideDialog}>
                 <Dialog.Title>TEST</Dialog.Title>
-                    <Dialog.Content>
-                      <Dialog.ScrollArea>
-                        <View style={{height: height / 2}}>
-                    <FlatList 
+                <Dialog.Content>
+                  <Dialog.ScrollArea>
+                    <View style={{height: height / 2}}>
+                      <FlatList 
+                      //refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
                         data={friendList}
                         keyExtractor={(item) => item.id}
                         renderItem={({item, index}) => <CombinedScheduleFriendListItem index={index} init={selectedUsers.includes(index)} selectedUsersListener={selectedUsersListener} user={item} navigation={navigation}/>} 
-                    />
+                      />
                     </View>
-                    </Dialog.ScrollArea>
-                    </Dialog.Content>
-
+                  </Dialog.ScrollArea>
+                </Dialog.Content>
                 <Dialog.Actions>
                   <Button onPress={hideDialog}>Dismiss</Button>
                 </Dialog.Actions>
