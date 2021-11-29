@@ -37,7 +37,6 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [selectedUsers, setSelectedUsers] = useState(new Array(0));
 
   const createEventsFromArray = (user, colorIndex, earliest, latest) => {
-    console.log(user.schedule)
     let events = user.schedule.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
     events = events.map((course) => {
       if (Number(course.time_start.slice(0, 2)) <= earliest.value)
@@ -81,6 +80,12 @@ const CombinedScheduleView = ({navigation, route}) => {
       }
     }
     setFriendList(friendData);
+    //Select the first 6 friends in the friend list
+    let selection = [];
+    for (let i = 0; i < maxUsers; i++) {
+      selection.push(friendData[i].id)
+    }
+    setSelectedUsers(selection);
     setLoading(false);
   }
 
@@ -100,11 +105,6 @@ const CombinedScheduleView = ({navigation, route}) => {
   useFocusEffect(
     React.useCallback(() => {
       fetchFriends();
-      let selection = [];
-      for (let i = 0; i < maxUsers; i++) {
-        selection.push(friendList[i].id)
-      }
-      setSelectedUsers(selection);
       return () => {
 
       }
@@ -129,7 +129,6 @@ const CombinedScheduleView = ({navigation, route}) => {
   }
 
   useEffect(() => {
-    //Select the first 6 friends in the friend list
     createEvents();
   }, [focusDate, context.user, friendList, selectedUsers]);
   
