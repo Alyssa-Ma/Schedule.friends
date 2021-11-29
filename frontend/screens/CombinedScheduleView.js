@@ -36,8 +36,9 @@ const CombinedScheduleView = ({navigation, route}) => {
   const hideDialog = () => setDialogVisible(false);
   const [selectedUsers, setSelectedUsers] = useState(new Array(0));
 
-  const createEventsFromArray = (scheduleArray, user, colorIndex, earliest, latest) => {
-    let events = scheduleArray.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
+  const createEventsFromArray = (user, colorIndex, earliest, latest) => {
+    console.log(user.schedule)
+    let events = user.schedule.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
     events = events.map((course) => {
       if (Number(course.time_start.slice(0, 2)) <= earliest.value)
         earliest.value = (Math.max(0, Number(course.time_start.slice(0, 2)) - bufferSpace));
@@ -80,23 +81,15 @@ const CombinedScheduleView = ({navigation, route}) => {
       }
     }
     setFriendList(friendData);
-
-    //Select the first 6 friends in the friend list
-    let selection = [];
-    for (let i = 0; i < maxUsers; i++) {
-      selection.push(friendData[i].id)
-    }
-    setSelectedUsers(selection);
-
     setLoading(false);
   }
 
   const createEvents = async () => {
     let latest = {value: latestHour};
     let earliest = {value: earliestHour};
-    let eventsBuffer = createEventsFromArray(context.user.schedule, context.user, 0, earliest, latest);
-    for (let i = 0; i < friendList.length; i++) {
-      let friendSchedule = createEventsFromArray(friendList[i].schedule, friendList[i], i+1, earliest, latest);
+    let eventsBuffer = createEventsFromArray(context.user, 0, earliest, latest);
+    for (let i = 0; i < selectedUsers.length; i++) {
+      let friendSchedule = createEventsFromArray(friendList[friendList.findIndex(e => e.id === selectedUsers[i])], i+1, earliest, latest);
       friendSchedule.forEach((course) => eventsBuffer.push(course));
     }
     setEarliestHour(earliest.value);
@@ -107,6 +100,11 @@ const CombinedScheduleView = ({navigation, route}) => {
   useFocusEffect(
     React.useCallback(() => {
       fetchFriends();
+      let selection = [];
+      for (let i = 0; i < maxUsers; i++) {
+        selection.push(friendList[i].id)
+      }
+      setSelectedUsers(selection);
       return () => {
 
       }
@@ -131,8 +129,9 @@ const CombinedScheduleView = ({navigation, route}) => {
   }
 
   useEffect(() => {
+    //Select the first 6 friends in the friend list
     createEvents();
-  }, [focusDate, context.user, friendList]);
+  }, [focusDate, context.user, friendList, selectedUsers]);
   
   // const _eventTapped = (event) => {
   //   console.log(event);
