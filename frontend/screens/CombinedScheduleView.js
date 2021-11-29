@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View, Dimensions, ScrollView, FlatList} from 'react-native';
+import { View, Dimensions, ScrollView, FlatList, InteractionManager} from 'react-native';
 import EventCalendar from 'react-native-events-calendar';
 const { width, height } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
@@ -33,7 +33,10 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [latestHour, setLatestHour] = useState(0);
   const [dialogVisible, setDialogVisible] = useState(false);
   const showDialog = () => setDialogVisible(true);
-  const hideDialog = () => setDialogVisible(false);
+  const hideDialog = () => {
+    createEvents();
+    setDialogVisible(false);
+  }
   const [selectedUsers, setSelectedUsers] = useState(new Array(0));
 
   const createEventsFromArray = (user, colorIndex, earliest, latest) => {
@@ -83,7 +86,7 @@ const CombinedScheduleView = ({navigation, route}) => {
     //Select the first 6 friends in the friend list
     let selection = [];
     for (let i = 0; i < maxUsers; i++) {
-      selection.push(friendData[i].id)
+      selection.push(i)
     }
     setSelectedUsers(selection);
     setLoading(false);
@@ -94,7 +97,7 @@ const CombinedScheduleView = ({navigation, route}) => {
     let earliest = {value: earliestHour};
     let eventsBuffer = createEventsFromArray(context.user, 0, earliest, latest);
     for (let i = 0; i < selectedUsers.length; i++) {
-      let friendSchedule = createEventsFromArray(friendList[friendList.findIndex(e => e.id === selectedUsers[i])], i+1, earliest, latest);
+      let friendSchedule = createEventsFromArray(friendList[selectedUsers[i]], i+1, earliest, latest);
       friendSchedule.forEach((course) => eventsBuffer.push(course));
     }
     setEarliestHour(earliest.value);
@@ -111,11 +114,10 @@ const CombinedScheduleView = ({navigation, route}) => {
     },[])
   )
 
-  const selectedUsersListener = (id) => {
-    if (selectedUsers.includes(id)) {
+  const selectedUsersListener = (index) => {
+    if (selectedUsers.includes(index)) {
       let usersBuffer = [...selectedUsers];
-      usersBuffer.splice(usersBuffer.indexOf(id), 1);
-      console.log(usersBuffer.length)
+      usersBuffer.splice(usersBuffer.indexOf(index), 1);
       setSelectedUsers(usersBuffer);
       return false;
     }
@@ -123,14 +125,14 @@ const CombinedScheduleView = ({navigation, route}) => {
       return false;
     }
     let usersBuffer = [...selectedUsers];
-    usersBuffer.push(id)
+    usersBuffer.push(index)
     setSelectedUsers(usersBuffer);
     return true;
   }
 
   useEffect(() => {
     createEvents();
-  }, [focusDate, context.user, friendList, selectedUsers]);
+  }, [focusDate, context.user, friendList]);
   
   // const _eventTapped = (event) => {
   //   console.log(event);
@@ -180,8 +182,8 @@ const CombinedScheduleView = ({navigation, route}) => {
                         <View style={{height: height / 2}}>
                     <FlatList 
                         data={friendList}
-                        keyExtractor={friend => friend.id}
-                        renderItem={({item}) => <CombinedScheduleFriendListItem init={selectedUsers.includes(item.id)} selectedUsersListener={selectedUsersListener} user={item} navigation={navigation}/>} 
+                        keyExtractor={(item) => item.id}
+                        renderItem={({item, index}) => <CombinedScheduleFriendListItem index={index} init={selectedUsers.includes(index)} selectedUsersListener={selectedUsersListener} user={item} navigation={navigation}/>} 
                     />
                     </View>
                     </Dialog.ScrollArea>
