@@ -22,6 +22,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const colors = ["#d4f48d", "#f4b18d", "#bc90dd", "#99b8e8" ];
   const bufferSpace = 3;
+  const maxUsers = 6;
   const context = useContext(UserContext);
   const [events, setEvents] = useState([]);
   const [friendList, setFriendList] = useState([]);
@@ -33,6 +34,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [dialogVisible, setDialogVisible] = useState(false);
   const showDialog = () => setDialogVisible(true);
   const hideDialog = () => setDialogVisible(false);
+  const [selectedUsers, setSelectedUsers] = useState(new Array(0));
 
   const createEventsFromArray = (scheduleArray, user, colorIndex, earliest, latest) => {
     let events = scheduleArray.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
@@ -103,6 +105,23 @@ const CombinedScheduleView = ({navigation, route}) => {
     },[])
   )
 
+  const selectedUsersListener = (id) => {
+    if (selectedUsers.includes(id)) {
+      let usersBuffer = [...selectedUsers];
+      usersBuffer.splice(usersBuffer.findIndex(e => e === id), 1);
+      console.log(usersBuffer.length)
+      setSelectedUsers(usersBuffer);
+      return false;
+    }
+    if (selectedUsers.length === maxUsers) {
+      return false;
+    }
+    let usersBuffer = [...selectedUsers];
+    usersBuffer.push(id)
+    setSelectedUsers(usersBuffer);
+    return true;
+  }
+
   useEffect(() => {
     createEvents();
   }, [focusDate, context.user, friendList]);
@@ -156,7 +175,7 @@ const CombinedScheduleView = ({navigation, route}) => {
                     <FlatList 
                         data={friendList}
                         keyExtractor={friend => friend.id}
-                        renderItem={({item}) => <CombinedScheduleFriendListItem user={item} navigation={navigation}/>} 
+                        renderItem={({item}) => <CombinedScheduleFriendListItem selectedUsersListener={selectedUsersListener} user={item} navigation={navigation}/>} 
                     />
                     </View>
                     </Dialog.ScrollArea>
