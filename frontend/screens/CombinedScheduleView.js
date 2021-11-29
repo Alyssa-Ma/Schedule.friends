@@ -114,7 +114,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   const selectedUsersListener = (id) => {
     if (selectedUsers.includes(id)) {
       let usersBuffer = [...selectedUsers];
-      usersBuffer.splice(usersBuffer.findIndex(e => e === id), 1);
+      usersBuffer.splice(usersBuffer.indexOf(id), 1);
       console.log(usersBuffer.length)
       setSelectedUsers(usersBuffer);
       return false;
