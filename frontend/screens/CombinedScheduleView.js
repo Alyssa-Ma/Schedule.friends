@@ -6,6 +6,7 @@ import UserContext from '../context/UserContext';
 import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
 import { useFocusEffect } from '@react-navigation/core';
+import { Button, Portal, Dialog, Paragraph, Checkbox } from 'react-native-paper'
 
 const CombinedScheduleView = ({navigation, route}) => {
   // const getWeekdayString = (dateObj) => {
@@ -27,6 +28,9 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [loading, setLoading] = useState(false);
   const [earliestHour, setEarliestHour] = useState(24);
   const [latestHour, setLatestHour] = useState(0);
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const showDialog = () => setDialogVisible(true);
+  const hideDialog = () => setDialogVisible(false);
 
   const createEventsFromArray = (scheduleArray, user, colorIndex, earliest, latest) => {
     let events = scheduleArray.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
@@ -49,7 +53,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   const fetchFriends = async () => {
     setLoading(true);
     let friendData = [];
-    for (let i = 0; i < 3 && i < context.user.friend_list.length; i++) {
+    for (let i = 0; i < context.user.friend_list.length; i++) {
       try {
         const response = await fetch(`${BASE_URL}/${context.user.friend_list[i]}`, {
           method: 'GET', 
@@ -122,23 +126,38 @@ const CombinedScheduleView = ({navigation, route}) => {
       {
         loading
         ? <LoadingIndicator isLoading={loading} />
-        : <EventCalendar
-            initDate={focusDate}
-            eventTapped={() => {}}
-            events={events}
-            formatHeader={'dddd'}
-            width={width}
-            dateChanged={changeFocus}
-            scrollToFirst={true}
-            size={1}
-            // start={earliestHour}
-            // end={latestHour}
-            start={7}
-            end={24}
-            virtualizedListProps={{
-              scrollEnabled: false
-            }}
-          />
+        : 
+          <View style={{ flex: 1}}>
+            <EventCalendar
+              initDate={focusDate}
+              eventTapped={() => {}}
+              events={events}
+              formatHeader={'dddd'}
+              width={width}
+              dateChanged={changeFocus}
+              scrollToFirst={true}
+              size={1}
+              // start={earliestHour}
+              // end={latestHour}
+              start={7}
+              end={24}
+              virtualizedListProps={{
+                scrollEnabled: false
+              }}
+            />
+            <Portal>
+              <Dialog visible={dialogVisible} onDismiss={hideDialog}>
+                <Dialog.Title>TEST</Dialog.Title>
+                <Dialog.Content>
+                  <Paragraph>Test</Paragraph>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Button onPress={hideDialog}>Dismiss</Button>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
+            <Button onPress={() => showDialog()}>Drop down menu here</Button>
+          </View>
       }
     </View>
   );
