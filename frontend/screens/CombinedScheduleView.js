@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View, Dimensions} from 'react-native';
+import { View, Dimensions, ScrollView, FlatList} from 'react-native';
 import EventCalendar from 'react-native-events-calendar';
 let { width } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
@@ -7,6 +7,7 @@ import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
 import { useFocusEffect } from '@react-navigation/core';
 import { Button, Portal, Dialog, Paragraph, Checkbox } from 'react-native-paper'
+import FriendListItem from '../components/FriendListItem';
 
 const CombinedScheduleView = ({navigation, route}) => {
   // const getWeekdayString = (dateObj) => {
@@ -148,9 +149,18 @@ const CombinedScheduleView = ({navigation, route}) => {
             <Portal>
               <Dialog visible={dialogVisible} onDismiss={hideDialog}>
                 <Dialog.Title>TEST</Dialog.Title>
-                <Dialog.Content>
-                  <Paragraph>Test</Paragraph>
-                </Dialog.Content>
+                    <Dialog.Content>
+                      <Dialog.ScrollArea>
+                        <View style={{height: Dimensions.get('window').height / 2}}>
+                    <FlatList 
+                        data={friendList}
+                        keyExtractor={friend => friend.id}
+                        renderItem={({item}) => <FriendListItem user={item} navigation={navigation}/>} 
+                    />
+                    </View>
+                    </Dialog.ScrollArea>
+                    </Dialog.Content>
+
                 <Dialog.Actions>
                   <Button onPress={hideDialog}>Dismiss</Button>
                 </Dialog.Actions>
