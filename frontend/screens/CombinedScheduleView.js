@@ -1,13 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { View, Dimensions, ScrollView, FlatList} from 'react-native';
 import EventCalendar from 'react-native-events-calendar';
-let { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
 import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
 import { useFocusEffect } from '@react-navigation/core';
 import { Button, Portal, Dialog, Paragraph, Checkbox } from 'react-native-paper'
 import FriendListItem from '../components/FriendListItem';
+import CombinedScheduleFriendListItem from '../components/CombinedScheduleFriendListItem';
 
 const CombinedScheduleView = ({navigation, route}) => {
   // const getWeekdayString = (dateObj) => {
@@ -151,11 +152,11 @@ const CombinedScheduleView = ({navigation, route}) => {
                 <Dialog.Title>TEST</Dialog.Title>
                     <Dialog.Content>
                       <Dialog.ScrollArea>
-                        <View style={{height: Dimensions.get('window').height / 2}}>
+                        <View style={{height: height / 2}}>
                     <FlatList 
                         data={friendList}
                         keyExtractor={friend => friend.id}
-                        renderItem={({item}) => <FriendListItem user={item} navigation={navigation}/>} 
+                        renderItem={({item}) => <CombinedScheduleFriendListItem user={item} navigation={navigation}/>} 
                     />
                     </View>
                     </Dialog.ScrollArea>
