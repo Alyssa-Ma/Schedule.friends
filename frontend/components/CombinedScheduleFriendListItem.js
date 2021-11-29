@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Checkbox, Button, Paragraph, Dialog, Portal, Avatar, Title, Caption } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 import UserListHeader from './UserListHeader';
 
-const CombinedScheduleFriendListItem = ({ navigation, route, user, selectedUsersListener }) => {
+const CombinedScheduleFriendListItem = ({ navigation, route, user, selectedUsersListener, init }) => {
     const [checked, setChecked] = useState(false);
+
+    useEffect(() => {
+        if (init)
+            setChecked(true);
+    }, [])
+
     return (
         <View>
             <Checkbox.Item 

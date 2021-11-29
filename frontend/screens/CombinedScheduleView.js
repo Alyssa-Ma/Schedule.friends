@@ -80,6 +80,14 @@ const CombinedScheduleView = ({navigation, route}) => {
       }
     }
     setFriendList(friendData);
+
+    //Select the first 6 friends in the friend list
+    let selection = [];
+    for (let i = 0; i < maxUsers; i++) {
+      selection.push(friendData[i].id)
+    }
+    setSelectedUsers(selection);
+
     setLoading(false);
   }
 
@@ -175,7 +183,7 @@ const CombinedScheduleView = ({navigation, route}) => {
                     <FlatList 
                         data={friendList}
                         keyExtractor={friend => friend.id}
-                        renderItem={({item}) => <CombinedScheduleFriendListItem selectedUsersListener={selectedUsersListener} user={item} navigation={navigation}/>} 
+                        renderItem={({item}) => <CombinedScheduleFriendListItem init={selectedUsers.includes(item.id)} selectedUsersListener={selectedUsersListener} user={item} navigation={navigation}/>} 
                     />
                     </View>
                     </Dialog.ScrollArea>
@@ -186,7 +194,7 @@ const CombinedScheduleView = ({navigation, route}) => {
                 </Dialog.Actions>
               </Dialog>
             </Portal>
-            <Button onPress={() => showDialog()}>Drop down menu here</Button>
+            <Button onPress={() => showDialog()}>menu here</Button>
           </View>
       }
     </View>
