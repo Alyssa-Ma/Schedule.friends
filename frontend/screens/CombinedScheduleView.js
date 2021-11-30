@@ -194,7 +194,14 @@ const CombinedScheduleView = ({navigation, route}) => {
                       //refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
                         data={friendList}
                         keyExtractor={(item) => item.id}
-                        renderItem={({item, index}) => <CombinedScheduleFriendListItem index={index} init={selectedUsers.includes(index)} selectedUsersListener={selectedUsersListener} user={item} navigation={navigation}/>} 
+                        renderItem={({item, index}) => 
+                          <CombinedScheduleFriendListItem 
+                            index={index} 
+                            init={selectedUsers.includes(index)} 
+                            selectedUsersListener={selectedUsersListener} 
+                            color={colors[(selectedUsers.indexOf(index)+colors.length+1) % colors.length]}
+                            user={item} 
+                            navigation={navigation}/>} 
                       />
                     </View>
                   </Dialog.ScrollArea>

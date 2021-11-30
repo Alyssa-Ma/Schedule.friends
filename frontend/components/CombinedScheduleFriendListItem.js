@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 import UserListHeader from './UserListHeader';
 
-const CombinedScheduleFriendListItem = ({ navigation, route, user, selectedUsersListener, init, index }) => {
+const CombinedScheduleFriendListItem = ({ navigation, route, user, selectedUsersListener, init, index, color }) => {
     const [checked, setChecked] = useState(false);
     useEffect(() => {
         if (init)
@@ -14,7 +14,8 @@ const CombinedScheduleFriendListItem = ({ navigation, route, user, selectedUsers
 
     return (
         <View>
-            <Checkbox.Item 
+            <Checkbox.Item
+                color={color}
                 label={user.username}
                 status={checked ? 'checked': 'unchecked'}
                 onPress={() => setChecked(selectedUsersListener(index))}
