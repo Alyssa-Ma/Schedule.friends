@@ -21,7 +21,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const colors = ["#d4f48d", "#f4b18d", "#bc90dd", "#99b8e8" ];
   const bufferSpace = 3;
-  const maxUsers = 6;
+  const maxUsers = 5;
   const context = useContext(UserContext);
   const [events, setEvents] = useState([]);
   const [friendList, setFriendList] = useState([]);
@@ -188,6 +188,7 @@ const CombinedScheduleView = ({navigation, route}) => {
             <Portal>
               <Dialog visible={dialogVisible} onDismiss={hideDialog}>
                 <Dialog.Content>
+                  <Dialog.Title>Max Friends: {maxUsers}</Dialog.Title>
                   <Dialog.ScrollArea>
                     <View style={{height: height / 2}}>
                       <FlatList 
@@ -211,7 +212,7 @@ const CombinedScheduleView = ({navigation, route}) => {
                 </Dialog.Actions>
               </Dialog>
             </Portal>
-            <Button onPress={() => showDialog()}>Select Friends</Button>
+            <Button mode='contained' onPress={() => showDialog()}>Select Friends</Button>
           </View>
       }
     </View>
