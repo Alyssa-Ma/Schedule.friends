@@ -203,6 +203,7 @@ const CombinedScheduleView = ({navigation, route}) => {
               }}
               refreshingForDayView={refresh}
               onRefreshForDayView={onRefresh}
+              modalVisibleForDayView={modalVisible}
             />
             <Portal>
             <Dialog visible={dialogVisible} onDismiss={hideDialog}>
