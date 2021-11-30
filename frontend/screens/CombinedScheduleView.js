@@ -32,12 +32,12 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [latestHour, setLatestHour] = useState(0);
   const [dialogVisible, setDialogVisible] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState(new Array(0));
-  // const [refresh, setRefresh] = useState(false);
-  // const onRefresh = () => {
-  //   setRefresh(true);
-  //   fetchFriends();
-  //   setRefresh(false);
-  // }
+  const [refresh, setRefresh] = useState(false);
+  const onRefresh = () => {
+    setRefresh(true);
+    fetchFriends();
+    setRefresh(false);
+  }
   const showDialog = () => {
     setDialogVisible(true);
   }
@@ -115,14 +115,9 @@ const CombinedScheduleView = ({navigation, route}) => {
     setEvents(eventsBuffer);
   }
 
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchFriends();
-      return () => {
-
-      }
-    },[])
-  )
+  useEffect(() => {
+    fetchFriends();
+  }, [])
 
   const selectedUsersListener = (index) => {
     if (selectedUsers.includes(index)) {
@@ -184,6 +179,8 @@ const CombinedScheduleView = ({navigation, route}) => {
               virtualizedListProps={{
                 scrollEnabled: false
               }}
+              refreshingForDayView={refresh}
+              onRefreshForDayView={onRefresh}
             />
             <Portal>
               <Dialog visible={dialogVisible} onDismiss={hideDialog}>
