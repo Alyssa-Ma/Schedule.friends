@@ -1,13 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View, Dimensions, ScrollView, FlatList, RefreshControl} from 'react-native';
+import { View, Dimensions, StyleSheet, ScrollView, FlatList, RefreshControl} from 'react-native';
 import EventCalendar from 'react-native-events-calendar';
 const { width, height } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
 import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
 import { useFocusEffect } from '@react-navigation/core';
-import { Button, Portal, Dialog, Paragraph, Checkbox } from 'react-native-paper'
+import { Button, Modal, Dialog, Text, Portal, Paragraph, Checkbox } from 'react-native-paper'
 import CombinedScheduleFriendListItem from '../components/CombinedScheduleFriendListItem';
+import EventInfo from '../components/EventInfo';
 
 const CombinedScheduleView = ({navigation, route}) => {
   // const getWeekdayString = (dateObj) => {
@@ -33,6 +34,8 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [dialogVisible, setDialogVisible] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState(new Array(0));
   const [refresh, setRefresh] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalTarget, setModalTarget] = useState({});
   const onRefresh = () => {
     setRefresh(true);
     fetchFriends();
@@ -44,6 +47,12 @@ const CombinedScheduleView = ({navigation, route}) => {
   const hideDialog = () => {
     createEvents();
     setDialogVisible(false);
+  }
+  const showModal = () => {
+    setModalVisible(true);
+  }
+  const hideModal = () => {
+    setModalVisible(false);
   }
 
   const createEventsFromArray = (user, color, earliest, latest) => {
@@ -58,7 +67,10 @@ const CombinedScheduleView = ({navigation, route}) => {
         end: `${focusDate} ${course.time_end}:00`,
         title: `${course.course_number} - ${course.course_name}`,
         summary: `${user.username}`,
-        color: color
+        color: color,
+        firstName: `${user.first_name}`,
+        lastName: `${user.last_name}`,
+        email: `${user.email}`
       }
     });
     return events;
@@ -72,8 +84,8 @@ const CombinedScheduleView = ({navigation, route}) => {
         const response = await fetch(`${BASE_URL}/${context.user.friend_list[i]}`, {
           method: 'GET', 
           headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${context.user.token}`
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${context.user.token}`
           },
         });
         const jsonResponse = await response.json();
@@ -90,18 +102,10 @@ const CombinedScheduleView = ({navigation, route}) => {
         break;
       }
     }
-    if (friendData) {
-      setFriendList(friendData);
-      let selection = [];
-      //Select up to maxUsers
-      for (let i = 0; i < maxUsers && friendData.length; i++) {
-        selection.push(i)
-      }
-      setSelectedUsers(selection);
-    }
+    setFriendList(friendData);
     setLoading(false);
   }
-
+  
   const createEvents = () => {
     let latest = {value: latestHour};
     let earliest = {value: earliestHour};
@@ -114,11 +118,25 @@ const CombinedScheduleView = ({navigation, route}) => {
     setLatestHour(latest.value);
     setEvents(eventsBuffer);
   }
-
+  
+  //Runs when component is first rendered only
   useEffect(() => {
-    fetchFriends();
+    fetchFriends().then(() => {
+      let selection = [];
+      //Select up to maxUsers
+      for (let i = 0; i < maxUsers && friendList.length; i++) {
+        selection.push(i)
+      }
+      setSelectedUsers(selection);
+    })
   }, [])
 
+  //Creates events whenever date or selected users change
+  useEffect(() => {
+    if (!dialogVisible)
+      createEvents();
+  }, [focusDate, selectedUsers]);
+  
   const selectedUsersListener = (index) => {
     if (selectedUsers.includes(index)) {
       let usersBuffer = [...selectedUsers];
@@ -134,15 +152,11 @@ const CombinedScheduleView = ({navigation, route}) => {
     setSelectedUsers(usersBuffer);
     return true;
   }
-
-  useEffect(() => {
-    if (!dialogVisible)
-      createEvents();
-  }, [focusDate, selectedUsers]);
   
-  // const _eventTapped = (event) => {
-  //   console.log(event);
-  // }
+  const onEventTapped = (event) => {
+    setModalTarget(event);
+    showModal();
+  }
 
   const changeFocus = (dateString) => {
     setLatestHour(0);
@@ -167,6 +181,7 @@ const CombinedScheduleView = ({navigation, route}) => {
               initDate={focusDate}
               eventTapped={() => {}}
               events={events}
+              eventTapped={onEventTapped}
               formatHeader={'dddd'}
               width={width}
               dateChanged={changeFocus}
@@ -183,38 +198,49 @@ const CombinedScheduleView = ({navigation, route}) => {
               onRefreshForDayView={onRefresh}
             />
             <Portal>
-              <Dialog visible={dialogVisible} onDismiss={hideDialog}>
-                <Dialog.Content>
-                  <Dialog.Title>Max Friends: {maxUsers}</Dialog.Title>
-                  <Dialog.ScrollArea>
-                    <View style={{height: height / 2}}>
-                      <FlatList 
-                      //refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
-                        data={friendList}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({item, index}) => 
-                          <CombinedScheduleFriendListItem 
-                            index={index} 
-                            init={selectedUsers.includes(index)} 
-                            selectedUsersListener={selectedUsersListener} 
-                            color={item.color}
-                            user={item} 
-                            navigation={navigation}/>} 
-                      />
-                    </View>
-                  </Dialog.ScrollArea>
-                </Dialog.Content>
-                <Dialog.Actions>
-                  <Button onPress={hideDialog}>OK</Button>
-                </Dialog.Actions>
-              </Dialog>
+            <Dialog visible={dialogVisible} onDismiss={hideDialog}>
+              <Dialog.Content>
+                <Dialog.Title>Max Friends: {maxUsers}</Dialog.Title>
+                <Dialog.ScrollArea>
+                  <View style={{height: height / 2}}>
+                    <FlatList 
+                    //refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
+                      data={friendList}
+                      keyExtractor={(item) => item.id}
+                      renderItem={({item, index}) => 
+                        <CombinedScheduleFriendListItem 
+                          index={index} 
+                          init={selectedUsers.includes(index)} 
+                          selectedUsersListener={selectedUsersListener} 
+                          color={item.color}
+                          user={item} 
+                          navigation={navigation}/>} 
+                    />
+                  </View>
+                </Dialog.ScrollArea>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <Button onPress={hideDialog}>OK</Button>
+              </Dialog.Actions>
+            </Dialog>
             </Portal>
             <Button mode='contained' onPress={() => showDialog()}>Select Friends</Button>
+            <Portal>
+              <Modal visible={modalVisible} onDismiss={hideModal} contentContainerStyle={styles.modalStyle}>
+                  <EventInfo event={modalTarget}/>
+              </Modal>
+            </Portal>
           </View>
       }
     </View>
   );
   
 }
+
+const styles = StyleSheet.create({
+  modalStyle: {
+    padding:40
+  }
+})
 
 export default CombinedScheduleView;
