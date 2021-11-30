@@ -196,10 +196,8 @@ const CombinedScheduleView = ({navigation, route}) => {
               dateChanged={changeFocus}
               scrollToFirst={true}
               size={1}
-              // start={earliestHour}
-              // end={latestHour}
-              start={7}
-              end={24}
+              start={earliestHour}
+              end={latestHour}
               virtualizedListProps={{
                 scrollEnabled: false
               }}
@@ -213,7 +211,6 @@ const CombinedScheduleView = ({navigation, route}) => {
                 <Dialog.ScrollArea>
                   <View style={{height: height / 2}}>
                     <FlatList 
-                    //refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
                       data={friendList}
                       keyExtractor={(item) => item.id}
                       renderItem={({item, index}) => 
