@@ -106,7 +106,7 @@ const CombinedScheduleView = ({navigation, route}) => {
     let earliest = {value: earliestHour};
     let eventsBuffer = createEventsFromArray(context.user, 0, earliest, latest);
     for (let i = 0; i < selectedUsers.length; i++) {
-      let friendSchedule = createEventsFromArray(friendList[selectedUsers[i]], i+1, earliest, latest);
+      let friendSchedule = createEventsFromArray(friendList[selectedUsers[i]], (i+colors.length+1) % colors.length, earliest, latest);
       friendSchedule.forEach((course) => eventsBuffer.push(course));
     }
     setEarliestHour(earliest.value);
