@@ -50,7 +50,7 @@ const AddFriend = ({item}) => {
     return (
         <TouchableOpacity style={styles.friendRequest}>
             <View style={styles.itemView}>
-                <UserListHeader user={item} />
+                <UserListHeader user={item} textColor='#5cdbd5' bgColor='white'/>
                 {
                     buttonInfo === 'SAME'
                     ? <React.Fragment/>
@@ -60,6 +60,7 @@ const AddFriend = ({item}) => {
                             loading={loading} 
                             onPress={() => sendRequest(item.id)}
                             disabled={buttonStatus}
+                            style={styles.addButton}
                         >
                             <Icon 
                                 name={
@@ -84,16 +85,20 @@ const styles = StyleSheet.create({
 
     friendRequest : {
         padding: 15,
-        backgroundColor: '#f8f8f8',
+        backgroundColor: '#5cdbd5',     //STATIC BACKGROUND COLOR
         borderBottomWidth: 1,
         borderColor: '#ccc',
+        borderRadius: 40 / 2,
+        width: 350,
+        alignSelf: 'center',
+        marginTop: 15,
         
     },
 
-    profilePic: {
-        width: 75,
-        height: 75,
-        borderRadius: 75/2,
+    addButton: {
+        borderRadius: 50 / 2,
+        alignSelf: 'flex-end',
+        marginBottom: -10,
     },
 
     name: {

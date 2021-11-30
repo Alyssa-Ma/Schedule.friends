@@ -23,7 +23,7 @@ const App = ({navigation, route}) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   const fetchUserToken = async (usernameInput, passwordInput) => {
-    console.log(`Begin of fetchToken(): user:${usernameInput} pass: ${passwordInput}`)
+    console.log(`Begin of fetchToken(): user:${usernameInput} pass: ${passwordInput}`);
     try {
       let response = await fetch(`${BASE_URL}/login`, {
         method: 'POST',
@@ -44,6 +44,7 @@ const App = ({navigation, route}) => {
       }
       else {
         console.log("Error from server in App.js: ", JSON.stringify(jsonResponse));
+        //may not always be an invalid username or password
         Alert.alert("Invalid Log In", "The username and/or password is incorrect",);
       }
     }
