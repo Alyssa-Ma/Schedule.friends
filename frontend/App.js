@@ -92,7 +92,7 @@ const App = ({navigation, route}) => {
                       headerShown: false,
                       title: 'Log In',
                       headerStyle: {
-                        backgroundColor: 'darkslateblue'},
+                        backgroundColor: '#927EFF'},
                       headerTitleAlign: 'center',
                       headerTitleStyle: {
                         color: 'white',
@@ -103,12 +103,17 @@ const App = ({navigation, route}) => {
                     name="SignUp" 
                     component={SignUpScreen} 
                     options={{
-                      title: 'Sign Up!',
+                      title: 'Registration',
                       headerStyle: {
-                        backgroundColor: 'darkslateblue'},
+                        backgroundColor: '#927EFF'},
                       headerTitleAlign: 'center',
                       headerTitleStyle: {
                         color: 'white',
+                        fontWeight: 'bold',
+                        fontSize:22
+                      },
+                      headerBackButtonStyle: {
+                        headerTintColor: '#fffff'
                       }
                     }}
                   />
