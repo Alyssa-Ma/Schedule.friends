@@ -68,9 +68,15 @@ const CombinedScheduleView = ({navigation, route}) => {
         title: `${course.course_number} - ${course.course_name}`,
         summary: `${user.username}`,
         color: color,
+        //extra data for event passing
         firstName: `${user.first_name}`,
         lastName: `${user.last_name}`,
-        email: `${user.email}`
+        email: `${user.email}`,
+        courseName: `${course.course_name}`,
+        courseNumber: `${course.course_number}`,
+        days: `${course.day_name}`,
+        timeStart: `${course.time_start}`,
+        timeEnd: `${course.time_end}`,
       }
     });
     return events;
