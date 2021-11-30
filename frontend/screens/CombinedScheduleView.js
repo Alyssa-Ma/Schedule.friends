@@ -187,7 +187,6 @@ const CombinedScheduleView = ({navigation, route}) => {
             />
             <Portal>
               <Dialog visible={dialogVisible} onDismiss={hideDialog}>
-                <Dialog.Title>TEST</Dialog.Title>
                 <Dialog.Content>
                   <Dialog.ScrollArea>
                     <View style={{height: height / 2}}>
@@ -208,11 +207,11 @@ const CombinedScheduleView = ({navigation, route}) => {
                   </Dialog.ScrollArea>
                 </Dialog.Content>
                 <Dialog.Actions>
-                  <Button onPress={hideDialog}>Dismiss</Button>
+                  <Button onPress={hideDialog}>OK</Button>
                 </Dialog.Actions>
               </Dialog>
             </Portal>
-            <Button onPress={() => showDialog()}>menu here</Button>
+            <Button onPress={() => showDialog()}>Select Friends</Button>
           </View>
       }
     </View>
