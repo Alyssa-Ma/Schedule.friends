@@ -228,7 +228,7 @@ const SignUpScreen = ({ navigation }) => {
 
                 <TextInput secureTextEntry={true} style={styles.inputBox5} 
                     //underlineColorAndroid='#ADC9C6' 
-                    label="Password"
+                    label="6-20 characters with at least one number, one uppercase letter, and one lowercase letter."
                     placeholder = 'Enter a valid password' 
                     onChangeText = {(val) => setPassword(val), password => onChangePText(password)}
                     theme={{
@@ -240,13 +240,13 @@ const SignUpScreen = ({ navigation }) => {
                         }
                     }}/>
                 <HelperText type="error" visible={passwordValid()} style={styles.error}>
-                    Error: Invalid password. Password must be 6-20 characters with at least one number, one uppercase letter, and one lowercase letter.
+                    Error: Invalid password.
                 </HelperText>
 
                 <TextInput secureTextEntry={true} style={styles.inputBox2} 
                     //underlineColorAndroid='#ADC9C6' 
                     label="Password Confirmation"
-                    placeholder = 'Enter a valid password' 
+                    placeholder = 'Re-enter your password' 
                     onChangeText = {confPassword => onChangeCTest(confPassword)}
                     theme={{
                         colors: {
