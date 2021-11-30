@@ -36,6 +36,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [refresh, setRefresh] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTarget, setModalTarget] = useState({});
+
   const onRefresh = () => {
     setRefresh(true);
     fetchFriends();
@@ -68,6 +69,7 @@ const CombinedScheduleView = ({navigation, route}) => {
         title: `${course.course_number} - ${course.course_name}`,
         summary: `${user.username}`,
         color: color,
+
         //extra data for event passing
         firstName: `${user.first_name}`,
         lastName: `${user.last_name}`,
@@ -110,9 +112,10 @@ const CombinedScheduleView = ({navigation, route}) => {
     }
     setFriendList(friendData);
     setLoading(false);
+    return friendData;
   }
   
-  const createEvents = () => {
+  const createEvents = async () => {
     let latest = {value: latestHour};
     let earliest = {value: earliestHour};
     let eventsBuffer = createEventsFromArray(context.user, colors[0], earliest, latest);
@@ -127,21 +130,21 @@ const CombinedScheduleView = ({navigation, route}) => {
   
   //Runs when component is first rendered only
   useEffect(() => {
-    fetchFriends().then(() => {
+    fetchFriends().then((friendData) => {
       let selection = [];
       //Select up to maxUsers
-      for (let i = 0; i < maxUsers && friendList.length; i++) {
+      for (let i = 0; i < maxUsers && friendData.length; i++) {
         selection.push(i)
       }
       setSelectedUsers(selection);
     })
   }, [])
 
-  //Creates events whenever date or selected users change
+  //Creates events whenever focus date or dialog box is triggered
   useEffect(() => {
     if (!dialogVisible)
       createEvents();
-  }, [focusDate, selectedUsers]);
+  }, [focusDate, dialogVisible]);
   
   const selectedUsersListener = (index) => {
     if (selectedUsers.includes(index)) {
@@ -154,7 +157,7 @@ const CombinedScheduleView = ({navigation, route}) => {
       return false;
     }
     let usersBuffer = [...selectedUsers];
-    usersBuffer.push(index)
+    usersBuffer.push(index);
     setSelectedUsers(usersBuffer);
     return true;
   }
