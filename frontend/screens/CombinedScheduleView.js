@@ -140,8 +140,8 @@ const CombinedScheduleView = ({navigation, route}) => {
   }
 
   useEffect(() => {
-    // fetchFriends();
-    createEvents();
+    if (!dialogVisible)
+      createEvents();
   }, [focusDate, selectedUsers]);
   
   // const _eventTapped = (event) => {
