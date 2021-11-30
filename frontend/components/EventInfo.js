@@ -1,16 +1,8 @@
-import React, {useContext, useEffect, useState} from 'react';
-import { View, Dimensions, ScrollView, FlatList, RefreshControl} from 'react-native';
-import EventCalendar from 'react-native-events-calendar';
+import React from 'react';
+import { View, Dimensions} from 'react-native';
 const { width, height } = Dimensions.get('window');
-import UserContext from '../context/UserContext';
-import LoadingIndicator from '../components/LoadingIndicator';
-import {BASE_URL} from "@env";
-import { useFocusEffect } from '@react-navigation/core';
 import { Headline, Subheading, Text } from 'react-native-paper'
-import CombinedScheduleFriendListItem from '../components/CombinedScheduleFriendListItem';
 import UserInfo from './UserInfo';
-import { stringTypeAnnotation } from '@babel/types';
-
 
 const EventInfo = ({navigation, route, event}) => {
     const parseTime = (stringObj) => {
@@ -32,21 +24,24 @@ const EventInfo = ({navigation, route, event}) => {
         return returnString;
         
     }
+
     const startTime = parseTime(event.timeStart);
     const endTime = parseTime(event.timeEnd);
 
     return (
-        <View backgroundColor={event.color}>
+        <View backgroundColor={event.color} style={{borderRadius: 15}}>
             <UserInfo user={{
                 first_name: event.firstName,
                 last_name: event.lastName,
                 username: event.summary,
                 email: event.email}}/>
-            <Headline>{event.courseName}</Headline>
-            <Subheading>{event.courseNumber}</Subheading>
-            <Text>Days: {event.days}</Text>
-            <Text>Start: {startTime}</Text>
-            <Text>End: {endTime}</Text>
+            <View style={{padding: 30, paddingTop: 0}}>
+                <Headline>{event.courseName}</Headline>
+                <Subheading>{event.courseNumber}</Subheading>
+                <Text>Days: {event.days}</Text>
+                <Text>Start: {startTime}</Text>
+                <Text>End: {endTime}</Text>
+            </View>
         </View>
     )
 }

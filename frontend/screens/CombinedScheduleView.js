@@ -245,7 +245,7 @@ const CombinedScheduleView = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
   modalStyle: {
-    padding:40
+    padding: 40
   }
 })
 
