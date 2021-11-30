@@ -11,7 +11,6 @@ const CombinedScheduleFriendListItem = ({ navigation, route, user, selectedUsers
         if (init)
             setChecked(true);
     }, [])
-
     return (
         <View>
             <Checkbox.Item

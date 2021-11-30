@@ -46,7 +46,7 @@ const CombinedScheduleView = ({navigation, route}) => {
     setDialogVisible(false);
   }
 
-  const createEventsFromArray = (user, colorIndex, earliest, latest) => {
+  const createEventsFromArray = (user, color, earliest, latest) => {
     let events = user.schedule.filter(course => course.day_name.includes(WEEKDAYS[weekdayIndex]));
     events = events.map((course) => {
       if (Number(course.time_start.slice(0, 2)) <= earliest.value)
@@ -58,7 +58,7 @@ const CombinedScheduleView = ({navigation, route}) => {
         end: `${focusDate} ${course.time_end}:00`,
         title: `${course.course_number} - ${course.course_name}`,
         summary: `${user.username}`,
-        color: colors[colorIndex]
+        color: color
       }
     });
     return events;
@@ -78,6 +78,7 @@ const CombinedScheduleView = ({navigation, route}) => {
         });
         const jsonResponse = await response.json();
         if (response.status === 200) {
+          jsonResponse['color'] = colors[(i+colors.length+1) % colors.length]
           friendData.push(jsonResponse);
         }
         else {
@@ -104,9 +105,9 @@ const CombinedScheduleView = ({navigation, route}) => {
   const createEvents = () => {
     let latest = {value: latestHour};
     let earliest = {value: earliestHour};
-    let eventsBuffer = createEventsFromArray(context.user, 0, earliest, latest);
+    let eventsBuffer = createEventsFromArray(context.user, colors[0], earliest, latest);
     for (let i = 0; i < selectedUsers.length; i++) {
-      let friendSchedule = createEventsFromArray(friendList[selectedUsers[i]], (i+colors.length+1) % colors.length, earliest, latest);
+      let friendSchedule = createEventsFromArray(friendList[selectedUsers[i]], friendList[selectedUsers[i]].color, earliest, latest);
       friendSchedule.forEach((course) => eventsBuffer.push(course));
     }
     setEarliestHour(earliest.value);
@@ -199,7 +200,7 @@ const CombinedScheduleView = ({navigation, route}) => {
                             index={index} 
                             init={selectedUsers.includes(index)} 
                             selectedUsersListener={selectedUsersListener} 
-                            color={colors[(selectedUsers.indexOf(index)+colors.length+1) % colors.length]}
+                            color={item.color}
                             user={item} 
                             navigation={navigation}/>} 
                       />
