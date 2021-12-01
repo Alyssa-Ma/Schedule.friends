@@ -25,6 +25,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   const maxUsers = 5;
   const context = useContext(UserContext);
   const [events, setEvents] = useState([]);
+  // friendList is used to help compare friend_list updates after context.user updates
   const [friendList, setFriendList] = useState(context.user.friend_list);
   const [friendEvents, setFriendEvents] = useState([]);
   const [weekdayIndex, setWeekdayIndex] = useState(new Date().getDay());
@@ -40,7 +41,6 @@ const CombinedScheduleView = ({navigation, route}) => {
 
   const onRefresh = async () => {
     setRefresh(true);
-    fetchUser();
     fetchUser().then(() => {
       fetchFriends();
     });
@@ -53,6 +53,7 @@ const CombinedScheduleView = ({navigation, route}) => {
     createEvents();
     setDialogVisible(false);
   }
+
   const showModal = () => {
     setModalVisible(true);
   }
@@ -101,11 +102,11 @@ const CombinedScheduleView = ({navigation, route}) => {
       const jsonResponse = await response.json();
       if (response.status === 200) {
         jsonResponse['token'] = context.user.token;
+        // Updates user context
         if (JSON.stringify(jsonResponse) !== JSON.stringify(context.user)) {
           context.setUser(jsonResponse)
+          // Checks to see if friend_list has changed
           if (JSON.stringify(friendList) !== JSON.stringify(jsonResponse.friend_list)) {
-            console.log(jsonResponse.friend_list)
-            console.log(friendList)
             setFriendList(jsonResponse.friend_list)
           }
         }
@@ -241,7 +242,6 @@ const CombinedScheduleView = ({navigation, route}) => {
               }}
               refreshingForDayView={refresh}
               onRefreshForDayView={onRefresh}
-              modalVisibleForDayView={modalVisible}
             />
             <Portal>
             <Dialog visible={dialogVisible} onDismiss={hideDialog}>
