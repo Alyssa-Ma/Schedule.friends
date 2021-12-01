@@ -12,15 +12,14 @@ const SettingsComponent = ({settingsOptions}) => {
     }
 
     return (
-        <ScrollView>
+        <ScrollView style={styles.container}>
             {settingsOptions.map(({title, subtitle, onPress}, index) => (
               <TouchableOpacity key={title}>
-                <View>
-                  <Text>{title}</Text>
+                <View style={styles.titleSection}>
+                  <Text style={styles.titleText}>{title}</Text>
                   {subtitle && <Text>{subtitle}</Text>}
                 </View>
                 <View style={styles.section}>
-
                 </View>
               </TouchableOpacity>
             ))}
@@ -41,43 +40,19 @@ const SettingsComponent = ({settingsOptions}) => {
 export default SettingsComponent;
 
 const styles = StyleSheet.create({
+    titleText: {
+
+    },
+    titleSection: {
+      paddingHorizontal: 20,
+      paddingBottom: 20,
+      paddingTop: 20,
+    },
     section: {
       height: 0.5,
       backgroundColor: '#808080',
     },
     container: {
       flex: 1,
-    },
-    userInfoSection: {
-      paddingHorizontal: 30,
-      marginBottom: 25,
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-    },
-    caption: {
-      fontSize: 14,
-      lineHeight: 14,
-      fontWeight: '500',
-    },
-    row: {
-      flexDirection: 'row',
-      marginBottom: 10,
-    },
-    listWrapper: {
-      marginTop: 10,
-    },
-    listItem: {
-      flexDirection: 'row',
-      paddingVertical: 15,
-      paddingHorizontal: 30,
-    },
-    listItemText: {
-      color: '#777777',
-      marginLeft: 10,
-      fontWeight: '600',
-      fontSize: 16,
-      lineHeight: 26,
     },
 });
