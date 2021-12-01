@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import DrawerContent from './DrawerContent'
 
 import FriendTabs from './FriendTabs';
 import CommonTimeText from '../screens/CommonTimeText';
@@ -62,6 +63,7 @@ const HomeDrawer = ({navigation, route}) => {
     }
   }
 
+  
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -153,6 +155,25 @@ const HomeDrawer = ({navigation, route}) => {
       />
     </Drawer.Navigator>      
   );
+
+  /*
+  return (
+    <Drawer.Navigator drawerContent={props => <DrawerContent {...props} user={context.user}/>}>
+      <Drawer.Screen 
+        name="HomePage" sa
+        component={CombinedScheduleStack}
+        options={{
+          title: 'Home',
+          headerStyle: {
+            backgroundColor: '#9E8DFF'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white',
+            }
+          }}
+      />
+    </Drawer.Navigator>
+  ) */
 }
 
 export default HomeDrawer;
