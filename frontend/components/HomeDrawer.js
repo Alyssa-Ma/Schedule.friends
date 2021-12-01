@@ -140,6 +140,20 @@ const HomeDrawer = ({navigation, route}) => {
           })}
       />
 
+      <Drawer.Screen
+        name="Settings"
+        component={SettingsStack}
+        options={{
+          title: 'Settings',
+          headerStyle: {
+            backgroundColor: 'darkslateblue'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white',
+            }
+      }}
+      />
+
       <Drawer.Screen 
           name="LogOut"
           component={LogOut} 
