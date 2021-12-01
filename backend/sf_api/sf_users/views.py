@@ -66,8 +66,6 @@ def users_detail(request, pk):
 
     if request.method == 'GET':
         serializer_to_filter = UserSerializer(user, context={'request': request}).data
-        print(request.user)
-        print(user != request.user)
         # Only owner or admin can see friend_requests
         if user != request.user and not request.user.is_staff:
             serializer_to_filter.pop('friend_requests')
