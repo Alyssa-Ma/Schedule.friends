@@ -3,13 +3,12 @@ import {View, SafeAreaView, StyleSheet, StatusBar, Image, TextInput, TouchableOp
 import UserContext from '../context/UserContext';
 import {Avatar, Title, Caption, Text, TouchableRipple, Switch } from 'react-native-paper';
 
-const SettingsComponent = () => {
+const SettingsComponent = ({settingsOptions}) => {
     const context = useContext(UserContext);
     const [isDarkTheme, setIsDarkTheme] = React.useState(false);
     const toggleTheme = () => {
         setIsDarkTheme(!isDarkTheme);
     }
-
 
     return (
         <View style={styles.container}>
@@ -26,3 +25,41 @@ const SettingsComponent = () => {
 };
 
 export default SettingsComponent;
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    userInfoSection: {
+      paddingHorizontal: 30,
+      marginBottom: 25,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+    },
+    caption: {
+      fontSize: 14,
+      lineHeight: 14,
+      fontWeight: '500',
+    },
+    row: {
+      flexDirection: 'row',
+      marginBottom: 10,
+    },
+    listWrapper: {
+      marginTop: 10,
+    },
+    listItem: {
+      flexDirection: 'row',
+      paddingVertical: 15,
+      paddingHorizontal: 30,
+    },
+    listItemText: {
+      color: '#777777',
+      marginLeft: 10,
+      fontWeight: '600',
+      fontSize: 16,
+      lineHeight: 26,
+    },
+});
