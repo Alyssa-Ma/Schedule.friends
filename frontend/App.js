@@ -23,7 +23,6 @@ const App = ({navigation, route}) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   const fetchUserToken = async (usernameInput, passwordInput) => {
-    console.log(`Begin of fetchToken(): user:${usernameInput} pass: ${passwordInput}`);
     try {
       let response = await fetch(`${BASE_URL}/login`, {
         method: 'POST',

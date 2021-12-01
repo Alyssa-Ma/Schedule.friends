@@ -25,7 +25,8 @@ const CombinedScheduleView = ({navigation, route}) => {
   const maxUsers = 5;
   const context = useContext(UserContext);
   const [events, setEvents] = useState([]);
-  const [friendList, setFriendList] = useState([]);
+  const [friendList, setFriendList] = useState(context.user.friend_list);
+  const [friendEvents, setFriendEvents] = useState([]);
   const [weekdayIndex, setWeekdayIndex] = useState(new Date().getDay());
   const [focusDate, setFocusDate] = useState(getDateString(new Date()));
   const [loading, setLoading] = useState(false);
@@ -37,9 +38,12 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTarget, setModalTarget] = useState({});
 
-  const onRefresh = () => {
+  const onRefresh = async () => {
     setRefresh(true);
-    fetchFriends();
+    fetchUser();
+    fetchUser().then(() => {
+      fetchFriends();
+    });
     setRefresh(false);
   }
   const showDialog = () => {
@@ -84,6 +88,37 @@ const CombinedScheduleView = ({navigation, route}) => {
     return events;
   }
 
+  const fetchUser = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}/${context.user.id}`, {
+        method: 'GET', 
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${context.user.token}`
+        },
+      });
+      const jsonResponse = await response.json();
+      if (response.status === 200) {
+        jsonResponse['token'] = context.user.token;
+        if (JSON.stringify(jsonResponse) !== JSON.stringify(context.user)) {
+          context.setUser(jsonResponse)
+          if (JSON.stringify(friendList) !== JSON.stringify(jsonResponse.friend_list)) {
+            console.log(jsonResponse.friend_list)
+            console.log(friendList)
+            setFriendList(jsonResponse.friend_list)
+          }
+        }
+      }
+      else {
+        console.log(`Error from server ${response.status}`);
+      }
+    } catch(error) {
+      console.log(error);
+    }
+    setLoading(false);
+  }
+
   const fetchFriends = async () => {
     setLoading(true);
     let friendData = [];
@@ -110,7 +145,7 @@ const CombinedScheduleView = ({navigation, route}) => {
         break;
       }
     }
-    setFriendList(friendData);
+    setFriendEvents(friendData);
     setLoading(false);
     return friendData;
   }
@@ -120,7 +155,7 @@ const CombinedScheduleView = ({navigation, route}) => {
     let earliest = {value: earliestHour};
     let eventsBuffer = createEventsFromArray(context.user, colors[0], earliest, latest);
     for (let i = 0; i < selectedUsers.length; i++) {
-      let friendSchedule = createEventsFromArray(friendList[selectedUsers[i]], friendList[selectedUsers[i]].color, earliest, latest);
+      let friendSchedule = createEventsFromArray(friendEvents[selectedUsers[i]], friendEvents[selectedUsers[i]].color, earliest, latest);
       friendSchedule.forEach((course) => eventsBuffer.push(course));
     }
     setEarliestHour(earliest.value);
@@ -128,7 +163,8 @@ const CombinedScheduleView = ({navigation, route}) => {
     setEvents(eventsBuffer);
   }
   
-  //Runs when component is first rendered only
+  //Runs when component is first rendered and when the friend_list changes
+  //This will select up to the first maxUsers of friend_list
   useEffect(() => {
     fetchFriends().then((friendData) => {
       let selection = [];
@@ -138,7 +174,7 @@ const CombinedScheduleView = ({navigation, route}) => {
       }
       setSelectedUsers(selection);
     })
-  }, [])
+  }, [friendList])
 
   //Creates events whenever focus date or dialog box is triggered
   useEffect(() => {
@@ -199,7 +235,9 @@ const CombinedScheduleView = ({navigation, route}) => {
               start={earliestHour}
               end={latestHour}
               virtualizedListProps={{
-                scrollEnabled: false
+                scrollEnabled: false,
+                showVerticalScrollIndicator: false,
+                showsHorizontalScrollIndicator: false
               }}
               refreshingForDayView={refresh}
               onRefreshForDayView={onRefresh}
@@ -212,7 +250,7 @@ const CombinedScheduleView = ({navigation, route}) => {
                 <Dialog.ScrollArea>
                   <View style={{height: height / 2}}>
                     <FlatList 
-                      data={friendList}
+                      data={friendEvents}
                       keyExtractor={(item) => item.id}
                       renderItem={({item, index}) => 
                         <CombinedScheduleFriendListItem 
