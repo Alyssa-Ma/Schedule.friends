@@ -10,6 +10,7 @@ import UserContext from '../context/UserContext';
 import LogOut from './LogOut';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 import MyProfileStack from './MyProfileStack';
+import SettingsStack from './SettingsStack';
 
 const Drawer = createDrawerNavigator();
 
