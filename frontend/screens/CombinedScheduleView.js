@@ -107,8 +107,6 @@ const CombinedScheduleView = ({navigation, route}) => {
           context.setUser(jsonResponse)
           // Checks to see if friend_list has changed
           if (JSON.stringify(friendList) !== JSON.stringify(jsonResponse.friend_list)) {
-            console.log("friendList ", JSON.stringify(friendList))
-            console.log("JSON ", JSON.stringify(jsonResponse.friend_list))
             setFriendList(jsonResponse.friend_list)
           }
         }
