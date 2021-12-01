@@ -9,17 +9,17 @@ const SettingsView = ({ navigation }) => {
     const toggleTheme = () => {
         setIsDarkTheme(!isDarkTheme);
     }
+    const settingsOptions=[
+        {title: 'Dark Theme', subTitle: 'Toggle between light and dark theme.', onPress: () => {}},
+        {title: 'Setting Placeholder', subTitle: 'Insert another setting here idk.', onPress: () => {}},
+        {title: 'Setting Placeholder', subTitle: 'Insert another setting here idk.', onPress: () => {}},
+        {title: 'Setting Placeholder', subTitle: 'Insert another setting here idk.', onPress: () => {}},
+        {title: 'Setting Placeholder', subTitle: 'Insert another setting here idk.', onPress: () => {}},
+        {title: 'Setting Placeholder', subTitle: 'Insert another setting here idk.', onPress: () => {}},
+        {title: 'Setting Placeholder', subTitle: null, onPress: () => {}},
+    ];
     return (
-        <View style={styles.container}>
-            <TouchableRipple onPress={() => {toggleTheme()}}>
-                <View style={styles.listItem}>
-                    <Text>Dark Theme</Text>
-                    <View pointerEvents="none">
-                        <Switch value={isDarkTheme}></Switch>
-                    </View>
-                </View>
-            </TouchableRipple>
-        </View>
+        return <SettingsComponent/>;
     );
   }
   
