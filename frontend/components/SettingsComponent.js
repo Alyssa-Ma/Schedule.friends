@@ -11,15 +11,24 @@ const SettingsComponent = ({settingsOptions}) => {
     }
 
     return (
-        <View style={styles.container}>
-        <TouchableRipple onPress={() => {toggleTheme()}}>
-            <View style={styles.listItem}>
-                <Text>Dark Theme</Text>
-                <View pointerEvents="none">
-                    <Switch value={isDarkTheme}></Switch>
+        <View>
+            {settingsOptions.map(({title, subtitle, onPress}, index) => (
+              <TouchableOpacity key={title}>
+                <View>
+                  <Text>{title}</Text>
                 </View>
+              </TouchableOpacity>
+            ))}
+            <View style={styles.container}>
+            <TouchableRipple onPress={() => {toggleTheme()}}>
+                <View style={styles.listItem}>
+                    <Text>Dark Theme</Text>
+                    <View pointerEvents="none">
+                        <Switch value={isDarkTheme}></Switch>
+                    </View>
+                </View>
+            </TouchableRipple>
             </View>
-        </TouchableRipple>
         </View>
     );
 };
