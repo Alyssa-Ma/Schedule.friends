@@ -18,6 +18,8 @@ const SettingsView = ({ navigation }) => {
         {title: 'Setting Placeholder', subTitle: 'Insert another setting here idk.', onPress: () => {}},
         {title: 'Setting Placeholder', subTitle: 'Insert another setting here idk.', onPress: () => {}},
         {title: 'Setting Placeholder', subTitle: null, onPress: () => {}},
+        {title: 'Setting Placeholder', subTitle: null, onPress: () => {}},
+        {title: 'Setting Placeholder', subTitle: null, onPress: () => {}},
     ];
     return <SettingsComponent settingsOptions={settingsOptions}/>;
 

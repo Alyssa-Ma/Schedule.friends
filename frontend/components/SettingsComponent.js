@@ -13,6 +13,14 @@ const SettingsComponent = ({settingsOptions}) => {
 
     return (
         <ScrollView style={styles.container}>
+            <TouchableRipple onPress={() => {toggleTheme()}}>
+                <View style={styles.titleSection}>
+                    <Text style={styles.titleText}>Dark Theme</Text>
+                    <View pointerEvents="none">
+                        <Switch value={isDarkTheme}></Switch>
+                    </View>
+                </View>
+            </TouchableRipple>
             {settingsOptions.map(({title, subTitle, onPress}, index) => (
               <TouchableOpacity key={title}>
                 <View style={styles.titleSection}>
@@ -23,16 +31,6 @@ const SettingsComponent = ({settingsOptions}) => {
                 </View>
               </TouchableOpacity>
             ))}
-            <View style={styles.container}>
-            <TouchableRipple onPress={() => {toggleTheme()}}>
-                <View style={styles.listItem}>
-                    <Text>Dark Theme</Text>
-                    <View pointerEvents="none">
-                        <Switch value={isDarkTheme}></Switch>
-                    </View>
-                </View>
-            </TouchableRipple>
-            </View>
         </ScrollView>
     );
 };
