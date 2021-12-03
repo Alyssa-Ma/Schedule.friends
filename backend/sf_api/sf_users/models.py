@@ -3,18 +3,18 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
-from django.db.models.query_utils import Q
 
 from django.utils.translation import gettext_lazy as _
 
 def upload_to(instance, filename):
-    return 'pimages/{filename}'.format(filename=filename)
+    return 'profile_images/{id} - {filename}'.format(id=instance.id, filename=filename)
 
 class User(AbstractUser):
     friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, default=None)
     friend_requests = models.ManyToManyField('FriendRequest', blank=True, default=None)
-    image = models.ImageField(_("Image"), upload_to=upload_to, default='pimages/default.jpg')
-    
+    profile_image = models.ImageField(_("Image"), upload_to=upload_to, default='pimages/default.jpg')
+    dark_mode = models.BooleanField(default=False)
+
     def __str__(self):
         return f"{self.username} (ID#: {self.id})"
 
@@ -59,11 +59,3 @@ class FriendRequest(models.Model):
 
     def __str__(self):
         return f'Friend Request from {self.from_user} to {self.to_user}'
-
-# Leftover Day model, leaving here for now in case we need to rollback
-# class Day(models.Model):
-#     user = models.ForeignKey('User', related_name='schedule', on_delete=models.CASCADE, null=True, blank=True)
-#     day_name = models.CharField(max_length=3, choices=DAYS_OF_WEEK)
-
-#     def __str__(self):
-#         return self.get_day_display()
