@@ -67,7 +67,7 @@ const HomeDrawer = ({navigation, route}) => {
   return (
     <Drawer.Navigator drawerContent={props => <DrawerContent {...props} user={context.user}/>}>
       <Drawer.Screen 
-        name="HomePage" sa
+        name="HomePage"
         component={CombinedScheduleStack}
         options={{
           title: 'Home',
@@ -78,6 +78,75 @@ const HomeDrawer = ({navigation, route}) => {
               color: 'white',
             }
           }}
+      />
+      <Drawer.Screen 
+          name="MySchedule" 
+          component={MyScheduleStack} 
+          options={({route}) => ({
+            title: "My Schedule",
+            headerTitle: getScheduleHeaderTitle(route),
+            headerStyle: {
+              backgroundColor: '#9E8DFF'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white'
+            }
+          })}
+      />
+      <Drawer.Screen 
+          name="CommonTimeText" 
+          component={CommonTimeText}
+          options={{
+              title: `Who's Free Now`,
+              headerStyle: {
+                backgroundColor: '#9E8DFF'},
+              headerTitleAlign: 'center',
+              headerTitleStyle: {
+                color: 'white',
+              }
+          }}
+      />
+      <Drawer.Screen
+          name="Friends"
+          component={FriendTabs}
+          options={({route}) => ({
+            title: 'My Friends',
+            headerTitle: getFriendsHeaderTitle(route),
+            headerStyle: {
+              backgroundColor: '#9E8DFF'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white',
+            }
+          })}
+      />
+
+      <Drawer.Screen 
+          name="MyProfile" 
+          component={MyProfileStack} 
+          options={({route}) => ({
+            title: "My Profile",
+            headerTitle: getProfileHeaderTitle(route),
+            headerStyle: {
+              backgroundColor: '#9E8DFF'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white'
+            }
+          })}
+      />
+
+      <Drawer.Screen 
+          name="LogOut"
+          component={LogOut} 
+          options={{
+            title: 'Log Out',
+            headerStyle: {
+              backgroundColor: '#9E8DFF'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white',
+          }}}
       />
     </Drawer.Navigator>
   ) 

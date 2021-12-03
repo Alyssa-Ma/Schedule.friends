@@ -6,11 +6,13 @@ import {Drawer, Text, TouchableRipple, Switch, Avatar, Title, Caption} from 'rea
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const DrawerContent = (props) => {
+
+    //console.log(props.navigation.navigate)
     return(
         <View styles={styles.drawerContainer}>
             
-                <View>
-                    <View style={styles.userInfo}>
+                <View style={styles.topSection}>
+                    <View style={styles.userInfoSection}>
                         <Avatar.Text
                             
                             label={`${props.user.first_name.charAt(0).toUpperCase()}${props.user.last_name.charAt(0).toUpperCase()}`}
@@ -31,7 +33,55 @@ const DrawerContent = (props) => {
                                 />
                             )}
                             label='Home'
-                            onPress={() => {}}
+                            onPress={() => {props.navigation.navigate("HomePage")}}
+                        />
+                    
+                        <DrawerItem
+                            icon={() => (
+                                <Icon 
+                                name="calendar-account-outline" 
+                                color='black'
+                                size={20}
+                                />
+                            )}
+                            label='My Schedule'
+                            onPress={() => {props.navigation.navigate("MySchedule")}}
+                        />
+                    
+                        <DrawerItem
+                            icon={() => (
+                                <Icon 
+                                name="account-clock-outline" 
+                                color='black'
+                                size={20}
+                                />
+                            )}
+                            label={`Who's Free now`}
+                            onPress={() => {props.navigation.navigate("CommonTimeText")}}
+                        />
+                   
+                        <DrawerItem
+                            icon={() => (
+                                <Icon 
+                                name="account-group-outline" 
+                                color='black'
+                                size={20}
+                                />
+                            )}
+                            label='My Friends'
+                            onPress={() => {props.navigation.navigate("Friends")}}
+                        />
+                   
+                        <DrawerItem
+                            icon={() => (
+                                <Icon 
+                                name="badge-account-horizontal-outline" 
+                                color='black'
+                                size={20}
+                                />
+                            )}
+                            label='My Profile'
+                            onPress={() => {props.navigation.navigate("MyProfile")}}
                         />
                     </Drawer.Section>
                 </View>
@@ -46,7 +96,7 @@ const DrawerContent = (props) => {
                             />
                         )}
                         label='Log Out'
-                        onPress={() => {}}
+                        onPress={() => {props.navigation.navigate("LogOut")}}
                 />
             </Drawer.Section>
             
@@ -64,11 +114,13 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 20
     },
-    userInfo: {
+    userInfoSection: {
 
     },
+    topSection: {
+    },
     bottomSection: {
-
+        
     },
     drawerContent: {
 
