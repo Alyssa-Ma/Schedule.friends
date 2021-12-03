@@ -4,6 +4,7 @@ import { View, Alert, Text, StyleSheet, StatusBar,
 import { TextInput, HelperText } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const SignUpScreen = ({ navigation }) => {
     const context = useContext(UserContext);
@@ -117,151 +118,156 @@ const SignUpScreen = ({ navigation }) => {
     }
 
     const insertData = async () => {
-        await fetch(`${BASE_URL}/create`, {
-            method:"POST", 
-            headers: {
-                'Content-Type':'application/json'
-            }, 
-            body: JSON.stringify({
-                first_name:first_name, 
-                last_name:last_name, 
-                username:username, 
-                email:email, 
-                password:password, 
-                schedule:schedule,
+        try {
+            let response =  await fetch(`${BASE_URL}/create`, {
+                method:"POST", 
+                headers: {
+                    'Content-Type':'application/json'
+                }, 
+                body: JSON.stringify({
+                    first_name:first_name, 
+                    last_name:last_name, 
+                    username:username, 
+                    email:email, 
+                    password:password, 
+                    schedule:schedule,
+                })
             })
-        })
-        .then(resp => resp.json())
-        .then(data => {
-            context.setUser(data);
-            context.setIsSignedIn(true);
-            Alert.alert("USER REGISTERED");
-        })
-        .catch(error => console.log(error))
+            const jsonResponse = await response.json();
+            if (response.status === 201) {
+                setUser(jsonResponse);
+                setIsSignedIn(true);
+            }
+            else {
+                console.log(JSON.stringify(jsonResponse))
+            }
+        }
+        catch(error) {
+            console.log(error);
+        }
     }
 
     return (
-        <View style={styles.container}>
-
-            <StatusBar
-                backgroundColor="black"
-                barStyle="light-content"
-            />
-
-            <View>
-                <Text style={styles.logoText}> Create an account </Text> 
-            </View>
-
-            <TextInput style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                label="First Name"
-                placeholder = 'Enter your first name'
-                onChangeText = {(val) => setFirstName(val), first_name => onChangeFText(first_name)}
-                value={first_name}
-                //stylesheet doesn't work for colors for react native paper, change it here
-                theme={{
-                    colors: {
-                        //placeholder: 'purple',
-                        text: 'white',
-                        //primary: 'white',
-                        underlineColor: 'transparent'
-                    }
-                }}/>
-            <HelperText type="error" visible={fnameValid()} style={styles.error}>
-                Error: Only letters are allowed
-            </HelperText>
+        <ScrollView>
+            <View style={styles.container}>
             
-            <TextInput style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                label="Last Name"
-                placeholder = 'Enter your last name' 
-                onChangeText = {(val) => setLastName(val), last_name => onChangeLText(last_name)}
-                theme={{
-                    colors: {
-                        //placeholder: 'purple',
-                        text: 'white',
-                        //primary: 'white',
-                        underlineColor: 'transparent'
-                    }
-                }}/>
-            <HelperText type="error" visible={lnameValid()} style={styles.error}>
-                Error: Only letters are allowed
-            </HelperText>
+                <StatusBar
+                    backgroundColor="black"
+                    barStyle="light-content"
+                />
 
-            <TextInput style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                label="Username"
-                placeholder = 'Enter your username. Letters and numbers only' 
-                onChangeText = {(val) => setUserName(val), username => onChangeUText(username)}
-                theme={{
-                    colors: {
-                        //placeholder: 'purple',
-                        text: 'white',
-                        //primary: 'white',
-                        underlineColor: 'transparent'
-                    }
-                }}/>        
-            <HelperText type="error" visible={unameValid()} style={styles.error}>
-                Error: Only letters and numbers are allowed
-            </HelperText>
+                <TextInput style={styles.inputBox1} 
+                    //underlineColorAndroid='#ADC9C6' 
+                    label="First Name"
+                    placeholder = 'Enter your first name'
+                    onChangeText = {(val) => setFirstName(val), first_name => onChangeFText(first_name)}
+                    value={first_name}
+                    //stylesheet doesn't work for colors for react native paper, change it here
+                    theme={{
+                        colors: {
+                            //placeholder: 'purple',
+                            text: 'white',
+                            //primary: 'white',
+                            underlineColor: 'transparent'
+                        }
+                    }}/>
+                <HelperText type="error" visible={fnameValid()} style={styles.error}>
+                    Error: Only letters are allowed
+                </HelperText>
+                
+                <TextInput style={styles.inputBox2} 
+                    //underlineColorAndroid='#ADC9C6' 
+                    label="Last Name"
+                    placeholder = 'Enter your last name' 
+                    onChangeText = {(val) => setLastName(val), last_name => onChangeLText(last_name)}
+                    theme={{
+                        colors: {
+                            //placeholder: 'purple',
+                            text: 'white',
+                            //primary: 'white',
+                            underlineColor: 'transparent'
+                        }
+                    }}/>
+                <HelperText type="error" visible={lnameValid()} style={styles.error}>
+                    Error: Only letters are allowed
+                </HelperText>
 
-            <TextInput style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                label="Email"
-                placeholder = 'Enter a valid email' 
-                onChangeText = {(val) => setEmail(val), email => onChangeEText(email)}
-                theme={{
-                    colors: {
-                        //placeholder: 'purple',
-                        text: 'white',
-                        //primary: 'white',
-                        underlineColor: 'transparent'
-                    }
-                }}/> 
-            <HelperText type="error" visible={emailValid()} style={styles.error}>
-                Error: Invalid email
-            </HelperText>    
+                <TextInput style={styles.inputBox3} 
+                    //underlineColorAndroid='#ADC9C6' 
+                    label="Username"
+                    placeholder = 'Enter your username. Letters and numbers only' 
+                    onChangeText = {(val) => setUserName(val), username => onChangeUText(username)}
+                    theme={{
+                        colors: {
+                            //placeholder: 'purple',
+                            text: 'white',
+                            //primary: 'white',
+                            underlineColor: 'transparent'
+                        }
+                    }}/>        
+                <HelperText type="error" visible={unameValid()} style={styles.error}>
+                    Error: Only letters and numbers are allowed
+                </HelperText>
 
-            <TextInput secureTextEntry={true} style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                label="Password"
-                placeholder = 'Enter a valid password' 
-                onChangeText = {(val) => setPassword(val), password => onChangePText(password)}
-                theme={{
-                    colors: {
-                        //placeholder: 'purple',
-                        text: 'white',
-                        //primary: 'white',
-                        underlineColor: 'transparent'
-                    }
-                }}/>
-            <HelperText type="error" visible={passwordValid()} style={styles.error}>
-                Error: Invalid password. Password must be 6-20 characters with at least one number, one uppercase letter, and one lowercase letter.
-            </HelperText>
+                <TextInput style={styles.inputBox4} 
+                    //underlineColorAndroid='#ADC9C6' 
+                    label="Email"
+                    placeholder = 'Enter a valid email' 
+                    onChangeText = {(val) => setEmail(val), email => onChangeEText(email)}
+                    theme={{
+                        colors: {
+                            //placeholder: 'purple',
+                            text: 'white',
+                            //primary: 'white',
+                            underlineColor: 'transparent'
+                        }
+                    }}/> 
+                <HelperText type="error" visible={emailValid()} style={styles.error}>
+                    Error: Invalid email
+                </HelperText>    
 
-            <TextInput secureTextEntry={true} style={styles.inputBox} 
-                //underlineColorAndroid='#ADC9C6' 
-                label="Password Confirmation"
-                placeholder = 'Enter a valid password' 
-                onChangeText = {confPassword => onChangeCTest(confPassword)}
-                theme={{
-                    colors: {
-                        //placeholder: 'purple',
-                        text: 'white',
-                        //primary: 'white',
-                        underlineColor: 'transparent'
-                    }
-                }}/>
-            <HelperText type="error" visible={confPasswordValid()} style={styles.error}>
-                Passwords do not match.
-            </HelperText> 
-             
-            <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}
-                onPress = {() => { forumCheck()}}
-                >Register</Text>
-            </TouchableOpacity>
-        </View>
+                <TextInput secureTextEntry={true} style={styles.inputBox5} 
+                    //underlineColorAndroid='#ADC9C6' 
+                    label="6-20 characters with at least one number, one uppercase letter, and one lowercase letter."
+                    placeholder = 'Enter a valid password' 
+                    onChangeText = {(val) => setPassword(val), password => onChangePText(password)}
+                    theme={{
+                        colors: {
+                            //placeholder: 'purple',
+                            text: 'white',
+                            //primary: 'white',
+                            underlineColor: 'transparent'
+                        }
+                    }}/>
+                <HelperText type="error" visible={passwordValid()} style={styles.error}>
+                    Error: Invalid password.
+                </HelperText>
+
+                <TextInput secureTextEntry={true} style={styles.inputBox2} 
+                    //underlineColorAndroid='#ADC9C6' 
+                    label="Password Confirmation"
+                    placeholder = 'Re-enter your password' 
+                    onChangeText = {confPassword => onChangeCTest(confPassword)}
+                    theme={{
+                        colors: {
+                            //placeholder: 'purple',
+                            text: 'white',
+                            //primary: 'white',
+                            underlineColor: 'transparent'
+                        }
+                    }}/>
+                <HelperText type="error" visible={confPasswordValid()} style={styles.error}>
+                    Passwords do not match.
+                </HelperText> 
+                
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}
+                    onPress = {() => { forumCheck()}}
+                    >Register</Text>
+                </TouchableOpacity>
+            
+            </View>
+        </ScrollView>
     );
 };
 
@@ -271,7 +277,7 @@ export default SignUpScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 3, 
-        backgroundColor: '#009387',
+        backgroundColor: '#ffff',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -284,32 +290,79 @@ const styles = StyleSheet.create({
         
     },
 
-    inputBox: {
-        width:300, 
-        backgroundColor:'#5176A8',
-        borderBottomRightRadius: 10,
-        borderBottomLeftRadius: 10, 
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
+    inputBox1: {
+        width:350, 
+        backgroundColor:'#D7A4FF',
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20, 
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
         paddingHorizontal: 16, 
         fontSize: 16, 
-        color: 'white',
-        
-        marginTop: 0
-        
+        color: 'white',    
+        marginTop: 50,
+        height: 55
+    },
+    inputBox2: {
+        width:350, 
+        backgroundColor:'#9E8DFF',
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20, 
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        paddingHorizontal: 16, 
+        fontSize: 16, 
+        color: 'white',    
+        height: 55
+    },
+    inputBox3: {
+        width:350, 
+        backgroundColor:'#7DD1FF',
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20, 
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        paddingHorizontal: 16, 
+        fontSize: 16, 
+        color: 'white',    
+        height: 55 
+    },
+    inputBox4: {
+        width:350, 
+        backgroundColor:'#68B0D8',
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20, 
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        paddingHorizontal: 16, 
+        fontSize: 16, 
+        color: 'white',    
+        height: 55
+    },
+    inputBox5: {
+        width:350, 
+        backgroundColor:'#5CDBD5',
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20, 
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        paddingHorizontal: 16, 
+        fontSize: 16, 
+        color: 'white',    
+        height: 55
     },
     
     button:{
-        backgroundColor:'#007169',
-        borderRadius: 25, 
-        width:300, 
+        backgroundColor:'#53C2FF',
+        borderRadius: 15, 
+        width:350, 
         marginBottom: 50,
         paddingVertical: 12,
 
     },
     buttonText: {
-        fontSize: 15, 
-        fontWeight:"500",
+        fontSize: 18, 
+        fontWeight:"900",
         color:'white',
         textAlign: 'center',
         
@@ -321,8 +374,9 @@ const styles = StyleSheet.create({
     },
     
     error: {
-        color: 'red',
-        fontSize: 13,
+        color: '#4CD2CC',
+        fontSize: 16,
+        fontWeight: 'bold'
     },
 
 })

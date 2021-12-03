@@ -23,7 +23,6 @@ const App = ({navigation, route}) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   const fetchUserToken = async (usernameInput, passwordInput) => {
-    console.log(`Begin of fetchToken(): user:${usernameInput} pass: ${passwordInput}`);
     try {
       let response = await fetch(`${BASE_URL}/login`, {
         method: 'POST',
@@ -44,6 +43,7 @@ const App = ({navigation, route}) => {
       }
       else {
         console.log("Error from server in App.js: ", JSON.stringify(jsonResponse));
+        //may not always be an invalid username or password
         Alert.alert("Invalid Log In", "The username and/or password is incorrect",);
       }
     }
@@ -54,9 +54,9 @@ const App = ({navigation, route}) => {
   }
   
   //for developmental purpose, autologins to HenryB
-  // React.useEffect(() => {
-  //   fetchUserToken("henryB", "Test01");
-  // }, [])
+  React.useEffect(() => {
+    fetchUserToken("henryB", "Test01");
+  }, [])
 
   return (
     <UserContext.Provider value={{
@@ -92,7 +92,9 @@ const App = ({navigation, route}) => {
                       headerShown: false,
                       title: 'Log In',
                       headerStyle: {
+
                         backgroundColor: '#9E8DFF'},
+
                       headerTitleAlign: 'center',
                       headerTitleStyle: {
                         color: 'white',
@@ -103,12 +105,19 @@ const App = ({navigation, route}) => {
                     name="SignUp" 
                     component={SignUpScreen} 
                     options={{
-                      title: 'Sign Up!',
+                      title: 'Registration',
                       headerStyle: {
+
                         backgroundColor: '#9E8DFF'},
+
                       headerTitleAlign: 'center',
                       headerTitleStyle: {
                         color: 'white',
+                        fontWeight: 'bold',
+                        fontSize:22
+                      },
+                      headerBackButtonStyle: {
+                        headerTintColor: '#fffff'
                       }
                     }}
                   />

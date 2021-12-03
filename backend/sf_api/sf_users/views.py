@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
+from rest_framework import exceptions
 
 from .models import User
 from .models import Course
@@ -8,30 +9,40 @@ from .models import FriendRequest
 from .serializers import *
 
 from rest_framework import permissions as base_permissions
-from sf_users import permissions as custom_permissions
 
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 
+# ======================================
 # Users request methods
-# To-do
-# Make query return just a list of user names and friend list (pop out schedule)
-# Make get list all a superuser privilege only
+# ======================================
+
+# api/sf_users/
+# Accepts a ?query= parameter
 @api_view(['GET'])
 @permission_classes([base_permissions.IsAuthenticated])
 def get_users_list(request):
     if request.method == 'GET':
         # First checks if query parameter exists
         # Then filters Users by the string in the 'username' property
+        # Pops out schedule, friend_requests (sensitive info)
         if request.query_params.get('query'):
             results = User.objects.filter(username__iregex=request.query_params.get('query'))
-            serializer = UserSerializer(results, context={'request': request}, many=True)
-            return Response(serializer.data)
+            serializer_to_filter = UserSerializer(results, context={'request': request}, many=True).data
+            for user in serializer_to_filter:
+                user.pop('friend_requests')
+                user.pop('schedule')
+            return Response(serializer_to_filter, status=status.HTTP_200_OK)
         # Otherwise, returns all Users in the database
+        # Since this call is really only used for debugging, it is an admin only call
+        if not request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="User does not have permission")
         data = User.objects.all()
         serializer = UserSerializer(data, context={'request': request}, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
+# api/sf_users/create
+# Creates a new user
 @api_view(['POST'])
 @permission_classes([base_permissions.AllowAny])
 def create_user(request):
@@ -44,7 +55,7 @@ def create_user(request):
         return Response(user_dict, status=status.HTTP_201_CREATED)            
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# Need to make PATCH and DELETE authenticated with owner and superuser
+# api/sf_users/([0-9]+)
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
 def users_detail(request, pk):
@@ -53,12 +64,19 @@ def users_detail(request, pk):
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    # Get User object by iD
     if request.method == 'GET':
-        serializer = UserSerializer(user, context={'request': request})
-        return Response(serializer.data)
+        serializer_to_filter = UserSerializer(user, context={'request': request}).data
+        # Only owner or admin can see friend_requests
+        if user != request.user and not request.user.is_staff:
+            serializer_to_filter.pop('friend_requests')
+            # Only friends, owner and admin can retrieve schedule
+            if request.user.id not in serializer_to_filter['friend_list']:
+                serializer_to_filter.pop('schedule')
+        return Response(serializer_to_filter, status=status.HTTP_200_OK)
 
     elif request.method == 'PATCH':
+        if user != request.user and not request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         serializer = UserSerializer(user, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
             user = serializer.save()
@@ -69,6 +87,8 @@ def users_detail(request, pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
+        if user != request.user and not request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         user.delete()
         return Response({
             'id': int(pk),
@@ -76,8 +96,10 @@ def users_detail(request, pk):
             }, status=status.HTTP_200_OK)
 
 # ======================================
-
 # Schedule request methods
+# ======================================
+
+# api/sf_users/([0-9]+)/schedule/
 @api_view(['GET', 'POST'])
 @permission_classes([base_permissions.IsAuthenticated])
 def schedule_list(request, pk):
@@ -87,10 +109,14 @@ def schedule_list(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
+        if user != request.user and not request.user.is_staff and request.user.id not in UserSerializer(user).data['friend_list']:
+            raise exceptions.PermissionDenied(detail="User does not have permission to view schedule")
         serializer = CourseSerializer(user.schedule, context={'request': request}, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     elif request.method == 'POST':
+        if user != request.user and not request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         # First validates the request.data to fit the Course model
         course_serializer = CourseSerializer(data=request.data)
         if course_serializer.is_valid():
@@ -115,6 +141,7 @@ def schedule_list(request, pk):
                Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
         return Response(course_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# api/sf_users/([0-9]+)/schedule/([0-9]+)
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
 def schedule_detail(request, user_pk, course_pk):
@@ -122,12 +149,16 @@ def schedule_detail(request, user_pk, course_pk):
         course = Course.objects.get(pk=course_pk)
     except Course.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
+    
     if request.method == 'GET':
+        if course.owner != request.user and not request.user.is_staff and request.user.id not in UserSerializer(course.owner).data['friend_list']:
+            raise exceptions.PermissionDenied(detail="User does not have permission to view schedule")
         serializer = CourseSerializer(course, context={'request': request})
         return Response(serializer.data)
 
     elif request.method == 'PATCH':
+        if course.owner != request.user and not request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         serializer = CourseSerializer(course, data=request.data, context={'request': request}, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -135,6 +166,8 @@ def schedule_detail(request, user_pk, course_pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
+        if course.owner != request.user and not request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="Only owner has write permissions")
         course.delete()
         return Response({
             'id': int(course_pk),
@@ -142,12 +175,16 @@ def schedule_detail(request, user_pk, course_pk):
             }, status=status.HTTP_200_OK)
 
 # ======================================
-
 # Friend request methods
+# ======================================
+
+# api/sf_users/friend_requests/
 @api_view(['GET','POST'])
 @permission_classes([base_permissions.IsAuthenticated])
 def fr_list(request):
     if request.method == 'GET':
+        if not request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="User does not have permission")
         data = FriendRequest.objects.all()
         serializer = FriendRequestSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
@@ -162,10 +199,13 @@ def fr_list(request):
         except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         
+        if from_user != request.user and not request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="Friend Requests can only be sent from authorized user")
+
         if UserSerializer(to_user).data['id'] in UserSerializer(from_user).data['friend_list']:
             return Response({
                 "non_field_errors": [f"User {request.data['from_user']} is already friends with {request.data['to_user']}"]
-            }, status=status.HTTP_400_BAD_REQUEST)
+            }, status=status.HTTP_409_CONFLICT)
 
         fr_serializer = FriendRequestSerializer(data=request.data)
         if fr_serializer.is_valid():
@@ -177,6 +217,7 @@ def fr_list(request):
             return Response(fr_serializer.data, status=status.HTTP_201_CREATED) 
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# api/sf_users/friend_requests/([0-9]+)
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
 def fr_detail(request, pk):
@@ -185,11 +226,15 @@ def fr_detail(request, pk):
     except FriendRequest.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+    # only to and from users can get requests by ID and patch friend requests
+    serializer = FriendRequestSerializer(friend_request, context={'request': request})
+    if request.user != serializer.data['to_user'] and request.user != serializer.data['from_user'] and not request.user.is_staff:
+        raise exceptions.PermissionDenied(detail="User not involved in friend request")
+
     if request.method == 'GET':
-        serializer = FriendRequestSerializer(friend_request, context={'request': request})
         return Response(serializer.data)
 
-    # PATCHing a FriendRequest is called when a user accepts or denies a friend request
+    # PATCHing a FriendReq1uest is called when a user accepts or denies a friend request
     # by sending "accepted": true or false.
     elif request.method == 'PATCH':
         fr_serializer = FriendRequestSerializer(friend_request, data=request.data, context={'request': request}, partial=True)
@@ -216,14 +261,17 @@ def fr_detail(request, pk):
                 'result': f"Friend Request ID# {pk} Deleted"
                 },status=status.HTTP_200_OK)
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    
     elif request.method == 'DELETE':
+        if request.user != serializer.data['from_user'] and not request.user.is_staff:
+            raise exceptions.PermissionDenied(detail="User did not create friend request")
         friend_request.delete()
         return Response({
             'id': int(pk),
             'result': f"Friend Request ID# {pk} Deleted"
         }, status=status.HTTP_200_OK)
 
+# api/sf_users/([0-9]+)/remove/([0-9]+)
 # removes a friend from someone's friend_list (unfriend path)
 @api_view(['DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
@@ -237,6 +285,9 @@ def remove_friend(request, from_user_pk, to_user_pk):
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
+    if request.user.id != from_user_pk and request.user.id != to_user_pk and not request.user.is_staff:
+        raise exceptions.PermissionDenied(detail="User does not have permission")
+    
     from_user.friend_list.remove(to_user_pk)
     to_user.friend_list.remove(from_user_pk)
     return Response({
@@ -245,6 +296,7 @@ def remove_friend(request, from_user_pk, to_user_pk):
         'result': f"Friendship from user {from_user_pk} to user {to_user_pk} deleted"
         }, status=status.HTTP_200_OK)
 
+# api/sf_users/([0-9]+)/fr_to_user/
 # path to get friend requests only from user in expanded form
 @api_view(['GET'])
 @permission_classes([base_permissions.IsAuthenticated])
@@ -254,6 +306,9 @@ def get_fr_to_user(request, pk):
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
+    if user != request.user and not request.user.is_staff:
+        raise exceptions.PermissionDenied(detail="Only owner has permissions")
+
     fr_return_data = []
     
     for friend_request_id in UserSerializer(user).data['friend_requests']:
@@ -263,6 +318,7 @@ def get_fr_to_user(request, pk):
             fr_return_data.append(fr_serializer.data)
     return Response(fr_return_data, status=status.HTTP_200_OK)
 
+# api/sf_users/([0-9]+)/fr_from_user/
 # path to get friend requests only from user in expanded form
 @api_view(['GET'])
 @permission_classes([base_permissions.IsAuthenticated])
@@ -272,6 +328,9 @@ def get_fr_from_user(request, pk):
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
+    if user != request.user and not request.user.is_staff:
+        raise exceptions.PermissionDenied(detail="Only owner has permissions")
+
     fr_return_data = []
     
     for friend_request_id in UserSerializer(user).data['friend_requests']:
@@ -281,6 +340,7 @@ def get_fr_from_user(request, pk):
             fr_return_data.append(fr_serializer.data)
     return Response(fr_return_data, status=status.HTTP_200_OK)
 
+# api/sf_users/([0-9]+)/fr_with_user/
 # path to get all friend requests to and from user, expanded
 @api_view(['GET'])
 @permission_classes([base_permissions.IsAuthenticated])
@@ -289,7 +349,10 @@ def get_fr_with_user(request, pk):
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
+
+    if user != request.user and not request.user.is_staff:
+        raise exceptions.PermissionDenied(detail="Only owner has permissions")
+
     fr_return_data = []
     
     for friend_request_id in UserSerializer(user).data['friend_requests']:
@@ -298,7 +361,12 @@ def get_fr_with_user(request, pk):
         fr_return_data.append(fr_serializer.data)
     return Response(fr_return_data, status=status.HTTP_200_OK)
 
-# Override for ObtainAuthToken.Post, returns user and token in same response
+# ======================================
+# Override for ObtainAuthToken.Post
+# ======================================
+
+# api/sf_users/login
+# returns user and token in same response
 class ObtainAuthTokenWithUser(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -307,4 +375,4 @@ class ObtainAuthTokenWithUser(ObtainAuthToken):
         token, created = Token.objects.get_or_create(user=user)
         user_dict = dict(UserSerializer(user).data)
         user_dict.update({'token': token.key})
-        return Response(user_dict)
+        return Response(user_dict, status=status.HTTP_200_OK)

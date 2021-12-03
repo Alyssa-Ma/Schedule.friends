@@ -6,7 +6,7 @@ import DrawerContent from './DrawerContent'
 import FriendTabs from './FriendTabs';
 import CommonTimeText from '../screens/CommonTimeText';
 import MyScheduleStack from './MyScheduleStack';
-import CombinedScheduleStack from './CombinedScheduleStack';
+import CombinedScheduleView from '../screens/CombinedScheduleView';
 import UserContext from '../context/UserContext';
 import LogOut from './LogOut';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
@@ -69,6 +69,7 @@ const HomeDrawer = ({navigation, route}) => {
       <Drawer.Screen 
         name="HomePage"
         component={CombinedScheduleStack}
+
         options={{
           title: 'Home',
           headerStyle: {
