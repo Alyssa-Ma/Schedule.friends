@@ -5,10 +5,16 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
 from django.db.models.query_utils import Q
 
+from django.utils.translation import gettext_lazy as _
+
+def upload_to(instance, filename):
+    return 'pimages/{filename}'.format(filename=filename)
+
 class User(AbstractUser):
     friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, default=None)
     friend_requests = models.ManyToManyField('FriendRequest', blank=True, default=None)
-
+    image = models.ImageField(_("Image"), upload_to=upload_to, default='pimages/default.jpg')
+    
     def __str__(self):
         return f"{self.username} (ID#: {self.id})"
 
