@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import UserListHeader from './UserListHeader';
@@ -8,6 +8,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 const DrawerContent = (props) => {
 
     //console.log(props.navigation.navigate)
+
+    const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+    const toggleTheme = () => {
+        setIsDarkTheme(!isDarkTheme);
+    }
+
     return(
         <View styles={styles.drawerContainer}>
             
@@ -21,6 +28,8 @@ const DrawerContent = (props) => {
                             backgroundColor='turquoise'
                             style={styles.avatar}
                         />
+                        <Title style={{alignSelf: 'center'}}>{`${props.user.first_name} ${props.user.last_name}`}</Title>
+                        <Caption style={{alignSelf: 'center'}}>{`@${props.user.username}`}</Caption>
                     </View>
 
                     <Drawer.Section style={styles.drawerContent}>
@@ -84,6 +93,17 @@ const DrawerContent = (props) => {
                             onPress={() => {props.navigation.navigate("MyProfile")}}
                         />
                     </Drawer.Section>
+
+                    <Drawer.Section title="Preferences">
+                        <TouchableRipple onPress={() => {toggleTheme()}}>
+                            <View style={styles.preference}>
+                                <Text>Dark Theme</Text>
+                                <View pointerEvents="none">
+                                    <Switch value={isDarkTheme}/>
+                                </View>
+                            </View>
+                        </TouchableRipple>
+                    </Drawer.Section>
                 </View>
             
             <Drawer.Section style={styles.bottomSection}>
@@ -115,17 +135,21 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     userInfoSection: {
-
     },
     topSection: {
     },
-    bottomSection: {
+    bottomSection: {    //WANT TO DO: Get log out to stick to bottom of drawer
         
     },
     drawerContent: {
 
-    }
-
+    },
+    preference: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+      },
 })
 
 export default DrawerContent;

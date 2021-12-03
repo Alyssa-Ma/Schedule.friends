@@ -82,7 +82,7 @@ const FriendsListView = ({navigation, route}) => {
                     : <FlatList 
                         data={friends}
                         keyExtractor={friend => friend.id}
-                        renderItem={({item, index}) => <FriendListItem user={item} navigation={navigation} index={index} bgColor={context.bgColors[index % context.bgColors.length]}/>} 
+                        renderItem={({item, index}) => <FriendListItem user={item} navigation={navigation} index={index} bgColor={context.bgColors[index % context.bgColors.length]}/>}
                     />)
             }
         </View>
