@@ -62,6 +62,7 @@ const App = ({navigation, route}) => {
     <UserContext.Provider value={{
       user: user,
       isSignedIn: isSignedIn,
+      bgColors: ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'],  //added colors to context
       setUser: setUser,
       setIsSignedIn: setIsSignedIn,
       fetchUserToken: fetchUserToken
@@ -91,7 +92,9 @@ const App = ({navigation, route}) => {
                       headerShown: false,
                       title: 'Log In',
                       headerStyle: {
-                        backgroundColor: '#927EFF'},
+
+                        backgroundColor: '#9E8DFF'},
+
                       headerTitleAlign: 'center',
                       headerTitleStyle: {
                         color: 'white',
@@ -104,7 +107,9 @@ const App = ({navigation, route}) => {
                     options={{
                       title: 'Registration',
                       headerStyle: {
-                        backgroundColor: '#927EFF'},
+
+                        backgroundColor: '#9E8DFF'},
+
                       headerTitleAlign: 'center',
                       headerTitleStyle: {
                         color: 'white',

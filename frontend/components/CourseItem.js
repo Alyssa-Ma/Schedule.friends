@@ -2,14 +2,22 @@ import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, FlatList } from 'react-native';
 import UserContext from '../context/UserContext';
 
-const CourseItem = ({navigation, item}) => {
+const CourseItem = ({navigation, item, bgColor}) => {
     const context = useContext(UserContext);
     console.log(item.course_name);
+
+    const convertTo12Hr = (time) => {
+        const timeParts = time.split(':');
+        const amOrpm = parseInt(timeParts[0]) >= 12 ? 'PM' : 'AM';
+        let hours = (parseInt(timeParts[0]) % 12) || 12;
+        hours = (parseInt(hours) < 10) ? '  '+hours : hours;
+        return `${hours}:${timeParts[1]} ${amOrpm}`;
+    }
+
     const clickedItem = (item) => {
 
         const starttimesplit = item.time_start.split(':', 2);
         const endtimesplit = item.time_end.split(':', 2);
-
         stime = starttimesplit;
         etime = endtimesplit;
         navigation.push('EditClassView', {
@@ -30,25 +38,32 @@ const CourseItem = ({navigation, item}) => {
     return (
         <TouchableOpacity onPress={ (item.owner === context.user.id)
                                     ? () => clickedItem(item)
-                                    : () => {}} style={styles.Block}>
-            <View>
+                                    : () => {}} style={[styles.Block, {backgroundColor: bgColor}]}>
+            <View style={styles.courseInfoRow}>
                 <Text style={styles.classTitle}>{item.course_name}{' '}{item.course_number}</Text>
-                <Text style={styles.timeFont}>
-                {'Days: '}
-                {item.day_name[0]}{' '}
-                {item.day_name[1]}{' '}
-                {item.day_name[2]}{' '}
-                {item.day_name[3]}{' '}
-                {item.day_name[4]}{' '}
-                {item.day_name[5]}{' '}
-                {item.day_name[6]}
-                </Text>
 
-                <Text style={styles.timeFont}>
-                    {'Time: '}
-                    {item.time_start}{'  -  '}
-                    {item.time_end}
-                </Text>
+                <View style={styles.dayTimeCol}>
+
+                    <Text style={styles.timeFont}>
+                    {
+                        item.day_name.map( (day, index) =>
+                            {
+                                if(index === item.day_name.length-1)
+                                    return day;
+                                
+                                return day + ' ';
+                            }
+                        )
+                    }
+                    </Text>
+
+                    <Text style={styles.timeFont}>
+                        {convertTo12Hr(item.time_start)}
+                        {'  -  '}
+                        {convertTo12Hr(item.time_end)}
+                    </Text>
+
+                </View>
             
             </View>
 
@@ -59,28 +74,55 @@ const CourseItem = ({navigation, item}) => {
 const styles = StyleSheet.create({
 
     Block : {
-        borderRadius:6,
-        elevation: 3,
-        backgroundColor: '#bed4f7',
+        
+        
         shadowOffset: { width: 1, height: 1},
         shadowColor: '#333',
         shadowOpacity: 0.3,
         shadowRadius: 2,
-        marginHorizontal: 4,
-        marginVertical: 6,
+        
+        marginTop: 15,
+        padding: 15,
+        width: 350,
+        alignSelf: 'center',
+
+        //backgroundColor: '#5cdbd5',         //STATIC BACKGROUND
+
+        borderBottomWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 40 / 2,
+        
+        flex: 1
 
 
+    },
+
+    courseInfoRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        
+    },
+
+    dayTimeCol: {
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        
     },
 
     classTitle: {
         fontSize: 25,
-        color: 'black',
+        color: 'white',
+        marginTop: -20
     },
 
     timeFont: {
         fontSize: 15,
-        color: 'grey',
+        color: 'white',
     },
+
+    
+    
 
     
 })

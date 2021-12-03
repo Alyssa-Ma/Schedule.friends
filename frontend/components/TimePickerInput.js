@@ -30,7 +30,12 @@ const TimePickerInput = (props) => {
     
     return (
         <View style={styles.inputTime}>
-            <Text>{props.label}:</Text>
+            <Text style={{
+                    color: props.label === "Start Time" ? '#D7A4FF' : '#5CDBD5'
+                  }}
+            >
+                {props.label}:
+            </Text>
             <TimePickerModal
                 visible={visible}
                 onDismiss={onDismiss}
@@ -45,7 +50,11 @@ const TimePickerInput = (props) => {
             />
             <Button 
                 icon="clock" mode="contained"
-                onPress={()=> setVisible(true)}>
+                onPress={()=> setVisible(true)}
+                style={{
+                    backgroundColor: props.label === "Start Time" ? '#D7A4FF' : '#5CDBD5'
+                  }}
+            >
                 {timeString}
             </Button>
         </View>
@@ -56,7 +65,12 @@ const styles = StyleSheet.create({
     inputTime: {
         flexDirection: "row",
         justifyContent: "space-around",
-        alignItems: "center"
+        alignItems: "center",
+        marginTop: 20
+    },
+
+    timeLabel: {
+        color: '#D7A4FF'
     }
 });
 

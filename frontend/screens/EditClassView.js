@@ -134,7 +134,7 @@ const EditClassView = ({ navigation, item, route }) => {
                 setLoadingButton = {setLoadingButton}
             />
             <View style={styles.delete}>
-                <Button icon="delete" color ="red" loading={loadingButtonDelete} mode="contained" onPress={() => {setLoadingButtonDelete(!loadingButtonDelete)}} >
+                <Button icon="delete" style={styles.deleteButton} color ="red" loading={loadingButtonDelete} mode="contained" onPress={() => {setLoadingButtonDelete(!loadingButtonDelete)}} >
                     DELETE CLASS
                 </Button>
             </View>
@@ -160,6 +160,12 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 0,
     },
+
+    deleteButton: {
+        backgroundColor: '#e21d56',
+        color: 'white',
+        marginTop: 30
+    }
 
 });
 

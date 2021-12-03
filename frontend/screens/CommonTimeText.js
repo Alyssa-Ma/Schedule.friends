@@ -13,7 +13,6 @@ const CommonTimeText = ({ navigation, route }) => {
     const context = useContext(UserContext);
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
-
     //Converts the passed in into a Day string
     const convertToDay = (day) => {
         if(day === 1){
@@ -258,7 +257,7 @@ const CommonTimeText = ({ navigation, route }) => {
                     ? <Text>No Friends, Add Some!</Text>
                     : (items === undefined || items.length === 0
                         ? <Text>No one is free now</Text>
-                        : <FlatList data={items} style={styles.outerCard} renderItem={({item}) => <TextViewCard item={item} />} />)
+                        : <FlatList data={items} style={styles.outerCard} renderItem={({item, index}) => <TextViewCard item={item} bgColor={context.bgColors[index % context.bgColors.length]}/>} />)
             }
         </View>
     )

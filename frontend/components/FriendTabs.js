@@ -7,7 +7,7 @@ import OutgoingFriendRequestView from '../screens/OutgoingFriendRequestView'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const Tab = createBottomTabNavigator();
 
-const color = "#6200EE";
+const color = ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'];
 const size = 30;
 
 const FriendTabs = ({navigation, route}) => {
@@ -31,7 +31,7 @@ const FriendTabs = ({navigation, route}) => {
                     tabBarLabel: 'Friend List',
                     tabBarActiveTintColor: color,
                     tabBarIcon: ({color}) => (
-                        <Icon name="account-group" color={color} size={size}/>
+                        <Icon name="account-group" color={color[0]} size={size}/>
                     )
                 }}
             />
@@ -43,7 +43,7 @@ const FriendTabs = ({navigation, route}) => {
                     tabBarLabel: 'Incoming Requests',
                     tabBarActiveTintColor: color,
                     tabBarIcon: ({color}) => (
-                        <Icon name="account-arrow-left" color={color} size={size}/>
+                        <Icon name="account-arrow-left" color={color[1]} size={size}/>
                     )
                 }}
             />
@@ -55,7 +55,7 @@ const FriendTabs = ({navigation, route}) => {
                     tabBarLabel: 'Outgoing Requests',
                     tabBarActiveTintColor: color,
                     tabBarIcon: ({color}) => (
-                        <Icon name="account-arrow-right" color={color} size={size}/>
+                        <Icon name="account-arrow-right" color={color[2]} size={size}/>
                     )
                 }}
             />
@@ -67,7 +67,7 @@ const FriendTabs = ({navigation, route}) => {
                     tabBarLabel: 'Find Friends',
                     tabBarActiveTintColor: color,
                     tabBarIcon: ({color}) => (
-                        <Icon name="account-search" color={color} size={size}/>
+                        <Icon name="account-search" color={color[3]} size={size}/>
                     )
                 }}
             />
