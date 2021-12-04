@@ -22,22 +22,28 @@ const App = ({ navigation, route }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
+  //Default 'Light mode'
   const CustomDefaultTheme = {
     ...NavigationDefaultTheme,
     ...PaperDefaultTheme,
     colors: {
       ...NavigationDefaultTheme.colors,
       ...PaperDefaultTheme.colors,
+      backgroundColor: '#ffffff',
+      text: '#333333'
 
     }
   }
 
+  //Dark Mode
   const CustomDarkTheme = {
     ...NavigationDarkTheme,
     ...PaperDarkTheme,
     colors: {
       ...NavigationDarkTheme.colors,
-      ...PaperDarkTheme.colors
+      ...PaperDarkTheme.colors,
+      backgroundColor: '#333333',
+      text: '#ffffff'
     }
   }
  
@@ -89,7 +95,7 @@ const App = ({ navigation, route }) => {
         setUser: setUser,
         setIsSignedIn: setIsSignedIn,
         fetchUserToken: fetchUserToken,
-        toggleTheme: () => {
+        toggleTheme: () => {    //Added toggle theme
           setIsDarkTheme( isDarkTheme => !isDarkTheme);
         }
       }}>

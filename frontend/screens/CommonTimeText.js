@@ -1,5 +1,6 @@
 import React, {useState, useContext} from 'react';
-import { View, Text, StyleSheet, FlatList, ScrollView} from 'react-native';
+import { View, StyleSheet, FlatList, ScrollView} from 'react-native';
+import { Text, useTheme } from 'react-native-paper'
 import TextViewCard from '../components/TextViewCard';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
@@ -13,6 +14,7 @@ const CommonTimeText = ({ navigation, route }) => {
     const context = useContext(UserContext);
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { colors } = useTheme();
     //Converts the passed in into a Day string
     const convertToDay = (day) => {
         if(day === 1){
@@ -254,9 +256,9 @@ const CommonTimeText = ({ navigation, route }) => {
                 loading
                 ?  <LoadingIndicator isLoading={loading} />
                 :  context.user.friend_list.length === 0
-                    ? <Text>No Friends, Add Some!</Text>
+                    ? <Text style={{color: colors.text}}>No Friends, Add Some!</Text>
                     : (items === undefined || items.length === 0
-                        ? <Text>No one is free now</Text>
+                        ? <Text style={{color: colors.text}}>No one is free now</Text>
                         : <FlatList data={items} style={styles.outerCard} renderItem={({item, index}) => <TextViewCard item={item} bgColor={context.bgColors[index % context.bgColors.length]}/>} />)
             }
         </View>
