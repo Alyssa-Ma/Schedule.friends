@@ -30,7 +30,10 @@ const App = ({ navigation, route }) => {
       ...NavigationDefaultTheme.colors,
       ...PaperDefaultTheme.colors,
       backgroundColor: '#ffffff',
-      text: '#333333'
+      text: '#333333',
+      backgroundCardColors: ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'],
+      fabButtonColor: '#53c3fe',
+      radioButtonColor: '#9E8DFF'
 
     }
   }
@@ -42,8 +45,11 @@ const App = ({ navigation, route }) => {
     colors: {
       ...NavigationDarkTheme.colors,
       ...PaperDarkTheme.colors,
-      backgroundColor: '#333333',
-      text: '#ffffff'
+      backgroundColor: '#493e81',
+      text: '#ffffff',
+      backgroundCardColors: ['#7464CC', '#B8ACFB', '#927EFF', '#696580', '#786CBC'],
+      fabButtonColor: '#696580',
+      radioButtonColor: '#927EFF'
     }
   }
  

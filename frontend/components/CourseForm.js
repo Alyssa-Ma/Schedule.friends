@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
+import { TextInput, Button, RadioButton, Text, useTheme} from 'react-native-paper';
 import TimePickerInput from './TimePickerInput';
 
 const DaysRadioButton = (props) => {
     const [isSelected, setSelected] = useState(false);
+    const { colors } = useTheme();
+
     useEffect(() => {
         setSelected(props.selectedDays[props.index][props.day]);
     })
@@ -13,6 +15,7 @@ const DaysRadioButton = (props) => {
             <Text>{props.day}</Text>
             <RadioButton 
                 status={isSelected ? 'checked' : 'unchecked'}
+                color={colors.radioButtonColor}
                 onPress={() => {
                     setSelected(!isSelected);
                     let selectedDaysBuffer = [...props.selectedDays];
