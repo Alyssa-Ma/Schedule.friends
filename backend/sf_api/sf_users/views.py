@@ -13,9 +13,8 @@ from rest_framework import permissions as base_permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 
-# for image_field_backend
-from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.views import APIView
+# for profile_image file uploading
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.decorators import parser_classes
 
 # ======================================
@@ -63,8 +62,8 @@ def create_user(request):
 # api/sf_users/([0-9]+)
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
-@parser_classes([MultiPartParser, FormParser])
-def users_detail(request, pk, format=None):
+@parser_classes([JSONParser, MultiPartParser, FormParser])
+def users_detail(request, pk):
     try:
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
