@@ -1,12 +1,11 @@
 import 'react-native-gesture-handler';
-import {useState, createContext} from 'react';
+import { useState, createContext } from 'react';
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import {BASE_URL} from "@env";
+import { BASE_URL } from "@env";
 import UserContext from './context/UserContext';
-import { Provider as PaperProvider}  from 'react-native-paper';
+import { Provider as PaperProvider, DarkTheme as PaperDarkTheme, DefaultTheme as PaperDefaultTheme} from 'react-native-paper';
 
 //**********Import the screens here********
 
@@ -17,10 +16,32 @@ import { Alert } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
-const App = ({navigation, route}) => {
+const App = ({ navigation, route }) => {
 
   const [user, setUser] = useState({});
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  const CustomDefaultTheme = {
+    ...NavigationDefaultTheme,
+    ...PaperDefaultTheme,
+    colors: {
+      ...NavigationDefaultTheme.colors,
+      ...PaperDefaultTheme.colors,
+
+    }
+  }
+
+  const CustomDarkTheme = {
+    ...NavigationDarkTheme,
+    ...PaperDarkTheme,
+    colors: {
+      ...NavigationDarkTheme.colors,
+      ...PaperDarkTheme.colors
+    }
+  }
+ 
+  const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
 
   const fetchUserToken = async (usernameInput, passwordInput) => {
     try {
@@ -34,7 +55,7 @@ const App = ({navigation, route}) => {
           "password": `${passwordInput}`
         })
       });
-      
+
       const jsonResponse = await response.json();
       if (response.status === 200) {
         setUser(jsonResponse);
@@ -47,53 +68,59 @@ const App = ({navigation, route}) => {
         Alert.alert("Invalid Log In", "The username and/or password is incorrect",);
       }
     }
-    catch(error) {
+    catch (error) {
       console.log("Error from server in App.js: ", error);
     }
     return false;
   }
-  
+
   //for developmental purpose, autologins to HenryB
   // React.useEffect(() => {
   //  fetchUserToken("henryB", "Test01");
   //}, [])
 
   return (
-    <UserContext.Provider value={{
-      user: user,
-      isSignedIn: isSignedIn,
-      bgColors: ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'],  //added colors to context
-      setUser: setUser,
-      setIsSignedIn: setIsSignedIn,
-      fetchUserToken: fetchUserToken
-    }}>
-      <PaperProvider>
-        <NavigationContainer>
+
+    <PaperProvider theme={theme}>
+      <UserContext.Provider value={{
+        user: user,
+        isSignedIn: isSignedIn,
+        bgColors: ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'],  //added colors to context
+        setUser: setUser,
+        setIsSignedIn: setIsSignedIn,
+        fetchUserToken: fetchUserToken,
+        toggleTheme: () => {
+          setIsDarkTheme( isDarkTheme => !isDarkTheme);
+        }
+      }}>
+
+        <NavigationContainer theme={theme}>
           {
             isSignedIn
-            ? (
-              <Stack.Navigator>
-                  <Stack.Screen 
-                    name="HomeDrawer" 
+              ? (
+                <Stack.Navigator>
+                  <Stack.Screen
+                    name="HomeDrawer"
                     component={HomeDrawer}
                     options={{
                       headerShown: false,
                     }}
                   />
-              {/* <HomeDrawer/> */}
-              </Stack.Navigator>
-            )
-            : (
-              <Stack.Navigator>
-                  <Stack.Screen 
-                    name="Login" 
+                  {/* <HomeDrawer/> */}
+                </Stack.Navigator>
+              )
+              : (
+                <Stack.Navigator>
+                  <Stack.Screen
+                    name="Login"
                     component={LoginScreen}
                     options={{
                       headerShown: false,
                       title: 'Log In',
                       headerStyle: {
 
-                        backgroundColor: '#9E8DFF'},
+                        backgroundColor: '#9E8DFF'
+                      },
 
                       headerTitleAlign: 'center',
                       headerTitleStyle: {
@@ -101,32 +128,33 @@ const App = ({navigation, route}) => {
                       }
                     }}
                   />
-                  <Stack.Screen 
-                    name="SignUp" 
-                    component={SignUpScreen} 
+                  <Stack.Screen
+                    name="SignUp"
+                    component={SignUpScreen}
                     options={{
                       title: 'Registration',
                       headerStyle: {
 
-                        backgroundColor: '#9E8DFF'},
+                        backgroundColor: '#9E8DFF'
+                      },
 
                       headerTitleAlign: 'center',
                       headerTitleStyle: {
                         color: 'white',
                         fontWeight: 'bold',
-                        fontSize:22
+                        fontSize: 22
                       },
                       headerBackButtonStyle: {
                         headerTintColor: '#fffff'
                       }
                     }}
                   />
-              </Stack.Navigator>
-            )
+                </Stack.Navigator>
+              )
           }
         </NavigationContainer>
-      </PaperProvider>
-    </UserContext.Provider>
+      </UserContext.Provider>
+    </PaperProvider>
   )
 }
 

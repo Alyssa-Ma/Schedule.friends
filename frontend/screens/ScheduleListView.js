@@ -16,7 +16,7 @@ const ScheduleListView = ({ navigation, route }) => {
             <FAB
                 style={styles.fab}
                 icon="plus"
-                onPress={()=>navigation.push('AddScheduleView')}
+                onPress={()=>navigation.push('AddScheduleView')} //Add class 
             />
         </View>
     )
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 0,
-        backgroundColor: "#fff",
     },
     fab: {
         position: 'absolute',
