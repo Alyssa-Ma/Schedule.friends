@@ -14,8 +14,8 @@ time_validator = RegexValidator(r'^([0-1][0-9]|2[0-3]):[0-5][0-9]$', "Time must 
 class User(AbstractUser):
     friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, default=None)
     friend_requests = models.ManyToManyField('FriendRequest', blank=True, default=None)
-    profile_image = models.ImageField(_("Image"), upload_to=upload_to, default='profile_images/default.jpg')
-    dark_mode = models.BooleanField(default=False)
+    # profile_image = models.ImageField(_("Image"), upload_to=upload_to, default='profile_images/default.jpg')
+    # dark_mode = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.username} (ID#: {self.id})"
