@@ -113,7 +113,9 @@ class UserSerializer(serializers.ModelSerializer):
         #     "user_permissions",
         #     "schedule",
         #     "friend_list",
-        #     "friend_requests"
+        #     "friend_requests",
+        #     "profile_image",
+        #     "dark_mode"
         # )
         extra_kwargs = {'password': {'write_only': True}}
 
@@ -135,7 +137,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.username = validated_data.get('username', instance.username)
         instance.password = validated_data.get('password', instance.password)
         instance.email = validated_data.get('email', instance.email)
-        # instance.image = validated_data.get('image', instance.image)
-        # instance.dark_mode = validated_data.get('dark_mode', instance.dark_mode)
+        instance.profile_image = validated_data.get('profile_image', instance.profile_image)
+        instance.dark_mode = validated_data.get('dark_mode', instance.dark_mode)
         instance.save()
         return instance
