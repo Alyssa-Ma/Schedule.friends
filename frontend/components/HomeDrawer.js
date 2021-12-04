@@ -68,7 +68,7 @@ const HomeDrawer = ({navigation, route}) => {
     <Drawer.Navigator drawerContent={props => <DrawerContent {...props} user={context.user}/>}>
       <Drawer.Screen 
         name="HomePage"
-        component={CombinedScheduleStack}
+        component={CombinedScheduleView}
 
         options={{
           title: 'Home',
