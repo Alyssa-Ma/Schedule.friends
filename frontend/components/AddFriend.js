@@ -62,7 +62,7 @@ const AddFriend = ({item, bgColor}) => {
                             loading={loading} 
                             onPress={() => sendRequest(item.id)}
                             disabled={buttonStatus}
-                            style={styles.addButton}
+                            style={[styles.addButton, {backgroundColor: 'yellow'}]} //Need to change to a better color that changes dynamically
                         >
                             <Icon 
                                 name={
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
         borderRadius: 50 / 2,
         alignSelf: 'flex-end',
         marginBottom: -10,
+        
     },
 
     name: {
