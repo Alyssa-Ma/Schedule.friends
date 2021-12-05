@@ -33,7 +33,13 @@ const App = ({ navigation, route }) => {
       text: '#333333',
       backgroundCardColors: ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'],
       fabButtonColor: '#53c3fe',
-      radioButtonColor: '#9E8DFF'
+      radioButtonColor: '#9E8DFF',
+
+      firstColor: '#D7A4FF',
+      secondColor: '#9E8DFF',
+      thirdColor: '#7DD1FF',
+      fourthColor: '#68B0D8',
+      fifthColor: '#5CDBD5',
 
     }
   }
@@ -49,7 +55,13 @@ const App = ({ navigation, route }) => {
       text: '#ffffff',
       backgroundCardColors: ['#7464CC', '#B8ACFB', '#927EFF', '#696580', '#786CBC'],
       fabButtonColor: '#696580',
-      radioButtonColor: '#927EFF'
+      radioButtonColor: '#927EFF',
+
+      firstColor: '#7464CC',
+      secondColor: '#927EFF',
+      thirdColor: '#B8ACFB',
+      fourthColor: '#696580',
+      fifthColor: '#786CBC',
     }
   }
  

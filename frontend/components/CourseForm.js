@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, DynamicColorIOS } from 'react-native';
 import { TextInput, Button, RadioButton, Text, useTheme} from 'react-native-paper';
 import TimePickerInput from './TimePickerInput';
 
 const DaysRadioButton = (props) => {
     const [isSelected, setSelected] = useState(false);
-    const { colors } = useTheme();
+    const { colors } = useTheme(); //THEME
 
     useEffect(() => {
         setSelected(props.selectedDays[props.index][props.day]);
@@ -38,6 +38,8 @@ const CourseForm = (props) => {
     const [selectedDays, setSelectedDays] = useState(
         [{SUN: false}, {MON: false}, {TUE: false}, {WED: false},
          {THU: false}, {FRI: false}, {SAT: false}]);
+
+    const { colors } = useTheme(); //THEME
     
     useEffect(() => {
         let iterator = props.selectedDays.values();
@@ -76,44 +78,17 @@ const CourseForm = (props) => {
     return (
         <View>
             <TextInput 
-                mode="outlined"
                 label="Course Name"
                 value={courseName}
                 onChangeText={text => setcourseName(text)}
-                
-                underlineColor='#D7A4FF'
-                activeUndelineColor='#D7A4FF'
-                activeOutlineColor='#D7A4FF'
-                outlineColor='#D7A4FF'        //HARDCODED TEXT COLOR
-                selectionColor='#D7A4FF'
-                theme={{
-                    colors: {
-                      primary: '#D7A4FF',
-                      underlineColor: '#D7A4FF',
-                      
-                    }
-                }}
-                style={styles.courseInfoInput}
+                style={[styles.courseInfoInput, {backgroundColor: colors.secondColor}]}
             />
             <TextInput 
-                mode="outlined"
+                
                 label="Course Number"
                 value={courseNumber}
                 onChangeText={text => setCourseNumber(text)}
-
-                underlineColor='#5CDBD5'
-                activeUndelineColor='#5CDBD5'
-                activeOutlineColor='#5CDBD5'
-                outlineColor='#5CDBD5'        //HARDCODED TEXT COLOR
-                selectionColor='#5CDBD5'
-                theme={{
-                    colors: {
-                      primary: '#5CDBD5',
-                      underlineColor: '#5CDBD5',
-                      
-                    }
-                }}
-                style={styles.courseInfoInput}
+                style={[styles.courseInfoInput, {backgroundColor: colors.thirdColor}]}
             />
             <View style={styles.daysRadioBar}>
                 <DaysRadioButton index={0} day="SUN" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
@@ -131,6 +106,7 @@ const CourseForm = (props) => {
                 min={startMin}
                 setHour={setStartHour}
                 setMin={setStartMin}
+                
             />
 
             <TimePickerInput
@@ -141,9 +117,10 @@ const CourseForm = (props) => {
                 setMin={setEndMin}
             /> 
 
-            <View style={styles.buttons}>
-                <Button icon="check" loading={props.loadingButton} onPress={submitToParent} mode="contained" style={{ backgroundColor: '#D7A4FF'}}>Submit</Button>
-                <Button icon="cancel" onPress={() => {props.navigation.pop()}} mode="contained" style={{ backgroundColor: '#5CDBD5'}}>Cancel</Button>
+            <View style={styles.buttons}>   
+                <Button icon="check"  color='black' loading={props.loadingButton} onPress={submitToParent} mode="contained" style={{ backgroundColor: colors.firstColor}}>Submit</Button>
+                <Button icon="cancel" color='black' onPress={() => {props.navigation.pop()}} mode="contained" style={{ backgroundColor: colors.fifthColor}}>Cancel</Button>
+                <>{/*Both buttons here for some reason color 'black' makes it white*/}</>
             </View>
         </View>
     )
@@ -167,7 +144,17 @@ const styles = StyleSheet.create({
     },
 
     courseInfoInput: {
-        marginTop: 30,
+        width:350, 
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20, 
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        borderRadius: 25, 
+        height:55,
+        paddingHorizontal: 16, 
+        fontSize: 16, 
+        marginVertical: 10,
+        alignSelf: 'center'
         
     }
 })
