@@ -1,16 +1,18 @@
 import React, {useState, useContext} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert} from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, useTheme } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserListHeader from './UserListHeader';
 import UserContext from '../context/UserContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const AddFriend = ({item}) => {
+const AddFriend = ({item, bgColor}) => {
     const context = useContext(UserContext);
     const [buttonStatus, setButtonStatus] = useState(item.status === 'NONE' ? false : true)
     const [buttonInfo, setButtonInfo] = useState(item.status);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const { colors } = useTheme();  //THEME
+
     //sends the friend request
     const sendRequest = async (id) => {   
         try {
@@ -48,9 +50,9 @@ const AddFriend = ({item}) => {
     //Lists the user as a list item
     //renders a button that reflects the status of the user's friend status in correlation to the curr user
     return (
-        <TouchableOpacity style={styles.friendRequest}>
+        <TouchableOpacity style={[styles.friendRequest, {backgroundColor: bgColor}]}>
             <View style={styles.itemView}>
-                <UserListHeader user={item} textColor='#5cdbd5' bgColor='white'/>
+                <UserListHeader user={item} textColor={bgColor} bgColor='white'/>
                 {
                     buttonInfo === 'SAME'
                     ? <React.Fragment/>
@@ -71,6 +73,7 @@ const AddFriend = ({item}) => {
                                         : 'account-heart'
                                 }
                                 size={30}
+                                color='white'
                             />    
                         </Button>
                     )
@@ -85,7 +88,6 @@ const styles = StyleSheet.create({
 
     friendRequest : {
         padding: 15,
-        backgroundColor: '#5cdbd5',     //STATIC BACKGROUND COLOR
         borderBottomWidth: 1,
         borderColor: '#ccc',
         borderRadius: 40 / 2,

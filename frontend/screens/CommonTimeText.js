@@ -165,10 +165,10 @@ const CommonTimeText = ({ navigation, route }) => {
             let curr_time = `${curr_hour}:${curr_min}`;
 
             
-            //curr_time = getTimeAsMin(curr_time);    //change curr time into an int 
-            curr_time=0;
-            //curr_day = convertToDay(curr_day);  //change int into "MON" etc..
-            curr_day = convertToDay(1); 
+            curr_time = getTimeAsMin(curr_time);    //change curr time into an int 
+            //curr_time=0;
+            curr_day = convertToDay(curr_day);  //change int into "MON" etc..
+            //curr_day = convertToDay(1); 
 
             my_schedule = filterSchedule(my_schedule, curr_day); //filter classes for today only
             let my_time_free = getMinutesOfSchedule(my_schedule, curr_time);
