@@ -53,6 +53,8 @@ def create_user(request):
     serializer = UserSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         user = serializer.save()
+        # We are serialized the new user object again, to make sure profile_image field returns
+        # the absolute path
         serializer = UserSerializer(user, data=request.data, context={'request': request})
         if serializer.is_valid():
             token, created = Token.objects.get_or_create(user=user)
@@ -134,17 +136,18 @@ def schedule_list(request, pk):
             user_obj = {
                 'schedule': [request.data]
             }
-            user_serializer = UserSerializer(user, data=user_obj, context={'request': 'PATCH'}, partial=True)
+            user_serializer = UserSerializer(user, data=user_obj, context={'request': request}, partial=True)
             if user_serializer.is_valid():
-                
-                # user_serializer.save()
-                # # Find the latest course created, which logically is the highest course ID in
-                # # user's schedule
-                # for course in user_serializer.data['schedule']:
-                #     if course_created['id'] < course['id']:
-                #         course_created = course
-                # return Response(status=status.HTTP_201_CREATED)
-                return Response(user_serializer.data, status=status.HTTP_201_CREATED)
+                user = user_serializer.save()
+                user_serializer = UserSerializer(user, data=user_obj, context={'request': request}, partial=True)
+                if user_serializer.is_valid():
+                    # # Find the latest course created, which logically is the highest course ID in
+                    # # user's schedule
+                    course_created = user_serializer.data['schedule'][0]
+                    for course in user_serializer.data['schedule']:
+                        if course_created['id'] < course['id']:
+                            course_created = course
+                    return Response(course_created, status=status.HTTP_201_CREATED)
             else:
                Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
         return Response(course_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
