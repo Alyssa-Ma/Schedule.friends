@@ -12,7 +12,7 @@ const FriendListItem = ({ navigation, route, user, bgColor }) => {
         <TouchableOpacity style={[styles.friendItem, {backgroundColor: bgColor}]}
             onPress={() => navigation.push('FriendProfileView', {
                 friend: user})}>
-            <UserListHeader user={user} textColor='#5cdbd5' bgColor='white'/>
+            <UserListHeader user={user} textColor={bgColor} bgColor='white'/>
             <View style={styles.accountIcon}>
                 <Icon
                     
