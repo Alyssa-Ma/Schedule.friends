@@ -254,7 +254,7 @@ const CommonTimeText = ({ navigation, route }) => {
     
     return (
         
-        <View style={{backgroundColor: colors.backgroundColor}}>
+        <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             {   
                 loading
                 ?  <LoadingIndicator isLoading={loading} />
@@ -279,7 +279,7 @@ const CommonTimeText = ({ navigation, route }) => {
 const styles = StyleSheet.create({
 
     container: {
-        
+      height: 10000     //Unsure why but this big height is needed for the bg to extend to full screen
     },
 
     outerCard: {
