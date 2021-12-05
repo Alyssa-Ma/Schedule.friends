@@ -1,12 +1,13 @@
 import React, {useState, useContext} from 'react';
 import { View, StyleSheet, FlatList, ScrollView} from 'react-native';
-import { Text, useTheme } from 'react-native-paper'
+import { Text, useTheme, Title } from 'react-native-paper'
 import TextViewCard from '../components/TextViewCard';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 // Needed to check route name
 import { useFocusEffect } from '@react-navigation/native';
 import LoadingIndicator from '../components/LoadingIndicator';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const CommonTimeText = ({ navigation, route }) => {
 
@@ -164,8 +165,10 @@ const CommonTimeText = ({ navigation, route }) => {
             let curr_time = `${curr_hour}:${curr_min}`;
 
             
-            curr_time = getTimeAsMin(curr_time);    //change curr time into an int 
-            curr_day = convertToDay(curr_day);  //change int into "MON" etc..
+            //curr_time = getTimeAsMin(curr_time);    //change curr time into an int 
+            curr_time=0;
+            //curr_day = convertToDay(curr_day);  //change int into "MON" etc..
+            curr_day = convertToDay(1); 
 
             my_schedule = filterSchedule(my_schedule, curr_day); //filter classes for today only
             let my_time_free = getMinutesOfSchedule(my_schedule, curr_time);
@@ -251,14 +254,20 @@ const CommonTimeText = ({ navigation, route }) => {
     
     return (
         
-        <View style={styles.container}>
+        <View style={{backgroundColor: colors.backgroundColor}}>
             {   
                 loading
                 ?  <LoadingIndicator isLoading={loading} />
                 :  context.user.friend_list.length === 0
-                    ? <Text style={{color: colors.text}}>No Friends, Add Some!</Text>
+                    ? (<View style={styles.noFriends}>
+                            <Icon name="account-multiple-minus" size={100} color={colors.firstColor}/>
+                            <Title>No one is Free Now</Title>
+                        </View>)
                     : (items === undefined || items.length === 0
-                        ? <Text style={{color: colors.text}}>No one is free now</Text>
+                        ? (<View style={styles.noFriends}>
+                                <Icon name="emoticon-sad-outline" size={100} color={colors.firstColor}/>
+                                <Title>No one is Free Now</Title>
+                            </View>)
                         : <FlatList data={items} style={styles.outerCard} renderItem={({item, index}) => <TextViewCard item={item} bgColor={colors.backgroundCardColors[index % colors.backgroundCardColors.length]}/>} />)
             }
         </View>
@@ -275,6 +284,11 @@ const styles = StyleSheet.create({
 
     outerCard: {
         
+    },
+
+    noFriends: {
+        alignItems: 'center',
+        justifyContent: 'center' 
     }
 
 });

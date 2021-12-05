@@ -56,7 +56,8 @@ const TextViewCard = ({item, bgColor}) => {
             <View style={styles.avatar_name_row}>
                 <Avatar.Text 
                             size = {75} 
-                            backgroundColor = 'turquoise'
+                            backgroundColor = 'white'
+                            color={bgColor}
                             label = {item.f_name.charAt(0).toUpperCase()+item.l_name.charAt(0).toUpperCase()}
                             style = {styles.avatar}
                 />
