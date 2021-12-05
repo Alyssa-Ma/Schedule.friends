@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import { View, StyleSheet, FlatList} from 'react-native';
-import { Title } from 'react-native-paper'
+import { Title, useTheme} from 'react-native-paper'
 import FriendRequestItem from '../components/FriendRequestItem';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
@@ -14,6 +14,7 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
     const context = useContext(UserContext);
     const [friendRequests, setFriendRequests] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { colors } = useTheme();  //THEME
 
     useFocusEffect(
         React.useCallback(() => {
@@ -132,14 +133,14 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
         
     }
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             {
                 loading
                 ?   <LoadingIndicator isLoading={loading} />
                 :   (friendRequests === undefined || friendRequests.length === 0
                     ? (
                         <View style={styles.noRequests}>
-                            <Icon name="account-group" size={100} color="#6200EE"/>
+                            <Icon name="account-group" size={100} color={colors.firstColor}/>
                             <Title >No Incoming Friend Requests</Title>
                         </View>
 
@@ -147,7 +148,7 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                     : <FlatList 
                         data={friendRequests}
                         keyExtractor={friendRequest => friendRequest.id} 
-                        renderItem={({item, index}) => <FriendRequestItem friendRequest={item} rejectFriend={rejectFriend} acceptFriend={acceptFriend} index={index} bgColor={context.bgColors[index % context.bgColors.length]}/>} />)
+                        renderItem={({item, index}) => <FriendRequestItem friendRequest={item} rejectFriend={rejectFriend} acceptFriend={acceptFriend} index={index} bgColor={colors.backgroundCardColors[index % colors.backgroundCardColors.length]} colors={colors}/>} />)
             }
             
         </View>

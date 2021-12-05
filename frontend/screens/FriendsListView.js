@@ -69,14 +69,14 @@ const FriendsListView = ({navigation, route}) => {
     )   
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             {
                 loading
                 ?   <LoadingIndicator isLoading={loading} />
                 :   (friends === undefined || friends.length === 0
                     ? (
                         <View style={styles.noFriends}>
-                            <Icon name="account-group" size={100} color="#6200EE"/>
+                            <Icon name="account-group" size={100} color={colors.firstColor}/>
                             <Title>Friend list is empty, find some friends!</Title>
                         </View>
                     )
