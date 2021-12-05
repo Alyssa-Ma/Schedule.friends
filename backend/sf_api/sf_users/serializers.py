@@ -95,28 +95,28 @@ class UserSerializer(serializers.ModelSerializer):
     schedule = CourseSerializer(many = True, allow_null = True)
     class Meta:
         model = User
-        # fields = '__all__'
+        fields = '__all__'
     # All fields commented out if you wish to customize return fields
-        fields = (
-            "id",
-            "username",
-            "password",
-            "first_name",
-            "last_name",
-            "email",
-            "date_joined",
-            "last_login",
-            "is_superuser",
-            "is_staff",
-            "is_active",
-            "groups",
-            "user_permissions",
-            "schedule",
-            "friend_list",
-            "friend_requests",
-            "profile_image",
-            "dark_mode"
-        )
+        # fields = (
+        #     "id",
+        #     "username",
+        #     "password",
+        #     "first_name",
+        #     "last_name",
+        #     "email",
+        #     "date_joined",
+        #     "last_login",
+        #     "is_superuser",
+        #     "is_staff",
+        #     "is_active",
+        #     "groups",
+        #     "user_permissions",
+        #     "schedule",
+        #     "friend_list",
+        #     "friend_requests",
+        #     "profile_image",
+        #     "dark_mode"
+        # )
         extra_kwargs = {'password': {'write_only': True}}
 
     # designed only to create a user, as when a new user is made, they did not input a schedule yet

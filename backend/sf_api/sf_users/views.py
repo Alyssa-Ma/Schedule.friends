@@ -139,6 +139,7 @@ def schedule_list(request, pk):
             user_serializer = UserSerializer(user, data=user_obj, context={'request': request}, partial=True)
             if user_serializer.is_valid():
                 user = user_serializer.save()
+                # Putting user obj through the serializier again to prevent bugs due to image_field
                 user_serializer = UserSerializer(user, data=user_obj, context={'request': request}, partial=True)
                 if user_serializer.is_valid():
                     # # Find the latest course created, which logically is the highest course ID in
