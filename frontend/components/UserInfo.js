@@ -8,26 +8,33 @@ const UserInfo = ({ navigation, route, user}) => {
         <View>
             <View style={styles.userInfoSection}>
                 <View style={{flexDirection: 'row', marginTop: 15}}>
+                    <View style = {{right:35}}>
                     <Avatar.Text 
                         size = {90} 
-                        backgroundColor = 'turquoise'
+                        backgroundColor = 'white'
                         label = {user.first_name.charAt(0)+user.last_name.charAt(0)}
+                        color = '#D7A4FF'
                     />
+                    </View>
+
                     <View style={{marginLeft: 20}}>
-                        <Title style={styles.title, {marginTop:10, marginBottom: 5}}>
+                        <Title style={{right:35, top:10, color:'white', fontSize:25}}>
                             {user.first_name}{' '}
                             {user.last_name}
                         </Title>
-                        <Caption style={styles.caption}>{user.username}</Caption>
+                        <Caption style={{right:35, top:10, color:'white', fontSize:15}}>{user.username}</Caption>
                     </View>
                 </View>
             </View>
+
+            
             <View style={styles.userInfoSection}>
                 <View style={styles.row}>
-                    <Icon name="email" size={20} />
-                    <Text style={{marginLeft:20}}>{user.email}</Text>
+                    <Icon name="email" size={20} color='white' />
+                    <Text style={{marginLeft:20, color:'white', right:10}}>{user.email}</Text>
                 </View>
             </View>
+
         </View>
     )
 }
@@ -38,6 +45,7 @@ const styles = StyleSheet.create({
     userInfoSection: {
       paddingHorizontal: 30,
       marginBottom: 25,
+
     },
     title: {
       fontSize: 24,
@@ -50,6 +58,7 @@ const styles = StyleSheet.create({
     },
     row: {
       flexDirection: 'row',
-      marginBottom: 10
-    }
+      marginBottom: 10,
+      right: 0
+    },
 });

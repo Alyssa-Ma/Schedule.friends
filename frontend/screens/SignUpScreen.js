@@ -289,7 +289,6 @@ const styles = StyleSheet.create({
         color:'white',
         
     },
-
     inputBox1: {
         width:350, 
         backgroundColor:'#D7A4FF',

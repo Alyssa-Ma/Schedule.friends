@@ -131,7 +131,7 @@ const HomeDrawer = ({navigation, route}) => {
             title: "My Profile",
             headerTitle: getProfileHeaderTitle(route),
             headerStyle: {
-              backgroundColor: 'darkslateblue'},
+              backgroundColor: '#9E8DFF'},
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white'

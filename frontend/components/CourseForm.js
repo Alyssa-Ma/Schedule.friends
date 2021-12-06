@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
 import TimePickerInput from './TimePickerInput';
 
@@ -70,6 +70,37 @@ const CourseForm = (props) => {
         props.setLoadingButton(!props.loadingButton);
     }
 
+    //function for validation
+    const inputValidation = () => {
+        console.log("*** inputValidation Running ***");
+        //course name may only contain letters
+        var courseNameRegex = /^[A-Za-z]+$/;
+        //course number may only contain numbers
+        var courseNumberRegex = /^[0-9]+$/;
+
+        if(courseName.length == 0){
+            Alert.alert("Please enter a course name");
+        }
+        else if(courseName.length > 5){ 
+            Alert.alert("Course names may only contain 5 letters");
+        }
+        else if(!(courseNameRegex.test(courseName))){
+            Alert.alert("Course names may only contain letters");
+        }
+        else if(courseNumber.length == 0){
+            Alert.alert("Please enter a course number");
+        }
+        else if(courseNumber.length > 5){ 
+            Alert.alert("Course number may only contain 5 digits");
+        }
+        else if(!(courseNumberRegex.test(courseNumber))){
+            Alert.alert("Course number may only contain numbers");
+        }
+        else{
+            submitToParent();
+        }
+    }
+
     return (
         <View>
             <TextInput 
@@ -108,7 +139,7 @@ const CourseForm = (props) => {
                 setMin={setEndMin}
             /> 
             <View style={styles.buttons}>
-                <Button icon="check" loading={props.loadingButton} onPress={submitToParent} mode="contained">Submit</Button>
+                <Button icon="check" loading={props.loadingButton} onPress={inputValidation} mode="contained">Submit</Button>
                 <Button icon="cancel" onPress={() => {props.navigation.pop()}} mode="contained">Cancel</Button>
             </View>
         </View>
