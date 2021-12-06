@@ -9,20 +9,22 @@ from rest_framework.exceptions import ValidationError
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = '__all__'
+
+    # Show all fields
+        # fields = '__all__'
          
-    # All fields commented out if you wish to customize return fields
-        # fields = (
-        #     "id",
-        #     "day_name",
-        #     "course_name",
-        #     "course_number",
-        #     "time_start",
-        #     "time_end",
-        #     "date_created",
-        #     "dated_modified",
-        #     "user"
-        # )
+    # Select which fields to accept/return
+        fields = (
+            "id",
+            "day_name",
+            "course_name",
+            "course_number",
+            "time_start",
+            "time_end",
+            # "date_created",
+            # "dated_modified",
+            "user"
+        )
 
     def create(self, validated_data):
         if validated_data['time_start'] == validated_data['time_end']:
@@ -53,17 +55,20 @@ class CourseSerializer(serializers.ModelSerializer):
 class FriendRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FriendRequest
-        fields = '__all__'
-    # All fields commented out if you wish to customize return fields
-        # fields = (
-        #     "id",
-        #     "from_user",
-        #     "to_user",
-        #     "pending",
-        #     "accepted",
-        #     "date_created",
-        #     "dated_modified"
-        # )
+
+    # Show all fields
+        # fields = '__all__'
+         
+    # Select which fields to accept/return
+        fields = (
+            "id",
+            "from_user",
+            "to_user",
+            "pending",
+            "accepted",
+            # "date_created",
+            # "dated_modified"
+        )
         validators = [
             UniqueTogetherValidator(
                 queryset=FriendRequest.objects.all(),
@@ -95,28 +100,33 @@ class UserSerializer(serializers.ModelSerializer):
     schedule = CourseSerializer(many = True, allow_null = True)
     class Meta:
         model = User
-        fields = '__all__'
-    # All fields commented out if you wish to customize return fields
-        # fields = (
-        #     "id",
-        #     "username",
-        #     "password",
-        #     "first_name",
-        #     "last_name",
-        #     "email",
-        #     "date_joined",
-        #     "last_login",
-        #     "is_superuser",
-        #     "is_staff",
-        #     "is_active",
-        #     "groups",
-        #     "user_permissions",
-        #     "schedule",
-        #     "friend_list",
-        #     "friend_requests",
-        #     "profile_image",
-        #     "dark_mode"
-        # )
+
+    # Show all fields
+        # fields = '__all__'
+         
+    # Select which fields accept/return
+        fields = (
+            "id",
+            "username",
+            "password",
+            "first_name",
+            "last_name",
+            "email",
+            # "date_joined",
+            # "last_login",
+            "is_superuser",
+            # "is_staff",
+            # "is_active",
+            # "groups",
+            # "user_permissions",
+            "schedule",
+            "friend_list",
+            "friend_requests",
+            "profile_image",
+            "dark_mode"
+        )
+
+    # Prevents password from returning in JSON
         extra_kwargs = {'password': {'write_only': True}}
 
     # designed only to create a user, as when a new user is made, they did not input a schedule yet

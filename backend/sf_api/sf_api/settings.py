@@ -28,7 +28,12 @@ DEBUG = (os.getenv('DEBUG') != 'False')
 
 # Cors Settings
 CORS_ORIGIN_ALLOW_ALL = True
-ALLOWED_HOSTS = ['10.0.2.2', 'localhost', '127.0.0.1', '192.168.1.204','192.168.1.71']
+if DEBUG:
+    # Dev Hosts
+    ALLOWED_HOSTS = ['10.0.2.2', '0.0.0.0', 'localhost', '127.0.0.1', '192.168.1.204','192.168.1.71']
+else:
+    # Deployment Hosts
+    ALLOWED_HOSTS = ['schedule-friends.herokuapp.com']
 
 # Application definition
 
