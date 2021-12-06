@@ -1,13 +1,22 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {View, SafeAreaView, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity} from 'react-native';
 import UserContext from '../context/UserContext';
-import {Avatar, Title, Caption, Text, TouchableRipple, Switch } from 'react-native-paper';
+import { Avatar, Title, Caption, Text, TouchableRipple, Switch, Modal, Portal, Button, Provider } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const SettingsComponent = ({settingsOptions}) => {
     const context = useContext(UserContext);
-
+    const [modalVisibile, setModalVisible] = React.useState(false);
+    const showModal = () => setVisible(true);
+    const hideModal = () => setVisible(false);
+    
     return (
+      <Provider>
+        <Portal>
+          <Modal visible={modalVisible} onDismiss={hideModal} >
+            <Text>Text ez</Text>
+          </Modal>
+        </Portal>
         <ScrollView style={styles.container}>
             {settingsOptions.map(({title, subTitle, onPress}, index) => (
               <TouchableOpacity key={title}>
@@ -20,6 +29,7 @@ const SettingsComponent = ({settingsOptions}) => {
               </TouchableOpacity>
             ))}
         </ScrollView>
+      </Provider>
     );
 };
 
@@ -41,7 +51,8 @@ const styles = StyleSheet.create({
     },
     section: {
       height: 0.5,
-      backgroundColor: '#808080',
+      backgroundColor: '#000000',
+      opacity: 0.5,
     },
     container: {
       flex: 1,
