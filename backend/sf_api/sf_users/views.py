@@ -13,9 +13,8 @@ from rest_framework import permissions as base_permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 
-# for image_field_backend
-from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.views import APIView
+# for profile_image file uploading
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.decorators import parser_classes
 
 # ======================================
@@ -51,20 +50,24 @@ def get_users_list(request):
 @api_view(['POST'])
 @permission_classes([base_permissions.AllowAny])
 def create_user(request):
-    serializer = UserSerializer(data=request.data)
+    serializer = UserSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         user = serializer.save()
-        token, created = Token.objects.get_or_create(user=user)
-        user_dict = dict(UserSerializer(user).data)
-        user_dict.update({'token': token.key})
-        return Response(user_dict, status=status.HTTP_201_CREATED)            
+        # We are serialized the new user object again, to make sure profile_image field returns
+        # the absolute path
+        serializer = UserSerializer(user, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            token, created = Token.objects.get_or_create(user=user)
+            user_dict = dict(serializer.data)
+            user_dict.update({'token': token.key})
+            return Response(user_dict, status=status.HTTP_201_CREATED)            
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # api/sf_users/([0-9]+)
 @api_view(['GET', 'PATCH', 'DELETE'])
 @permission_classes([base_permissions.IsAuthenticated])
-@parser_classes([MultiPartParser, FormParser])
-def users_detail(request, pk, format=None):
+@parser_classes([JSONParser, MultiPartParser, FormParser])
+def users_detail(request, pk):
     try:
         user = User.objects.get(pk=pk)
     except User.DoesNotExist:
@@ -87,7 +90,7 @@ def users_detail(request, pk, format=None):
         if serializer.is_valid():
             user = serializer.save()
             token, created = Token.objects.get_or_create(user=user)
-            user_dict = dict(UserSerializer(user).data)
+            user_dict = dict(serializer.data)
             user_dict.update({'token': token.key})
             return Response(user_dict, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -133,16 +136,19 @@ def schedule_list(request, pk):
             user_obj = {
                 'schedule': [request.data]
             }
-            user_serializer = UserSerializer(user, data=user_obj, context={'request': 'PATCH'}, partial=True)
+            user_serializer = UserSerializer(user, data=user_obj, context={'request': request}, partial=True)
             if user_serializer.is_valid():
-                user_serializer.save()
-                # Find the latest course created, which logically is the highest course ID in
-                # user's schedule
-                course_created = user_serializer.data['schedule'][0]
-                for course in user_serializer.data['schedule']:
-                    if course_created['id'] < course['id']:
-                        course_created = course
-                return Response(course, status=status.HTTP_201_CREATED)
+                user = user_serializer.save()
+                # Putting user obj through the serializier again to prevent bugs due to image_field
+                user_serializer = UserSerializer(user, data=user_obj, context={'request': request}, partial=True)
+                if user_serializer.is_valid():
+                    # # Find the latest course created, which logically is the highest course ID in
+                    # # user's schedule
+                    course_created = user_serializer.data['schedule'][0]
+                    for course in user_serializer.data['schedule']:
+                        if course_created['id'] < course['id']:
+                            course_created = course
+                    return Response(course_created, status=status.HTTP_201_CREATED)
             else:
                Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
         return Response(course_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -379,7 +385,7 @@ class ObtainAuthTokenWithUser(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
-        user_dict = dict(UserSerializer(user).data)
+        user_dict = dict(UserSerializer(user, context={'request': request}).data)
         user_dict.update({'token': token.key})
         return Response(user_dict, status=status.HTTP_200_OK)
       

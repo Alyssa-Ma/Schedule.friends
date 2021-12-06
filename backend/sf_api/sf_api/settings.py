@@ -24,11 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY_DJANGO")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.getenv('DEBUG') != 'False')
 
 # Cors Settings
 CORS_ORIGIN_ALLOW_ALL = True
-ALLOWED_HOSTS = ['10.0.2.2', 'localhost', '127.0.0.1', '192.168.1.204','192.168.1.71']
+if DEBUG:
+    # Dev Hosts
+    ALLOWED_HOSTS = ['10.0.2.2', '0.0.0.0', 'localhost', '127.0.0.1', '192.168.1.204','192.168.1.71']
+else:
+    # Deployment Hosts
+    ALLOWED_HOSTS = ['schedule-friends.herokuapp.com']
 
 # Application definition
 
@@ -42,6 +47,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'cloudinary_storage',
+    'cloudinary',
     'sf_users',
     'django_cleanup.apps.CleanupConfig' #TO DELETE OLD IMAGES AFTER UPDATING IMAGE FIELD, DOESNT DELETE DEFAULT IMAGE
 ]
@@ -154,8 +161,16 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+if not DEBUG:
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_SECRET')
+}
