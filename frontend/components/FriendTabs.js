@@ -1,22 +1,28 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FriendRequestSend from '../screens/FriendRequestSend';
 import FriendsListStack from './FriendsListStack';
 import IncomingFriendRequestView from '../screens/IncomingFriendRequestView';
 import OutgoingFriendRequestView from '../screens/OutgoingFriendRequestView'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useTheme } from '@react-navigation/native';
+import UserContext from '../context/UserContext';
 const Tab = createBottomTabNavigator();
 
 const color = ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'];
 const size = 30;
 
 const FriendTabs = ({navigation, route}) => {
-
+    const { colors } = useTheme();
+    const { toggleTheme } = useContext(UserContext);
     return (
         <Tab.Navigator initialRouteName="ViewFriends"
             screenOptions={{
                 tabBarHideOnKeyboard: true,
                 tabBarStyle: [
+                    {
+                        backgroundColor: colors.drawerBackgroundColor,
+                    },
                     {
                         "display": "flex"
                     },

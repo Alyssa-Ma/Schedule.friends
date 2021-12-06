@@ -69,10 +69,10 @@ const HomeDrawer = ({navigation, route}) => {
       screenOptions={{
         drawerStyle: {
           backgroundColor: colors.drawerBackgroundColor,
-          
-        }
-      }}>
-
+        },
+      }}
+      >
+      
       <Drawer.Screen 
         name="HomePage"
         component={CombinedScheduleView}

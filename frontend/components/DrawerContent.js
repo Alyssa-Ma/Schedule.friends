@@ -21,7 +21,6 @@ const DrawerContent = (props) => {
                 <View style={styles.topSection}>
                     <View style={styles.userInfoSection}>
                         <Avatar.Text
-                            
                             label={`${props.user.first_name.charAt(0).toUpperCase()}${props.user.last_name.charAt(0).toUpperCase()}`}
                             size={55}
                             color='white'
@@ -37,11 +36,18 @@ const DrawerContent = (props) => {
                             icon={({color, size}) => (
                                 <Icon 
                                 name="home-outline" 
-                                color={color}
+                                color={colors.secondColor}
                                 size={size}
                                 />
                             )}
-                            label='Home'
+                            label="Home"
+                            //check drawer navigator documentation
+                            //label={({color}) => (
+                              //  <Text 
+                                //style={colors.secondColor}
+                                //label="home"
+                                ///>
+                            //)}
                             onPress={() => {props.navigation.navigate("HomePage")}}
                         />
                     
