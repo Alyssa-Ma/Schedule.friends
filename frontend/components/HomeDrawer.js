@@ -144,7 +144,7 @@ const HomeDrawer = ({navigation, route}) => {
         name="Settings"
         component={SettingsStack}
         options={{
-          title: 'Settings',
+          title: 'Info',
           headerStyle: {
             backgroundColor: 'darkslateblue'},
             headerTitleAlign: 'center',

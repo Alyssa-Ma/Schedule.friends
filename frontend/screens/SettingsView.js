@@ -6,23 +6,13 @@ import SettingsComponent from '../components/SettingsComponent';
 
 const SettingsView = ({ navigation }) => {
     const context = useContext(UserContext);
-    const [isDarkTheme, setIsDarkTheme] = React.useState(false);
-    const toggleTheme = () => {
-        setIsDarkTheme(!isDarkTheme);
-    }
+
     const settingsOptions=[
-        {title: 'Dark Theme', subTitle: 'Toggle between light and dark theme.', onPress: () => {}},
-        {title: 'Setting Placeholder', subTitle: 'Insert another setting here idk.', onPress: () => {}},
-        {title: 'Setting Placeholder', subTitle: 'Insert another setting here idk.', onPress: () => {}},
-        {title: 'Setting Placeholder', subTitle: 'Insert another setting here idk.', onPress: () => {}},
-        {title: 'Setting Placeholder', subTitle: 'Insert another setting here idk.', onPress: () => {}},
-        {title: 'Setting Placeholder', subTitle: 'Insert another setting here idk.', onPress: () => {}},
-        {title: 'Setting Placeholder', subTitle: null, onPress: () => {}},
-        {title: 'Setting Placeholder', subTitle: null, onPress: () => {}},
-        {title: 'Setting Placeholder', subTitle: null, onPress: () => {}},
+        {title: 'Mission', subTitle: 'Learn about our mission.', onPress: () => {}},
+        {title: 'Developers', subTitle: 'Get information regarding the developers of the app.', onPress: () => {}},
+        {title: 'Guide', subTitle: 'Learn how to use Schedule.Friends', onPress: () => {}},
     ];
     return <SettingsComponent settingsOptions={settingsOptions}/>;
-
   }
   
 export default SettingsView;

@@ -6,21 +6,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const SettingsComponent = ({settingsOptions}) => {
     const context = useContext(UserContext);
-    const [isDarkTheme, setIsDarkTheme] = React.useState(false);
-    const toggleTheme = () => {
-        setIsDarkTheme(!isDarkTheme);
-    }
 
     return (
         <ScrollView style={styles.container}>
-            <TouchableRipple onPress={() => {toggleTheme()}}>
-                <View style={styles.titleSection}>
-                    <Text style={styles.titleText}>Dark Theme</Text>
-                    <View pointerEvents="none">
-                        <Switch value={isDarkTheme}></Switch>
-                    </View>
-                </View>
-            </TouchableRipple>
             {settingsOptions.map(({title, subTitle, onPress}, index) => (
               <TouchableOpacity key={title}>
                 <View style={styles.titleSection}>
