@@ -33,8 +33,7 @@ if DEBUG:
     ALLOWED_HOSTS = ['10.0.2.2', '0.0.0.0', 'localhost', '127.0.0.1', '192.168.1.204','192.168.1.71']
 else:
     # Deployment Hosts
-    # ALLOWED_HOSTS = ['schedule-friends.herokuapp.com']
-    ALLOWED_HOSTS = ['10.0.2.2', '0.0.0.0', 'localhost', '127.0.0.1', '192.168.1.204','192.168.1.71']
+    ALLOWED_HOSTS = ['schedule-friends.herokuapp.com']
 
 # Application definition
 
