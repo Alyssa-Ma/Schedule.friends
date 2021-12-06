@@ -6,10 +6,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const SettingsComponent = ({settingsOptions}) => {
     const context = useContext(UserContext);
-    const [modalVisibile, setModalVisible] = React.useState(false);
+    const [modalVisible, setModalVisible] = React.useState(false);
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
-    
+
     return (
       <Provider>
         <Portal>
