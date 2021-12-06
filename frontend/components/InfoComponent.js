@@ -4,7 +4,7 @@ import UserContext from '../context/UserContext';
 import { Avatar, Title, Caption, Text, TouchableRipple, Switch, Modal, Portal, Button, Provider } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const SettingsComponent = ({settingsOptions}) => {
+const InfoComponent = ({settingsOptions}) => {
     const context = useContext(UserContext);
     const [modalVisible, setModalVisible] = React.useState(false);
     const showModal = () => setVisible(true);
@@ -12,11 +12,6 @@ const SettingsComponent = ({settingsOptions}) => {
 
     return (
       <Provider>
-        <Portal>
-          <Modal visible={modalVisible} onDismiss={hideModal} >
-            <Text>Text ez</Text>
-          </Modal>
-        </Portal>
         <ScrollView style={styles.container}>
             {settingsOptions.map(({title, subTitle, onPress}, index) => (
               <TouchableOpacity key={title}>
@@ -33,7 +28,7 @@ const SettingsComponent = ({settingsOptions}) => {
     );
 };
 
-export default SettingsComponent;
+export default InfoComponent;
 
 const styles = StyleSheet.create({
     subTitleText: {

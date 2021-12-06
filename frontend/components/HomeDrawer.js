@@ -10,7 +10,7 @@ import UserContext from '../context/UserContext';
 import LogOut from './LogOut';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 import MyProfileStack from './MyProfileStack';
-import SettingsStack from './SettingsStack';
+import InfoStack from './InfoStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -141,8 +141,8 @@ const HomeDrawer = ({navigation, route}) => {
       />
 
       <Drawer.Screen
-        name="Settings"
-        component={SettingsStack}
+        name="Info"
+        component={InfoStack}
         options={{
           title: 'Info',
           headerStyle: {
