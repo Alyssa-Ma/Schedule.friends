@@ -23,7 +23,7 @@ class CourseSerializer(serializers.ModelSerializer):
             "time_end",
             # "date_created",
             # "dated_modified",
-            "user"
+            "owner"
         )
 
     def create(self, validated_data):

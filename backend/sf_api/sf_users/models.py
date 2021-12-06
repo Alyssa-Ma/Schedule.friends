@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
 from django.core.validators import RegexValidator
-from django.utils.translation import gettext_lazy as _
 
 def upload_to(instance, filename):
     return 'profile_images/{id}/{filename}'.format(id=instance.id, filename=filename)
@@ -14,7 +13,7 @@ time_validator = RegexValidator(r'^([0-1][0-9]|2[0-3]):[0-5][0-9]$', "Time must 
 class User(AbstractUser):
     friend_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, default=None)
     friend_requests = models.ManyToManyField('FriendRequest', blank=True, default=None)
-    profile_image = models.ImageField(_("Image"), upload_to=upload_to, blank=True, default=None)
+    profile_image = models.ImageField(max_length=150, upload_to=upload_to, blank=True, default=None)
     dark_mode = models.BooleanField(default=False)
 
     def __str__(self):
