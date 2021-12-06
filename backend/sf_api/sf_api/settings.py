@@ -169,8 +169,9 @@ if not DEBUG:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_NAME'),
-    'API_KEY': os.getenv('CLOUDINARY_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_SECRET')
-}
+if not DEBUG:
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': os.getenv('CLOUDINARY_NAME'),
+        'API_KEY': os.getenv('CLOUDINARY_KEY'),
+        'API_SECRET': os.getenv('CLOUDINARY_SECRET')
+    }
