@@ -46,7 +46,7 @@ const FriendProfileView = ({ navigation, route}) => {
 
     return (
         
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             <UserInfo user={friend}/>
             <View style={styles.buttonRow}>
                 <Button icon="account-remove" onPress={() => showDialog()} mode="contained">Unfriend</Button>

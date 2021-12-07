@@ -10,7 +10,8 @@ const UserInfo = ({ navigation, route, user}) => {
                 <View style={{flexDirection: 'row', marginTop: 15}}>
                     <Avatar.Text 
                         size = {90} 
-                        backgroundColor = 'turquoise'
+                        backgroundColor = 'white'
+                        color='turquoise'
                         label = {user.first_name.charAt(0)+user.last_name.charAt(0)}
                     />
                     <View style={{marginLeft: 20}}>
@@ -24,7 +25,7 @@ const UserInfo = ({ navigation, route, user}) => {
             </View>
             <View style={styles.userInfoSection}>
                 <View style={styles.row}>
-                    <Icon name="email" size={20} />
+                    <Icon name="email" color='white' size={20} />
                     <Text style={{marginLeft:20}}>{user.email}</Text>
                 </View>
             </View>
