@@ -41,13 +41,13 @@ const CourseItem = ({navigation, item, bgColor}) => {
     return (
         <TouchableOpacity onPress={ (item.owner === context.user.id)
                                     ? () => clickedItem(item)
-                                    : () => {}} style={[styles.Block, {backgroundColor: bgColor}]}>
+                                    : () => {}} style={[styles.Block]}>
             <View style={[styles.courseInfoRow]}>
-                <Text style={[styles.classTitle, {color: colors.invertedColor}]}>{item.course_name}{' '}{item.course_number}</Text>
+                <Text style={[styles.classTitle]}>{item.course_name}{' '}{item.course_number}</Text>
 
-                <View style={[styles.dayTimeCol, {color: colors.invertedColor}]}>
+                <View style={[styles.dayTimeCol]}>
 
-                    <Text style={[styles.timeFont, {color: colors.invertedColor}]}>
+                    <Text style={[styles.timeFont]}>
                     {
                         item.day_name.map( (day, index) =>
                             {
@@ -60,7 +60,7 @@ const CourseItem = ({navigation, item, bgColor}) => {
                     }
                     </Text>
 
-                    <Text style={[styles.timeFont, {color: colors.invertedColor}]}>
+                    <Text style={[styles.timeFont]}>
                         {convertTo12Hr(item.time_start)}
                         {'  -  '}
                         {convertTo12Hr(item.time_end)}
