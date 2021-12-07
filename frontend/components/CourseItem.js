@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, FlatList } from 'react-native';
+import { useTheme } from 'react-native-paper';
+import { color } from 'react-native-reanimated';
 import UserContext from '../context/UserContext';
 
 const CourseItem = ({navigation, item, bgColor}) => {
     const context = useContext(UserContext);
+    const { colors } = useTheme();
     console.log(item.course_name);
 
     const convertTo12Hr = (time) => {
@@ -38,13 +41,13 @@ const CourseItem = ({navigation, item, bgColor}) => {
     return (
         <TouchableOpacity onPress={ (item.owner === context.user.id)
                                     ? () => clickedItem(item)
-                                    : () => {}} style={[styles.Block, {backgroundColor: bgColor}]}>
-            <View style={styles.courseInfoRow}>
-                <Text style={styles.classTitle}>{item.course_name}{' '}{item.course_number}</Text>
+                                    : () => {}} style={[styles.Block]}>
+            <View style={[styles.courseInfoRow]}>
+                <Text style={[styles.classTitle]}>{item.course_name}{' '}{item.course_number}</Text>
 
-                <View style={styles.dayTimeCol}>
+                <View style={[styles.dayTimeCol]}>
 
-                    <Text style={styles.timeFont}>
+                    <Text style={[styles.timeFont]}>
                     {
                         item.day_name.map( (day, index) =>
                             {
@@ -57,7 +60,7 @@ const CourseItem = ({navigation, item, bgColor}) => {
                     }
                     </Text>
 
-                    <Text style={styles.timeFont}>
+                    <Text style={[styles.timeFont]}>
                         {convertTo12Hr(item.time_start)}
                         {'  -  '}
                         {convertTo12Hr(item.time_end)}

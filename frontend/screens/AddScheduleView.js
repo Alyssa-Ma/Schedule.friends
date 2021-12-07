@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { View, StyleSheet} from 'react-native';
 import CourseForm from '../components/CourseForm';
-import { Snackbar } from 'react-native-paper';
+import { Snackbar, useTheme } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 
@@ -14,6 +14,7 @@ const AddScheduleView = ({ navigation }) => {
     
     const [snackVisible, setSnackVisible] = useState(false);
     const [statusText, setStatusText] = useState("");
+    const { colors }= useTheme();
     const toggleSnackBar = () => setSnackVisible(!snackVisible);
     const onDismissSnackBar = () => setSnackVisible(false);
 
@@ -67,7 +68,7 @@ const AddScheduleView = ({ navigation }) => {
 
         
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             <CourseForm
                 courseName = {""}
                 courseNumber = {""}

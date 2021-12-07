@@ -1,19 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import UserListHeader from './UserListHeader';
-import {Drawer, Text, TouchableRipple, Switch, Avatar, Title, Caption} from 'react-native-paper';
+import {Drawer, Text, TouchableRipple, Switch, Avatar, Title, Caption, useTheme} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-
+import UserContext from '../context/UserContext';
 const DrawerContent = (props) => {
 
     //console.log(props.navigation.navigate)
 
-    const [isDarkTheme, setIsDarkTheme] = useState(false);
+    const { toggleTheme } = useContext(UserContext);
 
-    const toggleTheme = () => {
-        setIsDarkTheme(!isDarkTheme);
-    }
+    const paperTheme = useTheme();
 
     return(
         <View styles={styles.drawerContainer}>
@@ -34,11 +32,11 @@ const DrawerContent = (props) => {
 
                     <Drawer.Section style={styles.drawerContent}>
                         <DrawerItem
-                            icon={() => (
+                            icon={({color, size}) => (
                                 <Icon 
                                 name="home-outline" 
-                                color='black'
-                                size={20}
+                                color={color}
+                                size={size}
                                 />
                             )}
                             label='Home'
@@ -46,11 +44,11 @@ const DrawerContent = (props) => {
                         />
                     
                         <DrawerItem
-                            icon={() => (
+                            icon={({color, size}) => (
                                 <Icon 
                                 name="calendar-account-outline" 
-                                color='black'
-                                size={20}
+                                color={color}
+                                size={size}
                                 />
                             )}
                             label='My Schedule'
@@ -58,11 +56,11 @@ const DrawerContent = (props) => {
                         />
                     
                         <DrawerItem
-                            icon={() => (
+                            icon={({color, size}) => (
                                 <Icon 
                                 name="account-clock-outline" 
-                                color='black'
-                                size={20}
+                                color={color}
+                                size={size}
                                 />
                             )}
                             label={`Who's Free now`}
@@ -70,11 +68,11 @@ const DrawerContent = (props) => {
                         />
                    
                         <DrawerItem
-                            icon={() => (
+                            icon={({color, size}) => (
                                 <Icon 
                                 name="account-group-outline" 
-                                color='black'
-                                size={20}
+                                color={color}
+                                size={size}
                                 />
                             )}
                             label='My Friends'
@@ -82,11 +80,11 @@ const DrawerContent = (props) => {
                         />
                    
                         <DrawerItem
-                            icon={() => (
+                            icon={({color, size}) => (
                                 <Icon 
                                 name="badge-account-horizontal-outline" 
-                                color='black'
-                                size={20}
+                                color={color}
+                                size={size}
                                 />
                             )}
                             label='My Profile'
@@ -99,7 +97,7 @@ const DrawerContent = (props) => {
                             <View style={styles.preference}>
                                 <Text>Dark Theme</Text>
                                 <View pointerEvents="none">
-                                    <Switch value={isDarkTheme}/>
+                                    <Switch value={paperTheme.dark}/>
                                 </View>
                             </View>
                         </TouchableRipple>
@@ -108,11 +106,11 @@ const DrawerContent = (props) => {
             
             <Drawer.Section style={styles.bottomSection}>
                 <DrawerItem
-                        icon={() => (
+                        icon={({color, size}) => (
                             <Icon 
                             name="exit-to-app" 
-                            color='black'
-                            size={20}
+                            color={color}
+                            size={size}
                             />
                         )}
                         label='Log Out'

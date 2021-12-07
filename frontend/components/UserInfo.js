@@ -3,14 +3,15 @@ import { View, StyleSheet} from 'react-native';
 import {Avatar, Title, Caption, Text} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const UserInfo = ({ navigation, route, user}) => {
+const UserInfo = ({ navigation, route, user, color}) => {
     return (
         <View>
             <View style={styles.userInfoSection}>
                 <View style={{flexDirection: 'row', marginTop: 15}}>
                     <Avatar.Text 
                         size = {90} 
-                        backgroundColor = 'turquoise'
+                        backgroundColor = 'white'
+                        color={color || 'red'}
                         label = {user.first_name.charAt(0)+user.last_name.charAt(0)}
                     />
                     <View style={{marginLeft: 20}}>
@@ -24,7 +25,7 @@ const UserInfo = ({ navigation, route, user}) => {
             </View>
             <View style={styles.userInfoSection}>
                 <View style={styles.row}>
-                    <Icon name="email" size={20} />
+                    <Icon name="email" color='white' size={20} />
                     <Text style={{marginLeft:20}}>{user.email}</Text>
                 </View>
             </View>

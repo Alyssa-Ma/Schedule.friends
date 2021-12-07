@@ -5,7 +5,7 @@ import UserContext from '../context/UserContext';
 import AddFriend from './AddFriend';
 import FriendRequestItem from './FriendRequestItem';
 
-const SearchList = ({query, pendingRequests}) => {
+const SearchList = ({query, pendingRequests, colors}) => {
 
     const [items, setItems] = useState([]);
 
@@ -76,7 +76,7 @@ const SearchList = ({query, pendingRequests}) => {
         <FlatList 
             keyboardShouldPersistTaps='always' 
             data={items} 
-            renderItem={({item}) => <AddFriend item={item}/>} />
+            renderItem={({item, index}) => <AddFriend item={item} index={index} bgColor={colors.backgroundCardColors[index % colors.backgroundCardColors.length]}/>} />
     )
 }
 

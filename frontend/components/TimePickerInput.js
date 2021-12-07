@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button, Text, useTheme } from 'react-native-paper';
 import { TimePickerModal } from 'react-native-paper-dates';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const TimePickerInput = (props) => {
     //Helper function that converts and returns a date object into a HH:MM string
@@ -12,7 +13,7 @@ const TimePickerInput = (props) => {
 
     const [visible, setVisible] = useState(false);
     const [timeString, setTimeString] = useState(timeToString(props.hour, props.min));
-    
+    const { colors } = useTheme(); //THEME
 
     const onDismiss = useCallback(() => {
       setVisible(false)
@@ -31,7 +32,7 @@ const TimePickerInput = (props) => {
     return (
         <View style={styles.inputTime}>
             <Text style={{
-                    color: props.label === "Start Time" ? '#D7A4FF' : '#5CDBD5'
+                    color: props.label === "Start Time" ? colors.firstColor : colors.fifthColor //bad background colors here. Must match wiith below
                   }}
             >
                 {props.label}:
@@ -49,10 +50,19 @@ const TimePickerInput = (props) => {
                 locale={'en'}
             />
             <Button 
-                icon="clock" mode="contained"
+                icon={({color, size}) => (
+                    <Icon 
+                    name="clock" 
+                    color={'white'}
+                    size={size}
+                    />
+                )}
+                mode="contained"
                 onPress={()=> setVisible(true)}
+                color='black'   //Changing to white changes to black for some reason 
                 style={{
-                    backgroundColor: props.label === "Start Time" ? '#D7A4FF' : '#5CDBD5'
+                    backgroundColor: props.label === "Start Time" ? colors.firstColor : colors.fifthColor,      //bad background colors here
+                
                   }}
             >
                 {timeString}
@@ -69,9 +79,6 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
 
-    timeLabel: {
-        color: '#D7A4FF'
-    }
 });
 
 export default TimePickerInput;

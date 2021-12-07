@@ -3,7 +3,7 @@ import { View, StyleSheet, FlatList} from 'react-native';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
-import { Title } from 'react-native-paper'
+import { Title, useTheme } from 'react-native-paper'
 import FriendListItem from '../components/FriendListItem';
 import LoadingIndicator from '../components/LoadingIndicator';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -13,6 +13,7 @@ const FriendsListView = ({navigation, route}) => {
     const context = useContext(UserContext);
     const [friends, setFriends] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { colors } = useTheme();
 
     useFocusEffect(
         React.useCallback(() => {
@@ -68,21 +69,21 @@ const FriendsListView = ({navigation, route}) => {
     )   
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             {
                 loading
                 ?   <LoadingIndicator isLoading={loading} />
                 :   (friends === undefined || friends.length === 0
                     ? (
                         <View style={styles.noFriends}>
-                            <Icon name="account-group" size={100} color="#6200EE"/>
+                            <Icon name="account-group" size={100} color={colors.firstColor}/>
                             <Title>Friend list is empty, find some friends!</Title>
                         </View>
                     )
                     : <FlatList 
                         data={friends}
                         keyExtractor={friend => friend.id}
-                        renderItem={({item, index}) => <FriendListItem user={item} navigation={navigation} index={index} bgColor={context.bgColors[index % context.bgColors.length]}/>}
+                        renderItem={({item, index}) => <FriendListItem user={item} navigation={navigation} index={index} bgColor={colors.backgroundCardColors[index % colors.backgroundCardColors.length]}/>}
                     />)
             }
         </View>
