@@ -3,7 +3,7 @@ import { View, StyleSheet} from 'react-native';
 import {Avatar, Title, Caption, Text} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const UserInfo = ({ navigation, route, user}) => {
+const UserInfo = ({ navigation, route, user, color}) => {
     return (
         <View>
             <View style={styles.userInfoSection}>
@@ -11,7 +11,7 @@ const UserInfo = ({ navigation, route, user}) => {
                     <Avatar.Text 
                         size = {90} 
                         backgroundColor = 'white'
-                        color='turquoise'
+                        color={color || 'red'}
                         label = {user.first_name.charAt(0)+user.last_name.charAt(0)}
                     />
                     <View style={{marginLeft: 20}}>

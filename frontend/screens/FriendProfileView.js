@@ -47,10 +47,13 @@ const FriendProfileView = ({ navigation, route}) => {
     return (
         
         <SafeAreaView style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
-            <UserInfo user={friend}/>
+
+            <View style={[styles.friendCard, {backgroundColor: colors.firstColor}]}>
+
+            <UserInfo user={friend} color={colors.firstColor}/>
             <View style={styles.buttonRow}>
-                <Button icon="account-remove" onPress={() => showDialog()} mode="contained">Unfriend</Button>
-                <Button icon="arrow-left-circle" onPress={() => navigation.pop()} mode="contained">Go Back</Button>
+                <Button icon="account-remove" color={colors.thirdColor}  labelStyle={{color: 'white'}} onPress={() => showDialog()} mode="contained">Unfriend</Button>
+                <Button icon="arrow-left-circle" color={colors.secondColor} labelStyle={{color: 'white'}} onPress={() => navigation.pop()} mode="contained">Go Back</Button>
             </View>
 
             <Portal>
@@ -82,6 +85,8 @@ const FriendProfileView = ({ navigation, route}) => {
                 keyExtractor={course => course.id}
                 renderItem={({item}) => <CourseItem item={item} navigation={navigation}/>} />
             </View>
+
+            </View>
         </SafeAreaView>
     
     );
@@ -90,6 +95,12 @@ const FriendProfileView = ({ navigation, route}) => {
 export default FriendProfileView;
 
 const styles = StyleSheet.create({
+
+    friendCard: {
+        alignSelf: 'center',
+        marginTop: 50,
+        borderRadius: 50 / 2
+    },
     container: {
       flex: 1,
     },
