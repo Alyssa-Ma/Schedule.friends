@@ -6,7 +6,7 @@ import UserContext from '../context/UserContext';
 import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
 import { useFocusEffect } from '@react-navigation/core';
-import { Button, Modal, Dialog, Text, Portal, Paragraph, Checkbox } from 'react-native-paper'
+import { Button, Modal, Dialog, Text, Portal, Paragraph, Checkbox, useTheme } from 'react-native-paper'
 import CombinedScheduleFriendListItem from '../components/CombinedScheduleFriendListItem';
 import EventInfo from '../components/EventInfo';
 
@@ -20,7 +20,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   }
     
   const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-  const colors = ["#d4f48d", "#f4b18d", "#bc90dd", "#99b8e8" ];
+  //const colors = ["#d4f48d", "#f4b18d", "#bc90dd", "#99b8e8" ];
   const bufferSpace = 3;
   const maxUsers = 5;
   const context = useContext(UserContext);
@@ -38,6 +38,8 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [refresh, setRefresh] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTarget, setModalTarget] = useState({});
+
+  const { colors } = useTheme();
 
   const onRefresh = async () => {
     setRefresh(true);
@@ -134,7 +136,7 @@ const CombinedScheduleView = ({navigation, route}) => {
         });
         const jsonResponse = await response.json();
         if (response.status === 200) {
-          jsonResponse['color'] = colors[(i+colors.length+1) % colors.length]
+          jsonResponse['color'] = colors.backgroundCardColors[(i+colors.backgroundCardColors.length+1) % colors.backgroundCardColors.length]
           friendData.push(jsonResponse);
         }
         else {
@@ -154,7 +156,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   const createEvents = async () => {
     let latest = {value: latestHour};
     let earliest = {value: earliestHour};
-    let eventsBuffer = createEventsFromArray(context.user, colors[0], earliest, latest);
+    let eventsBuffer = createEventsFromArray(context.user, colors.backgroundCardColors[0], earliest, latest);
     for (let i = 0; i < selectedUsers.length; i++) {
       let friendSchedule = createEventsFromArray(friendEvents[selectedUsers[i]], friendEvents[selectedUsers[i]].color, earliest, latest);
       friendSchedule.forEach((course) => eventsBuffer.push(course));
@@ -269,7 +271,7 @@ const CombinedScheduleView = ({navigation, route}) => {
               </Dialog.Actions>
             </Dialog>
             </Portal>
-            <Button mode='contained' onPress={() => showDialog()}>Select Friends</Button>
+            <Button mode='contained' onPress={() => showDialog() } color={colors.secondColor} labelStyle={{color: 'white'}}>Select Friends</Button>
             <Portal>
               <Modal visible={modalVisible} onDismiss={hideModal} contentContainerStyle={styles.modalStyle}>
                   <EventInfo event={modalTarget}/>
