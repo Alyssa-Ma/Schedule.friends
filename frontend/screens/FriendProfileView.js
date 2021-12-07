@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {View, SafeAreaView, StyleSheet, FlatList} from 'react-native';
 import UserContext from '../context/UserContext';
-import {Button, Paragraph, Dialog, Portal, ActivityIndicator} from 'react-native-paper';
+import {Button, Paragraph, Dialog, Portal, ActivityIndicator, useTheme} from 'react-native-paper';
 
 import UserInfo from '../components/UserInfo';
 import CourseItem from '../components/CourseItem';
@@ -15,6 +15,7 @@ const FriendProfileView = ({ navigation, route}) => {
     const [visible, setVisible] = useState(false);
     const showDialog = () => setVisible(true);
     const hideDialog = () => setVisible(false);
+    const { colors } = useTheme();
     const deleteFriend = async () => {
         setLoadingButton(true);
         try{
