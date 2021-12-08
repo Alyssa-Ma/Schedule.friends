@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, DynamicColorIOS } from 'react-native';
+import { View, StyleSheet, DynamicColorIOS, Alert } from 'react-native';
 import { TextInput, Button, RadioButton, Text, useTheme} from 'react-native-paper';
 import TimePickerInput from './TimePickerInput';
 
@@ -75,6 +75,37 @@ const CourseForm = (props) => {
         props.setLoadingButton(!props.loadingButton);
     }
 
+    //function for validation
+    const inputValidation = () => {
+        console.log("*** inputValidation Running ***");
+        //course name may only contain letters
+        var courseNameRegex = /^[A-Za-z]+$/;
+        //course number may only contain numbers
+        var courseNumberRegex = /^[0-9]+$/;
+
+        if(courseName.length == 0){
+            Alert.alert("Please enter a course name");
+        }
+        else if(courseName.length > 5){ 
+            Alert.alert("Course names may only contain 5 letters");
+        }
+        else if(!(courseNameRegex.test(courseName))){
+            Alert.alert("Course names may only contain letters");
+        }
+        else if(courseNumber.length == 0){
+            Alert.alert("Please enter a course number");
+        }
+        else if(courseNumber.length > 5){ 
+            Alert.alert("Course number may only contain 5 digits");
+        }
+        else if(!(courseNumberRegex.test(courseNumber))){
+            Alert.alert("Course number may only contain numbers");
+        }
+        else{
+            submitToParent();
+        }
+    }
+
     return (
         <View>
             <TextInput 
@@ -118,7 +149,7 @@ const CourseForm = (props) => {
             /> 
 
             <View style={styles.buttons}>   
-                <Button icon="check"  color='black' loading={props.loadingButton} onPress={submitToParent} mode="contained" style={{ backgroundColor: colors.firstColor}}>Submit</Button>
+                <Button icon="check"  color='black' loading={props.loadingButton} onPress={inputValidation} mode="contained" style={{ backgroundColor: colors.firstColor}}>Submit</Button>
                 <Button icon="cancel" color='black' onPress={() => {props.navigation.pop()}} mode="contained" style={{ backgroundColor: colors.fifthColor}}>Cancel</Button>
                 <>{/*Both buttons here for some reason color 'black' makes it white*/}</>
             </View>

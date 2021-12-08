@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {View, StyleSheet, TouchableOpacity, Alert, ImageBackground} from 'react-native';
 import UserContext from '../context/UserContext';
-import {Avatar, Text, TextInput, Button} from 'react-native-paper';
+import {Avatar, Text, TextInput, Button, TouchableRipple} from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -118,37 +118,30 @@ const EditMyProfileView = ({ navigation, route }) => {
                 <View style={{alignItems: 'center'}}>
                     <TouchableOpacity onPress={() => {choosPhotoFromLibrary()}}>
                         <View style={styles.icon}>
-
-                        <ImageBackground
+    {/*}
+                            <Avatar.Text 
+                                size = {100} 
+                                backgroundColor = '#D7A4FF'
+                                label=
+                                {user.first_name.charAt(0)+user.last_name.charAt(0)}
+                            />
+    {*/}
+                            <ImageBackground
                             source={{
                             uri: ProfileImage,
                             }}
                             style={{height:125, width:125}}
                             imageStyle = {{borderRadius: 125/2}}
-                        >
-                    
-
-                    <View style = {{
-                        flex:1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}>
-                        <Icon name="photo" size={35} color="grey" style={styles.imageIcon}/>
-
-
-                    </View>
-
-                    </ImageBackground>
-
-
-                            {/*
-                            <Avatar.Text 
-                                size = {100} 
-                                backgroundColor = 'turquoise'
-                                label=
-                                {user.first_name.charAt(0)+user.last_name.charAt(0)}
-                            />
-                            */}
+                            >
+                            
+                            <View style = {{
+                                flex:1,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <Icon name="photo" size={35} color="grey" style={styles.imageIcon}/>
+                            </View>
+                            </ImageBackground>
 
                         </View>
                     </TouchableOpacity>
@@ -158,7 +151,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.inputfields}>
-                <FontAwesome name="user-o" size={30} />
+                <FontAwesome name="user-o" size={30} color='#9E8DFF' />
                     <TextInput
                         mode="outlined"
                         label="First Name"
@@ -167,11 +160,19 @@ const EditMyProfileView = ({ navigation, route }) => {
                         onChangeText = {(val) => setFName(val)}
                         autoCorrect={false}
                         style={styles.textInput}
-                    />
+                        theme={{
+                            colors: {
+                                placeholder: '#9E8DFF',
+                                text: '#9E8DFF',
+                                //primary: 'white',
+                                underlineColor: 'transparent'
+                            }
+                        }}/>
+                        
                 </View>
 
                 <View style={styles.inputfields}>
-                <FontAwesome name="user-o" size={30} />
+                <FontAwesome name="user-o" size={30} color='#7DD1FF'/>
                     <TextInput
                         mode="outlined"
                         label="Last Name"
@@ -180,11 +181,19 @@ const EditMyProfileView = ({ navigation, route }) => {
                         onChangeText = {(val) => setLName(val)}
                         autoCorrect={false}
                         style={styles.textInput}
-                    />
+                        theme={{
+                            colors: {
+                                placeholder: '#7DD1FF',
+                                text: '#7DD1FF',
+                                //primary: 'white',
+                                underlineColor: 'transparent'
+                            }
+                    }}/>
+                
                 </View>
      
                 <View style={styles.inputfields}>
-                    <FontAwesome name="user-o" size={30} />
+                    <FontAwesome name="user-o" size={30} color='#68B0D8'/>
                         <TextInput
                             mode="outlined"
                             label="E-Mail"
@@ -193,10 +202,18 @@ const EditMyProfileView = ({ navigation, route }) => {
                             onChangeText = {(val) => setEmail(val)}
                             autoCorrect={false}
                             style={styles.textInput}
-                        />
+                            theme={{
+                                colors: {
+                                    placeholder: '#68B0D8',
+                                    text: '#68B0D8',
+                                    //primary: 'white',
+                                    underlineColor: 'transparent'
+                                }
+                        }}/>
+                        
                 </View>
                 <View style={styles.inputfields}>
-                    <FontAwesome name="user-o" size={30} />
+                    <FontAwesome name="user-o" size={30} color='#5CDBD5' />
                         <TextInput
                             mode="outlined"
                             label="Username"
@@ -205,14 +222,35 @@ const EditMyProfileView = ({ navigation, route }) => {
                             onChangeText = {(val) => setUsername(val)}
                             autoCorrect={false}
                             style={styles.textInput}
-                        />
+                            theme={{
+                                colors: {
+                                    placeholder: '#5CDBD5',
+                                    text: '#5CDBD5',
+                                    //primary: 'white',
+                                    underlineColor: 'transparent'
+                                }
+                            }}/>
+                        
                 </View>
-                <View style={styles.buttons}>
-                    <Button icon="check" loading={loadingButton} onPress={() => forumCheck() } mode="contained">Confirm</Button>
+
+                <View style={styles.listWrapper}>
+                    <TouchableRipple style={styles.confirmBox} onPress={() => forumCheck()}>
+                        <View style={styles.listItem1}>
+                            <Icon name="check" size={25} color='white'/>
+                            <Text style={styles.listItemText}>Confirm</Text>
+                        </View>
+                    </TouchableRipple>
                 </View>
-                <View style={styles.buttons}>
-                    <Button icon="cancel" onPress={() => cancelPressHandle()} mode="contained">Cancel</Button>
+
+                <View style={styles.listWrapper}>
+                    <TouchableRipple style={styles.cancelBox} onPress={() => cancelPressHandle()}>
+                        <View style={styles.listItem1}>
+                            <Icon name="cancel" size={25} color='white'/>
+                            <Text style={styles.listItemText}>Cancel</Text>
+                        </View>
+                    </TouchableRipple>
                 </View>
+
             </View>
         </View>
     );
@@ -222,53 +260,77 @@ export default EditMyProfileView;
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+        flex: 1,
     },
     inputfields: {
-      flexDirection: 'row',
-      marginTop: 5,
-      marginBottom: 5,
-      borderBottomWidth: 1,
-      borderBottomColor: '#f2f2f2',
-      paddingBottom: 5,
+        flexDirection: 'row',
+        marginTop: 5,
+        marginBottom: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2',
+        paddingBottom: 5,
     },
     textInput: {
-      flex: 1,
-      marginTop: 0,
-      paddingLeft: 10,
-      height: 35,
-      color: '#05375a',
-      marginLeft: 10,
+        flex: 1,
+        marginTop: 0,
+        paddingLeft: 10,
+        height: 35,
+        color: '#05375a',
+        marginLeft: 10,
     },
     icon: {
-       height: 100,
-       width: 100,
-       borderRadius:15,
-       justifyContent: 'center',
-       alignItems: 'center',
+        height: 100,
+        width: 100,
+        borderRadius:15,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     fnamelname: {
         marginTop:10,
         fontSize: 23,
         fontWeight: 'bold',
-        marginBottom: 10
-
+        marginBottom: 10,
+        color:'#D7A4FF'
     },
-
-    buttons: {
-        marginTop: 5,
-        marginBottom: 5
-
+    listItemText: {
+        color: 'white',
+        marginLeft: 10,
+        fontWeight: '600',
+        fontSize: 16,
+        lineHeight: 27,
     },
-
-    imageIcon: {
-        opacity: 0.7,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,
-        borderColor: 'grey',
-        borderRadius: 10
-
+    listWrapper: {
+        marginTop: 10,
+    },
+    confirmBox: {
+        flexDirection: 'row',
+        width:370, 
+        height:50,
+        backgroundColor:'#9E8DFF',
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20, 
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        borderRadius: 25, 
+        
+    },
+    cancelBox: {
+        flexDirection: 'row',
+        width:370, 
+        height:50,
+        backgroundColor:'#5CDBD5',
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20, 
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        borderRadius: 25, 
+        top:5,
+    },
+    listItem1: {
+        flexDirection: 'row',
+        top: 10,
+        left:10,
+        
     },
 
   });
