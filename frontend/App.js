@@ -39,6 +39,8 @@ const App = ({ navigation, route }) => {
       fabButtonColor: '#53c3fe',
       radioButtonColor: '#9E8DFF',
       activityIndicatorColor: '#9E8DFF',
+      drawerBackgroundColor: '#ffffff',
+      dialogButton: '#9E8DFF',
       primary: '#ffffff',
       accent: '#7DD1FF',
       firstColor: '#D7A4FF',
@@ -46,7 +48,6 @@ const App = ({ navigation, route }) => {
       thirdColor: '#7DD1FF',
       fourthColor: '#68B0D8',
       fifthColor: '#5CDBD5',
-      drawerBackgroundColor: '#ffffff',
     }
   }
 
@@ -66,6 +67,7 @@ const App = ({ navigation, route }) => {
       radioButtonColor: '#927EFF',
       activityIndicatorColor: '#B8ACFB',
       drawerBackgroundColor: '#493e81',
+      dialogButton: '#7464CC',
       firstColor: '#7464CC',
       secondColor: '#927EFF',
       thirdColor: '#B8ACFB',
@@ -122,6 +124,7 @@ const App = ({ navigation, route }) => {
         setUser: setUser,
         setIsSignedIn: setIsSignedIn,
         fetchUserToken: fetchUserToken,
+        isDarkTheme: isDarkTheme,
         toggleTheme: () => {    //Added toggle theme
           setIsDarkTheme( isDarkTheme => !isDarkTheme);
         }

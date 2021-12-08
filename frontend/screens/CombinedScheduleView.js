@@ -246,7 +246,7 @@ const CombinedScheduleView = ({navigation, route}) => {
               onRefreshForDayView={onRefresh}
             />
             <Portal>
-            <Dialog visible={dialogVisible} onDismiss={hideDialog}>
+            <Dialog style={{backgroundColor: colors.backgroundColor}} visible={dialogVisible} onDismiss={hideDialog}>
               <Dialog.Content>
                 <Dialog.Title>Max Friends: {maxUsers}</Dialog.Title>
                 <Dialog.ScrollArea>
@@ -267,7 +267,7 @@ const CombinedScheduleView = ({navigation, route}) => {
                 </Dialog.ScrollArea>
               </Dialog.Content>
               <Dialog.Actions>
-                <Button onPress={hideDialog}>OK</Button>
+                <Button color={colors.dialogButton} dark={true} mode="contained" onPress={hideDialog}>OK</Button>
               </Dialog.Actions>
             </Dialog>
             </Portal>
