@@ -38,6 +38,7 @@ const App = ({ navigation, route }) => {
       backgroundCardColors: ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'],
       fabButtonColor: '#53c3fe',
       radioButtonColor: '#9E8DFF',
+      activityIndicatorColor: '#9E8DFF',
       primary: '#ffffff',
       accent: '#7DD1FF',
       firstColor: '#D7A4FF',
@@ -63,6 +64,7 @@ const App = ({ navigation, route }) => {
       backgroundCardColors: ['#7464CC', '#B8ACFB', '#927EFF', '#696580', '#786CBC'],
       fabButtonColor: '#696580',
       radioButtonColor: '#927EFF',
+      activityIndicatorColor: '#B8ACFB',
       drawerBackgroundColor: '#493e81',
       firstColor: '#7464CC',
       secondColor: '#927EFF',
@@ -106,9 +108,9 @@ const App = ({ navigation, route }) => {
   }
 
   //for developmental purpose, autologins to HenryB
-  // React.useEffect(() => {
-  //  fetchUserToken("henryB", "Test01");
-  //}, [])
+  React.useEffect(() => {
+   fetchUserToken("henryB", "Test01");
+  }, [])
 
   return (
 
