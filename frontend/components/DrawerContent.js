@@ -2,8 +2,9 @@ import React, {useState, useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import UserListHeader from './UserListHeader';
-import {Drawer, Text, TouchableRipple, Switch, Avatar, Title, Caption, useTheme} from 'react-native-paper';
+import {Drawer, Text, TouchableRipple, Switch, Avatar, Title, Caption } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useTheme } from '@react-navigation/native';
 import UserContext from '../context/UserContext';
 const DrawerContent = (props) => {
 
@@ -12,6 +13,7 @@ const DrawerContent = (props) => {
     const { toggleTheme } = useContext(UserContext);
 
     const paperTheme = useTheme();
+    const { colors } = useTheme();
 
     return(
         <View styles={styles.drawerContainer}>
@@ -19,7 +21,6 @@ const DrawerContent = (props) => {
                 <View style={styles.topSection}>
                     <View style={styles.userInfoSection}>
                         <Avatar.Text
-                            
                             label={`${props.user.first_name.charAt(0).toUpperCase()}${props.user.last_name.charAt(0).toUpperCase()}`}
                             size={55}
                             color='white'
@@ -35,11 +36,18 @@ const DrawerContent = (props) => {
                             icon={({color, size}) => (
                                 <Icon 
                                 name="home-outline" 
-                                color={color}
+                                color={colors.secondColor}
                                 size={size}
                                 />
                             )}
-                            label='Home'
+                            label="Home"
+                            //check drawer navigator documentation
+                            //label={({color}) => (
+                              //  <Text 
+                                //style={colors.secondColor}
+                                //label="home"
+                                ///>
+                            //)}
                             onPress={() => {props.navigation.navigate("HomePage")}}
                         />
                     

@@ -1,11 +1,12 @@
 import 'react-native-gesture-handler';
 import { useState, createContext } from 'react';
+import { DefaultTheme as NativeDefaultTheme, DarkTheme as NativeDarkTheme } from 'react-native';
 import * as React from 'react';
 import { NavigationContainer, DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BASE_URL } from "@env";
 import UserContext from './context/UserContext';
-import { Provider as PaperProvider, DarkTheme as PaperDarkTheme, DefaultTheme as PaperDefaultTheme} from 'react-native-paper';
+import { Provider as PaperProvider, DarkTheme as PaperDarkTheme, DefaultTheme as PaperDefaultTheme, DefaultTheme} from 'react-native-paper';
 
 //**********Import the screens here********
 
@@ -26,22 +27,25 @@ const App = ({ navigation, route }) => {
   const CustomDefaultTheme = {
     ...NavigationDefaultTheme,
     ...PaperDefaultTheme,
+    //...NativeDefaultTheme,
     colors: {
       ...NavigationDefaultTheme.colors,
       ...PaperDefaultTheme.colors,
+      //...NativeDarkTheme.colors,
       backgroundColor: '#ffffff',
       text: '#333333',
       invertedColor: 'black',
       backgroundCardColors: ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'],
       fabButtonColor: '#53c3fe',
       radioButtonColor: '#9E8DFF',
-
+      primary: '#ffffff',
+      accent: '#7DD1FF',
       firstColor: '#D7A4FF',
       secondColor: '#9E8DFF',
       thirdColor: '#7DD1FF',
       fourthColor: '#68B0D8',
       fifthColor: '#5CDBD5',
-
+      drawerBackgroundColor: '#ffffff',
     }
   }
 
@@ -49,6 +53,7 @@ const App = ({ navigation, route }) => {
   const CustomDarkTheme = {
     ...NavigationDarkTheme,
     ...PaperDarkTheme,
+    //...NativeDarkTheme,
     colors: {
       ...NavigationDarkTheme.colors,
       ...PaperDarkTheme.colors,
@@ -58,7 +63,7 @@ const App = ({ navigation, route }) => {
       backgroundCardColors: ['#7464CC', '#B8ACFB', '#927EFF', '#696580', '#786CBC'],
       fabButtonColor: '#696580',
       radioButtonColor: '#927EFF',
-
+      drawerBackgroundColor: '#493e81',
       firstColor: '#7464CC',
       secondColor: '#927EFF',
       thirdColor: '#B8ACFB',
