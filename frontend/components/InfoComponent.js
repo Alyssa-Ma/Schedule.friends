@@ -4,17 +4,20 @@ import UserContext from '../context/UserContext';
 import { Avatar, Title, Caption, Text, TouchableRipple, Switch, Modal, Portal, Button, Provider } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const InfoComponent = ({settingsOptions}) => {
+const InfoComponent = ({settingsOptions, navigation, bgColor}) => {
     const context = useContext(UserContext);
-    const [modalVisible, setModalVisible] = React.useState(false);
-    const showModal = () => setVisible(true);
-    const hideModal = () => setVisible(false);
 
     return (
-      <Provider>
-        <ScrollView style={styles.container}>
-            {settingsOptions.map(({title, subTitle, onPress}, index) => (
-              <TouchableOpacity key={title}>
+      <View style={[styles.container, {backgroundColor: bgColor}]}> 
+            {settingsOptions.map(({title, subTitle, navName, onPress}, index) => (
+              <TouchableOpacity key={title} 
+                onPress={() => {
+                  
+                  if(navName != '')
+                    navigation.push(navName)
+                  
+                  else console.log('H4CK3D');
+                }}>
                 <View style={styles.titleSection}>
                   <Text style={styles.titleText}>{title}</Text>
                   {subTitle && <Text style={styles.subTitleText}>{subTitle}</Text>}
@@ -23,8 +26,8 @@ const InfoComponent = ({settingsOptions}) => {
                 </View>
               </TouchableOpacity>
             ))}
-        </ScrollView>
-      </Provider>
+      
+      </View>
     );
 };
 
@@ -46,11 +49,12 @@ const styles = StyleSheet.create({
     },
     section: {
       height: 0.5,
-      backgroundColor: '#000000',
+      //backgroundColor: '#000000',
       opacity: 0.5,
     },
     container: {
       flex: 1,
-      backgroundColor: '#ffffff',
+      
+     // backgroundColor: '#ffffff',
     },
 });

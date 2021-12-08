@@ -36,18 +36,11 @@ const DrawerContent = (props) => {
                             icon={({color, size}) => (
                                 <Icon 
                                 name="home-outline" 
-                                color={colors.secondColor}
+                                color={color}
                                 size={size}
                                 />
                             )}
                             label="Home"
-                            //check drawer navigator documentation
-                            //label={({color}) => (
-                              //  <Text 
-                                //style={colors.secondColor}
-                                //label="home"
-                                ///>
-                            //)}
                             onPress={() => {props.navigation.navigate("HomePage")}}
                         />
                     
@@ -97,6 +90,18 @@ const DrawerContent = (props) => {
                             )}
                             label='My Profile'
                             onPress={() => {props.navigation.navigate("MyProfile")}}
+                        />
+
+                        <DrawerItem
+                            icon={({color, size}) => (
+                                <Icon 
+                                name="information-outline" 
+                                color={color}
+                                size={size}
+                                />
+                            )}
+                            label='Info'
+                            onPress={() => {props.navigation.navigate("Info")}}
                         />
                     </Drawer.Section>
 

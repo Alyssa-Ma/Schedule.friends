@@ -38,7 +38,7 @@ const App = ({ navigation, route }) => {
       backgroundCardColors: ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'],
       fabButtonColor: '#53c3fe',
       radioButtonColor: '#9E8DFF',
-      primary: '#ffffff',
+      //primary: '#ffffff',
       accent: '#7DD1FF',
       firstColor: '#D7A4FF',
       secondColor: '#9E8DFF',

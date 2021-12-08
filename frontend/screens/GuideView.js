@@ -1,5 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {View, Text, StyleSheet, StatusBar, Image, TouchableOpacity} from 'react-native';
+import { Button } from 'react-native-paper';
 
 const GuideView = ({navigation, route}) => {
     return(
@@ -15,6 +16,7 @@ const GuideView = ({navigation, route}) => {
             <Text>a. You can also see a consolidated view of when your friends are free in the 'Who's Free Now' tab.</Text>
             <Text>4. If you want to edit your profile information, go to the 'My Profile' tab and check out the options there!</Text>
             <Text>And that's the main gist of Schedule.Friends! Go out and add your friends to make scheduling easier!</Text>
+            <Button onPress={() => navigation.pop()} mode='contained'>Go Back</Button>
         </View>
     )
 }
