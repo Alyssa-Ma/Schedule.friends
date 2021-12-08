@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Searchbar } from 'react-native-paper';
+import { Searchbar, useTheme } from 'react-native-paper';
 import SearchList from '../components/SearchList';
 import UserContext from '../context/UserContext';
 import {BASE_URL} from "@env";
@@ -13,6 +13,7 @@ const FriendRequestSend = ({ navigation, route }) => {
     const [pendingRequests, setPendingRequests] = useState([]);
     const onChangeSearch = query => setSearchQuery(query);
     const context = useContext(UserContext);
+    const { colors} = useTheme();   //THEME
 
     //gets incoming friend requests for the curr user
     useFocusEffect(
@@ -55,7 +56,7 @@ const FriendRequestSend = ({ navigation, route }) => {
         if the input exceeds 2 chars output findings
     */
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             <Searchbar
                 placeholder="Enter a username"
                 onChangeText={onChangeSearch}
@@ -63,10 +64,11 @@ const FriendRequestSend = ({ navigation, route }) => {
             />
             {
                 searchQuery.length >= 2
-                    ? <SearchList query={searchQuery} pendingRequests={pendingRequests}/>
+                    ? <SearchList query={searchQuery} pendingRequests={pendingRequests} colors={colors}/>
                     : (
                         <View style={styles.noResults}>
                             <Text> No results found</Text>
+                            <>{/*Have to change color of this text to white in dark. easy when dark is in context*/}</>
                         </View>
                     )
             }

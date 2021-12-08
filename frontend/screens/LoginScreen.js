@@ -32,7 +32,7 @@ const LoginScreen = ({ navigation, route }) => {
                 label="Username"
                 placeholder = 'Enter username' 
                 onChangeText = {(val) => setUserName(val)}
-                placeholderTextColor = '#fffff'/>
+                placeholderTextColor = '#ffffff'/>
 
             <TextInput secureTextEntry={true} style={styles.inputBox2} 
                 //underlineColorAndroid='#ADC9C6' 
@@ -61,7 +61,7 @@ export default LoginScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
-        backgroundColor: '#ffffff',
+        //backgroundColor: '#ffffff',
         alignItems: 'center',
         justifyContent: 'center',
     },

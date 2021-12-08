@@ -1,9 +1,10 @@
 import React, {useEffect, useState, useContext} from 'react';
 import { View, StyleSheet} from 'react-native';
 import CourseForm from '../components/CourseForm';
-import { Button, Snackbar } from 'react-native-paper';
+import { Button, Snackbar, useTheme} from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const EditClassView = ({ navigation, item, route }) => {
     const { itemId, 
@@ -25,6 +26,9 @@ const EditClassView = ({ navigation, item, route }) => {
 
     const [snackVisible, setSnackVisible] = useState(false);
     const [statusText, setStatusText] = useState("");
+
+    const { colors } = useTheme();   //THEME
+
     const toggleSnackBar = () => setSnackVisible(!snackVisible);
     const onDismissSnackBar = () => setSnackVisible(false);
 
@@ -119,7 +123,7 @@ const EditClassView = ({ navigation, item, route }) => {
     }, [loadingButtonDelete])
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             <CourseForm
                 courseName = {courseName}
                 courseNumber = {courseNumber}
@@ -134,7 +138,7 @@ const EditClassView = ({ navigation, item, route }) => {
                 setLoadingButton = {setLoadingButton}
             />
             <View style={styles.delete}>
-                <Button icon="delete" color ="red" loading={loadingButtonDelete} mode="contained" onPress={() => {setLoadingButtonDelete(!loadingButtonDelete)}} >
+                <Button icon="delete" style={styles.deleteButton} color ="red" loading={loadingButtonDelete} mode="contained" onPress={() => {setLoadingButtonDelete(!loadingButtonDelete)}} >
                     DELETE CLASS
                 </Button>
             </View>
@@ -160,6 +164,12 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 0,
     },
+
+    deleteButton: {
+        backgroundColor: '#e21d56',
+        color: 'white',
+        marginTop: 30
+    }
 
 });
 

@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet} from 'react-native';
-import { Avatar } from 'react-native-paper';
+import { Avatar, useTheme} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 
 
-const TextViewCard = ({item}) => {
+const TextViewCard = ({item, bgColor}) => {
 
     const [times, setTimes] = useState(item.schedule);
     const [trigger, setTrigger] = useState(false);
@@ -15,8 +16,8 @@ const TextViewCard = ({item}) => {
         trigger=true;
         return (
             <View style={styles.now_row}>
-                <Text style={styles.now_upcoming}>Now:</Text>
-                <Text style={styles.time}>{times[0]}</Text>
+                <Text style={[styles.now_upcoming, {color: 'white'}]}>Now:</Text>
+                <Text style={[styles.time, {color: 'white'}]}>{times[0]}</Text>
             </View>
         )
     }
@@ -34,13 +35,13 @@ const TextViewCard = ({item}) => {
         //returns the upcoming times section
         return (
             <View style={styles.upcoming_row}>
-                <Text style={styles.now_upcoming}>Upcoming:</Text>
+                <Text style={[styles.now_upcoming, {color: 'white'}]}>Upcoming:</Text>
             
                 <View style={styles.upcoming_times_col}>
                     {
                         tmp_times.map( (time, index) => {
                             return (
-                                <Text key={index} style={styles.time}>{time}</Text>
+                                <Text key={index} style={[styles.time, {color: 'white'}]}>{time}</Text>
                             )
                         })
                     }
@@ -51,19 +52,20 @@ const TextViewCard = ({item}) => {
 
     return (
 
-        <View style={styles.friendTimeCard}>
+        <View style={[styles.friendTimeCard, {backgroundColor: bgColor}]}>
 
             <View style={styles.avatar_name_row}>
                 <Avatar.Text 
                             size = {75} 
-                            backgroundColor = 'turquoise'
+                            backgroundColor = 'white'
+                            color={bgColor}
                             label = {item.f_name.charAt(0).toUpperCase()+item.l_name.charAt(0).toUpperCase()}
                             style = {styles.avatar}
                 />
 
                 <View style={styles.name_col}>
-                    <Text style={styles.name_text}>{item.f_name}</Text>
-                    <Text style={styles.name_text}>{item.l_name}</Text>
+                    <Text style={[styles.name_text, {color: 'white'}]}>{item.f_name}</Text>
+                    <Text style={[styles.name_text, {color: 'white'}]}>{item.l_name}</Text>
                 </View>
                 
             </View>
@@ -107,7 +109,7 @@ const styles = StyleSheet.create({
     friendTimeCard: {
         width: 330,
         borderRadius: 50 / 2,
-        backgroundColor: 'darkslateblue',       //STATIC BACKGROUND COLOR
+        //backgroundColor: 'darkslateblue',       //STATIC BACKGROUND COLOR
         alignSelf: 'center',
         marginTop: 50,
         flex: 1,

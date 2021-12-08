@@ -5921,8 +5921,8 @@
   dependencies:
     "dotenv" "^10.0.0"
 
-"react-native-events-calendar@github:goferboy/react-native-event-calendar":
-  "resolved" "git+ssh://git@github.com/goferboy/react-native-event-calendar.git#676a5e12c23fe149041add3637a0fc0d83c91f70"
+"react-native-events-calendar@github:goferboy/react-native-events-calendar":
+  "resolved" "git+ssh://git@github.com/goferboy/react-native-events-calendar.git#1fac5799d38c5e514bdf45e9e9533c4ecde397ac"
   "version" "1.0.8"
   dependencies:
     "lodash" "^4.17.4"

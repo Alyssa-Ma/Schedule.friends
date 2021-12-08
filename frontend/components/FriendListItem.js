@@ -5,14 +5,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 import UserListHeader from './UserListHeader';
 
-const FriendListItem = ({ navigation, route, user }) => {
+const FriendListItem = ({ navigation, route, user, bgColor }) => {
 
     return (
         
-        <TouchableOpacity style={styles.friendItem}
+        <TouchableOpacity style={[styles.friendItem, {backgroundColor: bgColor}]}
             onPress={() => navigation.push('FriendProfileView', {
                 friend: user})}>
-            <UserListHeader user={user} textColor='#5cdbd5' bgColor='white'/>
+            <UserListHeader user={user} textColor={bgColor} bgColor='white'/>
             <View style={styles.accountIcon}>
                 <Icon
                     
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 15,
-        backgroundColor: '#5cdbd5',         //STATIC BACKGROUND
+        //backgroundColor: '#5cdbd5',         //STATIC BACKGROUND
         borderBottomWidth: 1,
         borderColor: '#ccc',
         borderRadius: 40 / 2,

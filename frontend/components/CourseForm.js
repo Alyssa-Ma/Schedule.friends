@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { TextInput, Button, RadioButton, Text } from 'react-native-paper';
+import { View, StyleSheet, DynamicColorIOS } from 'react-native';
+import { TextInput, Button, RadioButton, Text, useTheme} from 'react-native-paper';
 import TimePickerInput from './TimePickerInput';
 
 const DaysRadioButton = (props) => {
     const [isSelected, setSelected] = useState(false);
+    const { colors } = useTheme(); //THEME
+
     useEffect(() => {
         setSelected(props.selectedDays[props.index][props.day]);
     })
@@ -13,6 +15,7 @@ const DaysRadioButton = (props) => {
             <Text>{props.day}</Text>
             <RadioButton 
                 status={isSelected ? 'checked' : 'unchecked'}
+                color={colors.radioButtonColor}
                 onPress={() => {
                     setSelected(!isSelected);
                     let selectedDaysBuffer = [...props.selectedDays];
@@ -35,6 +38,8 @@ const CourseForm = (props) => {
     const [selectedDays, setSelectedDays] = useState(
         [{SUN: false}, {MON: false}, {TUE: false}, {WED: false},
          {THU: false}, {FRI: false}, {SAT: false}]);
+
+    const { colors } = useTheme(); //THEME
     
     useEffect(() => {
         let iterator = props.selectedDays.values();
@@ -73,16 +78,17 @@ const CourseForm = (props) => {
     return (
         <View>
             <TextInput 
-                mode="outlined"
                 label="Course Name"
                 value={courseName}
                 onChangeText={text => setcourseName(text)}
+                style={[styles.courseInfoInput, {backgroundColor: colors.secondColor}]}
             />
             <TextInput 
-                mode="outlined"
+                
                 label="Course Number"
                 value={courseNumber}
                 onChangeText={text => setCourseNumber(text)}
+                style={[styles.courseInfoInput, {backgroundColor: colors.thirdColor}]}
             />
             <View style={styles.daysRadioBar}>
                 <DaysRadioButton index={0} day="SUN" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
@@ -93,13 +99,16 @@ const CourseForm = (props) => {
                 <DaysRadioButton index={5} day="FRI" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
                 <DaysRadioButton index={6} day="SAT" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
             </View>
+
             <TimePickerInput
                 label="Start Time"
                 hour={startHour}
                 min={startMin}
                 setHour={setStartHour}
                 setMin={setStartMin}
+                
             />
+
             <TimePickerInput
                 label="End Time"
                 hour={endHour}
@@ -107,9 +116,11 @@ const CourseForm = (props) => {
                 setHour={setEndHour}
                 setMin={setEndMin}
             /> 
-            <View style={styles.buttons}>
-                <Button icon="check" loading={props.loadingButton} onPress={submitToParent} mode="contained">Submit</Button>
-                <Button icon="cancel" onPress={() => {props.navigation.pop()}} mode="contained">Cancel</Button>
+
+            <View style={styles.buttons}>   
+                <Button icon="check"  color='black' loading={props.loadingButton} onPress={submitToParent} mode="contained" style={{ backgroundColor: colors.firstColor}}>Submit</Button>
+                <Button icon="cancel" color='black' onPress={() => {props.navigation.pop()}} mode="contained" style={{ backgroundColor: colors.fifthColor}}>Cancel</Button>
+                <>{/*Both buttons here for some reason color 'black' makes it white*/}</>
             </View>
         </View>
     )
@@ -118,15 +129,33 @@ const CourseForm = (props) => {
 const styles = StyleSheet.create({
     buttons: {
         flexDirection: "row",
-        justifyContent: "space-evenly"
+        justifyContent: "space-evenly",
+        marginTop: 30,
+        
     },
     daysRadioBar: {
+        marginTop: 30,
         flexDirection: "row",
         justifyContent: "space-evenly"
     },
     daysRadio: {
         flexDirection: "column",
         alignItems: "center"
+    },
+
+    courseInfoInput: {
+        width:350, 
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20, 
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        borderRadius: 25, 
+        height:55,
+        paddingHorizontal: 16, 
+        fontSize: 16, 
+        marginVertical: 10,
+        alignSelf: 'center'
+        
     }
 })
 

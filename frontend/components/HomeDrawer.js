@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
-
+import DrawerContent from './DrawerContent'
+import { useTheme } from '@react-navigation/native';
 import FriendTabs from './FriendTabs';
 import CommonTimeText from '../screens/CommonTimeText';
 import MyScheduleStack from './MyScheduleStack';
@@ -15,7 +16,7 @@ const Drawer = createDrawerNavigator();
 
 const HomeDrawer = ({navigation, route}) => {
   const context = useContext(UserContext);
-
+  const { colors } = useTheme();
 
   const getScheduleHeaderTitle = (route) => {
     const routeName = getFocusedRouteNameFromRoute(route);
@@ -62,25 +63,22 @@ const HomeDrawer = ({navigation, route}) => {
     }
   }
 
+  
   return (
-    <Drawer.Navigator
-      screenOptions={{
-        title: 'Schedule.Friends',
-        drawerType: 'slide',
-      }}
-    >
+    <Drawer.Navigator drawerContent={props => <DrawerContent {...props} user={context.user}/>}>
       <Drawer.Screen 
-        name="HomePage" 
+        name="HomePage"
         component={CombinedScheduleView}
+
         options={{
-            title: 'Home',
-            headerStyle: {
-              backgroundColor: 'darkslateblue'},
-              headerTitleAlign: 'center',
-              headerTitleStyle: {
-                color: 'white',
-              }
-        }}
+          title: 'Home',
+          headerStyle: {
+            backgroundColor: colors.secondColor},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white',
+            }
+          }}
       />
       <Drawer.Screen 
           name="MySchedule" 
@@ -89,7 +87,7 @@ const HomeDrawer = ({navigation, route}) => {
             title: "My Schedule",
             headerTitle: getScheduleHeaderTitle(route),
             headerStyle: {
-              backgroundColor: 'darkslateblue'},
+              backgroundColor: colors.secondColor},
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white'
@@ -102,7 +100,7 @@ const HomeDrawer = ({navigation, route}) => {
           options={{
               title: `Who's Free Now`,
               headerStyle: {
-                backgroundColor: 'darkslateblue'},
+                backgroundColor: colors.secondColor},
               headerTitleAlign: 'center',
               headerTitleStyle: {
                 color: 'white',
@@ -116,7 +114,7 @@ const HomeDrawer = ({navigation, route}) => {
             title: 'My Friends',
             headerTitle: getFriendsHeaderTitle(route),
             headerStyle: {
-              backgroundColor: 'darkslateblue'},
+              backgroundColor: colors.secondColor},
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white',
@@ -131,7 +129,7 @@ const HomeDrawer = ({navigation, route}) => {
             title: "My Profile",
             headerTitle: getProfileHeaderTitle(route),
             headerStyle: {
-              backgroundColor: 'darkslateblue'},
+              backgroundColor: colors.secondColor},
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white'
@@ -145,14 +143,16 @@ const HomeDrawer = ({navigation, route}) => {
           options={{
             title: 'Log Out',
             headerStyle: {
-              backgroundColor: 'darkslateblue'},
+              backgroundColor: colors.secondColor},
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white',
           }}}
       />
-    </Drawer.Navigator>      
-  );
+    </Drawer.Navigator>
+  ) 
+  
+  
 }
 
 export default HomeDrawer;

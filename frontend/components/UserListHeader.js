@@ -8,8 +8,8 @@ const UserListHeader = ({ navigation, route, user, textColor, bgColor}) => {
             <Avatar.Text
                 label={`${user.first_name.charAt(0).toUpperCase()}${user.last_name.charAt(0).toUpperCase()}`}
                 size={55}
-                color={textColor}
-                backgroundColor={bgColor}
+                color={textColor || 'blue'}     //default bad colors to see if any other things use this
+                backgroundColor={bgColor || 'black'}
                 />
             <View style={styles.textInfo}>
                 <Title style={styles.name}>{user.first_name} {user.last_name}</Title>
