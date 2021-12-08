@@ -4,7 +4,9 @@ import {Avatar, Title, Caption, Text} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {BASE_URL} from "@env";
 
-const UserInfo = ({ navigation, route, user, color}) => {
+const UserInfo = ({ navigation, route, user}) => {
+
+    console.log(user.profile_image);
     return (
         <View>
             <View style={styles.userInfoSection}>
@@ -13,16 +15,15 @@ const UserInfo = ({ navigation, route, user, color}) => {
                     {/*}
                     <Avatar.Text 
                         size = {90} 
-                        backgroundColor = 'white'
-                        color={color || 'red'}
+                        backgroundColor = 'turquoise'
                         label = {user.first_name.charAt(0)+user.last_name.charAt(0)}
                     />
 
                     */}
-                    {/*`${media_url}/media/pimages/default.jpg`*/}
+
                     <Avatar.Image
                         source={{
-                            uri: "http://192.168.1.71:8000/media/pimages/default.jpg",
+                            uri: user.profile_image,
                         }}
                         size={80}
                     />
@@ -39,7 +40,7 @@ const UserInfo = ({ navigation, route, user, color}) => {
             </View>
             <View style={styles.userInfoSection}>
                 <View style={styles.row}>
-                    <Icon name="email" color='white' size={20} />
+                    <Icon name="email" size={20} />
                     <Text style={{marginLeft:20}}>{user.email}</Text>
                 </View>
             </View>
