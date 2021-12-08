@@ -19,6 +19,10 @@ from sf_users import views
 from rest_framework.authtoken.views import obtain_auth_token
 from django.conf.urls import url
 
+#Production Development media utilization
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     # GET and POST path for making a user
@@ -49,3 +53,5 @@ urlpatterns = [
     # User Auth Paths
     re_path(r'^api/sf_users/login', views.ObtainAuthTokenWithUser.as_view())
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,29 +9,44 @@ from rest_framework.exceptions import ValidationError
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = '__all__'
+
+    # Show all fields
+        # fields = '__all__'
          
-    # All fields commented out if you wish to customize return fields
-        # fields = (
-        #     "id",
-        #     "day_name",
-        #     "course_name",
-        #     "course_number",
-        #     "time_start",
-        #     "time_end",
-        #     "date_created",
-        #     "dated_modified",
-        #     "user"
-        # )
+    # Select which fields to accept/return
+        fields = (
+            "id",
+            "day_name",
+            "course_name",
+            "course_number",
+            "time_start",
+            "time_end",
+            # "date_created",
+            # "dated_modified",
+            "owner"
+        )
 
     def create(self, validated_data):
+        if validated_data['time_start'] == validated_data['time_end']:
+            raise ValidationError({
+                    'non_field_errors': ["time_start and time_end cannot be the same time"]}, code=unique) 
+        elif int(validated_data['time_start'].replace(':', '')) > int(validated_data['time_end'].replace(':', '')):
+            raise ValidationError({
+                    'non_field_errors': ["time_start cannot happen after time_end"]}, code=unique) 
         course = Course.objects.create(**validated_data)
         return course
     
     def update(self, instance, validated_data):
+        print(validated_data)
+        if validated_data['time_start'] == validated_data['time_end']:
+            raise ValidationError({
+                    'non_field_errors': ["time_start and time_end cannot be the same time"]}, code=unique) 
+        elif int(validated_data['time_start'].replace(':', '')) > int(validated_data['time_end'].replace(':', '')):
+            raise ValidationError({
+                    'non_field_errors': ["time_start cannot happen after time_end"]}, code=unique)
         instance.day_name = validated_data.get('day_name', instance.day_name)
         instance.course_name = validated_data.get('course_name', instance.course_name)
-        instance.course_number = validated_data.get('course_number', instance.course_number)
+        instance.course_number = validated_data.get('course_number', instance.course_number) 
         instance.time_start = validated_data.get('time_start', instance.time_start)
         instance.time_end = validated_data.get('time_end', instance.time_end)
         instance.save()
@@ -40,17 +55,20 @@ class CourseSerializer(serializers.ModelSerializer):
 class FriendRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FriendRequest
-        fields = '__all__'
-    # All fields commented out if you wish to customize return fields
-        # fields = (
-        #     "id",
-        #     "from_user",
-        #     "to_user",
-        #     "pending",
-        #     "accepted",
-        #     "date_created",
-        #     "dated_modified"
-        # )
+
+    # Show all fields
+        # fields = '__all__'
+         
+    # Select which fields to accept/return
+        fields = (
+            "id",
+            "from_user",
+            "to_user",
+            "pending",
+            "accepted",
+            # "date_created",
+            # "dated_modified"
+        )
         validators = [
             UniqueTogetherValidator(
                 queryset=FriendRequest.objects.all(),
@@ -82,26 +100,33 @@ class UserSerializer(serializers.ModelSerializer):
     schedule = CourseSerializer(many = True, allow_null = True)
     class Meta:
         model = User
-        fields = '__all__'
-    # All fields commented out if you wish to customize return fields
-        # fields = (
-        #     "id",
-        #     "username",
-        #     "password",
-        #     "first_name",
-        #     "last_name",
-        #     "email",
-        #     "date_joined",
-        #     "last_login",
-        #     "is_superuser",
-        #     "is_staff",
-        #     "is_active",
-        #     "groups",
-        #     "user_permissions",
-        #     "schedule",
-        #     "friend_list",
-        #     "friend_requests"
-        # )
+
+    # Show all fields
+        # fields = '__all__'
+         
+    # Select which fields accept/return
+        fields = (
+            "id",
+            "username",
+            "password",
+            "first_name",
+            "last_name",
+            "email",
+            # "date_joined",
+            # "last_login",
+            "is_superuser",
+            # "is_staff",
+            # "is_active",
+            # "groups",
+            # "user_permissions",
+            "schedule",
+            "friend_list",
+            "friend_requests",
+            "profile_image",
+            "dark_mode"
+        )
+
+    # Prevents password from returning in JSON
         extra_kwargs = {'password': {'write_only': True}}
 
     # designed only to create a user, as when a new user is made, they did not input a schedule yet
@@ -122,5 +147,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.username = validated_data.get('username', instance.username)
         instance.password = validated_data.get('password', instance.password)
         instance.email = validated_data.get('email', instance.email)
+        instance.profile_image = validated_data.get('profile_image', instance.profile_image)
+        instance.dark_mode = validated_data.get('dark_mode', instance.dark_mode)
         instance.save()
         return instance
