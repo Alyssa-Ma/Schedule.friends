@@ -11,6 +11,7 @@ import UserContext from '../context/UserContext';
 import LogOut from './LogOut';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 import MyProfileStack from './MyProfileStack';
+import InfoStack from './InfoStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -142,6 +143,20 @@ const HomeDrawer = ({navigation, route}) => {
               color: 'white'
             }
           })}
+      />
+
+      <Drawer.Screen
+        name="Info"
+        component={InfoStack}
+        options={{
+          title: 'Info',
+          headerStyle: {
+            backgroundColor: 'darkslateblue'},
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: 'white',
+            }
+      }}
       />
 
       <Drawer.Screen 
