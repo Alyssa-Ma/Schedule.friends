@@ -135,8 +135,8 @@ const SignUpScreen = ({ navigation }) => {
             })
             const jsonResponse = await response.json();
             if (response.status === 201) {
-                setUser(jsonResponse);
-                setIsSignedIn(true);
+                context.setUser(jsonResponse);
+                context.setIsSignedIn(true);
             }
             else {
                 console.log(JSON.stringify(jsonResponse))
