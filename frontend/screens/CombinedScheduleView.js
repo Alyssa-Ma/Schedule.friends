@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View, Dimensions, StyleSheet, ScrollView, FlatList, RefreshControl} from 'react-native';
+import { View, Dimensions, StyleSheet, ScrollView, FlatList, RefreshControl } from 'react-native';
 import EventCalendar from 'react-native-events-calendar';
 const { width, height } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
 import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
 import { useFocusEffect } from '@react-navigation/core';
-import { Button, Modal, Dialog, Text, Portal, Paragraph, Checkbox, useTheme } from 'react-native-paper'
+import { Button, Modal, Dialog, Text, Portal, Paragraph, Checkbox, IconButton, useTheme } from 'react-native-paper'
 import CombinedScheduleFriendListItem from '../components/CombinedScheduleFriendListItem';
 import EventInfo from '../components/EventInfo';
 
@@ -226,6 +226,15 @@ const CombinedScheduleView = ({navigation, route}) => {
         : 
           <View style={{ flex: 1}}>
             <EventCalendar
+              headerStyle={{
+                backgroundColor: colors.calHeaderBackground, 
+                borderColor: colors.calHeaderBorderColor,
+                headerText: {
+                  color: colors.text
+                }}}
+              headerIconLeft={<IconButton color={colors.calIconColor} icon="arrow-left"/>}
+              headerIconRight={<IconButton color={colors.calIconColor} icon="arrow-right"/>}
+              colorProps={colors}
               initDate={focusDate}
               eventTapped={() => {}}
               events={events}
