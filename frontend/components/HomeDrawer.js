@@ -150,7 +150,7 @@ const HomeDrawer = ({navigation, route}) => {
         options={{
           title: 'Info',
           headerStyle: {
-            backgroundColor: 'darkslateblue'},
+            backgroundColor: colors.secondColor},
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: 'white',
