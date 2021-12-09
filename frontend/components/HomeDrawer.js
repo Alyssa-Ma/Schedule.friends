@@ -66,7 +66,7 @@ const HomeDrawer = ({navigation, route}) => {
 
   
   return (
-    <Drawer.Navigator drawerContent={props => <DrawerContent {...props} user={context.user}/>}
+    <Drawer.Navigator drawerContent={props => <DrawerContent {...props} route={route} user={context.user}/>}
       screenOptions={{
         drawerStyle: {
           backgroundColor: colors.drawerBackgroundColor,
@@ -77,7 +77,6 @@ const HomeDrawer = ({navigation, route}) => {
       <Drawer.Screen 
         name="HomePage"
         component={CombinedScheduleView}
-
         options={{
           title: 'Home',
           headerStyle: {

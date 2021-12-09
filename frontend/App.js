@@ -150,7 +150,6 @@ const App = ({ navigation, route }) => {
                       headerShown: false,
                     }}
                   />
-                  {/* <HomeDrawer/> */}
                 </Stack.Navigator>
               )
               : (
