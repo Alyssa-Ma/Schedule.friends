@@ -17,6 +17,9 @@ const CommonTimeText = ({ navigation, route }) => {
     const [loading, setLoading] = useState(true);
     const { colors } = useTheme();  //THEME
     //Converts the passed in into a Day string
+
+    console.log(context.user);
+    
     const convertToDay = (day) => {
         if(day === 1){
             return "MON";

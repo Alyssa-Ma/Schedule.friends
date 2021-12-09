@@ -3,27 +3,30 @@ import { View, StyleSheet} from 'react-native';
 import {Avatar, Title, Caption, Text} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const UserInfo = ({ navigation, route, user}) => {
+const UserInfo = ({ navigation, route, user, bgColor}) => {
     return (
         <View>
             <View style={styles.userInfoSection}>
                 <View style={{flexDirection: 'row', marginTop: 15}}>
                     <View style = {{right:35}}>
-                {/*}
-                    <Avatar.Text 
-                        size = {90} 
-                        backgroundColor = 'white'
-                        label = {user.first_name.charAt(0)+user.last_name.charAt(0)}
-                        color = '#D7A4FF'
-                    />
-                {*/}
-                
-                    <Avatar.Image
+                {
+                    user.profile_image == 'null'
+                    ? (<Avatar.Text 
+                            size = {75} 
+                            backgroundColor = 'white'
+                            color={bgColor || 'red'} 
+                            label = {user.first_name.charAt(0).toUpperCase()+user.last_name.charAt(0).toUpperCase()}
+                            style = {styles.avatar}
+                        />)
+                    : (<Avatar.Image
                         source={{
                             uri: user.profile_image,
                         }}
                         size={80}
-                    />
+                    />)
+                }
+                
+                    
                 
                     </View>
                     

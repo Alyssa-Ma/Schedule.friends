@@ -76,30 +76,6 @@ const TextViewCard = ({item, bgColor}) => {
 
         </View>
 
-        /*
-        
-        <View style={styles.friendRequest}>
-            <View style={styles.itemView}>
-
-                <Avatar.Text 
-                        size = {80} 
-                        backgroundColor = 'turquoise'
-                        label = {item.f_name.charAt(0).toUpperCase()+item.l_name.charAt(0).toUpperCase()}
-                        style={styles.profilePic}
-                />
-                <Text style={styles.name}>{item.f_name} {item.l_name}</Text>
-                {
-                    item.schedule.map( (time, index) => {
-                        return (
-                            <ScheduleTimes time={item.schedule} index={index} style={styles.schedule} key={index}/>
-                        )
-                    })
-                }
-                
-            </View>
-        </View>
-
-        */
     )
 }
 
