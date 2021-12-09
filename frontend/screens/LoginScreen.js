@@ -18,24 +18,31 @@ const LoginScreen = ({ navigation, route }) => {
               resizeMode="stretch" />
 
             <View>
-                <Text style={styles.logoText}> Welcome to Schedule.Friends </Text> 
+                <Text style={styles.logoText}> Welcome to Schedule.Friends </Text>
             </View>
 
-            <TextInput style={styles.inputBox1} 
-                underlineColor='transparent'
-                activeUnderlineColor='white'
-                label="Username"
-                placeholder = 'Enter username' 
-                onChangeText = {(val) => setUserName(val)}
-                placeholderTextColor = '#ffffff'/>
+            <View style={[styles.inputBox, {backgroundColor:'#D7A4FF'}]}>
+                <TextInput
+                    style={styles.input}
+                    activeUnderlineColor='white'
+                    label="Username"
+                    placeholder = 'Enter Username'
+                    placeholderTextColor = '#ffffff'
+                    onChangeText = {(val) => setUserName(val)}
+                />
+            </View>
 
-            <TextInput secureTextEntry={true} style={styles.inputBox2} 
-                underlineColor = 'rgba(0,0,0,0)'  
-                activeUnderlineColor ='black'
-                label="Password"
-                placeholder = 'Enter password'                
-                onChangeText = {(val) => setUserPassword(val)}
-                placeholderTextColor = '#ADC9C6'/>
+            <View style={[styles.inputBox, {backgroundColor:'#9E8DFF'}]}>
+                <TextInput
+                    style={styles.input}
+                    secureTextEntry={true}
+                    activeUnderlineColor='white'
+                    label="Password"
+                    placeholder = 'Enter Password'
+                    placeholderTextColor = '#ffffff'
+                    onChangeText = {(val) => setUserPassword(val)}
+                />
+            </View>
 
             <TouchableOpacity onPress={async () => await context.fetchUserToken(userName, userPassword)} style={styles.button}>
                 <Text style={styles.buttonText}>Login</Text>
@@ -57,7 +64,6 @@ export default LoginScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
-        //backgroundColor: '#ffffff',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -67,34 +73,23 @@ const styles = StyleSheet.create({
         color:'#68B0D8',
         fontWeight: '900'
     },
-    inputBox1: {
+    inputBox: {
         width:350, 
-        backgroundColor:'#D7A4FF',
         borderBottomRightRadius: 20,
         borderBottomLeftRadius: 20, 
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        borderRadius: 25, 
-        height:55,
-        paddingHorizontal: 16, 
+        borderRadius: 25,
+        height:55, 
+        paddingHorizontal: 16,
         fontSize: 16, 
         marginVertical: 10,
-        
+        overflow: 'hidden'
     },
-    inputBox2: {
-        width:350, 
-        backgroundColor:'#9E8DFF',
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20, 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        borderRadius: 25, 
-        height:55,
-        paddingHorizontal: 16, 
-        paddingHorizontal: 16, 
-        fontSize: 16, 
-        color: 'white',
-        marginVertical: 10,
+    input: {
+        backgroundColor: 'transparent',
+        margin: -6,
+        overflow: 'hidden'
     },
     button:{
         backgroundColor:'#53C2FF',
