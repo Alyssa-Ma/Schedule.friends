@@ -146,7 +146,7 @@ const SignUpScreen = ({ navigation }) => {
             
                 <TextInput style={[styles.inputBox, {marginTop: 50}, {backgroundColor:'#D7A4FF'}]} 
                     label="First Name"
-                    underlineColor = 'rgba(0,0,0,0)'
+                    underlineColor = 'transparent'
                     placeholder = 'Enter your first name'
                     onChangeText = {(val) => setFirstName(val), first_name => onChangeFText(first_name)}
                     theme={{

@@ -20,7 +20,7 @@
         "react-native-events-calendar": "github:goferboy/react-native-events-calendar",
         "react-native-gesture-handler": "^1.10.3",
         "react-native-image-crop-picker": "^0.37.2",
-        "react-native-paper": "^4.9.2",
+        "react-native-paper": "^4.10.1",
         "react-native-paper-dates": "^0.4.6",
         "react-native-reanimated": "^2.2.2",
         "react-native-safe-area-context": "^3.3.2",

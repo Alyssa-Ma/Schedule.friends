@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {View, Text, StyleSheet, StatusBar, Image, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Image, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import UserContext from '../context/UserContext';
 import analogousLogo from '../logo/analogousLogo.png';
@@ -13,12 +13,6 @@ const LoginScreen = ({ navigation, route }) => {
     return (
         
         <View style={styles.container}>
-
-            <StatusBar
-                backgroundColor="black"
-                barStyle="light-content"
-                />
-
             <Image source={{uri: logo}}
               style={{width: 275, height: 325}}
               resizeMode="stretch" />
@@ -28,14 +22,16 @@ const LoginScreen = ({ navigation, route }) => {
             </View>
 
             <TextInput style={styles.inputBox1} 
-                underlineColorAndroid='#ADC9C6' 
+                underlineColor='transparent'
+                activeUnderlineColor='white'
                 label="Username"
                 placeholder = 'Enter username' 
                 onChangeText = {(val) => setUserName(val)}
                 placeholderTextColor = '#ffffff'/>
 
             <TextInput secureTextEntry={true} style={styles.inputBox2} 
-                //underlineColorAndroid='#ADC9C6' 
+                underlineColor = 'rgba(0,0,0,0)'  
+                activeUnderlineColor ='black'
                 label="Password"
                 placeholder = 'Enter password'                
                 onChangeText = {(val) => setUserPassword(val)}
@@ -82,7 +78,6 @@ const styles = StyleSheet.create({
         height:55,
         paddingHorizontal: 16, 
         fontSize: 16, 
-        color: 'white',
         marginVertical: 10,
         
     },
