@@ -16,14 +16,13 @@ const UserInfo = ({ navigation, route, user, bgColor}) => {
                             backgroundColor = 'white'
                             color={bgColor || 'red'} 
                             label = {user.first_name.charAt(0).toUpperCase()+user.last_name.charAt(0).toUpperCase()}
-                            style = {styles.avatar}
                         />)
                     : (<Avatar.Image
                         source={{
                             uri: user.profile_image,
                         }}
                         size={80}
-                    />)
+                       />)
                 }
                 
                     
