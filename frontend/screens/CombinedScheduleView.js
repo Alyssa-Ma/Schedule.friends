@@ -231,7 +231,6 @@ const CombinedScheduleView = ({navigation, route}) => {
                 borderColor: colors.calHeaderBorderColor,
                 headerText: {
                   color: colors.text
-                
                 },
                 event: {
                   borderColor: colors.eventBorderColor
