@@ -1,6 +1,5 @@
 import React, {useState, useContext} from 'react';
-import { View, Alert, Text, StyleSheet, StatusBar,
-        TouchableOpacity } from 'react-native';
+import { View, Alert, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
@@ -145,12 +144,7 @@ const SignUpScreen = ({ navigation }) => {
         <ScrollView>
             <View style={styles.container}>
             
-                <StatusBar
-                    backgroundColor="black"
-                    barStyle="light-content"
-                />
-
-                <TextInput style={styles.inputBox1} 
+                <TextInput style={[styles.inputBox, {marginTop: 50}, {backgroundColor:'#D7A4FF'}]} 
                     label="First Name"
                     underlineColor = 'rgba(0,0,0,0)'
                     placeholder = 'Enter your first name'
@@ -164,8 +158,7 @@ const SignUpScreen = ({ navigation }) => {
                 <HelperText type="error" visible={fnameValid()} style={styles.error}>
                     Error: Only letters are allowed
                 </HelperText>
-                
-                <TextInput style={styles.inputBox2} 
+                <TextInput style={[styles.inputBox, {backgroundColor:'#9E8DFF'}]} 
                     underlineColor = 'rgba(0,0,0,0)' 
                     label="Last Name"
                     placeholder = 'Enter your last name' 
@@ -180,7 +173,7 @@ const SignUpScreen = ({ navigation }) => {
                     Error: Only letters are allowed
                 </HelperText>
 
-                <TextInput style={styles.inputBox3} 
+                <TextInput style={[styles.inputBox, {backgroundColor:'#7DD1FF'}]} 
                     underlineColor = 'rgba(0,0,0,0)' 
                     label="Username"
                     placeholder = 'Enter your username. Letters and numbers only' 
@@ -195,7 +188,7 @@ const SignUpScreen = ({ navigation }) => {
                     Error: Only letters and numbers are allowed
                 </HelperText>
 
-                <TextInput style={styles.inputBox4} 
+                <TextInput style={[styles.inputBox, {backgroundColor:'#68B0D8'}]} 
                     underlineColor = 'rgba(0,0,0,0)' 
                     label="Email"
                     placeholder = 'Enter a valid email' 
@@ -210,7 +203,7 @@ const SignUpScreen = ({ navigation }) => {
                     Error: Invalid email
                 </HelperText>    
 
-                <TextInput secureTextEntry={true} style={styles.inputBox5} 
+                <TextInput secureTextEntry={true} style={[styles.inputBox, {backgroundColor:'#5CDBD5'}]} 
                     underlineColor = 'rgba(0,0,0,0)'
                     label="Password"
                     placeholder = 'Enter a valid password' 
@@ -225,7 +218,7 @@ const SignUpScreen = ({ navigation }) => {
                     Error: Invalid password. Password must be 6-20 characters with at least one number, one uppercase letter, and one lowercase letter.
                 </HelperText>
 
-                <TextInput secureTextEntry={true} style={styles.inputBox2} 
+                <TextInput secureTextEntry={true} style={[styles.inputBox, {backgroundColor:'#9E8DFF'}]} 
                     underlineColor = 'rgba(0,0,0,0)'
                     label="Password Confirmation"
                     placeholder = 'Enter a valid password' 
@@ -269,69 +262,17 @@ const styles = StyleSheet.create({
         color:'white',
         
     },
-
-    inputBox1: {
+    inputBox: {
         width:350, 
-        backgroundColor:'#D7A4FF',
         borderBottomRightRadius: 20,
         borderBottomLeftRadius: 20, 
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         paddingHorizontal: 16, 
         fontSize: 16, 
-        color: 'white',    
-        marginTop: 50,
+        color: 'white',
         height: 55
-    },
-    inputBox2: {
-        width:350, 
-        backgroundColor:'#9E8DFF',
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20, 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        paddingHorizontal: 16, 
-        fontSize: 16, 
-        color: 'white',    
-        height: 55
-    },
-    inputBox3: {
-        width:350, 
-        backgroundColor:'#7DD1FF',
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20, 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        paddingHorizontal: 16, 
-        fontSize: 16, 
-        color: 'white',    
-        height: 55 
-    },
-    inputBox4: {
-        width:350, 
-        backgroundColor:'#68B0D8',
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20, 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        paddingHorizontal: 16, 
-        fontSize: 16, 
-        color: 'white',    
-        height: 55
-    },
-    inputBox5: {
-        width:350, 
-        backgroundColor:'#5CDBD5',
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20, 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        paddingHorizontal: 16, 
-        fontSize: 16, 
-        color: 'white',    
-        height: 55
-    },
-    
+    },    
     button:{
         backgroundColor:'#53C2FF',
         borderRadius: 15, 
@@ -347,12 +288,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         
     },
-
     text: {
-        color: 'white',
-        
-    },
-    
+        color: 'white',  
+    },   
     error: {
         color: '#4CD2CC',
         fontSize: 14,
