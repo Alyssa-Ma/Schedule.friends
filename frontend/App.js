@@ -38,14 +38,20 @@ const App = ({ navigation, route }) => {
       backgroundCardColors: ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'],
       fabButtonColor: '#53c3fe',
       radioButtonColor: '#9E8DFF',
-      //primary: '#ffffff',
+      activityIndicatorColor: '#9E8DFF',
+      drawerBackgroundColor: '#ffffff',
+      dialogButton: '#9E8DFF',
+      calHeaderBackground: '#F5F5F6',
+      calHeaderBorderColor: '#E6E8F0',
+      calIconColor: "#9CA0B8",
+      eventBorderColor: '#DDE5FD',
+      primary: '#ffffff',
       accent: '#7DD1FF',
       firstColor: '#D7A4FF',
       secondColor: '#9E8DFF',
       thirdColor: '#7DD1FF',
       fourthColor: '#68B0D8',
       fifthColor: '#5CDBD5',
-      drawerBackgroundColor: '#ffffff',
     }
   }
 
@@ -63,7 +69,13 @@ const App = ({ navigation, route }) => {
       backgroundCardColors: ['#7464CC', '#B8ACFB', '#927EFF', '#696580', '#786CBC'],
       fabButtonColor: '#696580',
       radioButtonColor: '#927EFF',
+      activityIndicatorColor: '#B8ACFB',
       drawerBackgroundColor: '#493e81',
+      dialogButton: '#7464CC',
+      calHeaderBackground: '#6355aa',
+      calHeaderBorderColor: '#5448A4',
+      calIconColor: '#453a75',
+      eventBorderColor: '#453a75',
       firstColor: '#7464CC',
       secondColor: '#927EFF',
       thirdColor: '#B8ACFB',
@@ -108,7 +120,7 @@ const App = ({ navigation, route }) => {
   //for developmental purpose, autologins to HenryB
   // React.useEffect(() => {
   //  fetchUserToken("henryB", "Test01");
-  //}, [])
+  // }, [])
 
   return (
 
@@ -120,6 +132,7 @@ const App = ({ navigation, route }) => {
         setUser: setUser,
         setIsSignedIn: setIsSignedIn,
         fetchUserToken: fetchUserToken,
+        isDarkTheme: isDarkTheme,
         toggleTheme: () => {    //Added toggle theme
           setIsDarkTheme( isDarkTheme => !isDarkTheme);
         }
@@ -137,7 +150,6 @@ const App = ({ navigation, route }) => {
                       headerShown: false,
                     }}
                   />
-                  {/* <HomeDrawer/> */}
                 </Stack.Navigator>
               )
               : (

@@ -6,12 +6,9 @@ import {Drawer, Text, TouchableRipple, Switch, Avatar, Title, Caption } from 're
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useTheme } from '@react-navigation/native';
 import UserContext from '../context/UserContext';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 const DrawerContent = (props) => {
-
-    //console.log(props.navigation.navigate)
-
     const { toggleTheme } = useContext(UserContext);
-
     const paperTheme = useTheme();
     const { colors } = useTheme();
 
@@ -36,7 +33,10 @@ const DrawerContent = (props) => {
                             icon={({color, size}) => (
                                 <Icon 
                                 name="home-outline" 
-                                color={color}
+                                color={
+                                    getFocusedRouteNameFromRoute(props.route) === 'HomePage'
+                                    ? colors.secondColor
+                                    : color}
                                 size={size}
                                 />
                             )}
@@ -48,7 +48,10 @@ const DrawerContent = (props) => {
                             icon={({color, size}) => (
                                 <Icon 
                                 name="calendar-account-outline" 
-                                color={color}
+                                color={
+                                    getFocusedRouteNameFromRoute(props.route) === 'MySchedule'
+                                    ? colors.secondColor
+                                    : color}
                                 size={size}
                                 />
                             )}
@@ -60,7 +63,10 @@ const DrawerContent = (props) => {
                             icon={({color, size}) => (
                                 <Icon 
                                 name="account-clock-outline" 
-                                color={color}
+                                color={
+                                    getFocusedRouteNameFromRoute(props.route) === 'CommonTimeText'
+                                    ? colors.secondColor
+                                    : color}
                                 size={size}
                                 />
                             )}
@@ -72,7 +78,10 @@ const DrawerContent = (props) => {
                             icon={({color, size}) => (
                                 <Icon 
                                 name="account-group-outline" 
-                                color={color}
+                                color={
+                                    getFocusedRouteNameFromRoute(props.route) === 'Friends'
+                                    ? colors.secondColor
+                                    : color}
                                 size={size}
                                 />
                             )}
@@ -84,7 +93,10 @@ const DrawerContent = (props) => {
                             icon={({color, size}) => (
                                 <Icon 
                                 name="badge-account-horizontal-outline" 
-                                color={color}
+                                color={
+                                    getFocusedRouteNameFromRoute(props.route) === 'MyProfile'
+                                    ? colors.secondColor
+                                    : color}
                                 size={size}
                                 />
                             )}

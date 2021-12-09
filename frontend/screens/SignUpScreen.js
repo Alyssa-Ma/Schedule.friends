@@ -1,6 +1,5 @@
 import React, {useState, useContext} from 'react';
-import { View, Alert, Text, StyleSheet, StatusBar,
-        TouchableOpacity } from 'react-native';
+import { View, Alert, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
@@ -23,98 +22,92 @@ const SignUpScreen = ({ navigation }) => {
     const onChangeCTest = confPassword => setConfPassword(confPassword);
     
     // HELPER TEXT CHECKER FUNCS
+    
+    // Returns true if first_name does not only contain alphabet or is over 150 characters
     const fnameValid = () => {
-        var nameRegex = /^[A-Za-z]+$/;
+        const nameRegex = /^[A-Za-z]{1,150}$/;
         return (!(nameRegex.test(first_name)) && first_name.length > 0);
     };
 
+    // Returns true if last_name does not only contain alphabet or is over 150 characters
     const lnameValid = () => {
-        var nameRegex = /^[A-Za-z]+$/;
+        const nameRegex = /^[A-Za-z]{1,150}$/;
         return (!(nameRegex.test(last_name)) && last_name.length > 0);
     };
 
+    // Returns true if username does not only contain alphanumeric, -, _, @, +, and . and if over 20 character
     const unameValid = () => {
-        var usernameRegex = /^[0-9a-zA-Z]+$/;
+        const usernameRegex = /^[0-9a-zA-Z-_@+.]{1,20}$/;
         return !(usernameRegex.test(username)) && username.length > 0;
     };
 
+    // Returns true if email is not valid name@host.ext
     const emailValid = () => {
-        var simpleEmailRegex = /\S+@\S+\.\S+/; 
+        const simpleEmailRegex = /\S+@\S+\.\S+/; 
         return !(simpleEmailRegex.test(email)) && email.length > 0;
     }
 
+    // Return true if password does not contain at least 6 characters, two which are digits, and one uppercase
     const passwordValid = () => {
-        var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
         return !(passwordRegex.test(password)) && password.length > 0;
     }
 
+    // Returns true if conPassword does not match password and if length is 6 or less
     const confPasswordValid = () => {
         return !(password === confPassword) && confPassword.length >= 6;
     }
+
+    // fourmCheck that runs on Register submit button
     const forumCheck = () => {
-        const fname = first_name;
-        const lname = last_name;
-        const uname = username; 
-        const em = email; 
-        const pword = password;
-        
-        //firstname + lastname regex to check if inputed names follow correct syntax. only allows letters.
-        var nameRegex = /^[A-Za-z]+$/;
-
-        //username regex to check if inputed usernames follow correct syntax. only allows letters and numbers. 
-        var usernameRegex = /^[0-9a-zA-Z]+$/;
-
-        //email regex to check if inputed emails follow correct syntax. (something@something.something)
-        var simpleEmailRegex = /\S+@\S+\.\S+/;  
-
-        //password regex to check if inputed passwords follow correct syntax. only allows 6-20 chars which contain at least one numeric digit, 
-        //one upercase letter and one lowercase letter 
-        var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-
-        //separated and added some new alerts to help out user(right now doesn't tell why user created an error)
-        //first name alerts
-        if (fname=="")
-        {
-            //errors{"fname"} = "Please enter your username.";
+        // Checks if first_name is empty
+        if (first_name=="") {
             Alert.alert("Please enter a first name.");
-            errors = "Please enter a first name.";
-            console.log(errors);
         }
-        //both fname and last name use nameregex
-        else if (!(nameRegex.test(fname)) || !(nameRegex.test(lname)))
-        {
-            Alert.alert("Only alphabetical characters are accepted for first ane last names.");
-        }
-        //last name alerts
-        else if (lname=="")
-        {
+        
+        // Checks if last name is empty
+        else if (last_name=="") {
             Alert.alert("Please enter a last name.");
         }
-        else if (uname=="")
-        {
+
+        // regex check first_name and last_name
+        else if ((fnameValid()) || (lnameValid())){
+            Alert.alert("Only alphabetical characters are accepted for first ane last names.");
+        }
+
+        // Checks if username is empty
+        else if (username=="") {
             Alert.alert("Please enter a username.");
         }
-        //weird error: alerts will get cut off on the second line
-        else if (!(usernameRegex.test(uname)))
-        {
-            Alert.alert("Username can only contain letters and numbers.");
+
+        // regex check username
+        else if (unameValid()) {
+            Alert.alert("Username can only contain alphanumeric, _, @, +, . and - characters.");
         }
-        else if ((em=="")||!(simpleEmailRegex.test(em)))
-        {
+
+        // regex check email
+        else if (emailValid()) {
             Alert.alert("Please enter a valid email.");
         }
-        else if ((pword==""))
-        {
+
+        // Checks if password is empty
+        else if ((password=="")) {
             Alert.alert("Please enter a password.");
         }
-        else if (!(passwordRegex.test(pword)))
-        {
+
+        // regex check password
+        else if (passwordValid()) {
             Alert.alert("Password is invalid.");
         }
-        else 
-        {
-            insertData();
+
+        // Checks if password and confPassword are the same
+        else if (password !== confPassword) {
+            Alert.alert("Password do not match")
         }
+
+        // All checks are passed, data is sent to backend
+        else 
+            insertData();
     }
 
     const insertData = async () => {
@@ -135,8 +128,8 @@ const SignUpScreen = ({ navigation }) => {
             })
             const jsonResponse = await response.json();
             if (response.status === 201) {
-                setUser(jsonResponse);
-                setIsSignedIn(true);
+                context.setUser(jsonResponse);
+                context.setIsSignedIn(true);
             }
             else {
                 console.log(JSON.stringify(jsonResponse))
@@ -151,111 +144,91 @@ const SignUpScreen = ({ navigation }) => {
         <ScrollView>
             <View style={styles.container}>
             
-                <StatusBar
-                    backgroundColor="black"
-                    barStyle="light-content"
-                />
-
-                <TextInput style={styles.inputBox1} 
-                    //underlineColorAndroid='#ADC9C6' 
+                <TextInput style={[styles.inputBox, {marginTop: 50}, {backgroundColor:'#D7A4FF'}]} 
                     label="First Name"
+                    underlineColor = 'transparent'
                     placeholder = 'Enter your first name'
                     onChangeText = {(val) => setFirstName(val), first_name => onChangeFText(first_name)}
-                    value={first_name}
-                    //stylesheet doesn't work for colors for react native paper, change it here
                     theme={{
                         colors: {
-                            //placeholder: 'purple',
                             text: 'white',
-                            //primary: 'white',
-                            underlineColor: 'transparent'
                         }
-                    }}/>
+                    }}
+                    />
                 <HelperText type="error" visible={fnameValid()} style={styles.error}>
                     Error: Only letters are allowed
                 </HelperText>
-                
-                <TextInput style={styles.inputBox2} 
-                    //underlineColorAndroid='#ADC9C6' 
+                <TextInput style={[styles.inputBox, {backgroundColor:'#9E8DFF'}]} 
+                    underlineColor = 'rgba(0,0,0,0)' 
                     label="Last Name"
                     placeholder = 'Enter your last name' 
                     onChangeText = {(val) => setLastName(val), last_name => onChangeLText(last_name)}
                     theme={{
                         colors: {
-                            //placeholder: 'purple',
                             text: 'white',
-                            //primary: 'white',
-                            underlineColor: 'transparent'
                         }
-                    }}/>
+                    }}
+                    />
                 <HelperText type="error" visible={lnameValid()} style={styles.error}>
                     Error: Only letters are allowed
                 </HelperText>
 
-                <TextInput style={styles.inputBox3} 
-                    //underlineColorAndroid='#ADC9C6' 
+                <TextInput style={[styles.inputBox, {backgroundColor:'#7DD1FF'}]} 
+                    underlineColor = 'rgba(0,0,0,0)' 
                     label="Username"
                     placeholder = 'Enter your username. Letters and numbers only' 
                     onChangeText = {(val) => setUserName(val), username => onChangeUText(username)}
                     theme={{
                         colors: {
-                            //placeholder: 'purple',
                             text: 'white',
-                            //primary: 'white',
-                            underlineColor: 'transparent'
                         }
-                    }}/>        
+                    }}
+                    />        
                 <HelperText type="error" visible={unameValid()} style={styles.error}>
                     Error: Only letters and numbers are allowed
                 </HelperText>
 
-                <TextInput style={styles.inputBox4} 
-                    //underlineColorAndroid='#ADC9C6' 
+                <TextInput style={[styles.inputBox, {backgroundColor:'#68B0D8'}]} 
+                    underlineColor = 'rgba(0,0,0,0)' 
                     label="Email"
                     placeholder = 'Enter a valid email' 
                     onChangeText = {(val) => setEmail(val), email => onChangeEText(email)}
                     theme={{
                         colors: {
-                            //placeholder: 'purple',
                             text: 'white',
-                            //primary: 'white',
-                            underlineColor: 'transparent'
                         }
-                    }}/> 
+                    }}
+                    /> 
                 <HelperText type="error" visible={emailValid()} style={styles.error}>
                     Error: Invalid email
                 </HelperText>    
 
-                <TextInput secureTextEntry={true} style={styles.inputBox5} 
-                    //underlineColorAndroid='#ADC9C6' 
+                <TextInput secureTextEntry={true} style={[styles.inputBox, {backgroundColor:'#5CDBD5'}]} 
+                    underlineColor = 'rgba(0,0,0,0)'
                     label="Password"
                     placeholder = 'Enter a valid password' 
                     onChangeText = {(val) => setPassword(val), password => onChangePText(password)}
                     theme={{
                         colors: {
-                            //placeholder: 'purple',
                             text: 'white',
-                            //primary: 'white',
-                            underlineColor: 'transparent'
                         }
-                    }}/>
+                    }}
+                    />
                 <HelperText type="error" visible={passwordValid()} style={styles.error}>
                     Error: Invalid password. Password must be 6-20 characters with at least one number, one uppercase letter, and one lowercase letter.
                 </HelperText>
 
-                <TextInput secureTextEntry={true} style={styles.inputBox2} 
-                    //underlineColorAndroid='#ADC9C6' 
+                <TextInput secureTextEntry={true} style={[styles.inputBox, {backgroundColor:'#9E8DFF'}]} 
+                    underlineColor = 'rgba(0,0,0,0)'
                     label="Password Confirmation"
                     placeholder = 'Enter a valid password' 
                     onChangeText = {confPassword => onChangeCTest(confPassword)}
                     theme={{
                         colors: {
-                            //placeholder: 'purple',
                             text: 'white',
-                            //primary: 'white',
-                            underlineColor: 'transparent'
                         }
-                    }}/>
+                    }}
+                    />
                 <HelperText type="error" visible={confPasswordValid()} style={styles.error}>
                     Passwords do not match.
                 </HelperText> 
@@ -289,69 +262,17 @@ const styles = StyleSheet.create({
         color:'white',
         
     },
-
-    inputBox1: {
+    inputBox: {
         width:350, 
-        backgroundColor:'#D7A4FF',
         borderBottomRightRadius: 20,
         borderBottomLeftRadius: 20, 
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         paddingHorizontal: 16, 
         fontSize: 16, 
-        color: 'white',    
-        marginTop: 50,
+        color: 'white',
         height: 55
-    },
-    inputBox2: {
-        width:350, 
-        backgroundColor:'#9E8DFF',
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20, 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        paddingHorizontal: 16, 
-        fontSize: 16, 
-        color: 'white',    
-        height: 55
-    },
-    inputBox3: {
-        width:350, 
-        backgroundColor:'#7DD1FF',
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20, 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        paddingHorizontal: 16, 
-        fontSize: 16, 
-        color: 'white',    
-        height: 55 
-    },
-    inputBox4: {
-        width:350, 
-        backgroundColor:'#68B0D8',
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20, 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        paddingHorizontal: 16, 
-        fontSize: 16, 
-        color: 'white',    
-        height: 55
-    },
-    inputBox5: {
-        width:350, 
-        backgroundColor:'#5CDBD5',
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20, 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        paddingHorizontal: 16, 
-        fontSize: 16, 
-        color: 'white',    
-        height: 55
-    },
-    
+    },    
     button:{
         backgroundColor:'#53C2FF',
         borderRadius: 15, 
@@ -367,15 +288,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         
     },
-
     text: {
-        color: 'white',
-        
-    },
-    
+        color: 'white',  
+    },   
     error: {
         color: '#4CD2CC',
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold'
     },
 
