@@ -14,12 +14,6 @@ const SignUpScreen = ({ navigation }) => {
     const [password, setPassword] = useState("");
     const [confPassword, setConfPassword] = useState("");
     const [schedule, setSchedule] = useState([]);
-    const onChangeFText = first_name => setFirstName(first_name);
-    const onChangeLText = last_name => setLastName(last_name);
-    const onChangeUText = username => setUserName(username);
-    const onChangeEText = email => setEmail(email);
-    const onChangePText = password => setPassword(password);
-    const onChangeCTest = confPassword => setConfPassword(confPassword);
     
     // HELPER TEXT CHECKER FUNCS
     
@@ -35,9 +29,9 @@ const SignUpScreen = ({ navigation }) => {
         return (!(nameRegex.test(last_name)) && last_name.length > 0);
     };
 
-    // Returns true if username does not only contain alphanumeric, -, _, @, +, and . and if over 20 character
+    // Returns true if username does not only contain alphanumeric, -, _, @, +, and . and if over 15 character
     const unameValid = () => {
-        const usernameRegex = /^[0-9a-zA-Z-_@+.]{1,20}$/;
+        const usernameRegex = /^[0-9a-zA-Z-_@+.]{4,15}$/;
         return !(usernameRegex.test(username)) && username.length > 0;
     };
 
@@ -55,7 +49,7 @@ const SignUpScreen = ({ navigation }) => {
 
     // Returns true if conPassword does not match password and if length is 6 or less
     const confPasswordValid = () => {
-        return !(password === confPassword) && confPassword.length >= 6;
+        return !(password === confPassword) && confPassword.length <= 6;
     }
 
     // fourmCheck that runs on Register submit button
@@ -78,6 +72,11 @@ const SignUpScreen = ({ navigation }) => {
         // Checks if username is empty
         else if (username=="") {
             Alert.alert("Please enter a username.");
+        }
+
+        //Checks username length
+        else if (username.length > 15 || username.length < 4) {
+            Alert.alert("Username must be between 4-15 characters")
         }
 
         // regex check username
@@ -143,94 +142,97 @@ const SignUpScreen = ({ navigation }) => {
     return (
         <ScrollView>
             <View style={styles.container}>
-            
-                <TextInput style={[styles.inputBox, {marginTop: 50}, {backgroundColor:'#D7A4FF'}]} 
-                    label="First Name"
-                    underlineColor = 'transparent'
-                    placeholder = 'Enter your first name'
-                    onChangeText = {(val) => setFirstName(val), first_name => onChangeFText(first_name)}
-                    theme={{
-                        colors: {
-                            text: 'white',
-                        }
-                    }}
+
+                <View style={[styles.inputBox, {marginTop: 25}, {backgroundColor:'#D7A4FF'}]}>
+                    <TextInput
+                        error={fnameValid()}
+                        style={styles.input}
+                        activeUnderlineColor='white'
+                        label="First Name"
+                        placeholder = 'Enter Your First Name'
+                        placeholderTextColor = '#ffffff'
+                        onChangeText = {(val) => setFirstName(val)}
                     />
+                </View>
                 <HelperText type="error" visible={fnameValid()} style={styles.error}>
                     Error: Only letters are allowed
                 </HelperText>
-                <TextInput style={[styles.inputBox, {backgroundColor:'#9E8DFF'}]} 
-                    underlineColor = 'rgba(0,0,0,0)' 
-                    label="Last Name"
-                    placeholder = 'Enter your last name' 
-                    onChangeText = {(val) => setLastName(val), last_name => onChangeLText(last_name)}
-                    theme={{
-                        colors: {
-                            text: 'white',
-                        }
-                    }}
+
+                <View style={[styles.inputBox, {backgroundColor:'#9E8DFF'}]}>
+                    <TextInput
+                        error={lnameValid()}
+                        style={styles.input}
+                        activeUnderlineColor='white'
+                        label="Last Name"
+                        placeholder = 'Enter Your Last Name'
+                        placeholderTextColor = '#ffffff'
+                        onChangeText = {(val) => setLastName(val)}
                     />
+                </View>
                 <HelperText type="error" visible={lnameValid()} style={styles.error}>
                     Error: Only letters are allowed
                 </HelperText>
 
-                <TextInput style={[styles.inputBox, {backgroundColor:'#7DD1FF'}]} 
-                    underlineColor = 'rgba(0,0,0,0)' 
-                    label="Username"
-                    placeholder = 'Enter your username. Letters and numbers only' 
-                    onChangeText = {(val) => setUserName(val), username => onChangeUText(username)}
-                    theme={{
-                        colors: {
-                            text: 'white',
-                        }
-                    }}
-                    />        
+                <View style={[styles.inputBox, {backgroundColor:'#7DD1FF'}]}>
+                    <TextInput
+                        error={unameValid()}
+                        style={styles.input}
+                        activeUnderlineColor='white'
+                        label="Username"
+                        placeholder = 'Enter Your Username'
+                        placeholderTextColor = '#ffffff'
+                        onChangeText = {(val) => setUserName(val)}
+                    />
+                </View>    
                 <HelperText type="error" visible={unameValid()} style={styles.error}>
-                    Error: Only letters and numbers are allowed
+                    Error: Only 4-15 alphanumeric, -, _, @, +, and . characters allowed.
                 </HelperText>
 
-                <TextInput style={[styles.inputBox, {backgroundColor:'#68B0D8'}]} 
-                    underlineColor = 'rgba(0,0,0,0)' 
-                    label="Email"
-                    placeholder = 'Enter a valid email' 
-                    onChangeText = {(val) => setEmail(val), email => onChangeEText(email)}
-                    theme={{
-                        colors: {
-                            text: 'white',
-                        }
-                    }}
-                    /> 
+                <View style={[styles.inputBox, {backgroundColor:'#68B0D8'}]}>
+                    <TextInput
+                        error={emailValid()}
+                        style={styles.input}
+                        activeUnderlineColor='white'
+                        label="E-Mail"
+                        placeholder = 'Enter Your E-Mail'
+                        placeholderTextColor = '#ffffff'
+                        onChangeText = {(val) => setEmail(val)}
+                    />
+                </View>  
                 <HelperText type="error" visible={emailValid()} style={styles.error}>
-                    Error: Invalid email
+                    Error: Must be in valid e-mail format (name@host.ext)
                 </HelperText>    
 
-                <TextInput secureTextEntry={true} style={[styles.inputBox, {backgroundColor:'#5CDBD5'}]} 
-                    underlineColor = 'rgba(0,0,0,0)'
-                    label="Password"
-                    placeholder = 'Enter a valid password' 
-                    onChangeText = {(val) => setPassword(val), password => onChangePText(password)}
-                    theme={{
-                        colors: {
-                            text: 'white',
-                        }
-                    }}
+                <View style={[styles.inputBox, {backgroundColor:'#5CDBD5'}]}>
+                    <TextInput
+                        error={passwordValid()}
+                        secureTextEntry={true}
+                        style={styles.input}
+                        activeUnderlineColor='white'
+                        label="Password"
+                        placeholder = 'Enter Your Password'
+                        placeholderTextColor = '#ffffff'
+                        onChangeText = {(val) => setPassword(val)}
                     />
+                </View> 
                 <HelperText type="error" visible={passwordValid()} style={styles.error}>
-                    Error: Invalid password. Password must be 6-20 characters with at least one number, one uppercase letter, and one lowercase letter.
+                    Error: Password must be at least 6 characters with at least one number, one uppercase letter, and one lowercase letter.
                 </HelperText>
 
-                <TextInput secureTextEntry={true} style={[styles.inputBox, {backgroundColor:'#9E8DFF'}]} 
-                    underlineColor = 'rgba(0,0,0,0)'
-                    label="Password Confirmation"
-                    placeholder = 'Enter a valid password' 
-                    onChangeText = {confPassword => onChangeCTest(confPassword)}
-                    theme={{
-                        colors: {
-                            text: 'white',
-                        }
-                    }}
+                <View style={[styles.inputBox, {backgroundColor:'#9E8DFF'}]}>
+                    <TextInput
+                        error={confPasswordValid()}
+                        secureTextEntry={true}
+                        style={styles.input}
+                        activeUnderlineColor='white'
+                        label="Password Confirmation"
+                        placeholder = 'Enter Your Password Again'
+                        placeholderTextColor = '#ffffff'
+                        onChangeText = {(val) => setConfPassword(val)}
                     />
+                </View> 
                 <HelperText type="error" visible={confPasswordValid()} style={styles.error}>
-                    Passwords do not match.
+                    Error: Passwords do not match.
                 </HelperText> 
                 
                 <TouchableOpacity style={styles.button}>
@@ -263,15 +265,18 @@ const styles = StyleSheet.create({
         
     },
     inputBox: {
-        width:350, 
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20, 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        paddingHorizontal: 16, 
+        width: 350, 
+        borderRadius: 20,
+        height: 55,
+        paddingHorizontal: 16,
         fontSize: 16, 
         color: 'white',
-        height: 55
+        overflow: 'hidden'
+    },
+    input: {
+        backgroundColor: 'transparent',
+        margin: -6,
+        overflow: 'hidden'
     },    
     button:{
         backgroundColor:'#53C2FF',
@@ -292,6 +297,8 @@ const styles = StyleSheet.create({
         color: 'white',  
     },   
     error: {
+        width: 350,
+        textAlign: 'center',
         color: '#4CD2CC',
         fontSize: 14,
         fontWeight: 'bold'
