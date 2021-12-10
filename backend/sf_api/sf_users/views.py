@@ -161,7 +161,6 @@ def schedule_detail(request, user_pk, course_pk):
         course = Course.objects.get(pk=course_pk)
     except Course.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
     if request.method == 'GET':
         if course.owner != request.user and not request.user.is_staff and request.user.id not in UserSerializer(course.owner).data['friend_list']:
             raise exceptions.PermissionDenied(detail="User does not have permission to view schedule")
@@ -240,7 +239,7 @@ def fr_detail(request, pk):
 
     # only to and from users can get requests by ID and patch friend requests
     serializer = FriendRequestSerializer(friend_request, context={'request': request})
-    if request.user != serializer.data['to_user'] and request.user != serializer.data['from_user'] and not request.user.is_staff:
+    if request.user.id != serializer.data['to_user'] and request.user.id!= serializer.data['from_user'] and not request.user.is_staff:
         raise exceptions.PermissionDenied(detail="User not involved in friend request")
 
     if request.method == 'GET':
@@ -275,7 +274,7 @@ def fr_detail(request, pk):
         return Response(fr_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'DELETE':
-        if request.user != serializer.data['from_user'] and not request.user.is_staff:
+        if request.user.id != serializer.data['from_user'] and not request.user.is_staff:
             raise exceptions.PermissionDenied(detail="User did not create friend request")
         friend_request.delete()
         return Response({
