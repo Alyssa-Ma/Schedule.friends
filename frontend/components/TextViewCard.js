@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     friendTimeCard: {
         width: 330,
         borderRadius: 50 / 2,
-        //backgroundColor: 'darkslateblue',       //STATIC BACKGROUND COLOR
         alignSelf: 'center',
         marginTop: 50,
         flex: 1,
@@ -104,7 +103,6 @@ const styles = StyleSheet.create({
     avatar_name_row: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        
         marginTop: 10,
     },
 
