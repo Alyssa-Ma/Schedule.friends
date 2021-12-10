@@ -6,8 +6,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import {BASE_URL} from "@env";
-import {HOST_URL} from "@env";
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const EditMyProfileView = ({ navigation, route }) => {
 
@@ -21,16 +19,12 @@ const EditMyProfileView = ({ navigation, route }) => {
     const [email, setEmail] = useState(user.email);
     const [ProfileImage, setProfileImage] = useState(user.profile_image);
 
-    /*
-    const path = 'https://randomuser.me/api/portraits/lego/1.jpg';
-    const filename= path.substring(path.lastIndexOf('/') + 1);
-    console.log(filename);
-    */
-
     const userData = new FormData();
 
     const [loadingButton, setLoadingButton] = useState(false);
-    
+
+
+    //Function Thats Chooses Photo From Phone's Library
     const choosPhotoFromLibrary = () => {
         ImagePicker.openPicker({
             width: 300,
@@ -44,6 +38,7 @@ const EditMyProfileView = ({ navigation, route }) => {
           .catch(error => console.log("Unable to Load Photo"));
     }
 
+    //Form Data Creation/Update for User
     const createUserData = () => {
         userData.append('first_name', fName);
         userData.append('last_name', lName);
@@ -58,55 +53,106 @@ const EditMyProfileView = ({ navigation, route }) => {
          confirmPressHandle();
 
     }
+
+
+    // HELPER TEXT CHECKER FUNCS
     
+    // Returns true if first_name does not only contain alphabet or is over 150 characters
+    const fnameValid = () => {
+        const nameRegex = /^[A-Za-z]{1,150}$/;
+        return (!(nameRegex.test(fName)) && fName.length > 0);
+    };
+
+    // Returns true if last_name does not only contain alphabet or is over 150 characters
+    const lnameValid = () => {
+        const nameRegex = /^[A-Za-z]{1,150}$/;
+        return (!(nameRegex.test(lName)) && lName.length > 0);
+    };
+
+    // Returns true if username does not only contain alphanumeric, -, _, @, +, and . and if over 20 character
+    const unameValid = () => {
+        const usernameRegex = /^[0-9a-zA-Z-_@+.]{1,20}$/;
+        return !(usernameRegex.test(userName)) && userName.length > 0;
+    };
+
+    // Returns true if email is not valid name@host.ext
+    const emailValid = () => {
+        const simpleEmailRegex = /\S+@\S+\.\S+/; 
+        return !(simpleEmailRegex.test(email)) && email.length > 0;
+    }
+
+    // fourmCheck that runs on Register submit button
     const forumCheck = () => {
-        var nameRegex = /^[A-Za-z]+$/;
-        if((fName=="")||!(nameRegex.test(fName)))
-        {
-            Alert.alert("please enter a valid first name.");
-            
+        // Checks if first_name is empty
+        if (fName=="") {
+            Alert.alert("Please enter a first name.");
         }
-        else if ((lName=="")||!(nameRegex.test(lName)))
-        {
-            Alert.alert("please enter a valid last name.");
+        
+        // Checks if last name is empty
+        else if (lName=="") {
+            Alert.alert("Please enter a last name.");
         }
+
+        // regex check first_name and last_name
+        else if ((fnameValid()) || (lnameValid())){
+            Alert.alert("Only alphabetical characters are accepted for first and last names.");
+        }
+
+        // Checks if username is empty
+        else if (userName=="") {
+            Alert.alert("Please enter a username.");
+        }
+
+        // regex check username
+        else if (unameValid()) {
+            Alert.alert("Username can only contain alphanumeric, _, @, +, . and - characters.");
+        }
+
+        // regex check email
+        else if (emailValid()) {
+            Alert.alert("Please enter a valid email.");
+        }
+
+        // All checks are passed, data is sent to backend
         else 
-        {
             createUserData();
+    }
+
+
+    //PATCH API CALL   
+    const confirmPressHandle = async () => {
+        setLoadingButton(true);
+        try {
+            const response = await fetch(`${BASE_URL}/${user.id}`, {
+                method:"PATCH",
+                headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Token ${user.token}`
+                
+                },
+
+                body: userData
+            
+            })
+            
+            const jsonResponse = await response.json();
+            if (response.status === 200) {
+                setLoadingButton(false);
+                context.setUser(jsonResponse);
+                navigation.pop();
+            }
+            else {
+                setLoadingButton(false);
+                console.log(`Server Error ${response.status}`)
+                Alert.alert(`Server Error or Username already taken`);
+            }
+        } catch(error) {
+            console.log(error)
         }
+        setLoadingButton(false);
     }
     
-        const confirmPressHandle = async () => {
-            setLoadingButton(true);
-            try {
-                const response = await fetch(`${BASE_URL}/${user.id}`, {
-                    method:"PATCH",
-                    headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Token ${user.token}`
-                    
-                    },
-
-                    body: userData
-                
-                })
-                
-                const jsonResponse = await response.json();
-                if (response.status === 200) {
-                    setLoadingButton(false);
-                    context.setUser(jsonResponse);
-                    navigation.pop();
-                }
-                else {
-                    setLoadingButton(false);
-                    console.log(`Server Error ${response.status}`)
-                }
-            } catch(error) {
-                console.log(error)
-            }
-            setLoadingButton(false);
-        }
-    
+    //GO BACK TO PROFILE SCRREN WHEN CANCEL IS PRESSED
     const cancelPressHandle = () => {
         navigation.pop();
         console.log("Cancel button pressed");
@@ -124,14 +170,16 @@ const EditMyProfileView = ({ navigation, route }) => {
                 <View style={{alignItems: 'center'}}>
                     <TouchableOpacity onPress={() => {choosPhotoFromLibrary()}}>
                         <View style={styles.icon}>
-    {/*}
+
+                            {/*
                             <Avatar.Text 
                                 size = {100} 
                                 backgroundColor = '#D7A4FF'
                                 label=
                                 {user.first_name.charAt(0)+user.last_name.charAt(0)}
                             />
-    {*/}
+                            */}
+
                             <ImageBackground
                             source={{
                             uri: ProfileImage,
