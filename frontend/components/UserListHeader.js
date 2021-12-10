@@ -8,10 +8,10 @@ const UserListHeader = ({ navigation, route, user, textColor, bgColor}) => {
         <View style={styles.itemView}>
 
             {
-                user.profile_image !== 'null'
+                user.profile_image == 'null'
                 ? (<Avatar.Text
                     label={`${user.first_name.charAt(0).toUpperCase()}${user.last_name.charAt(0).toUpperCase()}`}
-                    size={55}
+                    size={60}
                     color={textColor || 'blue'}     //default bad colors to see if any other things use this
                     backgroundColor={bgColor || 'black'}
                     />)
@@ -20,7 +20,7 @@ const UserListHeader = ({ navigation, route, user, textColor, bgColor}) => {
                     source={{
                         uri: user.profile_image,
                     }}
-                    size={80}
+                    size={60}
                    />)
             }
             
