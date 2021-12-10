@@ -27,14 +27,17 @@ const EventInfo = ({navigation, route, event}) => {
 
     const startTime = parseTime(event.timeStart);
     const endTime = parseTime(event.timeEnd);
-
+    
     return (
         <View backgroundColor={event.color} style={{borderRadius: 15}}>
-            <UserInfo user={{
-                first_name: event.firstName,
-                last_name: event.lastName,
-                username: event.summary,
-                email: event.email}}/>
+            <View style={{marginLeft: 15}}>
+                <UserInfo user={{
+                    first_name: event.firstName,
+                    last_name: event.lastName,
+                    username: event.summary,
+                    email: event.email,
+                    profile_image: event.profile_image}}/>
+            </View>
             <View style={{padding: 30, paddingTop: 0}}>
                 <Headline>{event.courseName}</Headline>
                 <Subheading>{event.courseNumber}</Subheading>
