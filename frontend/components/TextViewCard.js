@@ -9,11 +9,10 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 const TextViewCard = ({item, bgColor}) => {
 
     const [times, setTimes] = useState(item.schedule);
-    const [trigger, setTrigger] = useState(false);
-    const NowTime = ({trigger}) => {
-        
+    const [trigger, setTrigger] = useState(item.now);
+
+    const NowTime = () => {
         //renders the first schedule time
-        trigger=true;
         return (
             <View style={styles.now_row}>
                 <Text style={[styles.now_upcoming, {color: 'white'}]}>Now:</Text>
@@ -29,7 +28,7 @@ const TextViewCard = ({item, bgColor}) => {
         
         //removes the first time if there is a 'Now'
         let tmp_times = [...times];
-        if(trigger)
+        if(item.now)
            tmp_times.splice(0,1);
 
         //returns the upcoming times section
@@ -55,13 +54,24 @@ const TextViewCard = ({item, bgColor}) => {
         <View style={[styles.friendTimeCard, {backgroundColor: bgColor}]}>
 
             <View style={styles.avatar_name_row}>
-                <Avatar.Text 
+                {
+                    item.profile_image == 'null'
+                    ?   (<Avatar.Text 
                             size = {75} 
                             backgroundColor = 'white'
                             color={bgColor}
                             label = {item.f_name.charAt(0).toUpperCase()+item.l_name.charAt(0).toUpperCase()}
                             style = {styles.avatar}
-                />
+                        />)
+                    :   (<Avatar.Image
+                            source={{
+                                uri: item.profile_image,
+                            }}
+                            size={75}
+                            style = {styles.avatar}
+                        />)
+                }
+                
 
                 <View style={styles.name_col}>
                     <Text style={[styles.name_text, {color: 'white'}]}>{item.f_name}</Text>
@@ -70,7 +80,7 @@ const TextViewCard = ({item, bgColor}) => {
                 
             </View>
 
-            {item.now &&<NowTime trigger={trigger}/>}
+            {item.now && <NowTime/>}
 
             <UpcomingTime />
 

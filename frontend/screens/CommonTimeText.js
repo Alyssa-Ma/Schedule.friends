@@ -219,6 +219,7 @@ const CommonTimeText = ({ navigation, route }) => {
                     schedule: friend_schedule,
                     f_name: response.first_name,
                     l_name: response.last_name,
+                    profile_image: response.profile_image,
                     now: now_bool
                 };
 
