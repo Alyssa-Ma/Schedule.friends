@@ -7,7 +7,6 @@ const GuideView = ({navigation, route}) => {
     const context = useContext(UserContext);
     const { colors } = useTheme();
     return(
-
         <ScrollView style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             <View>
                 <Text style={styles.title}>Guide</Text>
@@ -24,7 +23,6 @@ const GuideView = ({navigation, route}) => {
                 <Button onPress={() => navigation.pop()} mode='contained'>Go Back</Button>
             </View>
         </ScrollView>
-
     )
 }
 
