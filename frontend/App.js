@@ -161,7 +161,6 @@ const App = ({ navigation, route }) => {
                       headerShown: false,
                       title: 'Log In',
                       headerStyle: {
-
                         backgroundColor: '#9E8DFF'
                       },
 
@@ -177,7 +176,6 @@ const App = ({ navigation, route }) => {
                     options={{
                       title: 'Registration',
                       headerStyle: {
-
                         backgroundColor: '#9E8DFF'
                       },
 
