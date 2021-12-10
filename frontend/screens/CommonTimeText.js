@@ -17,6 +17,9 @@ const CommonTimeText = ({ navigation, route }) => {
     const [loading, setLoading] = useState(true);
     const { colors } = useTheme();  //THEME
     //Converts the passed in into a Day string
+
+    console.log(context.user);
+    
     const convertToDay = (day) => {
         if(day === 1){
             return "MON";
@@ -216,6 +219,7 @@ const CommonTimeText = ({ navigation, route }) => {
                     schedule: friend_schedule,
                     f_name: response.first_name,
                     l_name: response.last_name,
+                    profile_image: response.profile_image,
                     now: now_bool
                 };
 

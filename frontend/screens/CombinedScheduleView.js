@@ -86,6 +86,7 @@ const CombinedScheduleView = ({navigation, route}) => {
         days: `${course.day_name}`,
         timeStart: `${course.time_start}`,
         timeEnd: `${course.time_end}`,
+        profile_image: `${user.profile_image}`
       }
     });
     return events;
