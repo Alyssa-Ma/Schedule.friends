@@ -3,14 +3,27 @@ import { View, StyleSheet, Image } from 'react-native';
 import { Avatar, Title, Caption } from 'react-native-paper';
 
 const UserListHeader = ({ navigation, route, user, textColor, bgColor}) => {
+    console.log(user);
     return (
         <View style={styles.itemView}>
-            <Avatar.Text
-                label={`${user.first_name.charAt(0).toUpperCase()}${user.last_name.charAt(0).toUpperCase()}`}
-                size={55}
-                color={textColor || 'blue'}     //default bad colors to see if any other things use this
-                backgroundColor={bgColor || 'black'}
-                />
+
+            {
+                user.profile_image == 'null'
+                ? (<Avatar.Text
+                    label={`${user.first_name.charAt(0).toUpperCase()}${user.last_name.charAt(0).toUpperCase()}`}
+                    size={60}
+                    color={textColor || 'blue'}     //default bad colors to see if any other things use this
+                    backgroundColor={bgColor || 'black'}
+                    />)
+
+                : (<Avatar.Image
+                    source={{
+                        uri: user.profile_image,
+                    }}
+                    size={60}
+                   />)
+            }
+            
             <View style={styles.textInfo}>
                 <Title style={styles.name}>{user.first_name} {user.last_name}</Title>
                 <Caption style={styles.username}>{user.username}</Caption>

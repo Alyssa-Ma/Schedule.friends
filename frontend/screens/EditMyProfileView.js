@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react';
-import {View, StyleSheet, TouchableOpacity, Alert, ImageBackground} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Alert, ImageBackground, useColorScheme} from 'react-native';
 import UserContext from '../context/UserContext';
-import {Avatar, Text, TextInput, Button, TouchableRipple} from 'react-native-paper';
+import {Avatar, Text, TextInput, Button, TouchableRipple, useTheme} from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -158,8 +158,13 @@ const EditMyProfileView = ({ navigation, route }) => {
         console.log("Cancel button pressed");
     }
 
+    const { colors } = useTheme(); //THEME
+
+// something, {backgroundColor:colors.backgroundColor}]}>
+
     return (
         
+        <View style={{backgroundColor: colors.backgroundColor}}>
         <View syle={styles.container}> 
             <View style={{margin: 20}}>
                 <View style={{alignItems: 'center'}}>
@@ -187,6 +192,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                                 flex:1,
                                 justifyContent: 'center',
                                 alignItems: 'center',
+                                
                             }}>
                                 <Icon name="photo" size={35} color="grey" style={styles.imageIcon}/>
                             </View>
@@ -194,26 +200,26 @@ const EditMyProfileView = ({ navigation, route }) => {
 
                         </View>
                     </TouchableOpacity>
-                    <Text style = {styles.fnamelname}>
+                    <Text style = {[styles.fnamelname, {color:colors.firstColor}]}>
                         {user.first_name + " " + user.last_name}
                     </Text>
                 </View>
 
                 <View style={styles.inputfields}>
-                <FontAwesome name="user-o" size={30} color='#9E8DFF' />
+                <FontAwesome name="user-o" size={30} color={colors.secondColor} />
                     <TextInput
                         mode="outlined"
                         label="First Name"
                         value={fName}
-                        placeholderTextColor = "#666666"
+                        placeholderTextColor = {colors.secondColor}
                         onChangeText = {(val) => setFName(val)}
                         autoCorrect={false}
                         style={styles.textInput}
                         theme={{
                             colors: {
-                                placeholder: '#9E8DFF',
-                                text: '#9E8DFF',
-                                //primary: 'white',
+                                placeholder: colors.secondColor,
+                                text: colors.secondColor,
+                                primary: colors.secondColor,
                                 underlineColor: 'transparent'
                             }
                         }}/>
@@ -221,20 +227,20 @@ const EditMyProfileView = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.inputfields}>
-                <FontAwesome name="user-o" size={30} color='#7DD1FF'/>
+                <FontAwesome name="user-o" size={30} color={colors.thirdColor}/>
                     <TextInput
                         mode="outlined"
                         label="Last Name"
                         value={lName}
-                        placeholderTextColor = "#666666"
+                        placeholderTextColor = {colors.thirdColor}
                         onChangeText = {(val) => setLName(val)}
                         autoCorrect={false}
                         style={styles.textInput}
                         theme={{
                             colors: {
-                                placeholder: '#7DD1FF',
-                                text: '#7DD1FF',
-                                //primary: 'white',
+                                placeholder: colors.thirdColor,
+                                text: colors.thirdColor,
+                                primary: colors.thirdColor,
                                 underlineColor: 'transparent'
                             }
                     }}/>
@@ -242,40 +248,40 @@ const EditMyProfileView = ({ navigation, route }) => {
                 </View>
      
                 <View style={styles.inputfields}>
-                    <FontAwesome name="user-o" size={30} color='#68B0D8'/>
+                    <FontAwesome name="user-o" size={30} color={colors.firstColor}/>
                         <TextInput
                             mode="outlined"
                             label="E-Mail"
                             value={email}
-                            placeholderTextColor = "#666666"
+                            placeholderTextColor = {colors.firstColor}
                             onChangeText = {(val) => setEmail(val)}
                             autoCorrect={false}
                             style={styles.textInput}
                             theme={{
                                 colors: {
-                                    placeholder: '#68B0D8',
-                                    text: '#68B0D8',
-                                    //primary: 'white',
+                                    placeholder: colors.firstColor,
+                                    text: colors.firstColor,
+                                    primary: colors.firstColor,
                                     underlineColor: 'transparent'
                                 }
                         }}/>
                         
                 </View>
                 <View style={styles.inputfields}>
-                    <FontAwesome name="user-o" size={30} color='#5CDBD5' />
+                    <FontAwesome name="user-o" size={30} color={colors.thirdColor} />
                         <TextInput
                             mode="outlined"
                             label="Username"
                             value={userName}
-                            placeholderTextColor = "#666666"
+                            placeholderTextColor = {colors.thirdColor}
                             onChangeText = {(val) => setUsername(val)}
                             autoCorrect={false}
                             style={styles.textInput}
                             theme={{
                                 colors: {
-                                    placeholder: '#5CDBD5',
-                                    text: '#5CDBD5',
-                                    //primary: 'white',
+                                    placeholder: colors.thirdColor,
+                                    text: colors.thirdColor,
+                                    primary: colors.thirdColor,
                                     underlineColor: 'transparent'
                                 }
                             }}/>
@@ -283,7 +289,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.listWrapper}>
-                    <TouchableRipple style={styles.confirmBox} onPress={() => forumCheck()}>
+                    <TouchableRipple style={[styles.confirmBox,{backgroundColor:colors.secondColor}]} onPress={() => forumCheck()}>
                         <View style={styles.listItem1}>
                             <Icon name="check" size={25} color='white'/>
                             <Text style={styles.listItemText}>Confirm</Text>
@@ -292,7 +298,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.listWrapper}>
-                    <TouchableRipple style={styles.cancelBox} onPress={() => cancelPressHandle()}>
+                    <TouchableRipple style={[styles.cancelBox,{backgroundColor:colors.fifthColor}]} onPress={() => cancelPressHandle()}>
                         <View style={styles.listItem1}>
                             <Icon name="cancel" size={25} color='white'/>
                             <Text style={styles.listItemText}>Cancel</Text>
@@ -302,7 +308,11 @@ const EditMyProfileView = ({ navigation, route }) => {
 
             </View>
         </View>
+    </View>
+
+    
     );
+    
 }
 
 export default EditMyProfileView;
@@ -310,13 +320,14 @@ export default EditMyProfileView;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:'yellow',
     },
     inputfields: {
         flexDirection: 'row',
         marginTop: 5,
         marginBottom: 5,
         borderBottomWidth: 1,
-        borderBottomColor: '#f2f2f2',
+        borderBottomColor: 'transparent',
         paddingBottom: 5,
     },
     textInput: {
