@@ -9,7 +9,6 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 const TextViewCard = ({item, bgColor}) => {
 
     const [times, setTimes] = useState(item.schedule);
-    const [trigger, setTrigger] = useState(item.now);
 
     const NowTime = () => {
         //renders the first schedule time
@@ -55,7 +54,7 @@ const TextViewCard = ({item, bgColor}) => {
 
             <View style={styles.avatar_name_row}>
                 {
-                    item.profile_image == 'null'
+                    item.profile_image === null
                     ?   (<Avatar.Text 
                             size = {75} 
                             backgroundColor = 'white'
