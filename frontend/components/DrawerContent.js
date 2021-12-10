@@ -20,13 +20,25 @@ const DrawerContent = (props) => {
             
                 <View style={styles.topSection}>
                     <View style={styles.userInfoSection}>
-                        <Avatar.Text
-                            label={`${props.user.first_name.charAt(0).toUpperCase()}${props.user.last_name.charAt(0).toUpperCase()}`}
-                            size={55}
-                            color='white'
-                            backgroundColor='turquoise'
-                            style={styles.avatar}
-                        />
+
+                        {
+                            props.user.profile_image == 'null'
+                                ? (<Avatar.Text
+                                    label={`${props.user.first_name.charAt(0).toUpperCase()}${props.user.last_name.charAt(0).toUpperCase()}`}
+                                    size={60}
+                                    color='white'
+                                    backgroundColor={colors.secondColor}
+                                    style={styles.avatar}
+                                    />)
+                                : (<Avatar.Image
+                                    source={{
+                                        uri: props.user.profile_image,
+                                    }}
+                                    size={80}
+                                    style={styles.avatar}
+                                />)
+                        }
+                        
                         <Title style={{alignSelf: 'center'}}>{`${props.user.first_name} ${props.user.last_name}`}</Title>
                         <Caption style={{alignSelf: 'center'}}>{`@${props.user.username}`}</Caption>
                     </View>
