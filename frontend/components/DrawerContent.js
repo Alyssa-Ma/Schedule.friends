@@ -25,7 +25,7 @@ const DrawerContent = (props) => {
                             props.user.profile_image == 'null'
                                 ? (<Avatar.Text
                                     label={`${props.user.first_name.charAt(0).toUpperCase()}${props.user.last_name.charAt(0).toUpperCase()}`}
-                                    size={60}
+                                    size={80}
                                     color='white'
                                     backgroundColor={colors.secondColor}
                                     style={styles.avatar}
