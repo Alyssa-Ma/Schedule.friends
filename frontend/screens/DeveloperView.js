@@ -3,7 +3,7 @@ import {View, StyleSheet, StatusBar, Image, TouchableOpacity} from 'react-native
 import UserContext from '../context/UserContext';
 import { Title, Caption, Text, TouchableRipple, useTheme, Button } from 'react-native-paper';
 
-const GuideView = ({navigation, route}) => {
+const DeveloperView = ({navigation, route}) => {
     const context = useContext(UserContext);
     const { colors } = useTheme();
     return(
@@ -24,4 +24,4 @@ const GuideView = ({navigation, route}) => {
     )
 }
 
-export default GuideView;
+export default DeveloperView;

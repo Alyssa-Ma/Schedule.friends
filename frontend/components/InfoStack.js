@@ -2,6 +2,8 @@ import React, {useContext, useEffect} from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import InfoView from '../screens/InfoView';
 import GuideView from '../screens/GuideView';
+import DeveloperView from '../screens/DeveloperView';
+import FaqView from '../screens/FaqView';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 
 const Stack = createNativeStackNavigator();
@@ -19,6 +21,20 @@ const InfoStack = ({navigation, route}) => {
       <Stack.Screen
         name="GuideView"
         component={GuideView}
+        options={{
+          headerShown: false
+      }}
+      />
+      <Stack.Screen
+        name="DeveloperView"
+        component={DeveloperView}
+        options={{
+          headerShown: false
+      }}
+      />
+      <Stack.Screen
+        name="FaqView"
+        component={FaqView}
         options={{
           headerShown: false
       }}
