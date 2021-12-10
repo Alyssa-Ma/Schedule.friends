@@ -1,14 +1,16 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {View, SafeAreaView, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity} from 'react-native';
 import UserContext from '../context/UserContext';
-import {Avatar, Title, Caption, Text, TouchableRipple} from 'react-native-paper';
+import {Avatar, Title, Caption, Text, TouchableRipple, useTheme} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import UserInfo from '../components/UserInfo';
 import { Dimensions } from 'react-native';
 
+
+
 const MyProfileView = ({ navigation }) => {
   const context = useContext(UserContext);
-
+  
   const editProfilePressHandler = () => {
     navigation.push('EditMyProfileView', {
       user: context.user
@@ -19,10 +21,13 @@ const MyProfileView = ({ navigation }) => {
     navigation.navigate('LogOut');
   }
   
+  const { colors } = useTheme(); //THEME
+
   return (
 
-    <SafeAreaView style={styles.container}>
-      <View style = {styles.BackgroundBox1}>
+    
+    <SafeAreaView style={[styles.container, {backgroundColor:colors.backgroundColor}]}>
+      <View style = {[styles.BackgroundBox1, {backgroundColor:colors.firstColor}]}>
       <UserInfo user={context.user}/>
       <View
         style={{
@@ -31,14 +36,14 @@ const MyProfileView = ({ navigation }) => {
         }}
       />
       <View style={styles.listWrapper}>
-        <TouchableRipple style={styles.inputBox1} onPress={() => editProfilePressHandler() }>
+        <TouchableRipple style={[styles.inputBox1, {backgroundColor:colors.secondColor}]} onPress={() => editProfilePressHandler() }>
           <View style={styles.listItem1}>
             <Icon name="person" size={25} color='white'/>
             <Text style={styles.listItemText}>Edit My Profile</Text>
           </View>
         </TouchableRipple>
 
-        <TouchableRipple style={styles.inputBox2} onPress={() => LogoutPressHandler()}>
+        <TouchableRipple style={[styles.inputBox2, {backgroundColor:colors.thirdColor}]} onPress={() => LogoutPressHandler()}>
           <View style={styles.listItem2}>
             <Icon name="logout" size={25} color='white'/>
             <Text style={styles.listItemText}>Logout</Text>
@@ -47,6 +52,7 @@ const MyProfileView = ({ navigation }) => {
         
       </View>
       </View>
+
     </SafeAreaView>
   );
 }
@@ -56,6 +62,7 @@ export default MyProfileView;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      backgroundColor: 'red',
     },
     userInfoSection: {
       paddingHorizontal: 30,
