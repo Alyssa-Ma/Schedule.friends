@@ -19,7 +19,7 @@ const DrawerContent = (props) => {
                     <View style={styles.userInfoSection}>
 
                         {
-                            props.user.profile_image == 'null'
+                            props.user.profile_image === null
                                 ? (<Avatar.Text
                                     label={`${props.user.first_name.charAt(0).toUpperCase()}${props.user.last_name.charAt(0).toUpperCase()}`}
                                     size={80}

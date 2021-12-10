@@ -295,8 +295,7 @@ def remove_friend(request, from_user_pk, to_user_pk):
         to_user = User.objects.get(pk=to_user_pk)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    if request.user.id != from_user_pk and request.user.id != to_user_pk and not request.user.is_staff:
+    if request.user.id != int(from_user_pk) and request.user.id != int(to_user_pk) and not request.user.is_staff:
         raise exceptions.PermissionDenied(detail="User does not have permission")
     
     from_user.friend_list.remove(to_user_pk)

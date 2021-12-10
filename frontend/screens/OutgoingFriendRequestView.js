@@ -106,10 +106,20 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                         </View>
 
                     )
-                    : <FlatList 
-                        data={friendRequests}
-                        keyExtractor={friendRequest => friendRequest.id} 
-                        renderItem={({item}) => <FriendRequestItem friendRequest={item} displayOptions={"from_user"} rejectFriend={rejectFriend} bgColor={colors.backgroundCardColors[index % colors.backgroundCardColors.length]} colors={colors}/>} />)
+                    : 
+                        <FlatList 
+                            data={friendRequests}
+                            keyExtractor={friendRequest => friendRequest.id} 
+                            renderItem={
+                                ({item, index}) => 
+                                    <FriendRequestItem 
+                                        friendRequest={item} 
+                                        displayOptions={"from_user"} 
+                                        rejectFriend={rejectFriend} 
+                                        bgColor={colors.backgroundCardColors[index % colors.backgroundCardColors.length]}
+                                        colors={colors}/>} 
+                        />
+                    )
             }
         </View>
     )

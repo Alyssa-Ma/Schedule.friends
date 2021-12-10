@@ -7,6 +7,7 @@ const LogOut = ({navigation}) => {
     useEffect(() => {
         context.setUser({});
         context.setIsSignedIn(false);
+        context.setIsDarkTheme(false);
     },[]);
     
     return (
