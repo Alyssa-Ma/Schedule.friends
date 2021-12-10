@@ -133,6 +133,7 @@ const App = ({ navigation, route }) => {
         setIsSignedIn: setIsSignedIn,
         fetchUserToken: fetchUserToken,
         isDarkTheme: isDarkTheme,
+        setIsDarkTheme: setIsDarkTheme,
         toggleTheme: () => {    //Added toggle theme
           setIsDarkTheme( isDarkTheme => !isDarkTheme);
         }
