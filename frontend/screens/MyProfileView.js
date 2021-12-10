@@ -138,25 +138,4 @@ inputBox2: {
   
 
 });
-  
 
- /*
-    useEffect(() => {
-
-      fetch(`${BASE_URL}/${context.user.id}`, {
-      method:"GET",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${context.user.token}`
-        },
-      })
-
-      .then(resp => resp.json())
-      .then(data => {
-          setData(data)
-          console.log(data)
-      })
-      .catch(error => console.log("Error"))
-  }, [context.user])
-
-  */
