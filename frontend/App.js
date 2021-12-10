@@ -83,8 +83,7 @@ const App = ({ navigation, route }) => {
       fifthColor: '#786CBC',
     }
   }
- 
-  const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
+  const theme = user.dark_mode ? CustomDarkTheme : CustomDefaultTheme;   //uses dark_mode from context
 
   const fetchUserToken = async (usernameInput, passwordInput) => {
     try {
@@ -117,6 +116,36 @@ const App = ({ navigation, route }) => {
     return false;
   }
 
+  //Changes the theme in both context and database
+  const toggleTheme = async (id, token) => { 
+    setIsDarkTheme( isDarkTheme => !isDarkTheme);
+    try {
+      const response = await fetch(`${BASE_URL}/${id}`, {
+          method:"PATCH",
+          headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`
+          
+          },
+
+          body: JSON.stringify({"dark_mode": isDarkTheme})
+      
+      })
+      
+      const jsonResponse = await response.json();
+      if (response.status === 200) {
+          setUser(jsonResponse);
+      }
+      else {
+          console.error(`Server Error ${response.status}`)
+          Alert.alert(`Server Error`);
+      }
+    } catch(error) {
+        console.error(error)
+    } 
+
+  }
+
   //for developmental purpose, autologins to HenryB
   // React.useEffect(() => {
   //  fetchUserToken("henryB", "Test01");
@@ -128,15 +157,12 @@ const App = ({ navigation, route }) => {
       <UserContext.Provider value={{
         user: user,
         isSignedIn: isSignedIn,
-        bgColors: ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'],  //added colors to context
         setUser: setUser,
         setIsSignedIn: setIsSignedIn,
         fetchUserToken: fetchUserToken,
         isDarkTheme: isDarkTheme,
         setIsDarkTheme: setIsDarkTheme,
-        toggleTheme: () => {    //Added toggle theme
-          setIsDarkTheme( isDarkTheme => !isDarkTheme);
-        }
+        toggleTheme: toggleTheme
       }}>
 
         <NavigationContainer theme={theme}>
