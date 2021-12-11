@@ -238,7 +238,6 @@ const CombinedScheduleView = ({navigation, route}) => {
               headerIconRight={<IconButton color={colors.calIconColor} icon="arrow-right"/>}
               colorProps={colors}
               initDate={focusDate}
-              eventTapped={() => {}}
               events={events}
               eventTapped={onEventTapped}
               formatHeader={'dddd'}
