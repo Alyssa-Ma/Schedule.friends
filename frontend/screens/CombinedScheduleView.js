@@ -6,8 +6,9 @@ import UserContext from '../context/UserContext';
 import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
 import { useFocusEffect } from '@react-navigation/core';
-import { Button, Modal, Dialog, Text, Portal, Paragraph, Checkbox, IconButton, useTheme } from 'react-native-paper'
+import { Button, Modal, Dialog, Portal, Text, Paragraph, Checkbox, IconButton, useTheme } from 'react-native-paper'
 import CombinedScheduleFriendListItem from '../components/CombinedScheduleFriendListItem';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import EventInfo from '../components/EventInfo';
 
 const CombinedScheduleView = ({navigation, route}) => {
@@ -218,7 +219,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   }
   return (
     
-    <View style={{ flex: 1}}>
+    <View style={{ flex: 1 }}>
       {
         loading
         ? <LoadingIndicator isLoading={loading} />
@@ -239,6 +240,12 @@ const CombinedScheduleView = ({navigation, route}) => {
               colorProps={colors}
               initDate={focusDate}
               events={events}
+              noEventsRender={
+                <View style={styles.noEvent}>
+                  <Icon name="calendar-remove" size={180} color={colors.secondColor} />
+                  <Text style={{fontSize: 35, color: colors.secondColor}}>No Events For Today</Text>
+                </View>
+              }
               eventTapped={onEventTapped}
               formatHeader={'dddd'}
               width={width}
@@ -297,6 +304,11 @@ const CombinedScheduleView = ({navigation, route}) => {
 const styles = StyleSheet.create({
   modalStyle: {
     paddingHorizontal: 40
+  },
+  noEvent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: height - 200
   }
 })
 
