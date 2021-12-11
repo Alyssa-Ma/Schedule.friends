@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Avatar, Title, Caption, Text, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const UserInfo = ({ navigation, route, user, bgColor }) => {
     const { colors } = useTheme();
-    console.log(typeof user.profile_image)
     return (
         <View>
             <View style={styles.userInfoSection}>
@@ -15,8 +14,8 @@ const UserInfo = ({ navigation, route, user, bgColor }) => {
                             user.profile_image === null
                                 ? (<Avatar.Text
                                     size={80}
-                                    backgroundColor='turquoise'
-                                    color={colors.text|| 'red'}
+                                    backgroundColor={colors.backgroundColor}
+                                    color={colors.text}
                                     label={user.first_name.charAt(0).toUpperCase() + user.last_name.charAt(0).toUpperCase()}
                                 />)
                                 : (<Avatar.Image
@@ -70,6 +69,6 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         marginBottom: 10,
-        right: 30
+        right: 20
     },
 });
