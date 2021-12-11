@@ -50,6 +50,7 @@ const App = ({ navigation, route }) => {
       thirdColor: '#7DD1FF',
       fourthColor: '#68B0D8',
       fifthColor: '#5CDBD5',
+      
     }
   }
 

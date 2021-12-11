@@ -10,32 +10,36 @@ const DeveloperView = ({navigation, route}) => {
         <ScrollView style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             <View>
                 <Text style={styles.title}>Developer Information</Text>
-                <Text style={styles.subtitle}>This is the page to go to if you want to learn more about our developers!</Text>
-                <Text style={styles.text}>Alyssa Ma</Text>
-                <Text style={[styles.tabText, {color: styles.colors}]}
+                <Text style={styles.text}>Alyssa Ma - <Text style={[styles.tabText, {color: colors.firstColor}]}
                     onPress={() => Linking.openURL('https://github.com/Alyssa-Ma')}>
                     GitHub
+                    </Text>
                 </Text>
-                <Text style={styles.text}>Henry Cevallos</Text>                    
-                <Text style={[styles.tabText, {color: styles.colors}]}
+
+                <Text style={styles.text}>Henry Cevallos - <Text style={[styles.tabText, {color: colors.secondColor}]}
                     onPress={() => Linking.openURL('https://github.com/Henry-Cevallos')}>
                     GitHub
-                </Text>
-                <Text style={styles.text}>Henry Baum</Text>
-                <Text style={[styles.tabText, {color: styles.colors}]}
+                    </Text>
+                </Text>                    
+
+                <Text style={styles.text}>Henry Baum - <Text style={[styles.tabText, {color: styles.colors}]}
                     onPress={() => Linking.openURL('https://github.com/goferboy')}>
                     GitHub
+                    </Text>
                 </Text>
-                <Text style={styles.text}>David Dejesus</Text> 
-                <Text style={[styles.tabText, {color: styles.colors}]}
+
+                <Text style={styles.text}>David Dejesus - <Text style={[styles.tabText, {color: styles.colors}]}
                     onPress={() => Linking.openURL('https://github.com/ddejesus-1919')}>
                     GitHub
-                </Text>                   
-                <Text style={styles.text}>Kobe Dejesus</Text>
-                <Text style={[styles.tabText, {color: styles.colors}]}
+                    </Text> 
+                </Text> 
+                  
+                <Text style={styles.text}>Kobe Dejesus - <Text style={[styles.tabText, {color: styles.colors}]}
                     onPress={() => Linking.openURL('https://github.com/kobedejesus87')}>
                     GitHub
-                </Text>     
+                    </Text>
+                </Text>
+     
                 <Button onPress={() => navigation.pop()} mode='contained'>Go Back</Button>
             </View>
         </ScrollView>
@@ -62,14 +66,14 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     text: {
-        textAlign: 'justify',
+        textAlign: 'center',
         fontSize: 16,
         marginLeft: 20,
         marginRight: 20,
         marginBottom: 10,
     },
     tabText: {
-        textAlign: 'justify',
+        textAlign: 'center',
         fontSize: 16,
         marginLeft: 40,
         marginRight: 20,
