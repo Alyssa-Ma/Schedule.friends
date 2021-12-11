@@ -65,6 +65,8 @@ const App = ({ navigation, route }) => {
       ...PaperDarkTheme.colors,
       backgroundColor: '#493e81',
       text: '#ffffff',
+      primary: '#7464CC',
+      accent: '#7DD1FF',
       invertedColor: 'white',
       backgroundCardColors: ['#7464CC', '#B8ACFB', '#927EFF', '#696580', '#786CBC'],
       fabButtonColor: '#696580',

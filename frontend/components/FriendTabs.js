@@ -15,6 +15,7 @@ const FriendTabs = ({navigation, route}) => {
     const { toggleTheme } = useContext(UserContext);
     return (
         <Tab.Navigator initialRouteName="ViewFriends"
+            shifting={true}
             screenOptions={{
                 tabBarHideOnKeyboard: true,
                 tabBarStyle: [
@@ -25,24 +26,38 @@ const FriendTabs = ({navigation, route}) => {
                         "display": "flex"
                     },
                     null
-                ]
+                ],
+                activeColor: "#F76161",
+                inactiveColor: "#F76161",
             }}>
             <Tab.Screen 
                 name="FriendListStack"
                 component={FriendsListStack}
+                backgroundColor= '#040D22'
                 options={{
+                    tabBarStyle: [
+                        {
+                            backgroundColor: '#040D22'
+                        }
+                    ],
                     headerShown: false,
                     tabBarLabel: 'Friend List',
                     tabBarActiveTintColor: colors.firstColor,
                     tabBarIcon: ({color}) => (
                         <Icon name="account-group" color={colors.backgroundCardColors[0]} size={size}/>
                     )
+                    
                 }}
             />
             <Tab.Screen 
                 name="IncomingFriendRequestsView" 
                 component={IncomingFriendRequestView}
                 options={{
+                    tabBarStyle: [
+                        {
+                            backgroundColor: '#040D22'
+                        }
+                    ],
                     headerShown: false,
                     tabBarLabel: 'Incoming Requests',
                     tabBarActiveTintColor: colors.secondColor,
@@ -55,6 +70,11 @@ const FriendTabs = ({navigation, route}) => {
                 name="OutgoingFriendRequestsView" 
                 component={OutgoingFriendRequestView}
                 options={{
+                    tabBarStyle: [
+                        {
+                            backgroundColor: '#040D22'
+                        }
+                    ],
                     headerShown: false,
                     tabBarLabel: 'Outgoing Requests',
                     tabBarActiveTintColor: colors.thirdColor,
@@ -67,6 +87,11 @@ const FriendTabs = ({navigation, route}) => {
                 name="FriendRequestSend" 
                 component={FriendRequestSend}
                 options={{
+                    tabBarStyle: [
+                        {
+                            backgroundColor: '#040D22'
+                        }
+                    ],
                     headerShown: false,
                     tabBarLabel: 'Find Friends',
                     tabBarActiveTintColor: colors.fourthColor,

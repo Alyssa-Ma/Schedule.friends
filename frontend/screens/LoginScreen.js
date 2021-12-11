@@ -48,9 +48,12 @@ const LoginScreen = ({ navigation, route }) => {
                     secureTextEntry={true}
                     activeUnderlineColor='white'
                     label="Password"
+                    labelTextColor = '#ffffff'
                     placeholder = 'Enter Password'
                     placeholderTextColor = '#ffffff'
                     onChangeText = {(val) => setUserPassword(val)}
+
+
                 />
             </View>
 
@@ -95,7 +98,7 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: 'transparent',
         margin: -6,
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     button:{
         backgroundColor:'#53C2FF',
