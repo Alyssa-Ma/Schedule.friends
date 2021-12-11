@@ -44,12 +44,19 @@ const EditMyProfileView = ({ navigation, route }) => {
         userData.append('last_name', lName);
         userData.append('username', userName);
         userData.append('email', email);
-        userData.append('profile_image', {
-            uri: ProfileImage,
-            type: "image/jpeg",
-            name: ProfileImage.substring(ProfileImage.lastIndexOf('/') + 1)
-         }) 
 
+        
+        if (ProfileImage != null){
+
+            userData.append('profile_image', {
+                uri: ProfileImage,
+                type: "image/jpeg",
+                name: ProfileImage.substring(ProfileImage.lastIndexOf('/') + 1)
+             }) 
+
+        }
+
+      
          confirmPressHandle();
 
     }
