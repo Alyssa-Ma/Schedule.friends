@@ -42,9 +42,6 @@ const CombinedScheduleView = ({navigation, route}) => {
    
   const onRefresh = async () => {
     setRefresh(true);
-    // fetchUser().then(() => {
-    //   fetchFriends();
-    // });
     fetchUser();
     setRefresh(false);
   }
