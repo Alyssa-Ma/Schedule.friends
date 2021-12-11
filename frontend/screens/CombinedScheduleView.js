@@ -244,7 +244,7 @@ const CombinedScheduleView = ({navigation, route}) => {
                 </View>
               }
               eventTapped={onEventTapped}
-              formatHeader={'dddd'}
+              formatHeader={'ddd MMM D YYYY'}
               width={width}
               dateChanged={changeFocus}
               scrollToFirst={true}
