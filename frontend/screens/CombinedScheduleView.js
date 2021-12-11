@@ -288,7 +288,17 @@ const CombinedScheduleView = ({navigation, route}) => {
               </Dialog.Actions>
             </Dialog>
             </Portal>
-            <Button mode='contained' onPress={() => showDialog() } color={colors.secondColor} labelStyle={{color: 'white'}}>Select Friends</Button>
+            <View style={{alignItems: 'center'}}>
+              <Button
+                style={{width: width + 20}}
+                mode='contained'
+                icon="account-multiple-check" 
+                onPress={() => showDialog() } 
+                color={colors.secondColor} 
+                labelStyle={{color: 'white'}}>
+                Select Friends
+              </Button>
+            </View>
             <Portal>
               <Modal visible={modalVisible} onDismiss={hideModal} contentContainerStyle={styles.modalStyle}>
                   <EventInfo event={modalTarget}/>
