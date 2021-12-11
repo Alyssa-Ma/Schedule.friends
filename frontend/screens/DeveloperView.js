@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     text: {
+        fontWeight: '600',
         textAlign: 'center',
         fontSize: 16,
         marginLeft: 20,
@@ -73,6 +74,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     tabText: {
+        fontWeight: 'bold',
         textAlign: 'center',
         fontSize: 16,
         marginLeft: 40,
