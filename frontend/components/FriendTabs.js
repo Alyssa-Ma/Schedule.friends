@@ -38,26 +38,19 @@ const FriendTabs = ({navigation, route}) => {
                     headerShown: false,
                     tabBarLabel: 'Friend List',
                     tabBarIcon: ({focused}) => (
-                        <Icon name="account-group" color={focused ? "white" : "#808080"} size={26} tab/>
+                        <Icon name="account-group" color={focused ? colors.focusedColor : colors.unfocusedColor} size={26} tab/>
                     )
-                    
                 }}
             />
             <Tab.Screen 
                 name="IncomingFriendRequestsView" 
                 component={IncomingFriendRequestView}
                 options={{
-                    tabBarStyle: [
-                        {
-                            backgroundColor: colors.backgroundCardColors[1]
-                        }
-                    ],
+                    tabBarColor: colors.backgroundCardColors[1],
                     headerShown: false,
                     tabBarLabel: 'Incoming Requests',
-                    //tabBarActiveTintColor: colors.backgroundCardColors[0],
-                    
-                    tabBarIcon: () => (
-                        <Icon name="account-arrow-left" color="#ffffff" size={26}/>
+                    tabBarIcon: ({focused}) => (
+                        <Icon name="account-arrow-left" color={focused ? colors.focusedColor : colors.unfocusedColor} size={26} tab/>
                     )
                 }}
             />
@@ -65,16 +58,11 @@ const FriendTabs = ({navigation, route}) => {
                 name="OutgoingFriendRequestsView" 
                 component={OutgoingFriendRequestView}
                 options={{
-                    tabBarStyle: [
-                        {
-                            backgroundColor: colors.backgroundCardColors[2]
-                        }
-                    ],
+                    tabBarColor: colors.backgroundCardColors[2],
                     headerShown: false,
                     tabBarLabel: 'Outgoing Requests',
-                    //tabBarActiveTintColor: colors.thirdColor,
-                    tabBarIcon: ({color}) => (
-                        <Icon name="account-arrow-right" color="#ffffff" size={26}/>
+                    tabBarIcon: ({focused}) => (
+                        <Icon name="account-arrow-right" color={focused ? colors.focusedColor : colors.unfocusedColor} size={26} tab/>
                     )
                 }}
             />
@@ -82,16 +70,11 @@ const FriendTabs = ({navigation, route}) => {
                 name="FriendRequestSend" 
                 component={FriendRequestSend}
                 options={{
-                    tabBarStyle: [
-                        {
-                            backgroundColor: colors.backgroundCardColors[3]
-                        }
-                    ],
+                    tabBarColor: colors.backgroundCardColors[3],
                     headerShown: false,
                     tabBarLabel: 'Find Friends',
-                    tabBarActiveTintColor: colors.fourthColor,
-                    tabBarIcon: ({color}) => (
-                        <Icon name="account-search" color="#ffffff" size={26}/>
+                    tabBarIcon: ({focused}) => (
+                        <Icon name="account-search" color={focused ? colors.focusedColor : colors.unfocusedColor} size={26} tab/>
                     )
                 }}
             />

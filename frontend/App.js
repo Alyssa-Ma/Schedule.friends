@@ -50,6 +50,8 @@ const App = ({ navigation, route }) => {
       thirdColor: '#7DD1FF',
       fourthColor: '#68B0D8',
       fifthColor: '#5CDBD5',
+      focusedColor: '#ffffff',
+      unfocusedColor: '#808080',
     }
   }
 
@@ -80,6 +82,8 @@ const App = ({ navigation, route }) => {
       thirdColor: '#B8ACFB',
       fourthColor: '#696580',
       fifthColor: '#786CBC',
+      focusedColor: '#ffffff',
+      unfocusedColor: '#808080',
     }
   }
  
