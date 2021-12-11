@@ -22,19 +22,19 @@ const DeveloperView = ({navigation, route}) => {
                     </Text>
                 </Text>                    
 
-                <Text style={styles.text}>Henry Baum - <Text style={[styles.tabText, {color: styles.colors}]}
+                <Text style={styles.text}>Henry Baum - <Text style={[styles.tabText, {color: colors.thirdColor}]}
                     onPress={() => Linking.openURL('https://github.com/goferboy')}>
                     GitHub
                     </Text>
                 </Text>
 
-                <Text style={styles.text}>David Dejesus - <Text style={[styles.tabText, {color: styles.colors}]}
+                <Text style={styles.text}>David Dejesus - <Text style={[styles.tabText, {color: colors.fourthColor}]}
                     onPress={() => Linking.openURL('https://github.com/ddejesus-1919')}>
                     GitHub
                     </Text> 
                 </Text> 
                   
-                <Text style={styles.text}>Kobe Dejesus - <Text style={[styles.tabText, {color: styles.colors}]}
+                <Text style={styles.text}>Kobe Dejesus - <Text style={[styles.tabText, {color: colors.fifthColor}]}
                     onPress={() => Linking.openURL('https://github.com/kobedejesus87')}>
                     GitHub
                     </Text>
