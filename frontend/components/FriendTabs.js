@@ -38,13 +38,13 @@ const FriendTabs = ({navigation, route}) => {
                 options={{
                     tabBarStyle: [
                         {
-                            backgroundColor: colors.backgroundCardColors[0]
+                            //backgroundColor: colors.backgroundCardColors[0]
                         }
                     ],
                     headerShown: false,
                     tabBarLabel: 'Friend List',
-                    tabBarIcon: () => (
-                        <Icon name="account-group" color="#ffffff" size={size} tab/>
+                    tabBarIcon: ({focused}) => (
+                        <Icon name="account-group" color={focused ? "black" : "#808080"} size={size} tab/>
                     )
                     
                 }}
