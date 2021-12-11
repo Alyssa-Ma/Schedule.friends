@@ -17,8 +17,8 @@ const FriendTabs = ({navigation, route}) => {
     const { toggleTheme } = useContext(UserContext);
     return (
         <Tab.Navigator initialRouteName="ViewFriends"
-            //activeColor="#f0edf6"
-            //inactiveColor="#3e2465"
+            activeColor="#f0edf6"
+            inactiveColor="#3e2465"
             barStyle={{ backgroundColor: '#694fad' }}
             screenOptions={{
                 tabBarHideOnKeyboard: true,
