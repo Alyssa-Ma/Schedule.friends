@@ -23,6 +23,10 @@ const SignUpScreen = ({ navigation }) => {
         return (!(nameRegex.test(first_name)) && first_name.length > 0);
     };
 
+    const fnameEmpty = () => {
+        return(first_name == "");
+    }
+
     // Returns true if last_name does not only contain alphabet or is over 150 characters
     const lnameValid = () => {
         const nameRegex = /^[A-Za-z]{1,150}$/;

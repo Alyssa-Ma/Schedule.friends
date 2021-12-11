@@ -1,4 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
+import { Alert } from 'react-native';
 import {View, Text, StyleSheet, StatusBar, Image, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import UserContext from '../context/UserContext';
@@ -9,6 +10,15 @@ const LoginScreen = ({ navigation, route }) => {
     const [userName, setUserName] = useState("blank");
     const [userPassword, setUserPassword] = useState("blank");
     const logo = Image.resolveAssetSource(analogousLogo).uri;
+
+    const emptyCheck = () => {
+        if (userName == "") {
+            Alert.alert("Please enter a username.");
+        }
+        else if (userPassword == "") {
+            Alert.alert("Please enter a password.");
+        }
+    }
 
     return (
         
@@ -38,13 +48,16 @@ const LoginScreen = ({ navigation, route }) => {
                     secureTextEntry={true}
                     activeUnderlineColor='white'
                     label="Password"
+                    labelTextColor = '#ffffff'
                     placeholder = 'Enter Password'
                     placeholderTextColor = '#ffffff'
                     onChangeText = {(val) => setUserPassword(val)}
+
+
                 />
             </View>
 
-            <TouchableOpacity onPress={async () => await context.fetchUserToken(userName, userPassword)} style={styles.button}>
+            <TouchableOpacity onPress={async () => {await context.fetchUserToken(userName, userPassword); emptyCheck();}} style={styles.button}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>  
 
@@ -85,7 +98,7 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: 'transparent',
         margin: -6,
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     button:{
         backgroundColor:'#53C2FF',

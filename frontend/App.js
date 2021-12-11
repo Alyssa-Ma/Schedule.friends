@@ -50,6 +50,8 @@ const App = ({ navigation, route }) => {
       thirdColor: '#7DD1FF',
       fourthColor: '#68B0D8',
       fifthColor: '#5CDBD5',
+      focusedColor: '#ffffff',
+      unfocusedColor: '#696580',
       searchBar: '#D7A4FF'
     }
   }
@@ -63,6 +65,8 @@ const App = ({ navigation, route }) => {
       ...PaperDarkTheme.colors,
       backgroundColor: '#493e81',
       text: '#ffffff',
+      primary: '#7464CC',
+      accent: '#7DD1FF',
       invertedColor: 'white',
       backgroundCardColors: ['#7464CC', '#B8ACFB', '#927EFF', '#696580', '#786CBC'],
       fabButtonColor: '#696580',
@@ -79,6 +83,8 @@ const App = ({ navigation, route }) => {
       thirdColor: '#B8ACFB',
       fourthColor: '#696580',
       fifthColor: '#786CBC',
+      focusedColor: '#ffffff',
+      unfocusedColor: '#404040',
       searchBar: '#927EFF'
     }
   }
