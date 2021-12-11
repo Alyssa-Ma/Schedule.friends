@@ -35,7 +35,8 @@ const FriendProfileView = ({ navigation, route }) => {
                 navigation.pop();
             }
             else {
-                console.log(`Error from server status ${response.status}`)
+                console.log(`Error from server status ${response.status}`);
+                navigation.pop();
             }
         }
         catch (error) {
@@ -69,14 +70,14 @@ const FriendProfileView = ({ navigation, route }) => {
                                 </Dialog>
                             )
                             : (
-                                <Dialog visible={visible} onDismiss={hideDialog}>
+                                <Dialog visible={visible} onDismiss={hideDialog} style={{backgroundColor: colors.backgroundColor}}>
                                     <Dialog.Title>Are You Sure?</Dialog.Title>
                                     <Dialog.Content>
                                         <Paragraph>Pressing 'Yes' will remove {friend.first_name} {friend.last_name} from your friends list. This cannot be undone.</Paragraph>
                                     </Dialog.Content>
                                     <Dialog.Actions>
-                                        <Button onPress={hideDialog}>Cancel</Button>
-                                        <Button onPress={deleteFriend}>Yes</Button>
+                                        <Button color='white' style={{backgroundColor: colors.firstColor, marginRight: 10}} onPress={hideDialog}>Cancel</Button>
+                                        <Button color='white' style={{backgroundColor: colors.secondColor}}onPress={deleteFriend}>Yes</Button>
                                     </Dialog.Actions>
                                 </Dialog>
                             )

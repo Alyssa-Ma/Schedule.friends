@@ -3,7 +3,6 @@ import { View, StyleSheet, Image } from 'react-native';
 import { Avatar, Title, Caption } from 'react-native-paper';
 
 const UserListHeader = ({ navigation, route, user, textColor, bgColor}) => {
-    console.log(user);
     return (
         <View style={styles.itemView}>
 
