@@ -53,7 +53,7 @@ const App = ({ navigation, route }) => {
       surface: '#EEEDFF',
       primary: '#6C59FF',
       placeholder: 'black',
-      error: '#AE002A'
+      error: '#C40031'
     }
   }
 

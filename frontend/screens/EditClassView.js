@@ -4,14 +4,11 @@ import CourseForm from '../components/CourseForm';
 import { Button, Snackbar, useTheme} from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const EditClassView = ({ navigation, item, route }) => {
     const { itemId, 
         courseName, 
         courseNumber,
-        timeStart, 
-        timeEnd, 
         dayName,
         starthr,
         startmin,
@@ -138,8 +135,14 @@ const EditClassView = ({ navigation, item, route }) => {
                 setLoadingButton = {setLoadingButton}
             />
             <View style={styles.delete}>
-                <Button icon="delete" style={styles.deleteButton} color ="red" loading={loadingButtonDelete} mode="contained" onPress={() => {setLoadingButtonDelete(!loadingButtonDelete)}} >
-                    DELETE CLASS
+                <Button 
+                    icon="delete" 
+                    style={[styles.deleteButton, {backgroundColor: colors.error}]} 
+                    color='black'
+                    loading={loadingButtonDelete}
+                    mode="contained" 
+                    onPress={() => {setLoadingButtonDelete(!loadingButtonDelete)}} 
+                    >DELETE CLASS
                 </Button>
             </View>
             <Snackbar 
