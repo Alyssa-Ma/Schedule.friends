@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Avatar, Title, Caption, Text } from 'react-native-paper';
+import { Avatar, Title, Caption, Text, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const UserInfo = ({ navigation, route, user, bgColor }) => {
+    const { colors } = useTheme();
     return (
         <View>
             <View style={styles.userInfoSection}>
@@ -14,8 +15,8 @@ const UserInfo = ({ navigation, route, user, bgColor }) => {
                             user.profile_image === null
                                 ? (<Avatar.Text
                                     size={80}
-                                    backgroundColor='white'
-                                    color={bgColor || 'red'}
+                                    backgroundColor={colors.backgroundColor}
+                                    color={colors.text}
                                     label={user.first_name.charAt(0).toUpperCase() + user.last_name.charAt(0).toUpperCase()}
                                 />)
                                 : (<Avatar.Image
@@ -25,15 +26,15 @@ const UserInfo = ({ navigation, route, user, bgColor }) => {
                                     size={80}
                                 />)
                         }
-
                     </View>
-
                     <View style={{ marginLeft: 20 }}>
-                        <Title style={{ right: 35, top: 10, color: 'white', fontSize: 25 }}>
+                        <Title 
+                            numberOfLines={3}
+                            style={{ right: 35, top: 10, color: colors.text, fontSize: 25 }}>
                             {user.first_name}{' '}
                             {user.last_name}
                         </Title>
-                        <Caption style={{ right: 35, top: 10, color: 'white', fontSize: 15 }}>{user.username}</Caption>
+                        <Caption numberOfLines={1}style={{ right: 35, top: 10, color: colors.text, fontSize: 15 }}>{user.username}</Caption>
                     </View>
                 </View>
             </View>
@@ -41,8 +42,8 @@ const UserInfo = ({ navigation, route, user, bgColor }) => {
 
             <View style={styles.userInfoSection}>
                 <View style={styles.row}>
-                    <Icon name="email" size={20} color='white' />
-                    <Text style={{ marginLeft: 20, color: 'white', right: 10 }}>{user.email}</Text>
+                    <Icon name="email" size={20} color={colors.text}/>
+                    <Text style={{ marginLeft: 20, color: colors.text, right: 10 }}>{user.email}</Text>
                 </View>
             </View>
 
@@ -56,7 +57,6 @@ const styles = StyleSheet.create({
     userInfoSection: {
         paddingHorizontal: 30,
         marginBottom: 25,
-
     },
     title: {
         fontSize: 24,
@@ -70,6 +70,6 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         marginBottom: 10,
-        right: 0
+        right: 20
     },
 });

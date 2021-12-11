@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Dimensions} from 'react-native';
 const { width, height } = Dimensions.get('window');
-import { Headline, Subheading, Text } from 'react-native-paper'
+import { Headline, Subheading, Text, useTheme } from 'react-native-paper'
 import UserInfo from './UserInfo';
 
 const EventInfo = ({navigation, route, event}) => {
+    const { colors } = useTheme();
     const parseTime = (stringObj) => {
         let returnString = '';
         if (parseInt(stringObj.slice(0, 2)) < 10)
@@ -29,8 +30,10 @@ const EventInfo = ({navigation, route, event}) => {
     const endTime = parseTime(event.timeEnd);
     
     return (
-        <View backgroundColor={event.color} style={{borderRadius: 15}}>
-            <View style={{marginLeft: 15}}>
+        <View backgroundColor={event.color} style={{padding:30, paddingTop: 10, borderRadius: 15}}>
+            <View 
+                style={{marginLeft: 0}}
+            >
                 <UserInfo user={{
                     first_name: event.firstName,
                     last_name: event.lastName,
@@ -38,9 +41,9 @@ const EventInfo = ({navigation, route, event}) => {
                     email: event.email,
                     profile_image: event.profile_image}}/>
             </View>
-            <View style={{padding: 30, paddingTop: 0}}>
-                <Headline>{event.courseName}</Headline>
-                <Subheading>{event.courseNumber}</Subheading>
+            <View style={{padding: 0, paddingTop: 0}}>
+                <Headline numberOfLines={1}>{event.courseName}</Headline>
+                <Subheading numberOfLines={1}>{event.courseNumber}</Subheading>
                 <Text>Days: {event.days}</Text>
                 <Text>Start: {startTime}</Text>
                 <Text>End: {endTime}</Text>

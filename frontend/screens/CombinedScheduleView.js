@@ -6,8 +6,9 @@ import UserContext from '../context/UserContext';
 import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
 import { useFocusEffect } from '@react-navigation/core';
-import { Button, Modal, Dialog, Text, Portal, Paragraph, Checkbox, IconButton, useTheme } from 'react-native-paper'
+import { Button, Modal, Dialog, Portal, Text, Paragraph, Checkbox, IconButton, useTheme } from 'react-native-paper'
 import CombinedScheduleFriendListItem from '../components/CombinedScheduleFriendListItem';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import EventInfo from '../components/EventInfo';
 
 const CombinedScheduleView = ({navigation, route}) => {
@@ -20,7 +21,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   }
     
   const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-  //const colors = ["#d4f48d", "#f4b18d", "#bc90dd", "#99b8e8" ];
+  const { colors } = useTheme();
   const bufferSpace = 3;
   const maxUsers = 5;
   const context = useContext(UserContext);
@@ -38,14 +39,9 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [refresh, setRefresh] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTarget, setModalTarget] = useState({});
-
-  const { colors } = useTheme();
-
+   
   const onRefresh = async () => {
     setRefresh(true);
-    // fetchUser().then(() => {
-    //   fetchFriends();
-    // });
     fetchUser();
     setRefresh(false);
   }
@@ -86,7 +82,7 @@ const CombinedScheduleView = ({navigation, route}) => {
         days: `${course.day_name}`,
         timeStart: `${course.time_start}`,
         timeEnd: `${course.time_end}`,
-        profile_image: `${user.profile_image}`
+        profile_image: user.profile_image
       }
     });
     return events;
@@ -178,7 +174,7 @@ const CombinedScheduleView = ({navigation, route}) => {
       }
       setSelectedUsers(selection);
     })
-  }, [friendList])
+  }, [friendList, colors])
 
   //Creates events whenever focus date or dialog box is triggered
   useEffect(() => {
@@ -220,7 +216,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   }
   return (
     
-    <View style={{ flex: 1}}>
+    <View style={{ flex: 1 }}>
       {
         loading
         ? <LoadingIndicator isLoading={loading} />
@@ -240,10 +236,15 @@ const CombinedScheduleView = ({navigation, route}) => {
               headerIconRight={<IconButton color={colors.calIconColor} icon="arrow-right"/>}
               colorProps={colors}
               initDate={focusDate}
-              eventTapped={() => {}}
               events={events}
+              noEventsRender={
+                <View style={styles.noEvent}>
+                  <Icon name="calendar-remove" size={180} color={colors.secondColor} />
+                  <Text style={{fontSize: 35, color: colors.secondColor}}>No Events For Today</Text>
+                </View>
+              }
               eventTapped={onEventTapped}
-              formatHeader={'dddd'}
+              formatHeader={'ddd MMM D YYYY'}
               width={width}
               dateChanged={changeFocus}
               scrollToFirst={true}
@@ -284,7 +285,17 @@ const CombinedScheduleView = ({navigation, route}) => {
               </Dialog.Actions>
             </Dialog>
             </Portal>
-            <Button mode='contained' onPress={() => showDialog() } color={colors.secondColor} labelStyle={{color: 'white'}}>Select Friends</Button>
+            <View style={{alignItems: 'center'}}>
+              <Button
+                style={{width: width + 20}}
+                mode='contained'
+                icon="account-multiple-check" 
+                onPress={() => showDialog() } 
+                color={colors.secondColor} 
+                labelStyle={{color: 'white'}}>
+                Select Friends
+              </Button>
+            </View>
             <Portal>
               <Modal visible={modalVisible} onDismiss={hideModal} contentContainerStyle={styles.modalStyle}>
                   <EventInfo event={modalTarget}/>
@@ -300,6 +311,11 @@ const CombinedScheduleView = ({navigation, route}) => {
 const styles = StyleSheet.create({
   modalStyle: {
     paddingHorizontal: 40
+  },
+  noEvent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: height - 200
   }
 })
 
