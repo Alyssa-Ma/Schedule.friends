@@ -7,6 +7,8 @@ import OutgoingFriendRequestView from '../screens/OutgoingFriendRequestView'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from '@react-navigation/native';
 import UserContext from '../context/UserContext';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { color } from 'react-native-reanimated';
 const Tab = createBottomTabNavigator();
 const size = 30;
 
@@ -15,7 +17,9 @@ const FriendTabs = ({navigation, route}) => {
     const { toggleTheme } = useContext(UserContext);
     return (
         <Tab.Navigator initialRouteName="ViewFriends"
-            shifting={true}
+            //activeColor="#f0edf6"
+            //inactiveColor="#3e2465"
+            barStyle={{ backgroundColor: '#694fad' }}
             screenOptions={{
                 tabBarHideOnKeyboard: true,
                 tabBarStyle: [
@@ -27,24 +31,20 @@ const FriendTabs = ({navigation, route}) => {
                     },
                     null
                 ],
-                activeColor: "#F76161",
-                inactiveColor: "#F76161",
             }}>
             <Tab.Screen 
                 name="FriendListStack"
                 component={FriendsListStack}
-                backgroundColor= '#040D22'
                 options={{
                     tabBarStyle: [
                         {
-                            backgroundColor: '#040D22'
+                            backgroundColor: colors.backgroundCardColors[0]
                         }
                     ],
                     headerShown: false,
                     tabBarLabel: 'Friend List',
-                    tabBarActiveTintColor: colors.firstColor,
-                    tabBarIcon: ({color}) => (
-                        <Icon name="account-group" color={colors.backgroundCardColors[0]} size={size}/>
+                    tabBarIcon: () => (
+                        <Icon name="account-group" color="#ffffff" size={size} tab/>
                     )
                     
                 }}
@@ -55,14 +55,15 @@ const FriendTabs = ({navigation, route}) => {
                 options={{
                     tabBarStyle: [
                         {
-                            backgroundColor: '#040D22'
+                            backgroundColor: colors.backgroundCardColors[1]
                         }
                     ],
                     headerShown: false,
                     tabBarLabel: 'Incoming Requests',
-                    tabBarActiveTintColor: colors.secondColor,
-                    tabBarIcon: ({color}) => (
-                        <Icon name="account-arrow-left" color={colors.backgroundCardColors[1]} size={size}/>
+                    //tabBarActiveTintColor: colors.backgroundCardColors[0],
+                    
+                    tabBarIcon: () => (
+                        <Icon name="account-arrow-left" color="#ffffff" size={size}/>
                     )
                 }}
             />
@@ -72,14 +73,14 @@ const FriendTabs = ({navigation, route}) => {
                 options={{
                     tabBarStyle: [
                         {
-                            backgroundColor: '#040D22'
+                            backgroundColor: colors.backgroundCardColors[2]
                         }
                     ],
                     headerShown: false,
                     tabBarLabel: 'Outgoing Requests',
-                    tabBarActiveTintColor: colors.thirdColor,
+                    //tabBarActiveTintColor: colors.thirdColor,
                     tabBarIcon: ({color}) => (
-                        <Icon name="account-arrow-right" color={colors.backgroundCardColors[2]} size={size}/>
+                        <Icon name="account-arrow-right" color="#ffffff" size={size}/>
                     )
                 }}
             />
@@ -89,14 +90,14 @@ const FriendTabs = ({navigation, route}) => {
                 options={{
                     tabBarStyle: [
                         {
-                            backgroundColor: '#040D22'
+                            backgroundColor: colors.backgroundCardColors[3]
                         }
                     ],
                     headerShown: false,
                     tabBarLabel: 'Find Friends',
                     tabBarActiveTintColor: colors.fourthColor,
                     tabBarIcon: ({color}) => (
-                        <Icon name="account-search" color={colors.backgroundCardColors[3]} size={size}/>
+                        <Icon name="account-search" color="#ffffff" size={size}/>
                     )
                 }}
             />
