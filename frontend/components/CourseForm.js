@@ -108,19 +108,23 @@ const CourseForm = (props) => {
 
     return (
         <View>
-            <TextInput 
-                label="Course Name"
-                value={courseName}
-                onChangeText={text => setcourseName(text)}
-                style={[styles.courseInfoInput, {backgroundColor: colors.secondColor}]}
-            />
-            <TextInput 
-                
-                label="Course Number"
-                value={courseNumber}
-                onChangeText={text => setCourseNumber(text)}
-                style={[styles.courseInfoInput, {backgroundColor: colors.thirdColor}]}
-            />
+            <View style={[styles.inputBox, {backgroundColor: colors.secondColor, marginTop: 20}]}>
+                <TextInput 
+                    label="Course Name"
+                    value={courseName}
+                    onChangeText={text => setcourseName(text)}
+                    style={[styles.input]}
+                />
+            </View>
+            <View style={[styles.inputBox,  {backgroundColor: colors.thirdColor}]}>
+                <TextInput   
+                    label="Course Number"
+                    value={courseNumber}
+                    onChangeText={text => setCourseNumber(text)}
+                    style={styles.input}
+                />
+            </View>
+
             <View style={styles.daysRadioBar}>
                 <DaysRadioButton index={0} day="SUN" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
                 <DaysRadioButton index={1} day="MON" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
@@ -158,6 +162,22 @@ const CourseForm = (props) => {
 }
 
 const styles = StyleSheet.create({
+    inputBox: {
+        width: 350, 
+        borderRadius: 20,
+        height: 55,
+        paddingHorizontal: 16,
+        fontSize: 16, 
+        color: 'white',
+        overflow: 'hidden',
+        alignSelf: 'center',
+        marginVertical: 10,
+    },
+    input: {
+        backgroundColor: 'transparent',
+        margin: -6,
+        overflow: 'hidden'
+    },  
     buttons: {
         flexDirection: "row",
         justifyContent: "space-evenly",
@@ -165,7 +185,7 @@ const styles = StyleSheet.create({
         
     },
     daysRadioBar: {
-        marginTop: 30,
+        marginTop: 10,
         flexDirection: "row",
         justifyContent: "space-evenly"
     },

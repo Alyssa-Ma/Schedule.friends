@@ -27,11 +27,9 @@ const App = ({ navigation, route }) => {
   const CustomDefaultTheme = {
     ...NavigationDefaultTheme,
     ...PaperDefaultTheme,
-    //...NativeDefaultTheme,
     colors: {
       ...NavigationDefaultTheme.colors,
       ...PaperDefaultTheme.colors,
-      //...NativeDarkTheme.colors,
       backgroundColor: '#ffffff',
       text: '#333333',
       invertedColor: 'black',
@@ -59,7 +57,6 @@ const App = ({ navigation, route }) => {
   const CustomDarkTheme = {
     ...NavigationDarkTheme,
     ...PaperDarkTheme,
-    //...NativeDarkTheme,
     colors: {
       ...NavigationDarkTheme.colors,
       ...PaperDarkTheme.colors,

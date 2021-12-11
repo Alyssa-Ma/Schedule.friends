@@ -54,13 +54,18 @@ const EditMyProfileView = ({ navigation, route }) => {
                 name: ProfileImage.substring(ProfileImage.lastIndexOf('/') + 1)
              }) 
 
+        } else {
+
+            userData.append('profile_image', "");
         }
 
-      
          confirmPressHandle();
 
     }
 
+    const removeProfilePicture = () => {
+        setProfileImage(null);
+    }
 
     // HELPER TEXT CHECKER FUNCS
     
@@ -174,6 +179,7 @@ const EditMyProfileView = ({ navigation, route }) => {
         <View style={{backgroundColor: colors.backgroundColor}}>
         <View syle={styles.container}> 
             <View style={{margin: 20}}>
+
                 <View style={{alignItems: 'center'}}>
                     <TouchableOpacity onPress={() => {choosPhotoFromLibrary()}}>
                         <View style={styles.icon}>
@@ -203,10 +209,12 @@ const EditMyProfileView = ({ navigation, route }) => {
                             }}>
                                 <Icon name="photo" size={35} color="grey" style={styles.imageIcon}/>
                             </View>
+
                             </ImageBackground>
 
                         </View>
                     </TouchableOpacity>
+
                     <Text style = {[styles.fnamelname, {color:colors.firstColor}]}>
                         {user.first_name + " " + user.last_name}
                     </Text>
@@ -296,18 +304,28 @@ const EditMyProfileView = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.listWrapper}>
-                    <TouchableRipple style={[styles.confirmBox,{backgroundColor:colors.secondColor}]} onPress={() => forumCheck()}>
+                    <TouchableRipple style={[styles.confirmBox,{backgroundColor:colors.secondColor}]} onPress={() => removeProfilePicture()}>
                         <View style={styles.listItem1}>
-                            <Icon name="check" size={25} color='white'/>
-                            <Text style={styles.listItemText}>Confirm</Text>
+                        <   Icon name="cancel" size={25} color='white'/> 
+                            <Icon name="photo" size={25} color='white'/>
+                            <Text style={styles.listItemText}>Remove Proflie Picture</Text>
                         </View>
                     </TouchableRipple>
                 </View>
 
                 <View style={styles.listWrapper}>
-                    <TouchableRipple style={[styles.cancelBox,{backgroundColor:colors.fifthColor}]} onPress={() => cancelPressHandle()}>
+                    <TouchableRipple style={[styles.cancelBox,{backgroundColor:colors.fifthColor}]} onPress={() => forumCheck()}>
                         <View style={styles.listItem1}>
                             <Icon name="cancel" size={25} color='white'/>
+                            <Text style={styles.listItemText}>Submit</Text>
+                        </View>
+                    </TouchableRipple>
+                </View>
+
+                <View style={styles.listWrapper}>
+                    <TouchableRipple style={[styles.cancelBox,{backgroundColor:colors.firstColor}]} onPress={() => cancelPressHandle()}>
+                        <View style={styles.listItem1}>
+                            <Icon name="cancel" size={25} color='white'/>  
                             <Text style={styles.listItemText}>Cancel</Text>
                         </View>
                     </TouchableRipple>
@@ -393,10 +411,16 @@ const styles = StyleSheet.create({
         borderRadius: 25, 
         top:5,
     },
+
     listItem1: {
         flexDirection: 'row',
         top: 10,
         left:10,
+        
+    },
+
+    imageIcon: {
+        opacity:0.7
         
     },
 

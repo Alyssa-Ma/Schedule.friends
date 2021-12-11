@@ -36,8 +36,8 @@ const DrawerContent = (props) => {
                                 />)
                         }
                         
-                        <Title style={{alignSelf: 'center'}}>{`${props.user.first_name} ${props.user.last_name}`}</Title>
-                        <Caption style={{alignSelf: 'center'}}>{`@${props.user.username}`}</Caption>
+                        <Title numberOfLines={2} style={{alignSelf: 'center'}}>{`${props.user.first_name} ${props.user.last_name}`}</Title>
+                        <Caption numberOfLines={1} style={{alignSelf: 'center'}}>{`@${props.user.username}`}</Caption>
                     </View>
 
                     <Drawer.Section style={styles.drawerContent}>
