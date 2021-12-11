@@ -43,13 +43,17 @@ const App = ({ navigation, route }) => {
       calHeaderBorderColor: '#E6E8F0',
       calIconColor: "#9CA0B8",
       eventBorderColor: '#DDE5FD',
-      primary: '#ffffff',
       accent: '#7DD1FF',
       firstColor: '#D7A4FF',
       secondColor: '#9E8DFF',
       thirdColor: '#7DD1FF',
       fourthColor: '#68B0D8',
       fifthColor: '#5CDBD5',
+      // for TimePickerModal
+      // text: 'black',
+      surface: '#EEEDFF',
+      primary: '#6C59FF',
+      placeholder: 'black'
     }
   }
 
@@ -78,6 +82,10 @@ const App = ({ navigation, route }) => {
       thirdColor: '#B8ACFB',
       fourthColor: '#696580',
       fifthColor: '#786CBC',
+      // for TimePickerModal
+      surface: '#2a2349',
+      primary: '#7464CC',
+      placeholder: 'white'
     }
   }
  
@@ -115,9 +123,9 @@ const App = ({ navigation, route }) => {
   }
 
   //for developmental purpose, autologins to HenryB
-  // React.useEffect(() => {
-  //  fetchUserToken("henryB", "Test01");
-  // }, [])
+  React.useEffect(() => {
+   fetchUserToken("henryB", "Test01");
+  }, [])
 
   return (
 

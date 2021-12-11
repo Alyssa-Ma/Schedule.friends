@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, DynamicColorIOS, Alert } from 'react-native';
-import { TextInput, Button, RadioButton, Text, useTheme} from 'react-native-paper';
+import { View, StyleSheet, Alert } from 'react-native';
+import { TextInput, Button, RadioButton, Text, useTheme } from 'react-native-paper';
 import TimePickerInput from './TimePickerInput';
 
 const DaysRadioButton = (props) => {

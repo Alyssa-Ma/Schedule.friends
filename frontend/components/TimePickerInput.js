@@ -30,44 +30,44 @@ const TimePickerInput = (props) => {
     );
     
     return (
-        <View style={styles.inputTime}>
-            <Text style={{
-                    color: props.label === "Start Time" ? colors.firstColor : colors.fifthColor //bad background colors here. Must match wiith below
-                  }}
-            >
-                {props.label}:
-            </Text>
-            <TimePickerModal
-                visible={visible}
-                onDismiss={onDismiss}
-                onConfirm={onConfirm}
-                hours={props.hour} 
-                minutes={props.min} 
-                label="Select time"
-                cancelLabel="Cancel"
-                confirmLabel="Ok"
-                animationType="fade"
-                locale={'en'}
-            />
-            <Button 
-                icon={({color, size}) => (
-                    <Icon 
-                    name="clock" 
-                    color={'white'}
-                    size={size}
-                    />
-                )}
-                mode="contained"
-                onPress={()=> setVisible(true)}
-                color='black'   //Changing to white changes to black for some reason 
-                style={{
-                    backgroundColor: props.label === "Start Time" ? colors.firstColor : colors.fifthColor,      //bad background colors here
-                
-                  }}
-            >
-                {timeString}
-            </Button>
-        </View>
+            <View style={styles.inputTime}>
+                <Text style={{
+                        color: props.label === "Start Time" ? colors.firstColor : colors.fifthColor //bad background colors here. Must match wiith below
+                    }}
+                >
+                    {props.label}:
+                </Text>
+                <TimePickerModal
+                    visible={visible}
+                    onDismiss={onDismiss}
+                    onConfirm={onConfirm}
+                    hours={props.hour} 
+                    minutes={props.min} 
+                    label="Select time"
+                    cancelLabel="Cancel"
+                    confirmLabel="Ok"
+                    animationType="fade"
+                    locale={'en'}
+                />
+                <Button 
+                    icon={({color, size}) => (
+                        <Icon 
+                        name="clock" 
+                        color={'white'}
+                        size={size}
+                        />
+                    )}
+                    mode="contained"
+                    onPress={()=> setVisible(true)}
+                    color='black'   //Changing to white changes to black for some reason 
+                    style={{
+                        backgroundColor: props.label === "Start Time" ? colors.firstColor : colors.fifthColor,      //bad background colors here
+                    
+                    }}
+                >
+                    {timeString}
+                </Button>
+            </View>
     )
 }
 
