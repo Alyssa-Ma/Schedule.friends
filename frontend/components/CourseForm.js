@@ -39,7 +39,7 @@ const CourseForm = (props) => {
         [{SUN: false}, {MON: false}, {TUE: false}, {WED: false},
          {THU: false}, {FRI: false}, {SAT: false}]);
 
-    const { colors } = useTheme(); //THEME
+    const { colors } = useTheme();
     
     useEffect(() => {
         let iterator = props.selectedDays.values();
@@ -55,14 +55,7 @@ const CourseForm = (props) => {
         setSelectedDays(selectedDaysBuffer);
     }, []);
 
-    const submitToParent = () => {
-        let trimSelectedDays = [];
-        selectedDays.forEach(day => {
-            day_key = Object.keys(day);
-            if (day[day_key[0]] === true)
-                trimSelectedDays.push(day_key[0]);
-        })
-
+    const submitToParent = (trimSelectedDays) => {
         const returnJSON = JSON.stringify({
             "course_name": `${courseName}`,
             "course_number": `${courseNumber}`,
@@ -75,39 +68,47 @@ const CourseForm = (props) => {
         props.setLoadingButton(!props.loadingButton);
     }
 
-    //function for validation
     const inputValidation = () => {
-        console.log("*** inputValidation Running ***");
-        //course name may only contain letters
-        var courseNameRegex = /^[A-Za-z]+$/;
-        //course number may only contain numbers
-        var courseNumberRegex = /^[0-9]+$/;
+        // Trims selected radio days
+        let trimSelectedDays = [];
+        selectedDays.forEach(day => {
+            day_key = Object.keys(day);
+            if (day[day_key[0]] === true)
+                trimSelectedDays.push(day_key[0]);
+        })
 
-        if(courseName.length == 0){
+        // TextInput validators check for blank entries
+        if(courseName.length == 0)
             Alert.alert("Please enter a course name");
-        }
-        else if(courseName.length > 5){ 
-            Alert.alert("Course names may only contain 5 letters");
-        }
-        else if(!(courseNameRegex.test(courseName))){
-            Alert.alert("Course names may only contain letters");
-        }
-        else if(courseNumber.length == 0){
+        else if(courseNumber.length == 0)
             Alert.alert("Please enter a course number");
-        }
-        else if(courseNumber.length > 5){ 
-            Alert.alert("Course number may only contain 5 digits");
-        }
-        else if(!(courseNumberRegex.test(courseNumber))){
-            Alert.alert("Course number may only contain numbers");
-        }
-        else{
-            submitToParent();
-        }
+        
+        // Makes sure at least one day is selected
+        else if (trimSelectedDays.length === 0)
+            Alert.alert("Please select at least one day")
+        
+        // Checks timepicker in case it picks out-of-bound values
+        else if (parseInt(startHour) < 0 || parseInt(startHour) > 23)
+            Alert.alert("Start hour is not a valid (0-23)")
+        else if (parseInt(endHour) < 0 || parseInt(endHour) > 23)
+            Alert.alert("End hour is not a valid (0-23)")
+        else if (parseInt(startMin) < 0 || parseInt(startMin) > 59)
+            Alert.alert("Start minute is not a valid (0-59)")
+        else if (parseInt(endMin) < 0 || parseInt(endMin) > 59)
+            Alert.alert("End minute is not a valid (0-59)")
+
+        // Checks to make sure start time is not set after end time
+        else if ((parseInt(startHour) > parseInt(endHour)) ||
+                 (parseInt(startHour) === parseInt(endHour) && parseInt(startMin) >= parseInt(endMin)))
+            Alert.alert("Start time must be before end time")
+        
+        // else {
+        //     submitToParent(trimSelectedDays);
+        // }
     }
 
     return (
-        <View>
+        <View style={{marginHorizontal: 30}}>
             <View style={[styles.inputBox, {backgroundColor: colors.secondColor, marginTop: 20}]}>
                 <TextInput 
                     label="Course Name"
@@ -116,6 +117,7 @@ const CourseForm = (props) => {
                     style={[styles.input]}
                 />
             </View>
+            
             <View style={[styles.inputBox,  {backgroundColor: colors.thirdColor}]}>
                 <TextInput   
                     label="Course Number"
@@ -153,9 +155,23 @@ const CourseForm = (props) => {
             /> 
 
             <View style={styles.buttons}>   
-                <Button icon="check"  color='black' loading={props.loadingButton} onPress={inputValidation} mode="contained" style={{ backgroundColor: colors.firstColor}}>Submit</Button>
-                <Button icon="cancel" color='black' onPress={() => {props.navigation.pop()}} mode="contained" style={{ backgroundColor: colors.fifthColor}}>Cancel</Button>
-                <>{/*Both buttons here for some reason color 'black' makes it white*/}</>
+                <Button
+                    mode="contained"  
+                    icon="check"
+                    color='black' //because contained mode does inverse of color, black = white
+                    loading={props.loadingButton} 
+                    onPress={inputValidation}
+                    style={{ backgroundColor: colors.secondColor}}
+                    >Submit
+                </Button>
+                <Button 
+                    mode="contained" 
+                    icon="cancel" 
+                    color='black' //because contained mode does inverse of color, black = white
+                    onPress={() => {props.navigation.pop()}} 
+                    style={{ backgroundColor: colors.secondColor}}
+                    >Cancel
+                </Button>
             </View>
         </View>
     )
@@ -182,6 +198,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-evenly",
         marginTop: 30,
+        marginHorizontal: -25
         
     },
     daysRadioBar: {
