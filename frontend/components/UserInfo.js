@@ -1,16 +1,18 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Avatar, Title, Caption, Text } from 'react-native-paper';
+import { Avatar, Title, Caption, Text, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const UserInfo = ({ navigation, route, user, bgColor }) => {
+    const { colors } = useTheme();
+    console.log(typeof user.profile_image)
     return (
         <View>
             <View style={styles.userInfoSection}>
                 <View style={{ flexDirection: 'row', marginTop: 15 }}>
                     <View style={{ right: 35 }}>
                         {
-                            user.profile_image == 'null'
+                            user.profile_image === null
                                 ? (<Avatar.Text
                                     size={80}
                                     backgroundColor='white'
@@ -28,11 +30,13 @@ const UserInfo = ({ navigation, route, user, bgColor }) => {
                     </View>
 
                     <View style={{ marginLeft: 20 }}>
-                        <Title style={{ right: 35, top: 10, color: 'white', fontSize: 25 }}>
+                        <Title 
+                            numberOfLines={3}
+                            style={{ right: 35, top: 10, color: 'white', fontSize: 25 }}>
                             {user.first_name}{' '}
                             {user.last_name}
                         </Title>
-                        <Caption style={{ right: 35, top: 10, color: 'white', fontSize: 15 }}>{user.username}</Caption>
+                        <Caption numberOfLines={1}style={{ right: 35, top: 10, color: 'white', fontSize: 15 }}>{user.username}</Caption>
                     </View>
                 </View>
             </View>
@@ -55,7 +59,6 @@ const styles = StyleSheet.create({
     userInfoSection: {
         paddingHorizontal: 30,
         marginBottom: 25,
-
     },
     title: {
         fontSize: 24,
