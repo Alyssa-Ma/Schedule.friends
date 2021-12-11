@@ -10,13 +10,14 @@ import UserContext from '../context/UserContext';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { color } from 'react-native-reanimated';
 const Tab = createMaterialBottomTabNavigator();
-const size = 30;
+//const size = 30;
 
 const FriendTabs = ({navigation, route}) => {
     const { colors } = useTheme();
     const { toggleTheme } = useContext(UserContext);
     return (
         <Tab.Navigator initialRouteName="ViewFriends"
+            activeColor="#ffffff"
             screenOptions={{
                 tabBarHideOnKeyboard: true,
                 tabBarStyle: [
@@ -33,15 +34,11 @@ const FriendTabs = ({navigation, route}) => {
                 name="FriendListStack"
                 component={FriendsListStack}
                 options={{
-                    tabBarStyle: [
-                        {
-                            //backgroundColor: colors.backgroundCardColors[0]
-                        }
-                    ],
+                    tabBarColor: colors.backgroundCardColors[0],
                     headerShown: false,
                     tabBarLabel: 'Friend List',
                     tabBarIcon: ({focused}) => (
-                        <Icon name="account-group" color={focused ? "black" : "#808080"} size={size} tab/>
+                        <Icon name="account-group" color={focused ? "white" : "#808080"} size={26} tab/>
                     )
                     
                 }}
@@ -60,7 +57,7 @@ const FriendTabs = ({navigation, route}) => {
                     //tabBarActiveTintColor: colors.backgroundCardColors[0],
                     
                     tabBarIcon: () => (
-                        <Icon name="account-arrow-left" color="#ffffff" size={size}/>
+                        <Icon name="account-arrow-left" color="#ffffff" size={26}/>
                     )
                 }}
             />
@@ -77,7 +74,7 @@ const FriendTabs = ({navigation, route}) => {
                     tabBarLabel: 'Outgoing Requests',
                     //tabBarActiveTintColor: colors.thirdColor,
                     tabBarIcon: ({color}) => (
-                        <Icon name="account-arrow-right" color="#ffffff" size={size}/>
+                        <Icon name="account-arrow-right" color="#ffffff" size={26}/>
                     )
                 }}
             />
@@ -94,7 +91,7 @@ const FriendTabs = ({navigation, route}) => {
                     tabBarLabel: 'Find Friends',
                     tabBarActiveTintColor: colors.fourthColor,
                     tabBarIcon: ({color}) => (
-                        <Icon name="account-search" color="#ffffff" size={size}/>
+                        <Icon name="account-search" color="#ffffff" size={26}/>
                     )
                 }}
             />
