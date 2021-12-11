@@ -20,7 +20,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   }
     
   const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-  //const colors = ["#d4f48d", "#f4b18d", "#bc90dd", "#99b8e8" ];
+  const { colors } = useTheme();
   const bufferSpace = 3;
   const maxUsers = 5;
   const context = useContext(UserContext);
@@ -38,9 +38,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   const [refresh, setRefresh] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTarget, setModalTarget] = useState({});
-
-  const { colors } = useTheme();
-
+   
   const onRefresh = async () => {
     setRefresh(true);
     // fetchUser().then(() => {
@@ -178,7 +176,7 @@ const CombinedScheduleView = ({navigation, route}) => {
       }
       setSelectedUsers(selection);
     })
-  }, [friendList])
+  }, [friendList, colors])
 
   //Creates events whenever focus date or dialog box is triggered
   useEffect(() => {
