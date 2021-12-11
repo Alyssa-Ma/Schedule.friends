@@ -50,10 +50,10 @@ const App = ({ navigation, route }) => {
       fourthColor: '#68B0D8',
       fifthColor: '#5CDBD5',
       // for TimePickerModal
-      // text: 'black',
       surface: '#EEEDFF',
       primary: '#6C59FF',
-      placeholder: 'black'
+      placeholder: 'black',
+      error: '#AE002A'
     }
   }
 
@@ -85,7 +85,8 @@ const App = ({ navigation, route }) => {
       // for TimePickerModal
       surface: '#2a2349',
       primary: '#7464CC',
-      placeholder: 'white'
+      placeholder: 'white',
+      error: '#FF6D6D'
     }
   }
  

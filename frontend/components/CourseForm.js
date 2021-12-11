@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
-import { TextInput, Button, RadioButton, Text, useTheme } from 'react-native-paper';
+import { TextInput, Button, RadioButton, Text, HelperText, useTheme } from 'react-native-paper';
 import TimePickerInput from './TimePickerInput';
 
 const DaysRadioButton = (props) => {
     const [isSelected, setSelected] = useState(false);
-    const { colors } = useTheme(); //THEME
+    const { colors } = useTheme();
 
     useEffect(() => {
         setSelected(props.selectedDays[props.index][props.day]);
@@ -29,7 +29,7 @@ const DaysRadioButton = (props) => {
 }
 
 const CourseForm = (props) => {
-    const [courseName, setcourseName] = useState(props.courseName);
+    const [courseName, setCourseName] = useState(props.courseName);
     const [courseNumber, setCourseNumber] = useState(props.courseNumber);
     const [startHour, setStartHour] = useState(props.startHour);
     const [startMin, setStartMin] = useState(props.startMin);
@@ -38,9 +38,16 @@ const CourseForm = (props) => {
     const [selectedDays, setSelectedDays] = useState(
         [{SUN: false}, {MON: false}, {TUE: false}, {WED: false},
          {THU: false}, {FRI: false}, {SAT: false}]);
+    const [trimmedSelectedDays, setTrimmedSelectedDays] =  useState([]);
 
-    const { colors } = useTheme();
+    const { dark, colors } = useTheme();
     
+    // TextInput locks, unlock once a user focuses on them
+    // Used to prevent error colors showing right as user enters form
+    const [courseNameErrorLock, setCourseNameErrorLock] = useState(true);
+    const [courseNumberErrorLock, setCourseNumberErrorLock] = useState(true);
+
+
     useEffect(() => {
         let iterator = props.selectedDays.values();
         let propsDay = iterator.next().value;
@@ -55,75 +62,81 @@ const CourseForm = (props) => {
         setSelectedDays(selectedDaysBuffer);
     }, []);
 
-    const submitToParent = (trimSelectedDays) => {
-        const returnJSON = JSON.stringify({
-            "course_name": `${courseName}`,
-            "course_number": `${courseNumber}`,
-            "time_start": `${startHour}:${startMin}`,
-            "time_end": `${endHour}:${endMin}`,
-            "day_name": trimSelectedDays
-        })
-
-        props.setReturnedJSON(returnJSON);
-        props.setLoadingButton(!props.loadingButton);
-    }
-
-    const inputValidation = () => {
-        // Trims selected radio days
+    useEffect(() => {
         let trimSelectedDays = [];
         selectedDays.forEach(day => {
             day_key = Object.keys(day);
             if (day[day_key[0]] === true)
                 trimSelectedDays.push(day_key[0]);
         })
+        setTrimmedSelectedDays(trimSelectedDays);
+    }, [selectedDays])
 
-        // TextInput validators check for blank entries
-        if(courseName.length == 0)
-            Alert.alert("Please enter a course name");
-        else if(courseNumber.length == 0)
-            Alert.alert("Please enter a course number");
-        
-        // Makes sure at least one day is selected
-        else if (trimSelectedDays.length === 0)
-            Alert.alert("Please select at least one day")
-        
-        // Checks timepicker in case it picks out-of-bound values
-        else if (parseInt(startHour) < 0 || parseInt(startHour) > 23)
-            Alert.alert("Start hour is not a valid (0-23)")
-        else if (parseInt(endHour) < 0 || parseInt(endHour) > 23)
-            Alert.alert("End hour is not a valid (0-23)")
-        else if (parseInt(startMin) < 0 || parseInt(startMin) > 59)
-            Alert.alert("Start minute is not a valid (0-59)")
-        else if (parseInt(endMin) < 0 || parseInt(endMin) > 59)
-            Alert.alert("End minute is not a valid (0-59)")
+    const submitToParent = () => {
+        const returnJSON = JSON.stringify({
+            "course_name": `${courseName}`,
+            "course_number": `${courseNumber}`,
+            "time_start": `${startHour}:${startMin}`,
+            "time_end": `${endHour}:${endMin}`,
+            "day_name": trimmedSelectedDays
+        })
 
-        // Checks to make sure start time is not set after end time
-        else if ((parseInt(startHour) > parseInt(endHour)) ||
-                 (parseInt(startHour) === parseInt(endHour) && parseInt(startMin) >= parseInt(endMin)))
-            Alert.alert("Start time must be before end time")
-        
-        // else {
-        //     submitToParent(trimSelectedDays);
-        // }
+        props.setReturnedJSON(returnJSON);
+        props.setLoadingButton(!props.loadingButton);
     }
 
     return (
         <View style={{marginHorizontal: 30}}>
             <View style={[styles.inputBox, {backgroundColor: colors.secondColor, marginTop: 20}]}>
-                <TextInput 
+                <TextInput
+                    error={!courseNameErrorLock && courseName.length <= 0}
+                    theme={
+                        {
+                            colors: {
+                                error: colors.error,
+                                placeholder: courseName.length <= 0
+                                            ? courseNameErrorLock 
+                                                ? 'white'
+                                                : dark
+                                                    ?'rgba(255,255,255,.4)'
+                                                    : 'rgba(0,0,0,.2)'
+                                            : 'white', 
+                            }
+                        }
+                    }
+                    activeUnderlineColor='white'
                     label="Course Name"
+                    placeholder='Ex: Calculus 2'
                     value={courseName}
-                    onChangeText={text => setcourseName(text)}
-                    style={[styles.input]}
+                    onChangeText={text => {setCourseName(text)}}
+                    style={styles.input}
+                    onFocus={() => setCourseNameErrorLock(false)}
                 />
             </View>
-            
             <View style={[styles.inputBox,  {backgroundColor: colors.thirdColor}]}>
-                <TextInput   
+                <TextInput
+                    error={!courseNumberErrorLock && courseNumber.length <= 0}
+                    theme={
+                        {
+                            colors: {
+                                error: colors.error,
+                                placeholder: courseNumber.length <= 0
+                                            ? courseNumberErrorLock 
+                                                ? 'white'
+                                                : dark
+                                                    ?'rgba(255,255,255,.4)'
+                                                    : 'rgba(0,0,0,.2)'
+                                            : 'white', 
+                            }
+                        }
+                    }
+                    activeUnderlineColor='white'   
                     label="Course Number"
+                    placeholder='Ex: MATH-15500'
                     value={courseNumber}
                     onChangeText={text => setCourseNumber(text)}
                     style={styles.input}
+                    onFocus={() => setCourseNumberErrorLock(false)}
                 />
             </View>
 
@@ -137,7 +150,15 @@ const CourseForm = (props) => {
                 <DaysRadioButton index={6} day="SAT" selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
             </View>
 
-            <TimePickerInput
+            <HelperText 
+                type='error'
+                style={styles.error}
+                theme={{color: colors.error}}
+                visible={trimmedSelectedDays.length <= 0}
+                >Please select at least one day
+            </HelperText>
+           
+           <TimePickerInput
                 label="Start Time"
                 hour={startHour}
                 min={startMin}
@@ -154,20 +175,41 @@ const CourseForm = (props) => {
                 setMin={setEndMin}
             /> 
 
+            <HelperText 
+                type='error'
+                style={styles.error}
+                theme={{color: colors.error}}
+                visible={(parseInt(startHour) > parseInt(endHour)) ||
+                    (parseInt(startHour) === parseInt(endHour) && parseInt(startMin) >= parseInt(endMin))}
+                >Start time must be before end time
+            </HelperText>
+
             <View style={styles.buttons}>   
                 <Button
+                    disabled={
+                        // Course name must not be empty
+                        courseName === '' || 
+                        // Course number must not be empty
+                        courseNumber === '' || 
+                        // At least one day selected
+                        trimmedSelectedDays.length <= 0 ||
+                        // Start time must be before end time
+                        (parseInt(startHour) > parseInt(endHour)) ||
+                        (parseInt(startHour) === parseInt(endHour) && parseInt(startMin) >= parseInt(endMin))
+                    }
                     mode="contained"  
                     icon="check"
-                    color='black' //because contained mode does inverse of color, black = white
+                    color='black' //because mode = contained, does inverse of color, black = white
                     loading={props.loadingButton} 
-                    onPress={inputValidation}
+                    onPress={submitToParent}
                     style={{ backgroundColor: colors.secondColor}}
                     >Submit
                 </Button>
+
                 <Button 
                     mode="contained" 
                     icon="cancel" 
-                    color='black' //because contained mode does inverse of color, black = white
+                    color='black' //because mode = contained, does inverse of color, black = white
                     onPress={() => {props.navigation.pop()}} 
                     style={{ backgroundColor: colors.secondColor}}
                     >Cancel
@@ -197,7 +239,7 @@ const styles = StyleSheet.create({
     buttons: {
         flexDirection: "row",
         justifyContent: "space-evenly",
-        marginTop: 30,
+        marginTop: 10,
         marginHorizontal: -25
         
     },
@@ -210,21 +252,12 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center"
     },
-
-    courseInfoInput: {
-        width:350, 
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20, 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        borderRadius: 25, 
-        height:55,
-        paddingHorizontal: 16, 
-        fontSize: 16, 
-        marginVertical: 10,
-        alignSelf: 'center'
-        
-    }
+    error: {
+        marginTop: 10,
+        textAlign: 'center',
+        fontSize: 14,
+        fontWeight: 'bold',
+    },
 })
 
 

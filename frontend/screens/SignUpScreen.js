@@ -106,10 +106,10 @@ const SignUpScreen = ({ navigation }) => {
 
         // All checks are passed, data is sent to backend
         else 
-            insertData();
+            submitForm();
     }
 
-    const insertData = async () => {
+    const submitForm = async () => {
         try {
             let response =  await fetch(`${BASE_URL}/create`, {
                 method:"POST", 
