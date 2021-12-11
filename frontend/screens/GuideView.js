@@ -3,7 +3,6 @@ import {View, SafeAreaView, StyleSheet, StatusBar, Image, TouchableOpacity, Scro
 import UserContext from '../context/UserContext';
 import { Title, Caption, Text, TouchableRipple, useTheme, Button } from 'react-native-paper';
 
-
 const GuideView = ({navigation, route}) => {
     const context = useContext(UserContext);
     const { colors } = useTheme();

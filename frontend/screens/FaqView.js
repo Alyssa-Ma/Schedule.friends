@@ -7,12 +7,14 @@ const FaqView = ({navigation, route}) => {
     const context = useContext(UserContext);
     const { colors } = useTheme();
     return(
-        <ScrollView style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
-            <View>
+        <ScrollView style={{backgroundColor: colors.backgroundColor}}>
+            <View style={styles.container}>
                 <Text style={styles.title}>FAQ</Text>
                 <Text style={styles.subtitle}>This would be where our FAQs would be...</Text>
                 <Text style={styles.tabText}>IF WE HAD ANY!!</Text>
-                <Button onPress={() => navigation.pop()} mode='contained'>Go Back</Button>
+                <TouchableOpacity onPress={() => navigation.pop()} style={[styles.button, {backgroundColor: colors.backgroundCardColors[2]}]}>
+                    <Text style={styles.buttonText}>Go Back</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     )
@@ -21,8 +23,22 @@ const FaqView = ({navigation, route}) => {
 export default FaqView;
 
 const styles = StyleSheet.create({
+    button:{
+        borderRadius: 20, 
+        width: 350, 
+        marginVertical: 10,
+        paddingVertical: 12,    
+    },
+    buttonText: {
+        fontSize: 18, 
+        fontWeight:"900",
+        color:'white',
+        textAlign: 'center'
+    },
     container: {
-      flex: 1,
+        flex: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     title: {
         textAlign: 'center',
