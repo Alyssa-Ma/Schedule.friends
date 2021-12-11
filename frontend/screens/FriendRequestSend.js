@@ -61,14 +61,16 @@ const FriendRequestSend = ({ navigation, route }) => {
                 placeholder="Enter a username"
                 onChangeText={onChangeSearch}
                 value={searchQuery}
+                style={{backgroundColor: colors.searchBar, opacity: 1, marginTop: -2}}
+                iconColor='white'
+                inputStyle={{color: 'white'}}
             />
             {
                 searchQuery.length >= 2
                     ? <SearchList query={searchQuery} pendingRequests={pendingRequests} colors={colors}/>
                     : (
                         <View style={styles.noResults}>
-                            <Text> No results found</Text>
-                            <>{/*Have to change color of this text to white in dark. easy when dark is in context*/}</>
+                            <Text style={{color: colors.invertedColor}}> No results found</Text>
                         </View>
                     )
             }

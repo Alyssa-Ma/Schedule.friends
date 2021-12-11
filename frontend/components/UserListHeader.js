@@ -3,12 +3,11 @@ import { View, StyleSheet, Image } from 'react-native';
 import { Avatar, Title, Caption } from 'react-native-paper';
 
 const UserListHeader = ({ navigation, route, user, textColor, bgColor}) => {
-    console.log(user);
     return (
         <View style={styles.itemView}>
 
             {
-                user.profile_image == 'null'
+                user.profile_image === null
                 ? (<Avatar.Text
                     label={`${user.first_name.charAt(0).toUpperCase()}${user.last_name.charAt(0).toUpperCase()}`}
                     size={60}

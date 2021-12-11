@@ -16,10 +16,8 @@ const CommonTimeText = ({ navigation, route }) => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const { colors } = useTheme();  //THEME
-    //Converts the passed in into a Day string
 
-    console.log(context.user);
-    
+    //Converts the passed in into a Day string    
     const convertToDay = (day) => {
         if(day === 1){
             return "MON";
@@ -210,7 +208,6 @@ const CommonTimeText = ({ navigation, route }) => {
                 }
 
                 const now_bool = (curr_time >= friend_schedule[0][0]) && (curr_time < friend_schedule[0][1]);
-                console.log(now_bool);
                 friend_schedule = getCommonFreeTime(my_time_free, friend_schedule);
                 friend_schedule = convertToTime(friend_schedule);
 

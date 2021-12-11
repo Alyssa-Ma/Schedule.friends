@@ -9,7 +9,6 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 const TextViewCard = ({item, bgColor}) => {
 
     const [times, setTimes] = useState(item.schedule);
-    const [trigger, setTrigger] = useState(item.now);
 
     const NowTime = () => {
         //renders the first schedule time
@@ -55,7 +54,7 @@ const TextViewCard = ({item, bgColor}) => {
 
             <View style={styles.avatar_name_row}>
                 {
-                    item.profile_image == 'null'
+                    item.profile_image === null
                     ?   (<Avatar.Text 
                             size = {75} 
                             backgroundColor = 'white'
@@ -95,7 +94,6 @@ const styles = StyleSheet.create({
     friendTimeCard: {
         width: 330,
         borderRadius: 50 / 2,
-        //backgroundColor: 'darkslateblue',       //STATIC BACKGROUND COLOR
         alignSelf: 'center',
         marginTop: 50,
         flex: 1,
@@ -105,7 +103,6 @@ const styles = StyleSheet.create({
     avatar_name_row: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        
         marginTop: 10,
     },
 

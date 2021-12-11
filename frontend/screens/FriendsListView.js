@@ -9,7 +9,6 @@ import LoadingIndicator from '../components/LoadingIndicator';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const FriendsListView = ({navigation, route}) => {
-
     const context = useContext(UserContext);
     const [friends, setFriends] = useState([]);
     const [loading, setLoading] = useState(true);
