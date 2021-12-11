@@ -120,7 +120,10 @@ const DrawerContent = (props) => {
                             icon={({color, size}) => (
                                 <Icon 
                                 name="information-outline" 
-                                color={color}
+                                color={
+                                    getFocusedRouteNameFromRoute(props.route) === 'Info'
+                                    ? colors.secondColor
+                                    : color}
                                 size={size}
                                 />
                             )}
@@ -130,7 +133,7 @@ const DrawerContent = (props) => {
                     </Drawer.Section>
 
                     <Drawer.Section title="Preferences">
-                        <TouchableRipple onPress={() => {toggleTheme()}}>
+                        <TouchableRipple onPress={() => {toggleTheme(props.user.id, props.user.token)}}>
                             <View style={styles.preference}>
                                 <Text>Dark Theme</Text>
                                 <View pointerEvents="none">

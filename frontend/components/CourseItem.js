@@ -41,8 +41,10 @@ const CourseItem = ({navigation, item, bgColor}) => {
                                     ? () => clickedItem(item)
                                     : () => {}} style={[styles.Block, {backgroundColor: bgColor}]}>
             <View style={[styles.courseInfoRow]}>
-                <Text style={[styles.classTitle]}>{item.course_name}{' '}{item.course_number}</Text>
 
+                <View style={{width: 175}}>
+                    <Text style={[styles.classTitle]} ellipsizeMode='tail' numberOfLines={1}>{item.course_name}{' '}{item.course_number}</Text>
+                </View>
                 <View style={[styles.dayTimeCol]}>
 
                     <Text style={[styles.timeFont]}>
@@ -86,29 +88,20 @@ const styles = StyleSheet.create({
         padding: 15,
         width: 350,
         alignSelf: 'center',
-
-        //backgroundColor: '#5cdbd5',         //STATIC BACKGROUND
-
-        borderBottomWidth: 1,
-        borderColor: '#ccc',
+        width: 350,
         borderRadius: 40 / 2,
-        
         flex: 1
-
-
     },
 
     courseInfoRow: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        alignItems: 'center',
-        
+        alignItems: 'center',        
     },
 
     dayTimeCol: {
         flexDirection: 'column',
         alignItems: 'flex-end',
-        
     },
 
     classTitle: {
