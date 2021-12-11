@@ -9,8 +9,9 @@ const UserInfo = ({ navigation, route, user, bgColor }) => {
             <View style={styles.userInfoSection}>
                 <View style={{ flexDirection: 'row', marginTop: 15 }}>
                     <View style={{ right: 35 }}>
+
                         {
-                            user.profile_image == 'null'
+                            user.profile_image === null
                                 ? (<Avatar.Text
                                     size={80}
                                     backgroundColor='white'
