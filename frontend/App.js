@@ -52,6 +52,7 @@ const App = ({ navigation, route }) => {
       thirdColor: '#7DD1FF',
       fourthColor: '#68B0D8',
       fifthColor: '#5CDBD5',
+      searchBar: '#D7A4FF'
     }
   }
 
@@ -81,6 +82,7 @@ const App = ({ navigation, route }) => {
       thirdColor: '#B8ACFB',
       fourthColor: '#696580',
       fifthColor: '#786CBC',
+      searchBar: '#927EFF'
     }
   }
   const theme = user.dark_mode ? CustomDarkTheme : CustomDefaultTheme;   //uses dark_mode from context

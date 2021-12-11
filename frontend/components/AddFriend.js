@@ -62,7 +62,7 @@ const AddFriend = ({item, bgColor}) => {
                             loading={loading} 
                             onPress={() => sendRequest(item.id)}
                             disabled={buttonStatus}
-                            style={[styles.addButton, {backgroundColor: 'yellow'}]} //Need to change to a better color that changes dynamically
+                            style={[styles.addButton, {backgroundColor: colors.fabButtonColor}]} //Need to change to a better color that changes dynamically
                         >
                             <Icon 
                                 name={
@@ -88,8 +88,6 @@ const styles = StyleSheet.create({
 
     friendRequest : {
         padding: 15,
-        borderBottomWidth: 1,
-        borderColor: '#ccc',
         borderRadius: 40 / 2,
         width: 350,
         alignSelf: 'center',
