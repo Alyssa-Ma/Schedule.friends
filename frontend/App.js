@@ -69,6 +69,9 @@ const App = ({ navigation, route }) => {
       primary: '#6C59FF',
       placeholder: 'black',
       error: '#C40031'
+      focusedColor: '#ffffff',
+      unfocusedColor: '#696580',
+      searchBar: '#D7A4FF'
     }
   }
 
@@ -81,6 +84,8 @@ const App = ({ navigation, route }) => {
       ...PaperDarkTheme.colors,
       backgroundColor: '#493e81',
       text: '#ffffff',
+      primary: '#7464CC',
+      accent: '#7DD1FF',
       invertedColor: 'white',
       backgroundCardColors: ['#7464CC', '#B8ACFB', '#927EFF', '#696580', '#786CBC'],
       fabButtonColor: '#696580',
@@ -102,10 +107,12 @@ const App = ({ navigation, route }) => {
       primary: '#7464CC',
       placeholder: 'white',
       error: '#FF6D6D'
+      focusedColor: '#ffffff',
+      unfocusedColor: '#404040',
+      searchBar: '#927EFF'
     }
   }
- 
-  const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
+  const theme = user.dark_mode ? CustomDarkTheme : CustomDefaultTheme;   //uses dark_mode from context
 
   const fetchUserToken = async (usernameInput, passwordInput) => {
     try {
@@ -138,6 +145,36 @@ const App = ({ navigation, route }) => {
     return false;
   }
 
+  //Changes the theme in both context and database
+  const toggleTheme = async (id, token) => { 
+    setIsDarkTheme( isDarkTheme => !isDarkTheme);
+    try {
+      const response = await fetch(`${BASE_URL}/${id}`, {
+          method:"PATCH",
+          headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`
+          
+          },
+
+          body: JSON.stringify({"dark_mode": isDarkTheme})
+      
+      })
+      
+      const jsonResponse = await response.json();
+      if (response.status === 200) {
+          setUser(jsonResponse);
+      }
+      else {
+          console.error(`Server Error ${response.status}`)
+          Alert.alert(`Server Error`);
+      }
+    } catch(error) {
+        console.error(error)
+    } 
+
+  }
+
   //for developmental purpose, autologins to HenryB
   React.useEffect(() => {
    fetchUserToken("henryB", "Test401");
@@ -146,19 +183,16 @@ const App = ({ navigation, route }) => {
   return (
 
     <PaperProvider theme={theme}>
-        <UserContext.Provider value={{
-          user: user,
-          isSignedIn: isSignedIn,
-          bgColors: ['#D7A4FF', '#9E8DFF', '#7DD1FF', '#68B0D8', '#5CDBD5'],  //added colors to context
-          setUser: setUser,
-          setIsSignedIn: setIsSignedIn,
-          fetchUserToken: fetchUserToken,
-          isDarkTheme: isDarkTheme,
-          setIsDarkTheme: setIsDarkTheme,
-          toggleTheme: () => {    //Added toggle theme
-            setIsDarkTheme( isDarkTheme => !isDarkTheme);
-          }
-        }}>
+      <UserContext.Provider value={{
+        user: user,
+        isSignedIn: isSignedIn,
+        setUser: setUser,
+        setIsSignedIn: setIsSignedIn,
+        fetchUserToken: fetchUserToken,
+        isDarkTheme: isDarkTheme,
+        setIsDarkTheme: setIsDarkTheme,
+        toggleTheme: toggleTheme
+      }}>
           <SnackBarContext.Provider value={{
             snackVisible: snackVisible,
             setSnackVisible: setSnackVisible,

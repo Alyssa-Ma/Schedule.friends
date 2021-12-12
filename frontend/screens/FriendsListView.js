@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { View, StyleSheet, FlatList} from 'react-native';
+import { View, StyleSheet, FlatList, ScrollView} from 'react-native';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
@@ -9,7 +9,6 @@ import LoadingIndicator from '../components/LoadingIndicator';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const FriendsListView = ({navigation, route}) => {
-
     const context = useContext(UserContext);
     const [friends, setFriends] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -69,24 +68,26 @@ const FriendsListView = ({navigation, route}) => {
     )   
 
     return (
-        <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
-            {
-                loading
-                ?   <LoadingIndicator isLoading={loading} />
-                :   (friends === undefined || friends.length === 0
-                    ? (
-                        <View style={styles.noFriends}>
-                            <Icon name="account-group" size={100} color={colors.firstColor}/>
-                            <Title>Friend list is empty, find some friends!</Title>
-                        </View>
-                    )
-                    : <FlatList 
-                        data={friends}
-                        keyExtractor={friend => friend.id}
-                        renderItem={({item, index}) => <FriendListItem user={item} navigation={navigation} index={index} bgColor={colors.backgroundCardColors[index % colors.backgroundCardColors.length]}/>}
-                    />)
-            }
-        </View>
+        <ScrollView>
+            <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
+                {
+                    loading
+                    ?   <LoadingIndicator isLoading={loading} />
+                    :   (friends === undefined || friends.length === 0
+                        ? (
+                            <View style={styles.noFriends}>
+                                <Icon name="account-group" size={100} color={colors.firstColor}/>
+                                <Title>Friend list is empty, find some friends!</Title>
+                            </View>
+                        )
+                        : <FlatList 
+                            data={friends}
+                            keyExtractor={friend => friend.id}
+                            renderItem={({item, index}) => <FriendListItem user={item} navigation={navigation} index={index} bgColor={colors.backgroundCardColors[index % colors.backgroundCardColors.length]}/>}
+                        />)
+                }
+            </View>
+        </ScrollView>
     )
 }
 

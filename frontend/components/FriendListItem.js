@@ -37,8 +37,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 15,
         //backgroundColor: '#5cdbd5',         //STATIC BACKGROUND
-        borderBottomWidth: 1,
-        borderColor: '#ccc',
         borderRadius: 40 / 2,
         width: 350,
         alignSelf: 'center',

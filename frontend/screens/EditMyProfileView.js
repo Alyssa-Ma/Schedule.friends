@@ -174,25 +174,12 @@ const EditMyProfileView = ({ navigation, route }) => {
 
 // something, {backgroundColor:colors.backgroundColor}]}>
 
-    return (
-        
-        <View style={{backgroundColor: colors.backgroundColor}}>
-        <View syle={styles.container}> 
-            <View style={{margin: 20}}>
-
+    return (    
+        <View style={{styles: styles.container, backgroundColor: colors.backgroundColor}}>
+            <View style={{marginVertical: 20, marginHorizontal: 20}}>
                 <View style={{alignItems: 'center'}}>
                     <TouchableOpacity onPress={() => {choosPhotoFromLibrary()}}>
                         <View style={styles.icon}>
-
-                            {/*
-                            <Avatar.Text 
-                                size = {100} 
-                                backgroundColor = '#D7A4FF'
-                                label=
-                                {user.first_name.charAt(0)+user.last_name.charAt(0)}
-                            />
-                            */}
-
                             <ImageBackground
                             source={{
                             uri: ProfileImage,
@@ -333,9 +320,7 @@ const EditMyProfileView = ({ navigation, route }) => {
 
             </View>
         </View>
-    </View>
 
-    
     );
     
 }
@@ -344,8 +329,9 @@ export default EditMyProfileView;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor:'yellow',
+        flex: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     inputfields: {
         flexDirection: 'row',
@@ -389,7 +375,7 @@ const styles = StyleSheet.create({
     },
     confirmBox: {
         flexDirection: 'row',
-        width:370, 
+        width:360, 
         height:50,
         backgroundColor:'#9E8DFF',
         borderBottomRightRadius: 20,
@@ -401,7 +387,7 @@ const styles = StyleSheet.create({
     },
     cancelBox: {
         flexDirection: 'row',
-        width:370, 
+        width:360, 
         height:50,
         backgroundColor:'#5CDBD5',
         borderBottomRightRadius: 20,
