@@ -68,10 +68,10 @@ const App = ({ navigation, route }) => {
       surface: '#EEEDFF',
       primary: '#6C59FF',
       placeholder: 'black',
-      error: '#C40031'
+      error: '#C40031',
       focusedColor: '#ffffff',
       unfocusedColor: '#696580',
-      searchBar: '#D7A4FF'
+      searchBar: '#D7A4FF',
     }
   }
 
@@ -106,10 +106,10 @@ const App = ({ navigation, route }) => {
       surface: '#2a2349',
       primary: '#7464CC',
       placeholder: 'white',
-      error: '#FF6D6D'
+      error: '#FF6D6D',
       focusedColor: '#ffffff',
       unfocusedColor: '#404040',
-      searchBar: '#927EFF'
+      searchBar: '#927EFF',
     }
   }
   const theme = user.dark_mode ? CustomDarkTheme : CustomDefaultTheme;   //uses dark_mode from context
@@ -176,9 +176,9 @@ const App = ({ navigation, route }) => {
   }
 
   //for developmental purpose, autologins to HenryB
-  React.useEffect(() => {
-   fetchUserToken("henryB", "Test401");
-  }, [])
+  // React.useEffect(() => {
+  //  fetchUserToken("henryB", "Test401");
+  // }, [])
 
   return (
 
