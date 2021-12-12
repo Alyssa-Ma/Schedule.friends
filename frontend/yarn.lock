@@ -5963,7 +5963,7 @@
   dependencies:
     "color" "^3.2.1"
 
-"react-native-paper@*", "react-native-paper@^4.11.0":
+"react-native-paper@*", "react-native-paper@^4.11.0", "react-native-paper@>= 3.0.0":
   "integrity" "sha512-MRqaX+8HeRpDo2Qa8TNX2+nIGDCa/zv+GWnfxNGcr1EbDPUwNRc6YICjvBHLvDJrGHxDaSYdU4ASkQE72cQuJg=="
   "resolved" "https://registry.npmjs.org/react-native-paper/-/react-native-paper-4.11.0.tgz"
   "version" "4.11.0"
