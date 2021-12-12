@@ -1,12 +1,15 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import { View, Alert, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { TextInput, HelperText } from 'react-native-paper';
+import { TextInput, HelperText, useTheme } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 import { ScrollView } from 'react-native-gesture-handler';
+import SnackBarContext from '../context/SnackBarContext';
 
 const SignUpScreen = ({ navigation }) => {
     const context = useContext(UserContext);
+    const snackBarContext = useContext(SnackBarContext);
+    const { colors } = useTheme();
     const [first_name, setFirstName] = useState("");
     const [last_name, setLastName] = useState("");
     const [username, setUserName] = useState("");
@@ -14,6 +17,7 @@ const SignUpScreen = ({ navigation }) => {
     const [password, setPassword] = useState("");
     const [confPassword, setConfPassword] = useState("");
     const [schedule, setSchedule] = useState([]);
+    const [validForm, setValidForm] = useState(false);
     
     // HELPER TEXT CHECKER FUNCS
     
@@ -22,11 +26,7 @@ const SignUpScreen = ({ navigation }) => {
         const nameRegex = /^[A-Za-z]{1,150}$/;
         return (!(nameRegex.test(first_name)) && first_name.length > 0);
     };
-
-    const fnameEmpty = () => {
-        return(first_name == "");
-    }
-
+     
     // Returns true if last_name does not only contain alphabet or is over 150 characters
     const lnameValid = () => {
         const nameRegex = /^[A-Za-z]{1,150}$/;
@@ -56,62 +56,25 @@ const SignUpScreen = ({ navigation }) => {
         return !(password === confPassword) && confPassword.length <= 6;
     }
 
-    // fourmCheck that runs on Register submit button
-    const forumCheck = () => {
-        // Checks if first_name is empty
-        if (first_name=="") {
-            Alert.alert("Please enter a first name.");
+    useEffect(() => {
+        if (
+            !(first_name.length === 0) &&
+            !(last_name.length === 0) &&
+            !fnameValid() &&
+            !lnameValid() &&
+            !(username.length === 0) &&
+            !unameValid() &&
+            !emailValid() &&
+            !(password.length === 0) &&
+            !passwordValid() &&
+            !confPasswordValid()
+        ) {
+            setValidForm(true);
         }
-        
-        // Checks if last name is empty
-        else if (last_name=="") {
-            Alert.alert("Please enter a last name.");
+        else{
+            setValidForm(false);
         }
-
-        // regex check first_name and last_name
-        else if ((fnameValid()) || (lnameValid())){
-            Alert.alert("Only alphabetical characters are accepted for first ane last names.");
-        }
-
-        // Checks if username is empty
-        else if (username=="") {
-            Alert.alert("Please enter a username.");
-        }
-
-        //Checks username length
-        else if (username.length > 15 || username.length < 4) {
-            Alert.alert("Username must be between 4-15 characters")
-        }
-
-        // regex check username
-        else if (unameValid()) {
-            Alert.alert("Username can only contain alphanumeric, _, @, +, . and - characters.");
-        }
-
-        // regex check email
-        else if (emailValid()) {
-            Alert.alert("Please enter a valid email.");
-        }
-
-        // Checks if password is empty
-        else if ((password=="")) {
-            Alert.alert("Please enter a password.");
-        }
-
-        // regex check password
-        else if (passwordValid()) {
-            Alert.alert("Password is invalid.");
-        }
-
-        // Checks if password and confPassword are the same
-        else if (password !== confPassword) {
-            Alert.alert("Password do not match")
-        }
-
-        // All checks are passed, data is sent to backend
-        else 
-            submitForm();
-    }
+    })    
 
     const submitForm = async () => {
         try {
@@ -135,11 +98,13 @@ const SignUpScreen = ({ navigation }) => {
                 context.setIsSignedIn(true);
             }
             else {
-                console.log(JSON.stringify(jsonResponse))
+                snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+                snackBarContext.toggleSnackBar();
             }
         }
         catch(error) {
-            console.log(error);
+            snackBarContext.setStatusText(`${error}`);
+            snackBarContext.toggleSnackBar();
         }
     }
 
@@ -156,6 +121,12 @@ const SignUpScreen = ({ navigation }) => {
                         placeholder = 'Enter Your First Name'
                         placeholderTextColor = '#ffffff'
                         onChangeText = {(val) => setFirstName(val)}
+                        theme={{
+                            colors: {
+                                placeholder: 'white',
+                                error: colors.error
+                            }
+                        }}
                     />
                 </View>
                 <HelperText type="error" visible={fnameValid()} style={styles.error}>
@@ -171,6 +142,12 @@ const SignUpScreen = ({ navigation }) => {
                         placeholder = 'Enter Your Last Name'
                         placeholderTextColor = '#ffffff'
                         onChangeText = {(val) => setLastName(val)}
+                        theme={{
+                            colors: {
+                                placeholder: 'white',
+                                error: colors.error
+                            }
+                        }}
                     />
                 </View>
                 <HelperText type="error" visible={lnameValid()} style={styles.error}>
@@ -186,6 +163,12 @@ const SignUpScreen = ({ navigation }) => {
                         placeholder = 'Enter Your Username'
                         placeholderTextColor = '#ffffff'
                         onChangeText = {(val) => setUserName(val)}
+                        theme={{
+                            colors: {
+                                placeholder: 'white',
+                                error: colors.error
+                            }
+                        }}
                     />
                 </View>    
                 <HelperText type="error" visible={unameValid()} style={styles.error}>
@@ -201,6 +184,12 @@ const SignUpScreen = ({ navigation }) => {
                         placeholder = 'Enter Your E-Mail'
                         placeholderTextColor = '#ffffff'
                         onChangeText = {(val) => setEmail(val)}
+                        theme={{
+                            colors: {
+                                placeholder: 'white',
+                                error: colors.error
+                            }
+                        }}
                     />
                 </View>  
                 <HelperText type="error" visible={emailValid()} style={styles.error}>
@@ -217,6 +206,12 @@ const SignUpScreen = ({ navigation }) => {
                         placeholder = 'Enter Your Password'
                         placeholderTextColor = '#ffffff'
                         onChangeText = {(val) => setPassword(val)}
+                        theme={{
+                            colors: {
+                                placeholder: 'white',
+                                error: colors.error
+                            }
+                        }}
                     />
                 </View> 
                 <HelperText type="error" visible={passwordValid()} style={styles.error}>
@@ -233,18 +228,39 @@ const SignUpScreen = ({ navigation }) => {
                         placeholder = 'Enter Your Password Again'
                         placeholderTextColor = '#ffffff'
                         onChangeText = {(val) => setConfPassword(val)}
+                        theme={{
+                            colors: {
+                                placeholder: 'white',
+                                error: colors.error
+                            }
+                        }}
                     />
                 </View> 
                 <HelperText type="error" visible={confPasswordValid()} style={styles.error}>
                     Error: Passwords do not match.
                 </HelperText> 
                 
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}
-                    onPress = {() => { forumCheck()}}
+                <TouchableOpacity 
+                    style={
+                        [styles.button,
+                        {backgroundColor: 
+                            !validForm
+                            ? '#2D6989'
+                            : '#53C2FF'}
+                    ]}
+                    disabled={!validForm}
+                    onPress = {submitForm}
+                    >
+                    <Text 
+                        style={
+                            [styles.buttonText,
+                            {color:
+                                !validForm
+                                    ? 'rgba(255,255,255, .2)'
+                                    : 'white'}
+                    ]}
                     >Register</Text>
                 </TouchableOpacity>
-            
             </View>
         </ScrollView>
     );
@@ -284,7 +300,7 @@ const styles = StyleSheet.create({
     },    
     button:{
         backgroundColor:'#53C2FF',
-        borderRadius: 15, 
+        borderRadius: 20, 
         width:350, 
         marginBottom: 50,
         paddingVertical: 12,
@@ -297,9 +313,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         
     },
-    text: {
-        color: 'white',  
-    },   
     error: {
         width: 350,
         textAlign: 'center',

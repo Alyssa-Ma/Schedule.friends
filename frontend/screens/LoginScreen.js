@@ -6,10 +6,12 @@ import analogousLogo from '../logo/analogousLogo.png';
 
 const LoginScreen = ({ navigation, route }) => {
     const context = useContext(UserContext);
-    const [userName, setUserName] = useState(" ");
-    const [userPassword, setUserPassword] = useState(" ");
+    const [userName, setUserName] = useState("");
+    const [userPassword, setUserPassword] = useState("");
     const logo = Image.resolveAssetSource(analogousLogo).uri;
     const { colors } = useTheme();
+    const [userNameLock, setUserNameLock] = useState(true);
+    const [userPasswordLock, setUserPasswordLock] = useState(true);
 
     return (
         <View style={styles.container}>
@@ -23,7 +25,7 @@ const LoginScreen = ({ navigation, route }) => {
 
             <View style={[styles.inputBox, {backgroundColor:'#D7A4FF'}]}>
                 <TextInput
-                    error={userName.length <= 0}
+                    error={!userNameLock && userName.length <= 0}
                     style={styles.input}
                     activeUnderlineColor='white'
                     theme={{
@@ -34,14 +36,14 @@ const LoginScreen = ({ navigation, route }) => {
                     }}
                     label="Username"
                     placeholder = 'Enter Username'
-
+                    onBlur={() => setUserNameLock(false)}
                     onChangeText = {(val) => setUserName(val)}
                 />
             </View>
 
             <View style={[styles.inputBox, {backgroundColor:'#9E8DFF'}]}>
                 <TextInput
-                    error={userPassword.length <= 0}
+                    error={!userPasswordLock && userPassword.length <= 0}
                     style={styles.input}
                     secureTextEntry={true}
                     activeUnderlineColor='white'
@@ -53,9 +55,8 @@ const LoginScreen = ({ navigation, route }) => {
                         }
                     }}
                     placeholder = 'Enter Password'
+                    onBlur={() => setUserPasswordLock(false)}
                     onChangeText = {(val) => setUserPassword(val)}
-
-
                 />
             </View>
 
@@ -78,10 +79,10 @@ const LoginScreen = ({ navigation, route }) => {
                      }]}>Login</Text>
             </TouchableOpacity>  
 
-            <View style={styles.newSignUpText}>
-                <Text style ={styles.newSignUpText}> New to Schedule.Friends?</Text> 
+            <View style={styles.bottomRow}>
+                <Text style ={[styles.bottomText, {color:'#68B0D8'}]}> New to Schedule.Friends?</Text> 
                 <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                    <Text style={styles.createAnAccountText}> Create an account! </Text>
+                    <Text style={[styles.bottomText, {color:'#4CD2CC'}]}> Create an account! </Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -130,23 +131,15 @@ const styles = StyleSheet.create({
         fontWeight:"900",
         textAlign: 'center'
     },
-    newSignUpText:{
+    bottomRow:{
         alignItems: 'center',
         justifyContent: 'center',
-        color:'#68B0D8',
         flexDirection: 'row',
         paddingHorizontal: 8,
-        fontSize: 16,
-        fontWeight: '500'
     },
-    createAnAccountText:{
-        alignItems: 'center',
-        justifyContent: 'center',
-        color:'#4CD2CC',
-        flexDirection: 'row',
+    bottomText:{
+        fontSize: 16,
+        fontWeight: '500',
         paddingHorizontal: 8,
-        fontSize: 16,
-        fontWeight: '500'
     },
-    
 })
