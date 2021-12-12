@@ -112,7 +112,9 @@ const App = ({ navigation, route }) => {
       searchBar: '#927EFF',
     }
   }
-  const theme = user.dark_mode ? CustomDarkTheme : CustomDefaultTheme;   //uses dark_mode from context
+  const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;   
+  // listens to isDarkTheme state again, had some weird delay/refresh problems when 
+  // rendering from user context.
 
   const fetchUserToken = async (usernameInput, passwordInput) => {
     try {
@@ -130,6 +132,7 @@ const App = ({ navigation, route }) => {
       const jsonResponse = await response.json();
       if (response.status === 200) {
         setUser(jsonResponse);
+        setIsDarkTheme(jsonResponse.dark_mode)
         setIsSignedIn(true);
         return true;
       }
@@ -147,20 +150,17 @@ const App = ({ navigation, route }) => {
 
   //Changes the theme in both context and database
   const toggleTheme = async (id, token) => { 
-    setIsDarkTheme( isDarkTheme => !isDarkTheme);
+    setIsDarkTheme(!isDarkTheme);
     try {
       const response = await fetch(`${BASE_URL}/${id}`, {
           method:"PATCH",
           headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${token}`
-          
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`          
           },
 
           body: JSON.stringify({"dark_mode": isDarkTheme})
-      
-      })
-      
+      })  
       const jsonResponse = await response.json();
       if (response.status === 200) {
           setUser(jsonResponse);
@@ -176,9 +176,9 @@ const App = ({ navigation, route }) => {
   }
 
   //for developmental purpose, autologins to HenryB
-  // React.useEffect(() => {
-  //  fetchUserToken("henryB", "Test01");
-  // }, [])
+  React.useEffect(() => {
+   fetchUserToken("henryB", "Test01");
+  }, [])
 
   return (
 
