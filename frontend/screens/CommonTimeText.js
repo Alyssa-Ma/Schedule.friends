@@ -1,6 +1,6 @@
-import React, {useState, useContext} from 'react';
-import { View, StyleSheet, FlatList, ScrollView} from 'react-native';
-import { Text, useTheme, Title } from 'react-native-paper'
+import React, {useState, useContext } from 'react';
+import { View, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { useTheme, Title } from 'react-native-paper'
 import TextViewCard from '../components/TextViewCard';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
@@ -8,6 +8,7 @@ import UserContext from '../context/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
 import LoadingIndicator from '../components/LoadingIndicator';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+let { width, height } = Dimensions.get('window');
 
 const CommonTimeText = ({ navigation, route }) => {
 
@@ -134,7 +135,6 @@ const CommonTimeText = ({ navigation, route }) => {
     //Does all async fetch calls to get free times of friends using algo
     const getInfo = async() =>{
         setLoading(true);
-        console.log("entered screen!");
         try{
             let response = await fetch(`${BASE_URL}/${context.user.id}`, {
                 method: 'GET', 
@@ -143,89 +143,92 @@ const CommonTimeText = ({ navigation, route }) => {
                 'Authorization': `Token ${context.user.token}`
                 },
             });
-            response = await response.json();
             
-            //We technically have our schedule from context now, but whatever
-            //we already have to make the call to get an updated friend list
-            let my_schedule = response.schedule;
-            let my_friends = response.friend_list;
+            let jsonResponse = await response.json();
             
-            // Since a user's friend list can change based on other user's actions
-            // (such as accepting incoming requests or removing a friend),
-            // we'll take this as an opportunity to update our friend_list from
-            // the backend
-            if (context.user.friend_list !== my_friends) {
-                let userTemp = {...context.user};
-                userTemp.friend_list = my_friends;
-                context.setUser(userTemp)
-            }
-            
-            let curr_day = new Date().getDay();
-            const curr_hour = new Date().getHours();
-            const curr_min = new Date().getMinutes();
-            let curr_time = `${curr_hour}:${curr_min}`;
-
-            
-            curr_time = getTimeAsMin(curr_time);    //change curr time into an int 
-            //curr_time=0;
-            curr_day = convertToDay(curr_day);  //change int into "MON" etc..
-            //curr_day = convertToDay(1); 
-
-            my_schedule = filterSchedule(my_schedule, curr_day); //filter classes for today only
-            let my_time_free = getMinutesOfSchedule(my_schedule, curr_time);
-
-            my_schedule = my_time_free;
-            my_time_free = getFreeTime(my_time_free);
-
-            
-            let friends = [];
-            for(const id of my_friends){
+            if (response.status === 200) {
+                let my_schedule = jsonResponse.schedule;
+                let my_friends = jsonResponse.friend_list;
+                // Since a user's friend list can change based on other user's actions
+                // (such as accepting incoming requests or removing a friend),
+                // we'll take this as an opportunity to update our friend_list from
+                // the backend
+                if (context.user.friend_list.toString() !== my_friends.toString()) {
+                    let userTemp = {...context.user};
+                    userTemp.friend_list = my_friends;
+                    context.setUser(userTemp)
+                }
+                let curr_day = new Date().getDay();
+                const curr_hour = new Date().getHours();
+                const curr_min = new Date().getMinutes();
+                let curr_time = `${curr_hour}:${curr_min}`;
+    
                 
-                try{
-                    response = await fetch(`${BASE_URL}/${id}`, {
-                        method: 'GET', 
-                        headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Token ${context.user.token}`
-                        },
-                    });
-                    response = await response.json();
+                curr_time = getTimeAsMin(curr_time);    //change curr time into an int 
+                //curr_time=0;
+                curr_day = convertToDay(curr_day);  //change int into "MON" etc..
+                //curr_day = convertToDay(1); 
+    
+                my_schedule = filterSchedule(my_schedule, curr_day); //filter classes for today only
+                let my_time_free = getMinutesOfSchedule(my_schedule, curr_time);
+    
+                my_schedule = my_time_free;
+                my_time_free = getFreeTime(my_time_free);
+                let friends = [];
+                for(const id of my_friends){
+                    try{
+                        const friendResponse = await fetch(`${BASE_URL}/${id}`, {
+                            method: 'GET', 
+                            headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Token ${context.user.token}`
+                            },
+                        });
+                        const friendJSONResponse = await friendResponse.json();
+                        if (friendResponse.status === 200) {
+                            let friend_schedule = filterSchedule(friendJSONResponse.schedule, curr_day);
+                            friend_schedule = getMinutesOfSchedule(friend_schedule);
+                            friend_schedule = getFreeTime(friend_schedule, curr_time);
+                            if(friend_schedule.length <= 1){
+                                continue;
+                            }
+            
+                            if(friend_schedule.length === 0){
+                                continue;
+                            }
 
-                } catch (error){
-                    console.error(error);
+                            const now_bool = (curr_time >= friend_schedule[0][0]) && (curr_time < friend_schedule[0][1]);
+                            friend_schedule = getCommonFreeTime(my_time_free, friend_schedule);
+                            friend_schedule = convertToTime(friend_schedule);
+            
+                            const friend = {
+                                id: response.id,
+                                schedule: friend_schedule,
+                                f_name: response.first_name,
+                                l_name: response.last_name,
+                                profile_image: response.profile_image,
+                                now: now_bool
+                            };
+            
+                            friends.push(friend);
+                        }
+                        else {
+                            console.log(friendResponse.status)
+                        }
+                    } catch (error){
+                        console.log(error);
+                    }
                 }
-
-                let friend_schedule = filterSchedule(response.schedule, curr_day);
-
-                if(friend_schedule.length <= 1){
-                    continue;
-                }
-                friend_schedule = getMinutesOfSchedule(friend_schedule);
-                friend_schedule = getFreeTime(friend_schedule, curr_time);
-
-                if(friend_schedule.length === 0){
-                    continue;
-                }
-
-                const now_bool = (curr_time >= friend_schedule[0][0]) && (curr_time < friend_schedule[0][1]);
-                friend_schedule = getCommonFreeTime(my_time_free, friend_schedule);
-                friend_schedule = convertToTime(friend_schedule);
-
-                const friend = {
-                    id: response.id,
-                    schedule: friend_schedule,
-                    f_name: response.first_name,
-                    l_name: response.last_name,
-                    profile_image: response.profile_image,
-                    now: now_bool
-                };
-
-                friends.push(friend);    
+                setItems(friends);
+                setLoading(false);
             }
-            setItems(friends);
+            else {
+                console.log(response.status)
+                setLoading(false);
+            }
+        } catch(error) {
+            console.log(error)
             setLoading(false);
-        }catch(error){
-            console.error(error);
         }
     }
 
@@ -247,8 +250,7 @@ const CommonTimeText = ({ navigation, route }) => {
             // This is the cleanup function for useCallback.
             // It can return nothing, but is needed to run properly (I think)
             return () => {
-                console.log("leaving screen!");
-                setLoading(true);
+
             };
         }, [])
     )
@@ -261,12 +263,12 @@ const CommonTimeText = ({ navigation, route }) => {
                 ?  <LoadingIndicator isLoading={loading} />
                 :  context.user.friend_list.length === 0
                     ? (<View style={styles.noFriends}>
-                            <Icon name="account-multiple-minus" size={100} color={colors.firstColor}/>
-                            <Title>No one is Free Now</Title>
+                            <Icon name="account-multiple-minus" size={175} color={colors.firstColor}/>
+                            <Title>Friend List Empty, Add Some Friends!</Title>
                         </View>)
                     : (items === undefined || items.length === 0
                         ? (<View style={styles.noFriends}>
-                                <Icon name="emoticon-sad-outline" size={100} color={colors.firstColor}/>
+                                <Icon name="emoticon-sad-outline" size={175} color={colors.firstColor}/>
                                 <Title>No one is Free Now</Title>
                             </View>)
                         : <FlatList data={items} style={styles.outerCard} renderItem={({item, index}) => <TextViewCard item={item} bgColor={colors.backgroundCardColors[index % colors.backgroundCardColors.length]}/>} />)
@@ -289,7 +291,8 @@ const styles = StyleSheet.create({
 
     noFriends: {
         alignItems: 'center',
-        justifyContent: 'center' 
+        justifyContent: 'center',
+        height: height - 130
     }
 
 });

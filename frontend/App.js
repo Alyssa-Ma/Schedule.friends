@@ -183,6 +183,15 @@ const App = ({ navigation, route }) => {
   return (
 
     <PaperProvider theme={theme}>
+      <SnackBarContext.Provider value={{
+        snackVisible: snackVisible,
+        setSnackVisible: setSnackVisible,
+        statusText: statusText,
+        setStatusText: setStatusText,
+        toggleSnackBar: toggleSnackBar,
+        onDismissSnackBar: onDismissSnackBar,
+        trimJSONResponse: trimJSONResponse
+      }}>
       <UserContext.Provider value={{
         user: user,
         isSignedIn: isSignedIn,
@@ -193,15 +202,6 @@ const App = ({ navigation, route }) => {
         setIsDarkTheme: setIsDarkTheme,
         toggleTheme: toggleTheme
       }}>
-          <SnackBarContext.Provider value={{
-            snackVisible: snackVisible,
-            setSnackVisible: setSnackVisible,
-            statusText: statusText,
-            setStatusText: setStatusText,
-            toggleSnackBar: toggleSnackBar,
-            onDismissSnackBar: onDismissSnackBar,
-            trimJSONResponse: trimJSONResponse
-          }}>
           <NavigationContainer theme={theme}>
             {
               isSignedIn
@@ -266,8 +266,8 @@ const App = ({ navigation, route }) => {
                   }}
               >{statusText}</Snackbar>
           </NavigationContainer>
-        </SnackBarContext.Provider>
-      </UserContext.Provider>
+        </UserContext.Provider>
+      </SnackBarContext.Provider>
     </PaperProvider>
   )
 }
