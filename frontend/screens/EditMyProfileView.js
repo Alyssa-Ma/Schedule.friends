@@ -202,7 +202,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                         </View>
                     </TouchableOpacity>
 
-                    <Text style = {[styles.fnamelname, {color:colors.firstColor}]}>
+                    <Text numberOfLines={3} style = {[styles.fnamelname, {color:colors.text}]}>
                         {user.first_name + " " + user.last_name}
                     </Text>
                 </View>
