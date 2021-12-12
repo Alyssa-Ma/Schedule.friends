@@ -68,7 +68,6 @@ const FriendsListView = ({navigation, route}) => {
     )   
 
     return (
-        <ScrollView>
             <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
                 {
                     loading
@@ -87,7 +86,6 @@ const FriendsListView = ({navigation, route}) => {
                         />)
                 }
             </View>
-        </ScrollView>
     )
 }
 
