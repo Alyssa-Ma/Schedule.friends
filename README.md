@@ -12,6 +12,9 @@
 * [Running The Application](#running-the-application)
 	* [Frontend](#frontend) 
 	* [Backend](#backend) 
+* [Updating the Application](#updating-the-application)
+	* [Frontend](#updating-the-frontend) 
+	* [Backend](#updating-the-backend) 
 	
 ## Description
 
@@ -35,6 +38,7 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 1. Go to the link below to set up the environment. 
 
 	https://reactnative.dev/docs/environment-setup
+	
 3. Choose `React Native CLI Quickstart`
 
 	#### For Windows/Linux
@@ -56,9 +60,11 @@ Schedule.friends is a mobile app that helps you know when your friends are free 
 1. Navigate into the frontend folder inside the repository using your terminal of choice.
 ###
 	cd .\frontend\
+	
 2. Your terminal should have \Schedule.friends\frontend as the path now. Now we need to install the dependencies.
 ###
 	npm install
+	
 3. We also need a .env file in the frontend to connect to the backend. Create a file in the frontend file named `.env` Edit the file, paste and save the following line. NOTE: You may need to add a new line under this. Press `ENTER` once after copying the text below.
 ###
 	BASE_URL=http://10.0.2.2:8000/api/sf_users
@@ -68,6 +74,7 @@ NOTE: You may need a blank newline below the `BASE_URL` for the file to be read 
    Use the following command in the terminal while it is still in the frontend folder.  
 ####
 	npx react-native unlink react-native-vector-icons  
+	
   Use the following command in the terminal.  
 ####
 	cd ios && pod install && cd ../  
@@ -208,12 +215,15 @@ Or by creating a user with the POST request at `http://127.0.0.1:8000/sf_users/c
 1. Navigate into the frontend folder inside the repository using your terminal of choice.
 ###
 	cd .\frontend\
+	
 1. Enter the following command with the terminal in the frontend folder.
 ###
 	npx react-native start
+	
 2. While leaving the first terminal running, open on another terminal in the frontend folder. Run the command based on which virtual device OS you're using.
 ### Android
 	npx react-native run-android
+	
 ### iOS
 	npx react-native run-ios
 	
@@ -225,15 +235,66 @@ Or by creating a user with the POST request at `http://127.0.0.1:8000/sf_users/c
 1. Navigate into the backend folder inside the repository using your terminal of choice. 
 ###
 	cd .\backend\
+	
 2. Activate the virtual environment by using the command below. 
 #### Mac/Linux
 	. venv/bin/activate
 	
 #### Windows
 	.\venv\Scripts\activate
+	
 3. Navigate into `/Schedule.friends/backend/sf_api` and type the following command:
 ###
 	python manage.py runserver
+	
 ***The backend is now running.***	
 
 [Back to Navigation](#navigation)	
+
+## Updating The Application
+### Updating The Frontend
+If you have installed Schedule.Friends and need to update it, check out the instructions below. 
+
+1. Navigate into the frontend folder inside the repository using your terminal of choice.
+###
+	cd .\frontend\
+	
+1. Enter the following command with the terminal in the frontend folder.
+###
+	npm install
+	
+2. All new dependencies should be installed now. Make sure there are no errors when running the frontend.
+	
+***The frontend is now updated.***	
+
+[Back to Navigation](#navigation)
+
+### Updating The Backend
+1. Navigate into the backend folder inside the repository using your terminal of choice. 
+###
+	cd .\backend\
+	
+2. Activate the virtual environment by using the command below. 
+#### Mac/Linux
+	. venv/bin/activate
+	
+#### Windows
+	.\venv\Scripts\activate
+
+3. Update the dependencies by using the command below. NOTE: if you use python3 as your command instead of python, you will use pip3 instead of pip.
+###
+	pip install -r requirements.txt
+
+4. Navigate info sf_api from the backend folder.
+###
+	cd .\sf_api\
+
+5. Now, run migrations.
+###
+	python manage.py migrate
+	
+6.  The backend should be updated now.
+	
+***The backend is now updated.***	
+
+[Back to Navigation](#navigation)
