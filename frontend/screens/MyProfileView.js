@@ -17,15 +17,10 @@ const MyProfileView = ({ navigation }) => {
     })
     console.log("Edit MY Profile Pressed");
   }
-  const LogoutPressHandler = () => {
-    navigation.navigate('LogOut');
-  }
   
   const { colors } = useTheme(); //THEME
 
   return (
-
-    
     <SafeAreaView style={[styles.container, {backgroundColor:colors.backgroundColor}]}>
       <View style = {[styles.userCard, {backgroundColor:colors.secondColor}]}>
         <UserInfo user={context.user}/>
@@ -36,16 +31,23 @@ const MyProfileView = ({ navigation }) => {
             borderBottomWidth: 1,
           }}
         />
-        <View style={styles.listWrapper}>
-          <TouchableRipple style={[styles.button, {backgroundColor:colors.firstColor}]} onPress={() => editProfilePressHandler() }>
-            <View style={styles.buttonLayout}>
+        <View>
+          <TouchableRipple 
+            style={[styles.button, {backgroundColor:colors.firstColor}]} 
+            borderless={true} 
+            onPress={() => editProfilePressHandler()}>
+            <View style={[styles.buttonLayout]}>
               <Icon name="person" size={25} color={colors.text}/>
               <Text style={[styles.buttonText, {color: colors.text}]}>Edit My Profile</Text>
             </View>
           </TouchableRipple>
-
-          <TouchableRipple style={[styles.button, {backgroundColor:colors.thirdColor}]} onPress={() => LogoutPressHandler()}>
-            <View style={styles.buttonLayout}>
+        </View>
+        <View>
+          <TouchableRipple 
+            style={[styles.button, {backgroundColor:colors.thirdColor}]} 
+            borderless={true} 
+            onPress={() => navigation.navigate('LogOut')}>
+            <View style={[styles.buttonLayout]}>
               <Icon name="logout" size={25} color={colors.text}/>
               <Text style={[styles.buttonText, {color: colors.text}]}>Logout</Text>
             </View>
@@ -68,23 +70,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 20,
     width: '90%',
-    borderRadius: 50 / 2
-  },
-  listWrapper: {
-    marginVertical: 5,
+    borderRadius: 25
   },
   button: {
+    backgroundColor: 'black',
     flexDirection: 'row',
     width:310, 
     height:50,
     borderRadius: 20,
-    marginTop: 20
+    marginVertical: 5,
+    marginTop: 20,
   },
   buttonLayout: {
     flexDirection: 'row',
     top: 10,
-    left:10,
-
+    left: 10,
   },
   buttonText: {
     color: 'white',

@@ -1,27 +1,17 @@
-import React, {useState, useContext, useEffect} from 'react';
-import { Alert } from 'react-native';
+import React, {useState, useContext } from 'react';
 import {View, Text, StyleSheet, StatusBar, Image, TouchableOpacity } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { TextInput, useTheme } from 'react-native-paper';
 import UserContext from '../context/UserContext';
 import analogousLogo from '../logo/analogousLogo.png';
 
 const LoginScreen = ({ navigation, route }) => {
     const context = useContext(UserContext);
-    const [userName, setUserName] = useState("blank");
-    const [userPassword, setUserPassword] = useState("blank");
+    const [userName, setUserName] = useState(" ");
+    const [userPassword, setUserPassword] = useState(" ");
     const logo = Image.resolveAssetSource(analogousLogo).uri;
-
-    const emptyCheck = () => {
-        if (userName == "") {
-            Alert.alert("Please enter a username.");
-        }
-        else if (userPassword == "") {
-            Alert.alert("Please enter a password.");
-        }
-    }
+    const { colors } = useTheme();
 
     return (
-        
         <View style={styles.container}>
             <Image source={{uri: logo}}
               style={{width: 275, height: 325}}
@@ -33,32 +23,59 @@ const LoginScreen = ({ navigation, route }) => {
 
             <View style={[styles.inputBox, {backgroundColor:'#D7A4FF'}]}>
                 <TextInput
+                    error={userName.length <= 0}
                     style={styles.input}
                     activeUnderlineColor='white'
+                    theme={{
+                        colors: {
+                            placeholder: 'white',
+                            error: colors.error
+                        }
+                    }}
                     label="Username"
                     placeholder = 'Enter Username'
-                    placeholderTextColor = '#ffffff'
+
                     onChangeText = {(val) => setUserName(val)}
                 />
             </View>
 
             <View style={[styles.inputBox, {backgroundColor:'#9E8DFF'}]}>
                 <TextInput
+                    error={userPassword.length <= 0}
                     style={styles.input}
                     secureTextEntry={true}
                     activeUnderlineColor='white'
                     label="Password"
-                    labelTextColor = '#ffffff'
+                    theme={{
+                        colors: {
+                            placeholder: 'white',
+                            error: colors.error
+                        }
+                    }}
                     placeholder = 'Enter Password'
-                    placeholderTextColor = '#ffffff'
                     onChangeText = {(val) => setUserPassword(val)}
 
 
                 />
             </View>
 
-            <TouchableOpacity onPress={async () => {await context.fetchUserToken(userName, userPassword); emptyCheck();}} style={styles.button}>
-                <Text style={styles.buttonText}>Login</Text>
+            <TouchableOpacity
+                disabled={userName.length <= 0 || userPassword.length <= 0} 
+                onPress={async () => {await context.fetchUserToken(userName, userPassword)}}
+                style={
+                    [styles.button,
+                    {backgroundColor: 
+                        userName.length <= 0 || userPassword.length <= 0
+                        ? '#2D6989'
+                        : '#53C2FF'}
+                ]}>
+                <Text style=
+                    {[styles.buttonText, 
+                     {color:
+                        userName.length <= 0 || userPassword.length <= 0
+                        ? 'rgba(255,255,255, .2)'
+                        : 'white'
+                     }]}>Login</Text>
             </TouchableOpacity>  
 
             <View style={styles.newSignUpText}>
@@ -111,7 +128,6 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 18, 
         fontWeight:"900",
-        color:'white',
         textAlign: 'center'
     },
     newSignUpText:{
