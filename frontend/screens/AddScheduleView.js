@@ -4,10 +4,11 @@ import CourseForm from '../components/CourseForm';
 import { Snackbar, useTheme } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
+import SnackBarContext from '../context/SnackBarContext';
 
 const AddScheduleView = ({ navigation }) => {
     const context = useContext(UserContext);
-    console.log(`${context.user.username} is in AddScheduleView.js`);
+    const snackBarContext = useContext(SnackBarContext)
     const [returnedJSON, setReturnedJSON] = useState({});
 
     const [loadingButton, setLoadingButton] = useState(false);
@@ -37,29 +38,26 @@ const AddScheduleView = ({ navigation }) => {
                 
                 if (postResponse.status === 201) {
                     //returns the json for state handling
-                    console.log(context.user.schedule)
                     let userCopy = {...context.user};
                     userCopy.schedule.push(jsonResponse);
                     context.setUser(userCopy)
-                    setStatusText(`Course Sucessfully Added!`);
-                    toggleSnackBar();
+                    snackBarContext.setStatusText(`Course Sucessfully Added!`);
+                    snackBarContext.toggleSnackBar();
+                    setLoadingButton(!setLoadingButton)
                     navigation.pop();
                 }
                 else { // something went wrong on the server end
-                    trimJSON = JSON.stringify(jsonResponse);
-                    trimJSON = trimJSON.replace(/[{"},\[\]]/gm, '');
-                    trimJSON = trimJSON.replace(/[.]/gm, "\n");
-                    console.log(trimJSON);
-                    setStatusText(`Error ${postResponse.status}: ${trimJSON}`);
-                    toggleSnackBar();
+                    snackBarContext.setStatusText(`${postResponse.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+                    snackBarContext.toggleSnackBar();
+                    setLoadingButton(!setLoadingButton)
                 }
             }
             catch(error) {
-                console.log(error);
+                snackBarContext.setStatusText(`${error}`);
+                snackBarContext.toggleSnackBar();
+                setLoadingButton(!setLoadingButton)
             }
-            setLoadingButton(!setLoadingButton)
         }
-        console.log(loadingButton);
         if (loadingButton) {
             handleSubmit(returnedJSON);
         }

@@ -47,7 +47,6 @@ const CourseForm = (props) => {
     const [courseNameErrorLock, setCourseNameErrorLock] = useState(true);
     const [courseNumberErrorLock, setCourseNumberErrorLock] = useState(true);
 
-
     useEffect(() => {
         let iterator = props.selectedDays.values();
         let propsDay = iterator.next().value;
