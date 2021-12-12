@@ -1,13 +1,16 @@
 import 'react-native-gesture-handler';
-import { useState, createContext } from 'react';
-import { DefaultTheme as NativeDefaultTheme, DarkTheme as NativeDarkTheme } from 'react-native';
+import { useState } from 'react';
 import * as React from 'react';
 import { NavigationContainer, DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BASE_URL } from "@env";
+import { Provider as PaperProvider, 
+  DarkTheme as PaperDarkTheme, 
+  DefaultTheme as PaperDefaultTheme,
+  Snackbar } from 'react-native-paper';
+  
 import UserContext from './context/UserContext';
-import { Provider as PaperProvider, DarkTheme as PaperDarkTheme, DefaultTheme as PaperDefaultTheme, DefaultTheme} from 'react-native-paper';
-
+import SnackBarContext from './context/SnackBarContext';
 //**********Import the screens here********
 
 import LoginScreen from './screens/LoginScreen';
@@ -19,9 +22,21 @@ const Stack = createNativeStackNavigator();
 
 const App = ({ navigation, route }) => {
 
+  // User Context State
   const [user, setUser] = useState({});
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  //Snackbar Notification State
+  const [snackVisible, setSnackVisible] = useState(false);
+  const [statusText, setStatusText] = useState("")
+  const toggleSnackBar = () => setSnackVisible(!snackVisible);
+  const onDismissSnackBar = () => setSnackVisible(false);
+  const trimJSONResponse = (string) => {
+    string = string.replace(/[{"},\[\]]/gm, '');
+    string = string.replace(/[.]/gm, "\n");
+    return string;
+  }
 
   //Default 'Light mode'
   const CustomDefaultTheme = {
@@ -43,13 +58,17 @@ const App = ({ navigation, route }) => {
       calHeaderBorderColor: '#E6E8F0',
       calIconColor: "#9CA0B8",
       eventBorderColor: '#DDE5FD',
-      primary: '#ffffff',
       accent: '#7DD1FF',
       firstColor: '#D7A4FF',
       secondColor: '#9E8DFF',
       thirdColor: '#7DD1FF',
       fourthColor: '#68B0D8',
       fifthColor: '#5CDBD5',
+      // for TimePickerModal
+      surface: '#EEEDFF',
+      primary: '#6C59FF',
+      placeholder: 'black',
+      error: '#C40031'
       focusedColor: '#ffffff',
       unfocusedColor: '#696580',
       searchBar: '#D7A4FF'
@@ -83,6 +102,11 @@ const App = ({ navigation, route }) => {
       thirdColor: '#B8ACFB',
       fourthColor: '#696580',
       fifthColor: '#786CBC',
+      // for TimePickerModal
+      surface: '#2a2349',
+      primary: '#7464CC',
+      placeholder: 'white',
+      error: '#FF6D6D'
       focusedColor: '#ffffff',
       unfocusedColor: '#404040',
       searchBar: '#927EFF'
@@ -110,13 +134,13 @@ const App = ({ navigation, route }) => {
         return true;
       }
       else {
-        console.log("Error from server in App.js: ", JSON.stringify(jsonResponse));
-        //may not always be an invalid username or password
-        Alert.alert("Invalid Log In", "The username and/or password is incorrect",);
+        setStatusText(`${response.status} Error: ${trimJSONResponse(JSON.stringify(jsonResponse))}`);
+        toggleSnackBar();
       }
     }
     catch (error) {
-      console.log("Error from server in App.js: ", error);
+      setStatusText(`${error}`);
+      toggleSnackBar();
     }
     return false;
   }
@@ -152,9 +176,9 @@ const App = ({ navigation, route }) => {
   }
 
   //for developmental purpose, autologins to HenryB
-  // React.useEffect(() => {
-  //  fetchUserToken("henryB", "Test01");
-  // }, [])
+  React.useEffect(() => {
+   fetchUserToken("henryB", "Test401");
+  }, [])
 
   return (
 
@@ -169,63 +193,80 @@ const App = ({ navigation, route }) => {
         setIsDarkTheme: setIsDarkTheme,
         toggleTheme: toggleTheme
       }}>
+          <SnackBarContext.Provider value={{
+            snackVisible: snackVisible,
+            setSnackVisible: setSnackVisible,
+            statusText: statusText,
+            setStatusText: setStatusText,
+            toggleSnackBar: toggleSnackBar,
+            onDismissSnackBar: onDismissSnackBar,
+            trimJSONResponse: trimJSONResponse
+          }}>
+          <NavigationContainer theme={theme}>
+            {
+              isSignedIn
+                ? (
+                  <Stack.Navigator>
+                    <Stack.Screen
+                      name="HomeDrawer"
+                      component={HomeDrawer}
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                  </Stack.Navigator>
+                )
+                : (
+                  <Stack.Navigator>
+                    <Stack.Screen
+                      name="Login"
+                      component={LoginScreen}
+                      options={{
+                        headerShown: false,
+                        title: 'Log In',
+                        headerStyle: {
+                          backgroundColor: '#9E8DFF'
+                        },
 
-        <NavigationContainer theme={theme}>
-          {
-            isSignedIn
-              ? (
-                <Stack.Navigator>
-                  <Stack.Screen
-                    name="HomeDrawer"
-                    component={HomeDrawer}
-                    options={{
-                      headerShown: false,
-                    }}
-                  />
-                </Stack.Navigator>
-              )
-              : (
-                <Stack.Navigator>
-                  <Stack.Screen
-                    name="Login"
-                    component={LoginScreen}
-                    options={{
-                      headerShown: false,
-                      title: 'Log In',
-                      headerStyle: {
-                        backgroundColor: '#9E8DFF'
-                      },
+                        headerTitleAlign: 'center',
+                        headerTitleStyle: {
+                          color: 'white',
+                        }
+                      }}
+                    />
+                    <Stack.Screen
+                      name="SignUp"
+                      component={SignUpScreen}
+                      options={{
+                        title: 'Registration',
+                        headerStyle: {
+                          backgroundColor: '#9E8DFF'
+                        },
 
-                      headerTitleAlign: 'center',
-                      headerTitleStyle: {
-                        color: 'white',
-                      }
-                    }}
-                  />
-                  <Stack.Screen
-                    name="SignUp"
-                    component={SignUpScreen}
-                    options={{
-                      title: 'Registration',
-                      headerStyle: {
-                        backgroundColor: '#9E8DFF'
-                      },
-
-                      headerTitleAlign: 'center',
-                      headerTitleStyle: {
-                        color: 'white',
-                        fontWeight: 'bold',
-                        fontSize: 22
-                      },
-                      headerBackButtonStyle: {
-                        headerTintColor: '#fffff'
-                      }
-                    }}
-                  />
-                </Stack.Navigator>
-              )
-          }
-        </NavigationContainer>
+                        headerTitleAlign: 'center',
+                        headerTitleStyle: {
+                          color: 'white',
+                          fontWeight: 'bold',
+                          fontSize: 22
+                        },
+                        headerBackButtonStyle: {
+                          headerTintColor: '#fffff'
+                        }
+                      }}
+                    />
+                  </Stack.Navigator>
+                )
+            }
+            <Snackbar 
+                  visible={snackVisible}
+                  onDismiss={onDismissSnackBar}
+                  action={{
+                      label: 'OK',
+                      onPress: onDismissSnackBar
+                  }}
+              >{statusText}</Snackbar>
+          </NavigationContainer>
+        </SnackBarContext.Provider>
       </UserContext.Provider>
     </PaperProvider>
   )

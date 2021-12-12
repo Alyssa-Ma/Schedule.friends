@@ -5,11 +5,11 @@ const { width, height } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
 import LoadingIndicator from '../components/LoadingIndicator';
 import {BASE_URL} from "@env";
-import { useFocusEffect } from '@react-navigation/core';
-import { Button, Modal, Dialog, Portal, Text, Paragraph, Checkbox, IconButton, useTheme } from 'react-native-paper'
+import { Button, Modal, Dialog, Portal, Text, IconButton, useTheme } from 'react-native-paper'
 import CombinedScheduleFriendListItem from '../components/CombinedScheduleFriendListItem';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import EventInfo from '../components/EventInfo';
+import SnackBarContext from '../context/SnackBarContext';
 
 const CombinedScheduleView = ({navigation, route}) => {
   // const getWeekdayString = (dateObj) => {
@@ -25,6 +25,7 @@ const CombinedScheduleView = ({navigation, route}) => {
   const bufferSpace = 3;
   const maxUsers = 5;
   const context = useContext(UserContext);
+  const snackBarContext = useContext(SnackBarContext)
   const [events, setEvents] = useState([]);
   // friendList is used to help compare friend_list updates after context.user updates
   const [friendList, setFriendList] = useState(context.user.friend_list);
@@ -111,10 +112,12 @@ const CombinedScheduleView = ({navigation, route}) => {
         }
       }
       else {
-        console.log(`Error from server ${response.status}`);
+        snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+        snackBarContext.toggleSnackBar();
       }
     } catch(error) {
-      console.log(error);
+      snackBarContext.setStatusText(`${error}`);
+      snackBarContext.toggleSnackBar();
     }
     setLoading(false);
   }
@@ -137,11 +140,13 @@ const CombinedScheduleView = ({navigation, route}) => {
           friendData.push(jsonResponse);
         }
         else {
-          console.log(`Error from server ${response.status}`);
+          snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+          snackBarContext.toggleSnackBar();
           break;
         }
       } catch(error) {
-        console.log(error);
+        snackBarContext.setStatusText(`${error}`);
+        snackBarContext.toggleSnackBar();
         break;
       }
     }
@@ -163,7 +168,7 @@ const CombinedScheduleView = ({navigation, route}) => {
     setEvents(eventsBuffer);
   }
   
-  //Runs when component is first rendered and when the friend_list changes
+  //Runs when component is first rendered, friend_list changes, or theme changes
   //This will select up to the first maxUsers of friend_list
   useEffect(() => {
     fetchFriends().then((friendData) => {

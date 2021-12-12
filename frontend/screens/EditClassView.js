@@ -1,17 +1,15 @@
 import React, {useEffect, useState, useContext} from 'react';
 import { View, StyleSheet} from 'react-native';
 import CourseForm from '../components/CourseForm';
-import { Button, Snackbar, useTheme} from 'react-native-paper';
+import { Button, useTheme} from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import SnackBarContext from '../context/SnackBarContext';
 
 const EditClassView = ({ navigation, item, route }) => {
     const { itemId, 
         courseName, 
         courseNumber,
-        timeStart, 
-        timeEnd, 
         dayName,
         starthr,
         startmin,
@@ -19,18 +17,14 @@ const EditClassView = ({ navigation, item, route }) => {
         endmin 
         } = route.params;
     const context = useContext(UserContext);
+    const snackBarContext = useContext(SnackBarContext);
+
     const [returnedJSON, setReturnedJSON] = useState({});
 
     const [loadingButton, setLoadingButton] = useState(false);
     const [loadingButtonDelete, setLoadingButtonDelete] = useState(false);
 
-    const [snackVisible, setSnackVisible] = useState(false);
-    const [statusText, setStatusText] = useState("");
-
     const { colors } = useTheme();   //THEME
-
-    const toggleSnackBar = () => setSnackVisible(!snackVisible);
-    const onDismissSnackBar = () => setSnackVisible(false);
 
     //useEffect that monitors loadingButton state
     useEffect(() => {
@@ -41,7 +35,6 @@ const EditClassView = ({ navigation, item, route }) => {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
-                        //This needs to be brought down from props
                         'Authorization': `Token ${context.user.token}`
                     },
                     body: completedForm
@@ -50,31 +43,26 @@ const EditClassView = ({ navigation, item, route }) => {
                 //this means the server accepted the patch request
                 if (patchResponse.status === 200) {
                     //returns the json for state handling
-                    console.log(jsonResponse)
                     let tempUser = {...context.user};
                     tempUser.schedule[tempUser.schedule.findIndex(course => {if(course.id === jsonResponse.id) return true;})] = jsonResponse;
                     context.setUser(tempUser);
-                    setStatusText(`Course Sucessfully Editted!`);
-                    toggleSnackBar();
+                    snackBarContext.setStatusText(`Course Sucessfully Edited!`);
+                    snackBarContext.toggleSnackBar();
+                    setLoadingButton(!loadingButton);
                     navigation.pop();
                 }
                 else { // something went wrong on the server end
-                    let trimJSON = JSON.stringify(jsonResponse);
-                    trimJSON = trimJSON.replace(/[{"},\[\]]/gm, '');
-                    trimJSON = trimJSON.replace(/[.]/gm, "\n");
-                    console.log(trimJSON);
-                    setStatusText(`Error ${patchResponse.status}: ${trimJSON}`);
-                    toggleSnackBar();
+                    snackBarContext.setStatusText(`${patchResponse.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+                    snackBarContext.toggleSnackBar();
+                    setLoadingButton(!loadingButton);
                 }
             }
             catch(error) {
-                console.log(error);
-                setStatusText(`Error ${error}`);
-                toggleSnackBar();
+                snackBarContext.setStatusText(`Error ${error}`);
+                snackBarContext.toggleSnackBar();
+                setLoadingButton(!loadingButton);
             }
-            setLoadingButton(!loadingButton);
         }
-        console.log(loadingButton);
         if (loadingButton) {
             handleSubmit(returnedJSON);
         }
@@ -93,29 +81,25 @@ const EditClassView = ({ navigation, item, route }) => {
                 });
                 const jsonResponse = await deleteResponse.json();
                 if (deleteResponse.status === 200) {
-                    console.log(jsonResponse)
                     let tempUser = {...context.user};
                     tempUser.schedule.splice(tempUser.schedule.findIndex(course => {if(course.id === jsonResponse.id) return true;}), 1);
                     context.setUser(tempUser);
-                    setStatusText(`Course Sucessfully Deleted!`);
-                    toggleSnackBar();
+                    snackBarContext.setStatusText(`Course Sucessfully Deleted!`);
+                    snackBarContext.toggleSnackBar();
+                    setLoadingButton(!loadingButton);
                     navigation.pop();
                 }
                 else {
-                    let trimJSON = JSON.stringify(jsonResponse);
-                    trimJSON = trimJSON.replace(/[{"},\[\]]/gm, '');
-                    trimJSON = trimJSON.replace(/[.]/gm, "\n");
-                    console.log(trimJSON);
-                    setStatusText(`Error ${deleteResponse.status}: ${trimJSON}`);
-                    toggleSnackBar();
+                    snackBarContext.setStatusText(`${deleteResponse.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+                    snackBarContext.toggleSnackBar();
+                    setLoadingButtonDelete(!loadingButtonDelete);
                 }
             }
             catch(error) {
-                console.log(error);
-                setStatusText(`Error ${error}`);
-                toggleSnackBar();
+                snackBarContext.setStatusText(`${error}`);
+                snackBarContext.toggleSnackBar();
+                setLoadingButtonDelete(!loadingButtonDelete);
             }
-            setLoadingButtonDelete(!loadingButtonDelete);
         }
         if (loadingButtonDelete) {
             deleteCourse();
@@ -138,18 +122,16 @@ const EditClassView = ({ navigation, item, route }) => {
                 setLoadingButton = {setLoadingButton}
             />
             <View style={styles.delete}>
-                <Button icon="delete" style={styles.deleteButton} color ="red" loading={loadingButtonDelete} mode="contained" onPress={() => {setLoadingButtonDelete(!loadingButtonDelete)}} >
-                    DELETE CLASS
+                <Button 
+                    icon="delete" 
+                    style={[styles.deleteButton, {backgroundColor: colors.error}]} 
+                    color='black'
+                    loading={loadingButtonDelete}
+                    mode="contained" 
+                    onPress={() => {setLoadingButtonDelete(!loadingButtonDelete)}} 
+                    >DELETE CLASS
                 </Button>
             </View>
-            <Snackbar 
-                visible={snackVisible}
-                onDismiss={onDismissSnackBar}
-                action={{
-                    label: 'OK',
-                    onPress: onDismissSnackBar
-                }}
-            >{statusText}</Snackbar>
         </View>
     )
 }

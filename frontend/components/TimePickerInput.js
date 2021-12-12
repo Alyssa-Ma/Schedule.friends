@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text, useTheme } from 'react-native-paper';
 import { TimePickerModal } from 'react-native-paper-dates';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const TimePickerInput = (props) => {
     //Helper function that converts and returns a date object into a HH:MM string
@@ -14,7 +13,6 @@ const TimePickerInput = (props) => {
     const [visible, setVisible] = useState(false);
     const [timeString, setTimeString] = useState(timeToString(props.hour, props.min));
     const { colors } = useTheme(); //THEME
-
     const onDismiss = useCallback(() => {
       setVisible(false)
     }, [setVisible]);
@@ -31,10 +29,7 @@ const TimePickerInput = (props) => {
     
     return (
         <View style={styles.inputTime}>
-            <Text style={{
-                    color: props.label === "Start Time" ? colors.firstColor : colors.fifthColor //bad background colors here. Must match wiith below
-                  }}
-            >
+            <Text style={{fontSize: 17}}>
                 {props.label}:
             </Text>
             <TimePickerModal
@@ -50,20 +45,17 @@ const TimePickerInput = (props) => {
                 locale={'en'}
             />
             <Button 
-                icon={({color, size}) => (
-                    <Icon 
-                    name="clock" 
-                    color={'white'}
-                    size={size}
-                    />
-                )}
+                icon="clock"
                 mode="contained"
                 onPress={()=> setVisible(true)}
-                color='black'   //Changing to white changes to black for some reason 
                 style={{
-                    backgroundColor: props.label === "Start Time" ? colors.firstColor : colors.fifthColor,      //bad background colors here
-                
-                  }}
+                    backgroundColor: colors.secondColor,
+                    width: 120,
+                }}
+                contentStyle={{justifyContent: "space-between"}}
+                labelStyle={{
+                    color: 'white'
+                }}
             >
                 {timeString}
             </Button>
@@ -74,9 +66,10 @@ const TimePickerInput = (props) => {
 const styles = StyleSheet.create({
     inputTime: {
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         alignItems: "center",
-        marginTop: 20
+        marginTop: 20,
+        paddingHorizontal: 35
     },
 
 });
