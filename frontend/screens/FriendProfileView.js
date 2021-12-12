@@ -26,37 +26,36 @@ const FriendProfileView = ({ navigation, route }) => {
                     'Authorization': `Token ${context.user.token}`
                 },
             });
+            let jsonResponse = await response.json();
             if (response.status === 200) {
-                let jsonResponse = await response.json();
-                let tempUser = { ...context.user }
+                let tempUser = { ...context.user}
                 tempUser.friend_list.splice(tempUser.friend_list.findIndex((element) => element === friend.id), 1);
                 context.setUser(tempUser);
                 console.log(`Unadded ${friend.username}!`);
+                setLoadingButton(false);
                 navigation.pop();
             }
             else {
                 console.log(`Error from server status ${response.status}`);
-                navigation.pop();
+                setLoadingButton(false);
             }
         }
         catch (error) {
             console.error(error);
+            setLoadingButton(false);
         }
-        setLoadingButton(false);
     }
 
     return (
 
         <SafeAreaView style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
 
-            <View style={[styles.friendCard, { backgroundColor: colors.firstColor }]}>
+            <View style={[styles.friendCard, { backgroundColor: colors.secondColor }]}>
 
-                <View style={{marginLeft: 20}}>
-                    <UserInfo user={friend} color={colors.firstColor} bgColor={colors.firstColor}/>
-                </View>
+                <UserInfo user={friend} color={colors.firstColor} bgColor={colors.firstColor}/>
                 <View style={styles.buttonRow}>
                     <Button icon="account-remove" color={colors.thirdColor} labelStyle={{ color: 'white' }} onPress={() => showDialog()} mode="contained">Unfriend</Button>
-                    <Button icon="arrow-left-circle" color={colors.secondColor} labelStyle={{ color: 'white' }} onPress={() => navigation.pop()} mode="contained">Go Back</Button>
+                    <Button icon="arrow-left-circle" color={colors.firstColor} labelStyle={{ color: 'white' }} onPress={() => navigation.pop()} mode="contained">Go Back</Button>
                 </View>
 
                 <Portal>
@@ -100,8 +99,11 @@ export default FriendProfileView;
 const styles = StyleSheet.create({
 
     friendCard: {
+        justifyContent: "center",
         alignSelf: 'center',
-        marginTop: 50,
+        marginTop: 20,
+        padding: 20,
+        width: '90%',
         borderRadius: 50 / 2
     },
     container: {
@@ -109,7 +111,7 @@ const styles = StyleSheet.create({
     },
     userInfoSection: {
         paddingHorizontal: 30,
-        marginBottom: 25,
+        // marginBottom: 25,
     },
     title: {
         fontSize: 24,
@@ -129,18 +131,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly"
     },
     listWrapper: {
-        marginTop: 10,
-    },
-    listItem: {
-        flexDirection: 'row',
-        paddingVertical: 15,
-        paddingHorizontal: 30,
-    },
-    listItemText: {
-        color: '#777777',
-        marginLeft: 10,
-        fontWeight: '600',
-        fontSize: 16,
-        lineHeight: 26,
-    },
+        marginTop: 0,
+    }
 });

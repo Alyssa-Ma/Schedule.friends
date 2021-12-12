@@ -11,7 +11,7 @@ const CourseItem = ({navigation, item, bgColor}) => {
         const timeParts = time.split(':');
         const amOrpm = parseInt(timeParts[0]) >= 12 ? 'PM' : 'AM';
         let hours = (parseInt(timeParts[0]) % 12) || 12;
-        hours = (parseInt(hours) < 10) ? '  '+hours : hours;
+        hours = (parseInt(hours) < 10) ? + hours : hours;
         return `${hours}:${timeParts[1]} ${amOrpm}`;
     }
 
@@ -37,17 +37,23 @@ const CourseItem = ({navigation, item, bgColor}) => {
     }
 
     return (
-        <TouchableOpacity onPress={ (item.owner === context.user.id)
-                                    ? () => clickedItem(item)
-                                    : () => {}} style={[styles.Block, {backgroundColor: bgColor}]}>
+        <TouchableOpacity 
+            onPress={ (item.owner === context.user.id)
+                        ? () => clickedItem(item)
+                        : () => {}} 
+            style={[(item.owner === context.user.id) 
+                    ? styles.userView 
+                    : styles.friendView,
+                    {backgroundColor: bgColor}]}>
             <View style={[styles.courseInfoRow]}>
 
-                <View style={{width: 175}}>
-                    <Text style={[styles.classTitle]} ellipsizeMode='tail' numberOfLines={1}>{item.course_name}{' '}{item.course_number}</Text>
+                <View >
+                    <Text style={[styles.classTitle]} ellipsizeMode='tail' numberOfLines={1}>{item.course_name}</Text>
+                    <Text style={{color:"white"}}>{item.course_number}</Text>
                 </View>
                 <View style={[styles.dayTimeCol]}>
 
-                    <Text style={[styles.timeFont]}>
+                    <Text numberOfLines={1} style={[styles.timeFont]}>
                     {
                         item.day_name.map( (day, index) =>
                             {
@@ -62,7 +68,7 @@ const CourseItem = ({navigation, item, bgColor}) => {
 
                     <Text style={[styles.timeFont]}>
                         {convertTo12Hr(item.time_start)}
-                        {'  -  '}
+                        {' - '}
                         {convertTo12Hr(item.time_end)}
                     </Text>
 
@@ -76,9 +82,7 @@ const CourseItem = ({navigation, item, bgColor}) => {
 
 const styles = StyleSheet.create({
 
-    Block : {
-        
-        
+    userView : {
         shadowOffset: { width: 1, height: 1},
         shadowColor: '#333',
         shadowOpacity: 0.3,
@@ -92,22 +96,35 @@ const styles = StyleSheet.create({
         borderRadius: 40 / 2,
         flex: 1
     },
-
+    friendView : {
+        shadowOffset: { width: 1, height: 1},
+        shadowColor: '#333',
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+        
+        paddingHorizontal: 20,
+        width: 350,
+        alignSelf: 'center',
+        width: 350,
+        borderRadius: 40 / 2,
+        flex: 1
+    },
     courseInfoRow: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         alignItems: 'center',        
     },
 
     dayTimeCol: {
         flexDirection: 'column',
         alignItems: 'flex-end',
+        maxWidth: 140
     },
 
     classTitle: {
-        fontSize: 25,
+        fontSize: 20,
         color: 'white',
-        marginTop: -20
+        maxWidth: 180
     },
 
     timeFont: {
