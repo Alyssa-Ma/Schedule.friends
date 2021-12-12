@@ -27,32 +27,31 @@ const MyProfileView = ({ navigation }) => {
 
     
     <SafeAreaView style={[styles.container, {backgroundColor:colors.backgroundColor}]}>
-      <View style = {[styles.BackgroundBox1, {backgroundColor:colors.firstColor}]}>
-      <UserInfo user={context.user}/>
-      <View
-        style={{
-          borderBottomColor: 'white',
-          borderBottomWidth: 1,
-        }}
-      />
-      <View style={styles.listWrapper}>
-        <TouchableRipple style={[styles.inputBox1, {backgroundColor:colors.secondColor}]} onPress={() => editProfilePressHandler() }>
-          <View style={styles.listItem1}>
-            <Icon name="person" size={25} color='white'/>
-            <Text style={styles.listItemText}>Edit My Profile</Text>
-          </View>
-        </TouchableRipple>
+      <View style = {[styles.userCard, {backgroundColor:colors.secondColor}]}>
+        <UserInfo user={context.user}/>
+        <View
+          style={{
+            marginTop: -15,
+            borderBottomColor: 'white',
+            borderBottomWidth: 1,
+          }}
+        />
+        <View style={styles.listWrapper}>
+          <TouchableRipple style={[styles.button, {backgroundColor:colors.firstColor}]} onPress={() => editProfilePressHandler() }>
+            <View style={styles.buttonLayout}>
+              <Icon name="person" size={25} color={colors.text}/>
+              <Text style={[styles.buttonText, {color: colors.text}]}>Edit My Profile</Text>
+            </View>
+          </TouchableRipple>
 
-        <TouchableRipple style={[styles.inputBox2, {backgroundColor:colors.thirdColor}]} onPress={() => LogoutPressHandler()}>
-          <View style={styles.listItem2}>
-            <Icon name="logout" size={25} color='white'/>
-            <Text style={styles.listItemText}>Logout</Text>
-          </View>
-        </TouchableRipple>
-        
+          <TouchableRipple style={[styles.button, {backgroundColor:colors.thirdColor}]} onPress={() => LogoutPressHandler()}>
+            <View style={styles.buttonLayout}>
+              <Icon name="logout" size={25} color={colors.text}/>
+              <Text style={[styles.buttonText, {color: colors.text}]}>Logout</Text>
+            </View>
+          </TouchableRipple>
+        </View>
       </View>
-      </View>
-
     </SafeAreaView>
   );
 }
@@ -60,89 +59,38 @@ const MyProfileView = ({ navigation }) => {
 export default MyProfileView;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: 'red',
-    },
-    userInfoSection: {
-      paddingHorizontal: 30,
-      marginBottom: 25,
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-    },
-    caption: {
-      fontSize: 14,
-      lineHeight: 14,
-      fontWeight: '500',
-    },
-    row: {
-      flexDirection: 'row',
-      marginBottom: 10,
-    },
-    listWrapper: {
-      marginTop: 10,
-    },
-    listItem1: {
-      flexDirection: 'row',
-      top: 10,
-      left:10,
-
-    },
-    listItem2: {
-      flexDirection: 'row',
-      top:10,
-      left:10,
-
-    },
-    listItemText: {
-      color: 'white',
-      marginLeft: 10,
-      fontWeight: '600',
-      fontSize: 16,
-      lineHeight: 27,
-    },
-    BackgroundBox1: {
-      backgroundColor:'#D7A4FF',
-      borderBottomRightRadius: 20,
-      borderBottomLeftRadius: 20, 
-      borderTopLeftRadius: 20,
-      borderTopRightRadius: 20,
-      paddingHorizontal: 20, 
-      fontSize: 16, 
-      color: 'white',    
-      marginTop: 25,
-      marginLeft:33, 
-      width:350, 
-      height: 350,
+  container: {
+    flex: 1,
   },
-  inputBox1: {
+  userCard: {
+    justifyContent: "center",
+    alignSelf: 'center',
+    marginTop: 20,
+    padding: 20,
+    width: '90%',
+    borderRadius: 50 / 2
+  },
+  listWrapper: {
+    marginVertical: 5,
+  },
+  button: {
     flexDirection: 'row',
     width:310, 
     height:50,
-    backgroundColor:'#9E8DFF',
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20, 
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    borderRadius: 25, 
-},
-inputBox2: {
-  flexDirection: 'row',
-  width:310, 
-  height:50,
-  backgroundColor:'#4CD2CC',
-  borderBottomRightRadius: 20,
-  borderBottomLeftRadius: 20, 
-  borderTopLeftRadius: 20,
-  borderTopRightRadius: 20,
-  borderRadius: 25, 
-  top:15,
+    borderRadius: 20,
+    marginTop: 20
+  },
+  buttonLayout: {
+    flexDirection: 'row',
+    top: 10,
+    left:10,
 
-  
-},
-  
-
+  },
+  buttonText: {
+    color: 'white',
+    marginLeft: 10,
+    fontWeight: '600',
+    fontSize: 18,
+    lineHeight: 27,
+  },
 });
-

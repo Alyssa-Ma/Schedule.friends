@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
         width: 350,
         alignSelf: 'center',
         marginTop: 15,
-        
     },
 
     accountIcon: {

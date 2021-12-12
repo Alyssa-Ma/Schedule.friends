@@ -8,7 +8,7 @@ const UserInfo = ({ navigation, route, user, bgColor }) => {
     return (
         <View>
             <View style={styles.userInfoSection}>
-                <View style={{ flexDirection: 'row', marginTop: 15 }}>
+                <View style={{ flexDirection: 'row', marginTop: 0, alignItems: 'center' }}>
                     <View style={{ right: 35 }}>
 
                         {

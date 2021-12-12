@@ -85,18 +85,20 @@ const FriendsListView = ({navigation, route}) => {
             {
                 loading
                 ?   <LoadingIndicator isLoading={loading} />
-                :   (friends === undefined || friends.length === 0
+                :   (friends === undefined || friends.length === 0)
                     ? (
                         <View style={styles.noFriends}>
                             <Icon name="account-group" size={100} color={colors.firstColor}/>
                             <Title>Friend list is empty, find some friends!</Title>
                         </View>
                     )
-                    : <FlatList 
-                        data={friends}
-                        keyExtractor={friend => friend.id}
-                        renderItem={({item, index}) => <FriendListItem user={item} navigation={navigation} index={index} bgColor={colors.backgroundCardColors[index % colors.backgroundCardColors.length]}/>}
-                    />)
+                    : (
+                        <FlatList 
+                            data={friends}
+                            keyExtractor={friend => friend.id}
+                            renderItem={({item, index}) => <FriendListItem user={item} navigation={navigation} index={index} bgColor={colors.backgroundCardColors[index % colors.backgroundCardColors.length]}/>}
+                        />
+                    )
             }
         </View>
     )
@@ -106,7 +108,6 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        paddingTop: 0,
     },
 
     noFriends: {

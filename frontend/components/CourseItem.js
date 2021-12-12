@@ -37,9 +37,14 @@ const CourseItem = ({navigation, item, bgColor}) => {
     }
 
     return (
-        <TouchableOpacity onPress={ (item.owner === context.user.id)
-                                    ? () => clickedItem(item)
-                                    : () => {}} style={[styles.Block, {backgroundColor: bgColor}]}>
+        <TouchableOpacity 
+            onPress={ (item.owner === context.user.id)
+                        ? () => clickedItem(item)
+                        : () => {}} 
+            style={[(item.owner === context.user.id) 
+                    ? styles.userView 
+                    : styles.friendView,
+                    {backgroundColor: bgColor}]}>
             <View style={[styles.courseInfoRow]}>
 
                 <View >
@@ -77,9 +82,7 @@ const CourseItem = ({navigation, item, bgColor}) => {
 
 const styles = StyleSheet.create({
 
-    Block : {
-        
-        
+    userView : {
         shadowOffset: { width: 1, height: 1},
         shadowColor: '#333',
         shadowOpacity: 0.3,
@@ -93,7 +96,19 @@ const styles = StyleSheet.create({
         borderRadius: 40 / 2,
         flex: 1
     },
-
+    friendView : {
+        shadowOffset: { width: 1, height: 1},
+        shadowColor: '#333',
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+        
+        paddingHorizontal: 20,
+        width: 350,
+        alignSelf: 'center',
+        width: 350,
+        borderRadius: 40 / 2,
+        flex: 1
+    },
     courseInfoRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
