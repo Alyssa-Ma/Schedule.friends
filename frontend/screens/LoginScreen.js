@@ -2,7 +2,7 @@ import React, {useState, useContext } from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
 import UserContext from '../context/UserContext';
-import analogousLogo from '../logo/analogousLogo.png';
+import analogousLogo from '../assets/analogousLogo.png';
 
 const LoginScreen = ({ navigation, route }) => {
     const context = useContext(UserContext);

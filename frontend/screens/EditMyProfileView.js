@@ -1,12 +1,12 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {View, StyleSheet, TouchableOpacity, Alert, Image, ScrollView, Keyboard} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
 import UserContext from '../context/UserContext';
 import {Text, TextInput, TouchableRipple, useTheme, ActivityIndicator, Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import {BASE_URL} from "@env";
 import SnackBarContext from '../context/SnackBarContext';
-
+import brokenImage from '../assets/brokenImage.png'
 
 const EditMyProfileView = ({ navigation, route }) => {
 
@@ -91,7 +91,8 @@ const EditMyProfileView = ({ navigation, route }) => {
         userData.append('username', userName);
         userData.append('email', email);
 
-        if (profileImage != null) {
+        // If image reference is broken, removes it when changes profile
+        if (profileImage !== null && profileImage !== Image.resolveAssetSource(brokenImage).uri) {
             userData.append('profile_image', {
                 uri: profileImage,
                 type: "image/jpeg",

@@ -1,8 +1,10 @@
 import 'react-native-gesture-handler';
-import { useState } from 'react';
+// import { useState } from 'react';
 import * as React from 'react';
 import { NavigationContainer, DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Image } from 'react-native';
+import brokenImage from './assets/brokenImage.png'
 import { BASE_URL } from "@env";
 import { Provider as PaperProvider, 
   DarkTheme as PaperDarkTheme, 
@@ -11,25 +13,23 @@ import { Provider as PaperProvider,
   
 import UserContext from './context/UserContext';
 import SnackBarContext from './context/SnackBarContext';
-//**********Import the screens here********
 
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import HomeDrawer from './components/HomeDrawer';
-import { Alert } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
 const App = ({ navigation, route }) => {
 
   // User Context State
-  const [user, setUser] = useState({});
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [user, setUser] = React.useState({});
+  const [isSignedIn, setIsSignedIn] = React.useState(false);
+  const [isDarkTheme, setIsDarkTheme] = React.useState(false);
 
   //Snackbar Notification State
-  const [snackVisible, setSnackVisible] = useState(false);
-  const [statusText, setStatusText] = useState("")
+  const [snackVisible, setSnackVisible] = React.useState(false);
+  const [statusText, setStatusText] = React.useState("")
   const toggleSnackBar = () => setSnackVisible(!snackVisible);
   const onDismissSnackBar = () => setSnackVisible(false);
   const trimJSONResponse = (string) => {
@@ -153,35 +153,43 @@ const App = ({ navigation, route }) => {
     setIsDarkTheme(!isDarkTheme);
     try {
       const response = await fetch(`${BASE_URL}/${id}`, {
-          method:"PATCH",
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${token}`          
-          },
+        method:"PATCH",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`          
+        },
 
-          body: JSON.stringify({"dark_mode": isDarkTheme})
+        body: JSON.stringify({"dark_mode": isDarkTheme})
       })  
       const jsonResponse = await response.json();
       if (response.status === 200) {
-          setUser(jsonResponse);
+        setUser(jsonResponse);
       }
       else {
-          console.error(`Server Error ${response.status}`)
-          Alert.alert(`Server Error`);
+        setStatusText(`${response.status} Error: ${trimJSONResponse(JSON.stringify(jsonResponse))}`);
+        toggleSnackBar();
       }
     } catch(error) {
-        console.error(error)
+      setStatusText(`${error}`);
+      toggleSnackBar();
     } 
 
   }
 
-  //for developmental purpose, autologins to HenryB
-  // React.useEffect(() => {
-  //  fetchUserToken("henryB", "Test01");
-  // }, [])
+  // Checks profile_image to see if it's a broken image, replace it with static assest
+  React.useEffect(() => {
+    const checkImage = async () => {
+      if (fetch(`${user.profile_image}`).then((response) => {return response.status}) !== 200) {
+        const userBuffer = {...user}
+        userBuffer.profile_image = Image.resolveAssetSource(brokenImage).uri;
+        setUser(userBuffer);
+      }
+    }
+    if (user.profile_image)
+      checkImage();
+  }, [user.profile_image])
 
   return (
-
     <PaperProvider theme={theme}>
       <SnackBarContext.Provider value={{
         snackVisible: snackVisible,
