@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, FlatList } from 'react-native';
-import { color } from 'react-native-reanimated';
+import { View, Text, StyleSheet, TouchableOpacity, } from 'react-native';
 import UserContext from '../context/UserContext';
 
 const CourseItem = ({navigation, item, bgColor}) => {
     const context = useContext(UserContext);
-    console.log(item.course_name);
 
     const convertTo12Hr = (time) => {
         const timeParts = time.split(':');

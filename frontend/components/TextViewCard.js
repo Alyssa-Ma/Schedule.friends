@@ -1,10 +1,6 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet} from 'react-native';
-import { Avatar, useTheme} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
-
+import { Avatar } from 'react-native-paper';
 
 const TextViewCard = ({item, bgColor}) => {
 
@@ -51,7 +47,6 @@ const TextViewCard = ({item, bgColor}) => {
     return (
 
         <View style={[styles.friendTimeCard, {backgroundColor: bgColor}]}>
-
             <View style={styles.avatar_name_row}>
                 {
                     item.profile_image === null
@@ -70,8 +65,6 @@ const TextViewCard = ({item, bgColor}) => {
                             style = {styles.avatar}
                         />)
                 }
-                
-
                 <View style={styles.name_col}>
                     <Text style={[styles.name_text, {color: 'white'}]}>{item.f_name}</Text>
                     <Text style={[styles.name_text, {color: 'white'}]}>{item.l_name}</Text>

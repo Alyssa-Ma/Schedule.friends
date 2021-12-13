@@ -5,9 +5,11 @@ import {BASE_URL} from "@env";
 import UserListHeader from './UserListHeader';
 import UserContext from '../context/UserContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import SnackBarContext from '../context/SnackBarContext';
 
 const AddFriend = ({item, bgColor}) => {
     const context = useContext(UserContext);
+    const snackBarContext = useContext(SnackBarContext)
     const [buttonStatus, setButtonStatus] = useState(item.status === 'NONE' ? false : true)
     const [buttonInfo, setButtonInfo] = useState(item.status);
     const [loading, setLoading] = useState(false);
@@ -36,12 +38,15 @@ const AddFriend = ({item, bgColor}) => {
                 item.status = 'PENDING';
             }
             else {
-                console.log(`Error from server: ${postResponse.status}`);
+                snackBarContext.setStatusText(`${postResponse.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`)
+                snackBarContext.toggleSnackBar();
                 setLoading(false);
             }
         }
         catch(error) {
-            console.log(error);
+            snackBarContext.setStatusText(`${error}`)
+            snackBarContext.toggleSnackBar();
+            setLoading(false);
         }
         
     }
@@ -115,48 +120,3 @@ const styles = StyleSheet.create({
 })
 
 export default AddFriend;
-
-
-
-
-
-/*
-            <Portal>
-                <Dialog visible={visible} onDismiss={hideDialog}>
-                    
-                    <Dialog.Title>Friend Request Sent!</Dialog.Title>
-                    <Dialog.Content>
-                        <Paragraph>Friend request sent to {text}! They will see it in their friend requests!</Paragraph>
-                    </Dialog.Content>
-                    <Dialog.Actions>
-                        <Button onPress={hideDialog}>Done</Button>
-                    </Dialog.Actions>
-                </Dialog>
-            </Portal>
-*/
-
-
-/*
-
-            //actual POST. Create the friend request
-            //swap url with actual server when deployed
-            fetch(`${BASE_URL}/friend_requests/`, {
-                method: 'POST', // or 'PUT'
-                headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${context.user.token}`
-                },
-                body: JSON.stringify(data),
-            })
-            .then( response => response.json())
-            .then( data => {
-                console.log(data);     
-            })
-            .catch( error => {
-                console.log(error);
-            })
-
-            */
-
-            //showDialog();
-        

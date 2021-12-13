@@ -12,7 +12,8 @@ const TimePickerInput = (props) => {
 
     const [visible, setVisible] = useState(false);
     const [timeString, setTimeString] = useState(timeToString(props.hour, props.min));
-    const { colors } = useTheme(); //THEME
+    const { colors } = useTheme();
+    
     const onDismiss = useCallback(() => {
       setVisible(false)
     }, [setVisible]);

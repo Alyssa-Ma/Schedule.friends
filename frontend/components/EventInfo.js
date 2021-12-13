@@ -1,11 +1,9 @@
 import React from 'react';
-import { View, Dimensions} from 'react-native';
-const { width, height } = Dimensions.get('window');
+import { View } from 'react-native';
 import { Headline, Subheading, Text, useTheme } from 'react-native-paper'
 import UserInfo from './UserInfo';
 
 const EventInfo = ({navigation, route, event}) => {
-    const { colors } = useTheme();
     const parseTime = (stringObj) => {
         let returnString = '';
         if (parseInt(stringObj.slice(0, 2)) < 10)

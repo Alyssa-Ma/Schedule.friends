@@ -1,9 +1,8 @@
-import React, {useContext, useEffect} from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ScheduleListView from '../screens/ScheduleListView';
 import EditClassView from '../screens/EditClassView';
 import AddScheduleView from '../screens/AddScheduleView';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 
 const Stack = createNativeStackNavigator();
 

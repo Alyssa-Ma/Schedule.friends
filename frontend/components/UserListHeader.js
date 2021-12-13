@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Avatar, Title, Caption } from 'react-native-paper';
 
 const UserListHeader = ({ navigation, route, user, textColor, bgColor}) => {
     return (
         <View style={styles.itemView}>
-
             {
                 user.profile_image === null
                 ? (<Avatar.Text
@@ -22,7 +21,6 @@ const UserListHeader = ({ navigation, route, user, textColor, bgColor}) => {
                     size={60}
                    />)
             }
-            
             <View style={styles.textInfo}>
                 <Title style={styles.name}>{user.first_name} {user.last_name}</Title>
                 <Caption style={styles.username}>{user.username}</Caption>
@@ -53,7 +51,6 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         
     }
-
 })
 
 export default UserListHeader;

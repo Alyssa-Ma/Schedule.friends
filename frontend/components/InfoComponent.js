@@ -1,12 +1,8 @@
-import React, {useState, useContext, useEffect} from 'react';
-import {View, SafeAreaView, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity} from 'react-native';
-import UserContext from '../context/UserContext';
-import { Avatar, Title, Caption, Text, TouchableRipple, Switch, Modal, Portal, Button, Provider } from 'react-native-paper';
-import { ScrollView } from 'react-native-gesture-handler';
+import React from 'react';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import { Text } from 'react-native-paper';
 
 const InfoComponent = ({settingsOptions, navigation, bgColor}) => {
-    const context = useContext(UserContext);
-
     return (
       <View style={[styles.container, {backgroundColor: bgColor}]}> 
             {settingsOptions.map(({title, subTitle, navName, onPress}, index) => (
@@ -15,8 +11,6 @@ const InfoComponent = ({settingsOptions, navigation, bgColor}) => {
                   
                   if(navName != '')
                     navigation.push(navName)
-                  
-                  else console.log('H4CK3D');
                 }}>
                 <View style={styles.titleSection}>
                   <Text style={styles.titleText}>{title}</Text>
@@ -49,12 +43,9 @@ const styles = StyleSheet.create({
     },
     section: {
       height: 0.5,
-      //backgroundColor: '#000000',
       opacity: 0.5,
     },
     container: {
       flex: 1,
-      
-     // backgroundColor: '#ffffff',
     },
 });

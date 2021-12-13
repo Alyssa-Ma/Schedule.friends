@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import UserListHeader from './UserListHeader';
 const FriendRequestItem = ({friendRequest,  displayOptions, rejectFriend, acceptFriend, index, bgColor, colors}) => {
@@ -28,26 +28,20 @@ const FriendRequestItem = ({friendRequest,  displayOptions, rejectFriend, accept
     )
 }
 const styles = StyleSheet.create({
-
     friendRequest : {
         padding: 15,
-        
-       
         borderRadius: 40 / 2,
         width: 350,
         alignSelf: 'center',
         marginTop: 15,
         
     },
-
     itemView: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-
     button: {
-        
         alignSelf: 'flex-end',
         marginBottom: -10
     }

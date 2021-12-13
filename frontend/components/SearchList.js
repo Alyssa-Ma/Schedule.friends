@@ -1,15 +1,16 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 import AddFriend from './AddFriend';
-import FriendRequestItem from './FriendRequestItem';
+import SnackBarContext from '../context/SnackBarContext';
 
 const SearchList = ({query, pendingRequests, colors}) => {
 
     const [items, setItems] = useState([]);
 
     const context = useContext(UserContext);
+    const snackBarContext = useContext(SnackBarContext);
 
     //gets the usernames that correlate to the query
     useEffect(() => {
@@ -27,13 +28,11 @@ const SearchList = ({query, pendingRequests, colors}) => {
                 jsonResponse = await response.json();
                 if (response.status === 200)
                 {
-                    console.log(pendingRequests)
                     let users = [];
                     for(const queryUser of jsonResponse){
                         let pending = !pendingRequests.every(request => {
                             if ((request.to_user === context.user.id && request.from_user === queryUser.id)
                                 || request.from_user === context.user.id && request.to_user === queryUser.id) {
-                                console.log("hit!")
                                 return false;
                             }
                             return true;
@@ -58,17 +57,16 @@ const SearchList = ({query, pendingRequests, colors}) => {
                     setItems(users);
                 }
                 else {
-                    console.log(`Error from sever: ${response.status}`)
+                    snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+                    snackBarContext.toggleSnackBar();
                 }
-                
             }
             catch(error){
-                console.error(error);
+                snackBarContext.setStatusText(`${error}`);
+                snackBarContext.toggleSnackBar();
             }
         }
-
         getInfo();
-
     }, [query])
 
     //renders each user found in AddFriend

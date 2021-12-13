@@ -7,14 +7,10 @@ import OutgoingFriendRequestView from '../screens/OutgoingFriendRequestView'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from '@react-navigation/native';
 import UserContext from '../context/UserContext';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { color } from 'react-native-reanimated';
 const Tab = createMaterialBottomTabNavigator();
-//const size = 30;
 
 const FriendTabs = ({navigation, route}) => {
     const { colors } = useTheme();
-    const { toggleTheme } = useContext(UserContext);
     return (
         <Tab.Navigator initialRouteName="ViewFriends"
             activeColor="#ffffff"

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FriendsListView from '../screens/FriendsListView';
 import FriendProfileView from '../screens/FriendProfileView';
