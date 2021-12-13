@@ -3,7 +3,7 @@ import {View, StyleSheet, TouchableOpacity, Alert, Image, ScrollView} from 'reac
 import UserContext from '../context/UserContext';
 import {Text, TextInput, TouchableRipple, useTheme} from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import {BASE_URL} from "@env";
 
@@ -172,30 +172,13 @@ const EditMyProfileView = ({ navigation, route }) => {
                 <View style={{alignItems: 'center'}}>
                     <TouchableOpacity onPress={() => {choosPhotoFromLibrary()}}>
                         <View style={[styles.profileIcon, {backgroundColor: colors.secondColor}]}>
-                        {
-                            profileImage
-                            ?
-                                <Image
-                                    source={{uri: profileImage}}
-                                    style={{height:'100%', width:'100%'}}
-                                    >
-                                    </Image>
-
-                            :
-                                <View style={{alignItems: 'center'}}>
-                                    <Icon name="image-plus" size={35} color='white' style={styles.imageIcon}/>
-                                    <Text style={{color: 'white'}}>Upload Photo</Text>
-                                </View>
-                        }
-                            
-                            {/* <View style = {{
-                                flex:1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                
-                            }}>
-                            </View> */}
-
+                            <Image
+                                source={{uri: profileImage}}
+                                style={{height:'100%', width:'100%'}}
+                                >
+                            </Image>
+                            <View style={[styles.profileShade, {opacity: profileImage ? .15 : 0,}]} />
+                            <Icon style={{opacity: 1, position: "absolute"}}name="camera-plus-outline" size={35} color='white'/>
                         </View>
                     </TouchableOpacity>
 
@@ -295,7 +278,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                     <TouchableRipple style={[styles.confirmBox,{backgroundColor:colors.secondColor}]} onPress={() => removeProfilePicture()}>
                         <View style={styles.listItem1}>
                         <   Icon name="cancel" size={25} color='white'/> 
-                            <Icon name="photo" size={25} color='white'/>
+                            <Icon name="image" size={25} color='white'/>
                             <Text style={styles.listItemText}>Remove Proflie Picture</Text>
                         </View>
                     </TouchableRipple>
@@ -340,6 +323,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden'
+    },
+    profileShade: {
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        position: 'absolute', 
+        backgroundColor: 'black', 
+        width: "100%",
+        height: "100%"
     },
     inputfields: {
         flexDirection: 'row',
