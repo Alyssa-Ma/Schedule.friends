@@ -1,11 +1,11 @@
 import React, {useState, useContext} from 'react';
 import {View, StyleSheet, TouchableOpacity, Alert, Image, ScrollView} from 'react-native';
 import UserContext from '../context/UserContext';
-import {Text, TextInput, TouchableRipple, useTheme, IconButton, Button} from 'react-native-paper';
+import {Text, TextInput, TouchableRipple, useTheme, ActivityIndicator, Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import {BASE_URL} from "@env";
-import { color } from 'react-native-reanimated';
+
 
 const EditMyProfileView = ({ navigation, route }) => {
 
@@ -153,9 +153,9 @@ const EditMyProfileView = ({ navigation, route }) => {
                 Alert.alert(`Server Error or Username already taken`);
             }
         } catch(error) {
+            setLoadingButton(false);
             console.log(error)
         }
-        setLoadingButton(false);
     }
     
     const { colors } = useTheme();
@@ -283,7 +283,11 @@ const EditMyProfileView = ({ navigation, route }) => {
                         onPress={forumCheck}
                     >
                         <View style={styles.buttonLayout}>
-                            <Icon name="check" size={25} color='white'/>
+                            {
+                                loadingButton
+                                ? <ActivityIndicator style={{top: -11}} size={25} animating={loadingButton} color='white'/>
+                                : <Icon name="check" size={25} color='white'/>
+                            }
                             <Text style={[styles.buttonText, {color: 'white'}]}>Submit</Text>
                         </View>
                     </TouchableRipple>
