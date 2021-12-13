@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {View, StyleSheet, TouchableOpacity, Alert, Image, ScrollView} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Alert, Image, ScrollView, Keyboard} from 'react-native';
 import UserContext from '../context/UserContext';
 import {Text, TextInput, TouchableRipple, useTheme, ActivityIndicator, Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -19,11 +19,7 @@ const EditMyProfileView = ({ navigation, route }) => {
     const [email, setEmail] = useState(context.user.email);
     const [profileImage, setProfileImage] = useState(context.user.profile_image);
     const [validForm, setValidForm] = useState(false);
-
-    const userData = new FormData();
-
     const [loadingButton, setLoadingButton] = useState(false);
-
 
     //Function Thats Chooses Photo From Phone's Library
     const choosPhotoFromLibrary = () => {
@@ -38,25 +34,6 @@ const EditMyProfileView = ({ navigation, route }) => {
             snackBarContext.setStatusText(`Unable to set image: ${error}`);
             snackBarContext.toggleSnackBar();
         });
-    }
-
-    //Form Data Creation/Update for User
-    const createUserData = () => {
-        userData.append('first_name', fName);
-        userData.append('last_name', lName);
-        userData.append('username', userName);
-        userData.append('email', email);
-
-        if (profileImage != null) {
-            userData.append('profile_image', {
-                uri: profileImage,
-                type: "image/jpeg",
-                name: profileImage.substring(profileImage.lastIndexOf('/') + 1)
-             }) 
-        } else {
-            userData.append('profile_image', "");
-        }
-        confirmPressHandle();
     }
 
     // HELPER TEXT CHECKER FUNCS - Copied from SignUpScreen.js
@@ -101,49 +78,29 @@ const EditMyProfileView = ({ navigation, route }) => {
         else{
             setValidForm(false);
         }
-    })    
-
-    // fourmCheck that runs on Register submit button
-    const forumCheck = () => {
-        // Checks if first_name is empty
-        if (fName=="") {
-            Alert.alert("Please enter a first name.");
-        }
-        
-        // Checks if last name is empty
-        else if (lName=="") {
-            Alert.alert("Please enter a last name.");
-        }
-
-        // regex check first_name and last_name
-        else if ((fnameValid()) || (lnameValid())){
-            Alert.alert("Only alphabetical characters are accepted for first and last names.");
-        }
-
-        // Checks if username is empty
-        else if (userName=="") {
-            Alert.alert("Please enter a username.");
-        }
-
-        // regex check username
-        else if (unameValid()) {
-            Alert.alert("Username can only contain alphanumeric, _, @, +, . and - characters.");
-        }
-
-        // regex check email
-        else if (emailValid()) {
-            Alert.alert("Please enter a valid email.");
-        }
-
-        // All checks are passed, data is sent to backend
-        else 
-            createUserData();
-    }
-
-
+    })
+    
     //PATCH API CALL   
-    const confirmPressHandle = async () => {
+    const submitPatch = async () => {
         setLoadingButton(true);
+
+        //Form Data Creation/Update for User
+        const userData = new FormData();
+        userData.append('first_name', fName);
+        userData.append('last_name', lName);
+        userData.append('username', userName);
+        userData.append('email', email);
+
+        if (profileImage != null) {
+            userData.append('profile_image', {
+                uri: profileImage,
+                type: "image/jpeg",
+                name: profileImage.substring(profileImage.lastIndexOf('/') + 1)
+            }) 
+        } else {
+            userData.append('profile_image', "");
+        }
+
         try {
             const response = await fetch(`${BASE_URL}/${context.user.id}`, {
                 method:"PATCH",
@@ -185,7 +142,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                                 source={{uri: profileImage}}
                                 style={{height:'100%', width:'100%'}}
                             />
-                            <View style={[styles.profileShade, {opacity: profileImage ? .15 : 0,}]} />
+                            <View style={[styles.shade, {opacity: profileImage ? .15 : 0,}]} />
                             <Icon 
                                 style={{opacity: 1, position: "absolute"}}
                                 name="camera-plus-outline" 
@@ -300,7 +257,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                         disabled={!validForm}
                         style={[styles.button,{backgroundColor:colors.firstColor}]}
                         borderless={true} 
-                        onPress={forumCheck}
+                        onPress={submitPatch}
                     >
                         <View style={styles.buttonLayout}>
                             {
@@ -309,6 +266,11 @@ const EditMyProfileView = ({ navigation, route }) => {
                                 : <Icon name="check" size={25} color='white'/>
                             }
                             <Text style={[styles.buttonText, {color: 'white'}]}>Submit</Text>
+                            <View style={[
+                                styles.shade, 
+                                styles.button, 
+                                {left: -19, top: -21, width: 200,
+                                opacity: validForm ? 0 : .3}]} />
                         </View>
                     </TouchableRipple>
 
@@ -344,7 +306,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         overflow: 'hidden'
     },
-    profileShade: {
+    shade: {
         justifyContent: 'center', 
         alignItems: 'center', 
         position: 'absolute', 
@@ -378,6 +340,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginVertical: 5,
         marginTop: 10,
+        overflow: "hidden",
     },
     buttonLayout: {
         flexDirection: 'row',

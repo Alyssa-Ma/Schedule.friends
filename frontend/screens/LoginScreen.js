@@ -1,5 +1,5 @@
 import React, {useState, useContext } from 'react';
-import {View, Text, StyleSheet, StatusBar, Image, TouchableOpacity } from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
 import UserContext from '../context/UserContext';
 import analogousLogo from '../logo/analogousLogo.png';
@@ -30,6 +30,7 @@ const LoginScreen = ({ navigation, route }) => {
                     activeUnderlineColor='white'
                     theme={{
                         colors: {
+                            text: 'white',
                             placeholder: 'white',
                             error: colors.error
                         }
@@ -50,6 +51,7 @@ const LoginScreen = ({ navigation, route }) => {
                     label="Password"
                     theme={{
                         colors: {
+                            text: 'white',
                             placeholder: 'white',
                             error: colors.error
                         }
@@ -63,20 +65,14 @@ const LoginScreen = ({ navigation, route }) => {
             <TouchableOpacity
                 disabled={userName.length <= 0 || userPassword.length <= 0} 
                 onPress={async () => {await context.fetchUserToken(userName, userPassword)}}
-                style={
-                    [styles.button,
-                    {backgroundColor: 
-                        userName.length <= 0 || userPassword.length <= 0
-                        ? '#2D6989'
-                        : '#53C2FF'}
-                ]}>
-                <Text style=
-                    {[styles.buttonText, 
-                     {color:
-                        userName.length <= 0 || userPassword.length <= 0
-                        ? 'rgba(255,255,255, .2)'
-                        : 'white'
-                     }]}>Login</Text>
+                style={styles.button}>
+                <View>
+                    <Text style={[styles.buttonText,]}>Login</Text>
+                    <View style={[
+                            styles.shade, 
+                            {left: 0, top: -14, width: "100%", height: 200,
+                            opacity: userName.length <= 0 || userPassword.length <= 0 ? .4 : 0}]} />
+                </View>
             </TouchableOpacity>  
 
             <View style={styles.bottomRow}>
@@ -124,12 +120,26 @@ const styles = StyleSheet.create({
         width:350, 
         marginVertical: 10,
         paddingVertical: 12,
-        
+        overflow: 'hidden',
+    },
+    buttonLayout: {
+        flexDirection: 'row',
+        top: 11,
+        left: 18,
+    },
+    shade: {
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        position: 'absolute', 
+        backgroundColor: 'black', 
+        width: "100%",
+        height: "100%"
     },
     buttonText: {
         fontSize: 18, 
         fontWeight:"900",
-        textAlign: 'center'
+        textAlign: 'center',
+        color: 'white'
     },
     bottomRow:{
         alignItems: 'center',
