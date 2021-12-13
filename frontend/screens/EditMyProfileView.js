@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {View, StyleSheet, TouchableOpacity, Alert, ImageBackground, ScrollView} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Alert, Image, ScrollView} from 'react-native';
 import UserContext from '../context/UserContext';
 import {Text, TextInput, TouchableRipple, useTheme} from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -175,16 +175,15 @@ const EditMyProfileView = ({ navigation, route }) => {
                         {
                             profileImage
                             ?
-                                <ImageBackground
+                                <Image
                                     source={{uri: profileImage}}
-                                    style={{height:125, width:125}}
-                                    imageStyle={{borderRadius: 62.5}}
+                                    style={{height:'100%', width:'100%'}}
                                     >
-                                    </ImageBackground>
+                                    </Image>
 
                             :
                                 <View style={{alignItems: 'center'}}>
-                                    <Icon name="photo" size={35} color={colors.text} style={styles.imageIcon}/>
+                                    <Icon name="image-plus" size={35} color='white' style={styles.imageIcon}/>
                                     <Text style={{color: 'white'}}>Upload Photo</Text>
                                 </View>
                         }
@@ -340,6 +339,7 @@ const styles = StyleSheet.create({
         borderRadius: 62.5,
         justifyContent: 'center',
         alignItems: 'center',
+        overflow: 'hidden'
     },
     inputfields: {
         flexDirection: 'row',
