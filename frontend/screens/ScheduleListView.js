@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 import CourseItem from '../components/CourseItem';
-import { Button, FAB, useTheme} from 'react-native-paper'
+import { FAB, useTheme} from 'react-native-paper'
 import UserContext from '../context/UserContext';
 
 const ScheduleListView = ({ navigation, route }) => {
@@ -25,7 +25,6 @@ const ScheduleListView = ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         paddingTop: 0,

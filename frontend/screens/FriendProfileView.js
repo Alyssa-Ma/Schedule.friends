@@ -7,9 +7,11 @@ import UserInfo from '../components/UserInfo';
 import CourseItem from '../components/CourseItem';
 
 import { BASE_URL } from "@env";
+import SnackBarContext from '../context/SnackBarContext';
 
 const FriendProfileView = ({ navigation, route }) => {
     const context = useContext(UserContext);
+    const snackBarContext = useContext(SnackBarContext)
     const { friend } = route.params;
     const [loadingButton, setLoadingButton] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -31,28 +33,29 @@ const FriendProfileView = ({ navigation, route }) => {
                 let tempUser = { ...context.user}
                 tempUser.friend_list.splice(tempUser.friend_list.findIndex((element) => element === friend.id), 1);
                 context.setUser(tempUser);
-                console.log(`Unadded ${friend.username}!`);
+                snackBarContext.setStatusText(`Unadded ${friend.username}!`);
+                snackBarContext.toggleSnackBar();
                 setLoadingButton(false);
                 navigation.pop();
             }
             else {
-                console.log(`Error from server status ${response.status}`);
+                snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+                snackBarContext.toggleSnackBar();
                 setLoadingButton(false);
             }
         }
         catch (error) {
-            console.error(error);
+            snackBarContext.setStatusText(`${error}`);
+            snackBarContext.toggleSnackBar();
             setLoadingButton(false);
         }
     }
 
     return (
-
         <SafeAreaView style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
-
             <View style={[styles.friendCard, { backgroundColor: colors.secondColor }]}>
-
                 <UserInfo user={friend} color={colors.firstColor} bgColor={colors.firstColor}/>
+
                 <View style={styles.buttonRow}>
                     <Button icon="account-remove" color={colors.thirdColor} labelStyle={{ color: 'white' }} onPress={() => showDialog()} mode="contained">Unfriend</Button>
                     <Button icon="arrow-left-circle" color={colors.firstColor} labelStyle={{ color: 'white' }} onPress={() => navigation.pop()} mode="contained">Go Back</Button>
@@ -82,6 +85,7 @@ const FriendProfileView = ({ navigation, route }) => {
                             )
                     }
                 </Portal>
+
                 <View style={styles.listWrapper}>
                     <FlatList data={friend.schedule}
                         keyExtractor={course => course.id}
@@ -97,7 +101,6 @@ const FriendProfileView = ({ navigation, route }) => {
 export default FriendProfileView;
 
 const styles = StyleSheet.create({
-
     friendCard: {
         justifyContent: "center",
         alignSelf: 'center',
@@ -111,7 +114,6 @@ const styles = StyleSheet.create({
     },
     userInfoSection: {
         paddingHorizontal: 30,
-        // marginBottom: 25,
     },
     title: {
         fontSize: 24,

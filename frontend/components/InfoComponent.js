@@ -8,7 +8,6 @@ const InfoComponent = ({settingsOptions, navigation, bgColor}) => {
             {settingsOptions.map(({title, subTitle, navName, onPress}, index) => (
               <TouchableOpacity key={title} 
                 onPress={() => {
-                  
                   if(navName != '')
                     navigation.push(navName)
                 }}>

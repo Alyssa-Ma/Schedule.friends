@@ -1,7 +1,6 @@
-import React, {useState, useContext} from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
-import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
-import UserListHeader from './UserListHeader';
+import { DrawerItem } from '@react-navigation/drawer';
 import {Drawer, Text, TouchableRipple, Switch, Avatar, Title, Caption } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useTheme } from '@react-navigation/native';

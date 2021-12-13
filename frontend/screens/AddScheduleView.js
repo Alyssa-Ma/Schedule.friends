@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { View, StyleSheet} from 'react-native';
 import CourseForm from '../components/CourseForm';
-import { Snackbar, useTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import {BASE_URL} from "@env";
 import UserContext from '../context/UserContext';
 import SnackBarContext from '../context/SnackBarContext';
@@ -59,8 +59,6 @@ const AddScheduleView = ({ navigation }) => {
         }
     }, [loadingButton])
 
-
-        
     return (
         <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             <CourseForm
@@ -78,17 +76,14 @@ const AddScheduleView = ({ navigation }) => {
             />
         </View>
     )
-
 }
 
 //Style Sheet
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         paddingTop: 0,
     },
-
 });
 
 export default AddScheduleView;

@@ -18,8 +18,6 @@ const FriendRequestSend = ({ navigation, route }) => {
     //gets incoming friend requests for the curr user
     useFocusEffect(
         React.useCallback(() => {
-            console.log('Entering Screen')
-            
             const getInfo = async() =>{
                 try{
                     let response = await fetch(`${BASE_URL}/${context.user.id}/fr_with_user`, {
@@ -34,17 +32,16 @@ const FriendRequestSend = ({ navigation, route }) => {
                         setPendingRequests(jsonResponse)
                     }
                     else {
-                        console.log(`Error with server ${response.status}`)
+                        snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+                        snackBarContext.toggleSnackBar();
                     }
-
                 }
                 catch(error){
-                    console.error(error);
+                    snackBarContext.setStatusText(`${error}`);
+                    snackBarContext.toggleSnackBar();
                 }
             }
-
             getInfo();
-
             return () => {
                 setSearchQuery('');
             }
@@ -55,6 +52,7 @@ const FriendRequestSend = ({ navigation, route }) => {
         searchbar handles text input
         if the input exceeds 2 chars output findings
     */
+
     return (
         <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             <Searchbar
@@ -75,13 +73,11 @@ const FriendRequestSend = ({ navigation, route }) => {
                     )
             }
         </View>
-
     );
 }
 
 //Style Sheet
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         paddingTop: 0,

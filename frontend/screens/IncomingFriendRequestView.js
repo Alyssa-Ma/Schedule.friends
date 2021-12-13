@@ -45,7 +45,8 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                                 friendRequest['from_user_data'] = await response.json();
                             }
                             else {
-                                console.log(`Error from server ${response.status}`);
+                                snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(friendReqData))}`);
+                                snackBarContext.toggleSnackBar();
                                 setLoading(false);
                             }   
                         }
@@ -53,19 +54,18 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                         setLoading(false);
                     }
                     else {
-                        console.log(`Error from server ${response.status}`);
+                        snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(response.json()))}`);
+                        snackBarContext.toggleSnackBar();
                         setLoading(false);
                     }
                 }catch(error){
-                    console.log(error);
+                    snackBarContext.setStatusText(`${error}`);
+                    snackBarContext.toggleSnackBar();
                     setLoading(false);
                 }
             }
-        
             getIncomingFR();
-
             return () => {
-                console.log("leaving screen!");
             };
         }, [])
     )
@@ -91,20 +91,18 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                 });
             }
             else {
-                console.log(`Error from server: ${response.status}`)
+                snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+                snackBarContext.toggleSnackBar();
             }
         }
         catch(error){
-            console.error(error);
+            snackBarContext.setStatusText(`${error}`);
+            snackBarContext.toggleSnackBar();
         }
     }
 
     //accept using PATCH and DELETE request. remove from list
     const acceptFriend = async (id) => {
-
-        console.log(`Accepted Friend`, id);
-
-        
         try{
             let response = await fetch(`${BASE_URL}/friend_requests/${id}`, {
                 method: 'PATCH',
@@ -124,14 +122,17 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                 });
             }
             else {
-                console.log(`Error from server: ${response.status}`)
+                snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+                snackBarContext.toggleSnackBar();
             }
         }
         catch(error){
-            console.error(error);
+            snackBarContext.setStatusText(`${error}`);
+            snackBarContext.toggleSnackBar();
         }
         
     }
+    
     return (
         <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             {
@@ -158,12 +159,10 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
 
 //Style Sheet
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         paddingTop: 0,
     },
-
     noRequests: {
         flex: 1,
         flexDirection: 'column',

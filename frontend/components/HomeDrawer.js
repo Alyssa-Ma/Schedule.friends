@@ -172,8 +172,6 @@ const HomeDrawer = ({navigation, route}) => {
       />
     </Drawer.Navigator>
   ) 
-  
-  
 }
 
 export default HomeDrawer;

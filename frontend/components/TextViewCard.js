@@ -30,7 +30,6 @@ const TextViewCard = ({item, bgColor}) => {
         return (
             <View style={styles.upcoming_row}>
                 <Text style={[styles.now_upcoming, {color: 'white'}]}>Upcoming:</Text>
-            
                 <View style={styles.upcoming_times_col}>
                     {
                         tmp_times.map( (time, index) => {
@@ -45,7 +44,6 @@ const TextViewCard = ({item, bgColor}) => {
     }
 
     return (
-
         <View style={[styles.friendTimeCard, {backgroundColor: bgColor}]}>
             <View style={styles.avatar_name_row}>
                 {
@@ -68,22 +66,16 @@ const TextViewCard = ({item, bgColor}) => {
                 <View style={styles.name_col}>
                     <Text style={[styles.name_text, {color: 'white'}]}>{item.f_name}</Text>
                     <Text style={[styles.name_text, {color: 'white'}]}>{item.l_name}</Text>
-                </View>
-                
+                </View>                
             </View>
-
-            {item.now && <NowTime/>}
-
+                {item.now && <NowTime/>}
             <UpcomingTime />
-
         </View>
-
     )
 }
 
 
 const styles = StyleSheet.create({
-
     friendTimeCard: {
         width: 330,
         borderRadius: 50 / 2,
@@ -92,13 +84,11 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingBottom: 10
     },
-
     avatar_name_row: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         marginTop: 10,
     },
-
     now_row: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -106,14 +96,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginRight: 10
     },
-
     upcoming_row: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 20,
         alignItems: 'flex-start',
     },
-
     name_col: {
         flexDirection: 'column',
         alignSelf: 'center',
@@ -121,7 +109,6 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         
     },
-
     upcoming_times_col: {
         flexDirection: 'column',
         alignSelf: 'center',
@@ -129,23 +116,19 @@ const styles = StyleSheet.create({
         marginRight: 10
 
     },
-
     name_text: {
         fontSize: 30,
     },
-
     avatar: {
         marginLeft: 40
        
     },    
-
     now_upcoming: {
 
         fontSize: 25,
         marginLeft: 15,
         alignSelf: 'flex-start'
     },
-
     time: {
         fontSize: 20,
     }

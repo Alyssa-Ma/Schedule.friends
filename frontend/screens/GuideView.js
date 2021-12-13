@@ -1,10 +1,8 @@
-import React, {useState, useContext, useEffect} from 'react';
-import {View, SafeAreaView, StyleSheet, StatusBar, Image, TouchableOpacity, ScrollView } from 'react-native';
-import UserContext from '../context/UserContext';
-import { Title, Caption, Text, TouchableRipple, useTheme, Button } from 'react-native-paper';
+import React  from 'react';
+import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, useTheme } from 'react-native-paper';
 
 const GuideView = ({navigation, route}) => {
-    const context = useContext(UserContext);
     const { colors } = useTheme();
     return(
         <ScrollView style={{backgroundColor: colors.backgroundColor}}>

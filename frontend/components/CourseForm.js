@@ -1,5 +1,5 @@
-import React, { useEffect, useState, createRef } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { TextInput, Button, RadioButton, Text, HelperText, useTheme } from 'react-native-paper';
 import TimePickerInput from './TimePickerInput';
 
@@ -92,6 +92,7 @@ const CourseForm = (props) => {
                     theme={
                         {
                             colors: {
+                                text: 'white',
                                 error: colors.error,
                                 placeholder: courseName.length <= 0
                                             ? courseNameErrorLock 
@@ -118,6 +119,7 @@ const CourseForm = (props) => {
                     theme={
                         {
                             colors: {
+                                text: 'white',
                                 error: colors.error,
                                 placeholder: courseNumber.length <= 0
                                             ? courseNumberErrorLock 
@@ -163,7 +165,6 @@ const CourseForm = (props) => {
                 min={startMin}
                 setHour={setStartHour}
                 setMin={setStartMin}
-                
             />
 
             <TimePickerInput

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { IconButton } from 'react-native-paper';
 import UserListHeader from './UserListHeader';
 const FriendRequestItem = ({friendRequest,  displayOptions, rejectFriend, acceptFriend, index, bgColor, colors}) => {
     return (
@@ -10,15 +10,29 @@ const FriendRequestItem = ({friendRequest,  displayOptions, rejectFriend, accept
                 ? (
                     <View style={styles.itemView}>
                         <UserListHeader user={friendRequest.to_user_data}  textColor={bgColor} bgColor='white'/>
-                        <Icon name='close-circle-outline' size={30} color='#900' onPress={() => rejectFriend(friendRequest.id)} style={[styles.button]}/>
+                        <IconButton 
+                            icon='close-circle-outline' 
+                            size={40} color='#900' 
+                            onPress={() => rejectFriend(friendRequest.id)} 
+                            style={[styles.button]}/>
                                                                                                                      
                     </View>
                 )
                 : (
                     <View style={styles.itemView}>
                         <UserListHeader user={friendRequest.from_user_data} textColor={bgColor} bgColor='white'/>
-                        <Icon name='close-circle-outline' size={30} color='#900' onPress={() => rejectFriend(friendRequest.id)} style={[styles.button]}/>
-                        <Icon name='check-circle-outline' size={30} color='#37ba0f'onPress={() => acceptFriend(friendRequest.id)} style={[styles.button]}/>
+                        <IconButton 
+                            icon='close-circle-outline' 
+                            size={40} 
+                            color='#900' 
+                            onPress={() => rejectFriend(friendRequest.id)} 
+                            style={[styles.button]}/>
+                        <IconButton 
+                            icon='check-circle-outline' 
+                            size={40} 
+                            color='#37ba0f'
+                            onPress={() => acceptFriend(friendRequest.id)} 
+                            style={[styles.button]}/>
                                                                                                                                    
                     </View>
                 )
@@ -30,15 +44,14 @@ const FriendRequestItem = ({friendRequest,  displayOptions, rejectFriend, accept
 const styles = StyleSheet.create({
     friendRequest : {
         padding: 15,
-        borderRadius: 40 / 2,
+        borderRadius: 20,
         width: 350,
         alignSelf: 'center',
         marginTop: 15,
-        
     },
     itemView: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         alignItems: 'center',
     },
     button: {

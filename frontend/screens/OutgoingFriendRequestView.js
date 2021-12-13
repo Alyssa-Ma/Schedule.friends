@@ -45,7 +45,8 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                                 friendRequest['to_user_data'] = await response.json();
                             }
                             else {
-                                console.log(`Error from server ${response.status}`);
+                                snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(friendReqData))}`);
+                                snackBarContext.toggleSnackBar();
                                 setLoading(false);
                             }   
                         }
@@ -53,11 +54,13 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                         setLoading(false);
                     }
                     else {
-                        console.log(`Error from server ${response.status}`);
+                        snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(response.json()))}`);
+                        snackBarContext.toggleSnackBar();
                         setLoading(false);
                     }
                 }catch(error){
-                    console.log(error);
+                    snackBarContext.setStatusText(`${error}`);
+                    snackBarContext.toggleSnackBar();
                     setLoading(false);
                 }
             }
@@ -65,7 +68,6 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
             getIncomingFR();
 
             return () => {
-                console.log("leaving screen!");
             };
         }, [])
     )
@@ -86,11 +88,13 @@ const IncomingFriendRequestView = ({ navigation, route }) => {
                 });
             }
             else {
-                console.log(`Error from server: ${response.status}`)
+                snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+                snackBarContext.toggleSnackBar();
             }
         }
         catch(error){
-            console.error(error);
+            snackBarContext.setStatusText(`${error}`);
+            snackBarContext.toggleSnackBar();
         }
     }
     return (

@@ -8,12 +8,14 @@ import UserContext from '../context/UserContext';
 import { useFocusEffect } from '@react-navigation/native';
 import LoadingIndicator from '../components/LoadingIndicator';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-let { width, height } = Dimensions.get('window');
+let { height } = Dimensions.get('window');
+import SnackBarContext from '../context/SnackBarContext';
 
 const CommonTimeText = ({ navigation, route }) => {
 
     //Sets the state 
     const context = useContext(UserContext);
+    const snackBarContext = useContext(SnackBarContext);
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const { colors } = useTheme();  //THEME
@@ -213,21 +215,27 @@ const CommonTimeText = ({ navigation, route }) => {
                             friends.push(friend);
                         }
                         else {
-                            console.log(friendResponse.status)
+                            snackBarContext.setStatusText(`${friendResponse.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(friendJSONResponse))}`)
+                            snackBarContext.toggleSnackBar();
+                            setLoading(false);
                         }
                     } catch (error){
-                        console.log(error);
+                        snackBarContext.setStatusText(`${error}`)
+                        snackBarContext.toggleSnackBar();
+                        setLoading(false);
                     }
                 }
                 setItems(friends);
                 setLoading(false);
             }
             else {
-                console.log(response.status)
+                snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`)
+                snackBarContext.toggleSnackBar();
                 setLoading(false);
             }
         } catch(error) {
-            console.log(error)
+            snackBarContext.setStatusText(`${error}`)
+            snackBarContext.toggleSnackBar();
             setLoading(false);
         }
     }
