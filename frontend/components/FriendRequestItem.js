@@ -10,15 +10,15 @@ const FriendRequestItem = ({friendRequest,  displayOptions, rejectFriend, accept
                 ? (
                     <View style={styles.itemView}>
                         <UserListHeader user={friendRequest.to_user_data}  textColor={bgColor} bgColor='white'/>
-                        <Icon name='close-circle-outline' size={30} color='#900' onPress={() => rejectFriend(friendRequest.id)} style={[styles.button, {backgroundColor: colors.firstColor}]}/>
+                        <Icon name='close-circle-outline' size={30} color='#900' onPress={() => rejectFriend(friendRequest.id)} style={[styles.button]}/>
                                                                                                                      
                     </View>
                 )
                 : (
                     <View style={styles.itemView}>
                         <UserListHeader user={friendRequest.from_user_data} textColor={bgColor} bgColor='white'/>
-                        <Icon name='close-circle-outline' size={30} color='#900' onPress={() => rejectFriend(friendRequest.id)} style={[styles.button, {backgroundColor: colors.firstColor}]}/>
-                        <Icon name='check-circle-outline' size={30} color='#37ba0f'onPress={() => acceptFriend(friendRequest.id)} style={[styles.button, {backgroundColor: colors.firstColor}]}/>
+                        <Icon name='close-circle-outline' size={30} color='#900' onPress={() => rejectFriend(friendRequest.id)} style={[styles.button]}/>
+                        <Icon name='check-circle-outline' size={30} color='#37ba0f'onPress={() => acceptFriend(friendRequest.id)} style={[styles.button]}/>
                                                                                                                                    
                     </View>
                 )

@@ -50,7 +50,8 @@ const SearchList = ({query, pendingRequests, colors}) => {
                             first_name: queryUser.first_name,
                             last_name: queryUser.last_name,
                             status: queryUserStatus,
-                            username: queryUser.username
+                            username: queryUser.username,
+                            profile_image: queryUser.profile_image
                         }
                             users.push(userInfo);
                     }
