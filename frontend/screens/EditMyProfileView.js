@@ -5,19 +5,19 @@ import {Text, TextInput, TouchableRipple, useTheme, ActivityIndicator, Button} f
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import {BASE_URL} from "@env";
+import SnackBarContext from '../context/SnackBarContext';
 
 
 const EditMyProfileView = ({ navigation, route }) => {
 
     const context = useContext(UserContext);
-    
-    const {user} = route.params;
+    const snackBarContext = useContext(SnackBarContext);
 
-    const [fName, setFName] = useState(user.first_name);
-    const [lName, setLName] = useState(user.last_name);
-    const [userName, setUsername] = useState(user.username);
-    const [email, setEmail] = useState(user.email);
-    const [profileImage, setProfileImage] = useState(user.profile_image);
+    const [fName, setFName] = useState(context.user.first_name);
+    const [lName, setLName] = useState(context.user.last_name);
+    const [userName, setUsername] = useState(context.user.username);
+    const [email, setEmail] = useState(context.user.email);
+    const [profileImage, setProfileImage] = useState(context.user.profile_image);
 
     const userData = new FormData();
 
@@ -31,11 +31,12 @@ const EditMyProfileView = ({ navigation, route }) => {
             height: 300,
             cropping: true,
             compressImageQuality: 0.7,
-          }).then(image => {
-            console.log(image);
+        }).then(image => {
             setProfileImage(image.path);
-          })
-          .catch(error => console.log("Unable to Load Photo"));
+        }).catch(error => {
+            snackBarContext.setStatusText(`Unable to set image: ${error}`);
+            snackBarContext.toggleSnackBar();
+        });
     }
 
     //Form Data Creation/Update for User
@@ -57,35 +58,31 @@ const EditMyProfileView = ({ navigation, route }) => {
         confirmPressHandle();
     }
 
-    const removeProfilePicture = () => {
-        setProfileImage(null);
-    }
-
-    // HELPER TEXT CHECKER FUNCS
+    // HELPER TEXT CHECKER FUNCS - Copied from SignUpScreen.js
     
     // Returns true if first_name does not only contain alphabet or is over 150 characters
     const fnameValid = () => {
         const nameRegex = /^[A-Za-z]{1,150}$/;
-        return (!(nameRegex.test(fName)) && fName.length > 0);
+        return (!(nameRegex.test(first_name)) && first_name.length > 0);
     };
-
+     
     // Returns true if last_name does not only contain alphabet or is over 150 characters
     const lnameValid = () => {
         const nameRegex = /^[A-Za-z]{1,150}$/;
-        return (!(nameRegex.test(lName)) && lName.length > 0);
+        return (!(nameRegex.test(last_name)) && last_name.length > 0);
     };
 
-    // Returns true if username does not only contain alphanumeric, -, _, @, +, and . and if over 20 character
+    // Returns true if username does not only contain alphanumeric, -, _, @, +, and . and if over 15 character
     const unameValid = () => {
-        const usernameRegex = /^[0-9a-zA-Z-_@+.]{1,20}$/;
-        return !(usernameRegex.test(userName)) && userName.length > 0;
+        const usernameRegex = /^[0-9a-zA-Z-_@+.]{4,15}$/;
+        return !(usernameRegex.test(username)) && username.length > 0;
     };
 
     // Returns true if email is not valid name@host.ext
     const emailValid = () => {
         const simpleEmailRegex = /\S+@\S+\.\S+/; 
         return !(simpleEmailRegex.test(email)) && email.length > 0;
-    }
+    };
 
     // fourmCheck that runs on Register submit button
     const forumCheck = () => {
@@ -132,13 +129,10 @@ const EditMyProfileView = ({ navigation, route }) => {
             const response = await fetch(`${BASE_URL}/${user.id}`, {
                 method:"PATCH",
                 headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Token ${user.token}`
-                
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Token ${context.user.token}`
                 },
-
                 body: userData
-            
             })
             
             const jsonResponse = await response.json();
@@ -149,12 +143,14 @@ const EditMyProfileView = ({ navigation, route }) => {
             }
             else {
                 setLoadingButton(false);
-                console.log(`Server Error ${response.status}`)
-                Alert.alert(`Server Error or Username already taken`);
+                snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+                snackBarContext.toggleSnackBar();
+
             }
         } catch(error) {
             setLoadingButton(false);
-            console.log(error)
+            snackBarContext.setStatusText(`${error}`);
+            snackBarContext.toggleSnackBar();
         }
     }
     
@@ -183,7 +179,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                         ?
                             <Button 
                                 icon="camera-off"
-                                onPress={removeProfilePicture}
+                                onPress={() => setProfileImage(null)}
                                 theme={{colors: {primary: colors.secondColor}}}
                                 >Remove Image
                             </Button>
@@ -193,7 +189,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                     <Text 
                         numberOfLines={3} 
                         style = {[styles.fnamelname, {color:colors.text, marginTop: profileImage ? 0 : 10}]}>
-                        {user.first_name + " " + user.last_name}
+                        {context.user.first_name + " " + context.user.last_name}
                     </Text>
 
                 <View style={styles.inputfieldRow}>
@@ -370,5 +366,4 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 20,
       },
-
   });

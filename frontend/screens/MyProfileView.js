@@ -1,17 +1,14 @@
-import React, {useState, useContext, useEffect} from 'react';
-import {View, SafeAreaView, StyleSheet, StatusBar, Image, TextInput, TouchableOpacity} from 'react-native';
+import React, { useContext } from 'react';
+import { View, SafeAreaView, StyleSheet } from 'react-native';
 import UserContext from '../context/UserContext';
-import {Avatar, Title, Caption, Text, TouchableRipple, useTheme} from 'react-native-paper';
+import { Text, TouchableRipple, useTheme} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import UserInfo from '../components/UserInfo';
-import { Dimensions } from 'react-native';
-
-
 
 const MyProfileView = ({ navigation }) => {
   const context = useContext(UserContext);
   
-  const { colors } = useTheme(); //THEME
+  const { colors } = useTheme();
 
   return (
     <SafeAreaView style={[styles.container, {backgroundColor:colors.backgroundColor}]}>
@@ -28,7 +25,7 @@ const MyProfileView = ({ navigation }) => {
           <TouchableRipple 
             style={[styles.button, {backgroundColor:colors.firstColor}]} 
             borderless={true} 
-            onPress={() => navigation.push('EditMyProfileView', {user: context.user})}>
+            onPress={() => navigation.push('EditMyProfileView')}>
             <View style={[styles.buttonLayout]}>
               <Icon name="person" size={25} color='white'/>
               <Text style={[styles.buttonText, {color: 'white'}]}>Edit My Profile</Text>

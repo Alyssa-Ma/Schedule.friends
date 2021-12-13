@@ -43,18 +43,18 @@ const SignUpScreen = ({ navigation }) => {
     const emailValid = () => {
         const simpleEmailRegex = /\S+@\S+\.\S+/; 
         return !(simpleEmailRegex.test(email)) && email.length > 0;
-    }
+    };
 
     // Return true if password does not contain at least 6 characters, two which are digits, and one uppercase
     const passwordValid = () => {
         const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
         return !(passwordRegex.test(password)) && password.length > 0;
-    }
+    };
 
     // Returns true if conPassword does not match password and if length is 6 or less
     const confPasswordValid = () => {
         return !(password === confPassword) && confPassword.length <= 6;
-    }
+    };
 
     useEffect(() => {
         if (
