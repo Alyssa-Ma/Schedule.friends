@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {View, StyleSheet, TouchableOpacity, Alert, Image, ScrollView} from 'react-native';
 import UserContext from '../context/UserContext';
 import {Text, TextInput, TouchableRipple, useTheme, ActivityIndicator, Button} from 'react-native-paper';
@@ -18,6 +18,7 @@ const EditMyProfileView = ({ navigation, route }) => {
     const [userName, setUsername] = useState(context.user.username);
     const [email, setEmail] = useState(context.user.email);
     const [profileImage, setProfileImage] = useState(context.user.profile_image);
+    const [validForm, setValidForm] = useState(false);
 
     const userData = new FormData();
 
@@ -63,19 +64,19 @@ const EditMyProfileView = ({ navigation, route }) => {
     // Returns true if first_name does not only contain alphabet or is over 150 characters
     const fnameValid = () => {
         const nameRegex = /^[A-Za-z]{1,150}$/;
-        return (!(nameRegex.test(first_name)) && first_name.length > 0);
+        return (!(nameRegex.test(fName)) && fName.length > 0);
     };
      
     // Returns true if last_name does not only contain alphabet or is over 150 characters
     const lnameValid = () => {
         const nameRegex = /^[A-Za-z]{1,150}$/;
-        return (!(nameRegex.test(last_name)) && last_name.length > 0);
+        return (!(nameRegex.test(lName)) && lName.length > 0);
     };
 
     // Returns true if username does not only contain alphanumeric, -, _, @, +, and . and if over 15 character
     const unameValid = () => {
         const usernameRegex = /^[0-9a-zA-Z-_@+.]{4,15}$/;
-        return !(usernameRegex.test(username)) && username.length > 0;
+        return !(usernameRegex.test(userName)) && userName.length > 0;
     };
 
     // Returns true if email is not valid name@host.ext
@@ -83,6 +84,24 @@ const EditMyProfileView = ({ navigation, route }) => {
         const simpleEmailRegex = /\S+@\S+\.\S+/; 
         return !(simpleEmailRegex.test(email)) && email.length > 0;
     };
+
+    useEffect(() => {
+        if (
+            !(fName.length === 0) &&
+            !(lName.length === 0) &&
+            !fnameValid() &&
+            !lnameValid() &&
+            !(userName.length === 0) &&
+            !unameValid() &&
+            !(email.length === 0) &&
+            !emailValid()
+        ) {
+            setValidForm(true);
+        }
+        else{
+            setValidForm(false);
+        }
+    })    
 
     // fourmCheck that runs on Register submit button
     const forumCheck = () => {
@@ -126,7 +145,7 @@ const EditMyProfileView = ({ navigation, route }) => {
     const confirmPressHandle = async () => {
         setLoadingButton(true);
         try {
-            const response = await fetch(`${BASE_URL}/${user.id}`, {
+            const response = await fetch(`${BASE_URL}/${context.user.id}`, {
                 method:"PATCH",
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -185,18 +204,19 @@ const EditMyProfileView = ({ navigation, route }) => {
                             </Button>
                         : null
                     }
-                </View>
                     <Text 
                         numberOfLines={3} 
                         style = {[styles.fnamelname, {color:colors.text, marginTop: profileImage ? 0 : 10}]}>
                         {context.user.first_name + " " + context.user.last_name}
                     </Text>
+                </View>
 
                 <View style={styles.inputfieldRow}>
                     <Icon name="account-edit" size={30} color={colors.secondColor} />
                     <TextInput
                         mode="outlined"
                         label="First Name"
+                        error={fnameValid() || (fName.length === 0)}
                         value={fName}
                         placeholderTextColor = {colors.secondColor}
                         onChangeText = {(val) => setFName(val)}
@@ -217,6 +237,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                     <TextInput
                         mode="outlined"
                         label="Last Name"
+                        error={lnameValid() || (lName.length === 0)}
                         value={lName}
                         placeholderTextColor = {colors.secondColor}
                         onChangeText = {(val) => setLName(val)}
@@ -237,6 +258,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                         <TextInput
                             mode="outlined"
                             label="E-Mail"
+                            error={emailValid() || (email.length === 0)}
                             value={email}
                             placeholderTextColor = {colors.firstColor}
                             onChangeText = {(val) => setEmail(val)}
@@ -257,6 +279,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                         <TextInput
                             mode="outlined"
                             label="Username"
+                            error={unameValid() || (userName.length === 0)}
                             value={userName}
                             placeholderTextColor = {colors.thirdColor}
                             onChangeText = {(val) => setUsername(val)}
@@ -273,7 +296,8 @@ const EditMyProfileView = ({ navigation, route }) => {
                 </View>
 
                 <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
-                    <TouchableRipple 
+                    <TouchableRipple
+                        disabled={!validForm}
                         style={[styles.button,{backgroundColor:colors.firstColor}]}
                         borderless={true} 
                         onPress={forumCheck}

@@ -64,6 +64,7 @@ const SignUpScreen = ({ navigation }) => {
             !lnameValid() &&
             !(username.length === 0) &&
             !unameValid() &&
+            !(email.length === 0) &&
             !emailValid() &&
             !(password.length === 0) &&
             !passwordValid() &&
