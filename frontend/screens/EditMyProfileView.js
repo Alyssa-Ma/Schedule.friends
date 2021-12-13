@@ -1,8 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {View, StyleSheet, TouchableOpacity, Alert, Image, ScrollView} from 'react-native';
 import UserContext from '../context/UserContext';
-import {Text, TextInput, TouchableRipple, useTheme} from 'react-native-paper';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {Text, TextInput, TouchableRipple, useTheme, IconButton, Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import {BASE_URL} from "@env";
@@ -159,32 +158,43 @@ const EditMyProfileView = ({ navigation, route }) => {
         setLoadingButton(false);
     }
     
-    //GO BACK TO PROFILE SCRREN WHEN CANCEL IS PRESSED
-    const cancelPressHandle = () => {
-        navigation.pop();
-        console.log("Cancel button pressed");
-    }
-
-    const { colors } = useTheme(); //THEME
+    const { colors } = useTheme();
 
     return (    
         <ScrollView style={{styles: styles.container, backgroundColor: colors.backgroundColor}}>
             <View style={{margin: 20}}>
                 <View style={{alignItems: 'center'}}>
-                    <TouchableOpacity onPress={() => {choosPhotoFromLibrary()}}>
+                    <TouchableOpacity onPress={choosPhotoFromLibrary}>
                         <View style={[styles.profileIcon, {backgroundColor: colors.secondColor}]}>
                             <Image
                                 source={{uri: profileImage}}
                                 style={{height:'100%', width:'100%'}}
                             />
                             <View style={[styles.profileShade, {opacity: profileImage ? .15 : 0,}]} />
-                            <Icon style={{opacity: 1, position: "absolute"}}name="camera-plus-outline" size={35} color='white'/>
+                            <Icon 
+                                style={{opacity: 1, position: "absolute"}}
+                                name="camera-plus-outline" 
+                                size={40} 
+                                color='white'/>
                         </View>
                     </TouchableOpacity>
-                    <Text numberOfLines={3} style = {[styles.fnamelname, {color:colors.text}]}>
+                    {
+                        profileImage
+                        ?
+                            <Button 
+                                icon="camera-off"
+                                onPress={removeProfilePicture}
+                                theme={{colors: {primary: colors.secondColor}}}
+                                >Remove Image
+                            </Button>
+                        : null
+                    }
+                </View>
+                    <Text 
+                        numberOfLines={3} 
+                        style = {[styles.fnamelname, {color:colors.text, marginTop: profileImage ? 0 : 10}]}>
                         {user.first_name + " " + user.last_name}
                     </Text>
-                </View>
 
                 <View style={styles.inputfieldRow}>
                     <Icon name="account-edit" size={30} color={colors.secondColor} />
@@ -200,7 +210,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                             colors: {
                                 placeholder: colors.secondColor,
                                 text: colors.text,
-                                primary: colors.focusedColor,
+                                primary: colors.text,
                             }
                         }}
                     />      
@@ -220,7 +230,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                             colors: {
                                 placeholder: colors.secondColor,
                                 text: colors.text,
-                                primary: colors.focusedColor,
+                                primary: colors.text,
                             }
                         }}
                     />
@@ -240,7 +250,7 @@ const EditMyProfileView = ({ navigation, route }) => {
                                 colors: {
                                     placeholder: colors.secondColor,
                                     text: colors.text,
-                                    primary: colors.focusedColor,
+                                    primary: colors.text,
                                 }
                             }}
                         />  
@@ -260,51 +270,45 @@ const EditMyProfileView = ({ navigation, route }) => {
                                 colors: {
                                     placeholder: colors.secondColor,
                                     text: colors.text,
-                                    primary: colors.focusedColor,
+                                    primary: colors.text,
                                 }
                             }}
                         />  
                 </View>
 
-                <View style={styles.listWrapper}>
-                    <TouchableRipple style={[styles.confirmBox,{backgroundColor:colors.secondColor}]} onPress={() => removeProfilePicture()}>
-                        <View style={styles.listItem1}>
-                        <   Icon name="cancel" size={25} color='white'/> 
-                            <Icon name="image" size={25} color='white'/>
-                            <Text style={styles.listItemText}>Remove Proflie Picture</Text>
+                <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
+                    <TouchableRipple 
+                        style={[styles.button,{backgroundColor:colors.firstColor}]}
+                        borderless={true} 
+                        onPress={forumCheck}
+                    >
+                        <View style={styles.buttonLayout}>
+                            <Icon name="check" size={25} color='white'/>
+                            <Text style={[styles.buttonText, {color: 'white'}]}>Submit</Text>
                         </View>
                     </TouchableRipple>
-                </View>
 
-                <View style={styles.listWrapper}>
-                    <TouchableRipple style={[styles.cancelBox,{backgroundColor:colors.fifthColor}]} onPress={() => forumCheck()}>
-                        <View style={styles.listItem1}>
+                    <TouchableRipple 
+                        style={[styles.button,{backgroundColor:colors.fourthColor}]}
+                        borderless={true} 
+                        onPress={() => {navigation.pop();}}
+                    >
+                        <View style={styles.buttonLayout}>
                             <Icon name="cancel" size={25} color='white'/>
-                            <Text style={styles.listItemText}>Submit</Text>
-                        </View>
-                    </TouchableRipple>
-                </View>
-
-                <View style={styles.listWrapper}>
-                    <TouchableRipple style={[styles.cancelBox,{backgroundColor:colors.firstColor}]} onPress={() => cancelPressHandle()}>
-                        <View style={styles.listItem1}>
-                            <Icon name="cancel" size={25} color='white'/>  
-                            <Text style={styles.listItemText}>Cancel</Text>
+                            <Text style={[styles.buttonText, {color: 'white'}]}>Cancel</Text>
                         </View>
                     </TouchableRipple>
                 </View>
             </View>
         </ScrollView>
-
     );
-    
 }
 
 export default EditMyProfileView;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 3,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -328,6 +332,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         fontSize: 23,
         fontWeight: 'bold',
+        paddingHorizontal: 10
     },
     inputfieldRow: {
         flexDirection: 'row',
@@ -342,37 +347,24 @@ const styles = StyleSheet.create({
         height: 35,
         marginLeft: 10,
     },
-    listItemText: {
+    button: {
+        flexDirection: 'row',
+        height:50,
+        width: 140,
+        borderRadius: 20,
+        marginVertical: 5,
+        marginTop: 10,
+    },
+    buttonLayout: {
+        flexDirection: 'row',
+        top: 11,
+        left: 18,
+    },
+    buttonText: {
         color: 'white',
         marginLeft: 10,
         fontWeight: '600',
-        fontSize: 16,
-        lineHeight: 27,
-    },
-    listWrapper: {
-        marginTop: 10,
-    },
-    confirmBox: {
-        flexDirection: 'row',
-        width:360, 
-        height:50,
-        backgroundColor:'#9E8DFF',
-        borderRadius: 20, 
-        
-    },
-    cancelBox: {
-        flexDirection: 'row',
-        width:360, 
-        height:50,
-        backgroundColor:'#5CDBD5',
-        borderRadius: 20, 
-        top:5,
-    },
+        fontSize: 20,
+      },
 
-    listItem1: {
-        flexDirection: 'row',
-        top: 10,
-        left:10,
-        
-    },
   });
