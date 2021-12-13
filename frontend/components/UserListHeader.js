@@ -30,27 +30,22 @@ const UserListHeader = ({ navigation, route, user, textColor, bgColor}) => {
 }
 
 const styles = StyleSheet.create({
-
     name: {
         width: 150,
         fontSize: 21,
         color: 'white'
     },
-
     username: {
         fontSize: 15,
         color: 'white'
     },  
-
     itemView: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-
     textInfo: {
-        paddingLeft: 15,
-        
+        paddingLeft: 15,   
     }
 })
 

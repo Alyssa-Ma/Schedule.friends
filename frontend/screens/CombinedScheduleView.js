@@ -12,9 +12,6 @@ import EventInfo from '../components/EventInfo';
 import SnackBarContext from '../context/SnackBarContext';
 
 const CombinedScheduleView = ({navigation, route}) => {
-  // const getWeekdayString = (dateObj) => {
-    //   return dateObj.toLocaleDateString('en-CA', {weekday: 'short'}).substring(0, 3).toUpperCase();
-    // }
     
   const getDateString = (dateObj) => {
     return dateObj.toLocaleDateString('en-CA', {year: 'numeric', month: 'numeric', day: 'numeric'});
