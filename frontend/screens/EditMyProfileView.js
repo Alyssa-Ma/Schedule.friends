@@ -6,6 +6,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import {BASE_URL} from "@env";
+import { color } from 'react-native-reanimated';
 
 const EditMyProfileView = ({ navigation, route }) => {
 
@@ -175,19 +176,18 @@ const EditMyProfileView = ({ navigation, route }) => {
                             <Image
                                 source={{uri: profileImage}}
                                 style={{height:'100%', width:'100%'}}
-                                >
-                            </Image>
+                            />
                             <View style={[styles.profileShade, {opacity: profileImage ? .15 : 0,}]} />
                             <Icon style={{opacity: 1, position: "absolute"}}name="camera-plus-outline" size={35} color='white'/>
                         </View>
                     </TouchableOpacity>
-
                     <Text numberOfLines={3} style = {[styles.fnamelname, {color:colors.text}]}>
                         {user.first_name + " " + user.last_name}
                     </Text>
                 </View>
-                <View style={styles.inputfields}>
-                <FontAwesome name="user-o" size={30} color={colors.secondColor} />
+
+                <View style={styles.inputfieldRow}>
+                    <Icon name="account-edit" size={30} color={colors.secondColor} />
                     <TextInput
                         mode="outlined"
                         label="First Name"
@@ -195,45 +195,39 @@ const EditMyProfileView = ({ navigation, route }) => {
                         placeholderTextColor = {colors.secondColor}
                         onChangeText = {(val) => setFName(val)}
                         autoCorrect={false}
-                        style={styles.textInput}
+                        style={[styles.textInputField, {backgroundColor: colors.backgroundColor}]}
                         theme={{
                             colors: {
                                 placeholder: colors.secondColor,
-                                text: colors.secondColor,
-                                primary: colors.secondColor,
-                                underlineColor: 'transparent'
+                                text: colors.text,
+                                primary: colors.focusedColor,
                             }
-                        }}/>
-                        
+                        }}
+                    />      
                 </View>
 
-                <View 
-                style={styles.inputfields}
-                >
-                <FontAwesome name="user-o" size={30} color={colors.thirdColor}/>
+                <View style={styles.inputfieldRow}>
+                    <Icon name="account-edit" size={30} color={colors.secondColor} />
                     <TextInput
                         mode="outlined"
                         label="Last Name"
                         value={lName}
-                        placeholderTextColor = {colors.thirdColor}
+                        placeholderTextColor = {colors.secondColor}
                         onChangeText = {(val) => setLName(val)}
                         autoCorrect={false}
-                        style={styles.textInput}
+                        style={[styles.textInputField, {backgroundColor: colors.backgroundColor}]}
                         theme={{
                             colors: {
-                                placeholder: colors.thirdColor,
-                                text: colors.thirdColor,
-                                primary: colors.thirdColor,
-                                underlineColor: 'transparent'
+                                placeholder: colors.secondColor,
+                                text: colors.text,
+                                primary: colors.focusedColor,
                             }
-                    }}/>
-                
+                        }}
+                    />
                 </View>
      
-                <View 
-                style={styles.inputfields}
-                >
-                    <FontAwesome name="user-o" size={30} color={colors.firstColor}/>
+                <View style={styles.inputfieldRow}>
+                    <Icon name="email" size={30} color={colors.secondColor} />
                         <TextInput
                             mode="outlined"
                             label="E-Mail"
@@ -241,20 +235,19 @@ const EditMyProfileView = ({ navigation, route }) => {
                             placeholderTextColor = {colors.firstColor}
                             onChangeText = {(val) => setEmail(val)}
                             autoCorrect={false}
-                            style={styles.textInput}
+                            style={[styles.textInputField, {backgroundColor: colors.backgroundColor}]}
                             theme={{
                                 colors: {
-                                    placeholder: colors.firstColor,
-                                    text: colors.firstColor,
-                                    primary: colors.firstColor,
-                                    underlineColor: 'transparent'
+                                    placeholder: colors.secondColor,
+                                    text: colors.text,
+                                    primary: colors.focusedColor,
                                 }
                             }}
-                            />
-                        
+                        />  
                 </View>
-                <View style={styles.inputfields}>
-                    <FontAwesome name="user-o" size={30} color={colors.thirdColor} />
+
+                <View style={styles.inputfieldRow}>
+                    <Icon name="badge-account" size={30} color={colors.secondColor} />
                         <TextInput
                             mode="outlined"
                             label="Username"
@@ -262,16 +255,15 @@ const EditMyProfileView = ({ navigation, route }) => {
                             placeholderTextColor = {colors.thirdColor}
                             onChangeText = {(val) => setUsername(val)}
                             autoCorrect={false}
-                            style={styles.textInput}
+                            style={[styles.textInputField, {backgroundColor: colors.backgroundColor}]}
                             theme={{
                                 colors: {
-                                    placeholder: colors.thirdColor,
-                                    text: colors.thirdColor,
-                                    primary: colors.thirdColor,
-                                    underlineColor: 'transparent'
+                                    placeholder: colors.secondColor,
+                                    text: colors.text,
+                                    primary: colors.focusedColor,
                                 }
-                            }}/>
-                        
+                            }}
+                        />  
                 </View>
 
                 <View style={styles.listWrapper}>
@@ -332,28 +324,23 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%"
     },
-    inputfields: {
-        flexDirection: 'row',
-        marginTop: 5,
-        marginBottom: 5,
-        borderBottomWidth: 1,
-        borderBottomColor: 'transparent',
-        paddingBottom: 5,
-    },
-    textInput: {
-        flex: 1,
-        marginTop: 0,
-        paddingLeft: 10,
-        height: 35,
-        color: '#05375a',
-        marginLeft: 10,
-    },
     fnamelname: {
-        marginTop:10,
+        marginVertical: 10,
         fontSize: 23,
         fontWeight: 'bold',
-        marginBottom: 10,
-        color:'#D7A4FF'
+    },
+    inputfieldRow: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 5,
+        padding: 5,
+    },
+    textInputField: {
+        flex: 1,
+        marginTop: 0,
+        height: 35,
+        marginLeft: 10,
     },
     listItemText: {
         color: 'white',
