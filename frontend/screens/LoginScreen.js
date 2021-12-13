@@ -67,7 +67,7 @@ const LoginScreen = ({ navigation, route }) => {
                 onPress={async () => {await context.fetchUserToken(userName, userPassword)}}
                 style={styles.button}>
                 <View>
-                    <Text style={[styles.buttonText,]}>Login</Text>
+                    <Text style={styles.buttonText}>Login</Text>
                     <View style={[
                             styles.shade, 
                             {left: 0, top: -14, width: "100%", height: 200,
@@ -122,10 +122,11 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         overflow: 'hidden',
     },
-    buttonLayout: {
-        flexDirection: 'row',
-        top: 11,
-        left: 18,
+    buttonText: {
+        fontSize: 18, 
+        fontWeight:"900",
+        textAlign: 'center',
+        color: 'white'
     },
     shade: {
         justifyContent: 'center', 
@@ -134,12 +135,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'black', 
         width: "100%",
         height: "100%"
-    },
-    buttonText: {
-        fontSize: 18, 
-        fontWeight:"900",
-        textAlign: 'center',
-        color: 'white'
     },
     bottomRow:{
         alignItems: 'center',

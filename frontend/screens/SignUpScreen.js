@@ -124,6 +124,7 @@ const SignUpScreen = ({ navigation }) => {
                         onChangeText = {(val) => setFirstName(val)}
                         theme={{
                             colors: {
+                                text: 'white',
                                 placeholder: 'white',
                                 error: colors.error
                             }
@@ -145,6 +146,7 @@ const SignUpScreen = ({ navigation }) => {
                         onChangeText = {(val) => setLastName(val)}
                         theme={{
                             colors: {
+                                text: 'white',
                                 placeholder: 'white',
                                 error: colors.error
                             }
@@ -166,6 +168,7 @@ const SignUpScreen = ({ navigation }) => {
                         onChangeText = {(val) => setUserName(val)}
                         theme={{
                             colors: {
+                                text: 'white',
                                 placeholder: 'white',
                                 error: colors.error
                             }
@@ -187,6 +190,7 @@ const SignUpScreen = ({ navigation }) => {
                         onChangeText = {(val) => setEmail(val)}
                         theme={{
                             colors: {
+                                text: 'white',
                                 placeholder: 'white',
                                 error: colors.error
                             }
@@ -209,6 +213,7 @@ const SignUpScreen = ({ navigation }) => {
                         onChangeText = {(val) => setPassword(val)}
                         theme={{
                             colors: {
+                                text: 'white',
                                 placeholder: 'white',
                                 error: colors.error
                             }
@@ -231,6 +236,7 @@ const SignUpScreen = ({ navigation }) => {
                         onChangeText = {(val) => setConfPassword(val)}
                         theme={{
                             colors: {
+                                text: 'white',
                                 placeholder: 'white',
                                 error: colors.error
                             }
@@ -242,25 +248,17 @@ const SignUpScreen = ({ navigation }) => {
                 </HelperText> 
                 
                 <TouchableOpacity 
-                    style={
-                        [styles.button,
-                        {backgroundColor: 
-                            !validForm
-                            ? '#2D6989'
-                            : '#53C2FF'}
-                    ]}
+                    style={[styles.button]}
                     disabled={!validForm}
                     onPress = {submitForm}
                     >
-                    <Text 
-                        style={
-                            [styles.buttonText,
-                            {color:
-                                !validForm
-                                    ? 'rgba(255,255,255, .2)'
-                                    : 'white'}
-                    ]}
-                    >Register</Text>
+                    <View>
+                        <Text style={styles.buttonText}>Register</Text>
+                        <View style={[
+                            styles.shade, 
+                            {left: 0, top: -14, width: "100%", height: 200,
+                            opacity: !validForm ? .4 : 0}]} />
+                    </View>
                 </TouchableOpacity>
             </View>
         </ScrollView>
@@ -303,16 +301,23 @@ const styles = StyleSheet.create({
         backgroundColor:'#53C2FF',
         borderRadius: 20, 
         width:350, 
-        marginBottom: 50,
+        marginVertical: 10,
         paddingVertical: 12,
-
+        overflow: 'hidden',
     },
     buttonText: {
         fontSize: 18, 
         fontWeight:"900",
         color:'white',
         textAlign: 'center',
-        
+    },
+    shade: {
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        position: 'absolute', 
+        backgroundColor: 'black', 
+        width: "100%",
+        height: "100%"
     },
     error: {
         width: 350,
