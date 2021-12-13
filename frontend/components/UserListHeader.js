@@ -22,7 +22,7 @@ const UserListHeader = ({ navigation, route, user, textColor, bgColor}) => {
                    />)
             }
             <View style={styles.textInfo}>
-                <Title style={styles.name}>{user.first_name} {user.last_name}</Title>
+                <Title numberOfLines={3} style={styles.name}>{user.first_name} {user.last_name}</Title>
                 <Caption style={styles.username}>{user.username}</Caption>
             </View>
         </View>
@@ -32,6 +32,7 @@ const UserListHeader = ({ navigation, route, user, textColor, bgColor}) => {
 const styles = StyleSheet.create({
 
     name: {
+        width: 150,
         fontSize: 21,
         color: 'white'
     },
