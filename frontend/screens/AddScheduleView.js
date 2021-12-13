@@ -13,11 +13,7 @@ const AddScheduleView = ({ navigation }) => {
 
     const [loadingButton, setLoadingButton] = useState(false);
     
-    const [snackVisible, setSnackVisible] = useState(false);
-    const [statusText, setStatusText] = useState("");
     const { colors }= useTheme();
-    const toggleSnackBar = () => setSnackVisible(!snackVisible);
-    const onDismissSnackBar = () => setSnackVisible(false);
 
     //useEffect that monitors loadingButton state
     useEffect(() => {
@@ -80,19 +76,10 @@ const AddScheduleView = ({ navigation }) => {
                 loadingButton = {loadingButton}
                 setLoadingButton = {setLoadingButton}
             />
-            <Snackbar 
-                visible={snackVisible}
-                onDismiss={onDismissSnackBar}
-                action={{
-                    label: 'OK',
-                    onPress: onDismissSnackBar
-                }}
-            >{statusText}</Snackbar>
         </View>
     )
 
 }
-
 
 //Style Sheet
 const styles = StyleSheet.create({

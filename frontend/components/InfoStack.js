@@ -1,10 +1,9 @@
-import React, {useContext, useEffect} from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import InfoView from '../screens/InfoView';
 import GuideView from '../screens/GuideView';
 import DeveloperView from '../screens/DeveloperView';
 import FaqView from '../screens/FaqView';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/core';
 
 const Stack = createNativeStackNavigator();
 

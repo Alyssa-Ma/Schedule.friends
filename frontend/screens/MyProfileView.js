@@ -11,13 +11,6 @@ import { Dimensions } from 'react-native';
 const MyProfileView = ({ navigation }) => {
   const context = useContext(UserContext);
   
-  const editProfilePressHandler = () => {
-    navigation.push('EditMyProfileView', {
-      user: context.user
-    })
-    console.log("Edit MY Profile Pressed");
-  }
-  
   const { colors } = useTheme(); //THEME
 
   return (
@@ -35,10 +28,10 @@ const MyProfileView = ({ navigation }) => {
           <TouchableRipple 
             style={[styles.button, {backgroundColor:colors.firstColor}]} 
             borderless={true} 
-            onPress={() => editProfilePressHandler()}>
+            onPress={() => navigation.push('EditMyProfileView', {user: context.user})}>
             <View style={[styles.buttonLayout]}>
-              <Icon name="person" size={25} color={colors.text}/>
-              <Text style={[styles.buttonText, {color: colors.text}]}>Edit My Profile</Text>
+              <Icon name="person" size={25} color='white'/>
+              <Text style={[styles.buttonText, {color: 'white'}]}>Edit My Profile</Text>
             </View>
           </TouchableRipple>
         </View>
@@ -48,8 +41,8 @@ const MyProfileView = ({ navigation }) => {
             borderless={true} 
             onPress={() => navigation.navigate('LogOut')}>
             <View style={[styles.buttonLayout]}>
-              <Icon name="logout" size={25} color={colors.text}/>
-              <Text style={[styles.buttonText, {color: colors.text}]}>Logout</Text>
+              <Icon name="logout" size={25} color='white'/>
+              <Text style={[styles.buttonText, {color: 'white'}]}>Logout</Text>
             </View>
           </TouchableRipple>
         </View>
@@ -73,7 +66,6 @@ const styles = StyleSheet.create({
     borderRadius: 25
   },
   button: {
-    backgroundColor: 'black',
     flexDirection: 'row',
     width:310, 
     height:50,
