@@ -57,6 +57,7 @@ const FriendRequestSend = ({ navigation, route }) => {
         <View style={[styles.container, {backgroundColor: colors.backgroundColor}]}>
             <Searchbar
                 placeholder="Enter a username"
+                placeholderTextColor='white'
                 onChangeText={onChangeSearch}
                 value={searchQuery}
                 style={{backgroundColor: colors.searchBar, opacity: 1, marginTop: -2}}
