@@ -105,7 +105,7 @@ const App = ({ navigation, route }) => {
   // Checks profile_image to see if it's a broken image, replace it with static assest
   React.useEffect(() => {
     const checkImage = async () => {
-      if (fetch(`${user.profile_image}`).then((response) => {return response.status}) !== 200) {
+      if (fetch(`${user.profile_image}`).then((response) => {return response.status}) >= 400) {
         const userBuffer = {...user}
         userBuffer.profile_image = Image.resolveAssetSource(brokenImage).uri;
         setUser(userBuffer);
