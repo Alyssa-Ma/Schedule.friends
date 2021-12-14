@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, LogBox } from 'react-native';
 import { TextInput, Button, RadioButton, Text, HelperText, useTheme } from 'react-native-paper';
 import TimePickerInput from './TimePickerInput';
 
 const DaysRadioButton = (props) => {
+    
     const [isSelected, setSelected] = useState(false);
     const { colors } = useTheme();
-
+    
     useEffect(() => {
         setSelected(props.selectedDays[props.index][props.day]);
     })
@@ -23,12 +24,13 @@ const DaysRadioButton = (props) => {
                     selectedDaysBuffer[props.index][day_key[0]] = !isSelected;
                     props.setSelectedDays(selectedDaysBuffer);
                 }}
-            />
+                />
         </View>
     )
 }
 
 const CourseForm = (props) => {
+    LogBox.ignoreAllLogs();
     const [courseName, setCourseName] = useState(props.courseName);
     const [courseNumber, setCourseNumber] = useState(props.courseNumber);
     const [startHour, setStartHour] = useState(props.startHour);
