@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Checkbox  } from 'react-native-paper';
+import { Checkbox, useTheme } from 'react-native-paper';
 
 const CombinedScheduleFriendListItem = ({ navigation, route, user, selectedUsersListener, init, index, color }) => {
     const [checked, setChecked] = useState(false);
+    const { colors } = useTheme();
     useEffect(() => {
         if (init)
             setChecked(true);
