@@ -199,6 +199,22 @@ const App = ({ navigation, route }) => {
                       label: 'OK',
                       onPress: onDismissSnackBar
                   }}
+                  //surface is text color
+                  //onSurface is background
+                  //accent is label text color
+                  theme={{
+                    colors: {
+                      surface: isDarkTheme 
+                        ? CustomDarkTheme.colors.text 
+                        : CustomDefaultTheme.colors.text,
+                      onSurface: isDarkTheme 
+                        ? CustomDarkTheme.colors.fourthColor 
+                        : CustomDefaultTheme.colors.fifthColor,
+                      accent: isDarkTheme 
+                        ? CustomDarkTheme.colors.text 
+                        : CustomDefaultTheme.colors.text,
+                    }
+                  }}
               >{statusText}</Snackbar>
           </NavigationContainer>
         </UserContext.Provider>
