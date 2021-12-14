@@ -30,11 +30,11 @@ const UserInfo = ({ navigation, route, user, bgColor }) => {
                     <View style={{ marginLeft: 20 }}>
                         <Title 
                             numberOfLines={3}
-                            style={{ right: 35, top: 10, color: colors.profileText, fontSize: 25 }}>
+                            style={{ right: 35, top: 10, color: colors.textLight, fontSize: 25 }}>
                             {user.first_name}{' '}
                             {user.last_name}
                         </Title>
-                        <Caption numberOfLines={1}style={{ right: 35, top: 10, color: colors.profileText, fontSize: 15 }}>{user.username}</Caption>
+                        <Caption numberOfLines={1}style={{ right: 35, top: 10, color: colors.textLight, fontSize: 15 }}>{user.username}</Caption>
                     </View>
                 </View>
             </View>
@@ -42,8 +42,8 @@ const UserInfo = ({ navigation, route, user, bgColor }) => {
 
             <View style={styles.userInfoSection}>
                 <View style={styles.row}>
-                    <Icon name="email" size={20} color={colors.profileText}/>
-                    <Text style={{ marginLeft: 20, color: colors.profileText, right: 10 }}>{user.email}</Text>
+                    <Icon name="email" size={20} color={colors.textLight}/>
+                    <Text style={{ marginLeft: 20, color: colors.textLight, right: 10 }}>{user.email}</Text>
                 </View>
             </View>
 
