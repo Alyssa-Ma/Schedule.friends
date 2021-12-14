@@ -35,6 +35,7 @@ const CustomDefaultTheme = {
         focusedColor: '#ffffff',
         unfocusedColor: '#696580',
         searchBar: '#D7A4FF',
+        profileText: '#ffffff',
     }
 }
 
