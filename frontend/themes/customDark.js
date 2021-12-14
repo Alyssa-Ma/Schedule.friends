@@ -35,7 +35,8 @@ const CustomDarkTheme = {
         error: '#FF6D6D',
         focusedColor: '#ffffff',
         unfocusedColor: '#404040',
-        searchBar: '#927EFF',
+        searchBar: '#7464CC',
+        textLight: '#ffffff',
     }
 }
 
