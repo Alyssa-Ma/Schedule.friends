@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { View, Dimensions, StyleSheet, ScrollView, FlatList, RefreshControl } from 'react-native';
+import { View, Dimensions, StyleSheet, FlatList } from 'react-native';
 import EventCalendar from 'react-native-events-calendar';
 const { width, height } = Dimensions.get('window');
 import UserContext from '../context/UserContext';
