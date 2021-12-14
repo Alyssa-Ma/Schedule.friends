@@ -36,6 +36,7 @@ const CustomDarkTheme = {
         focusedColor: '#ffffff',
         unfocusedColor: '#404040',
         searchBar: '#7464CC',
+        textLight: '#ffffff',
     }
 }
 

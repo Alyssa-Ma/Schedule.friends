@@ -1,9 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Headline, Subheading, Text, useTheme } from 'react-native-paper'
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import UserInfo from './UserInfo';
 
 const EventInfo = ({navigation, route, event}) => {
+    const { colors } = useTheme();
     const parseTime = (stringObj) => {
         let returnString = '';
         if (parseInt(stringObj.slice(0, 2)) < 10)
@@ -40,11 +42,11 @@ const EventInfo = ({navigation, route, event}) => {
                     profile_image: event.profile_image}}/>
             </View>
             <View style={{padding: 0, paddingTop: 0}}>
-                <Headline numberOfLines={1}>{event.courseName}</Headline>
-                <Subheading numberOfLines={1}>{event.courseNumber}</Subheading>
-                <Text>Days: {event.days}</Text>
-                <Text>Start: {startTime}</Text>
-                <Text>End: {endTime}</Text>
+                <Headline style={{color: colors.textLight}} numberOfLines={1}>{event.courseName}</Headline>
+                <Subheading style={{color: colors.textLight}} numberOfLines={1}>{event.courseNumber}</Subheading>
+                <Text style={{color: colors.textLight}}>Days: {event.days}</Text>
+                <Text style={{color: colors.textLight}}>Start: {startTime}</Text>
+                <Text style={{color: colors.textLight}}>End: {endTime}</Text>
             </View>
         </View>
     )
