@@ -84,6 +84,7 @@ const CommonTimeText = ({ navigation, route }) => {
     //Converts whole schedule into minutes.
     const getMinutesOfSchedule = (schedule) => {
         let schedule_times = [];
+        
         for( const course of schedule){
             const end_time = getTimeAsMin(course.time_end);
             const start_time = getTimeAsMin(course.time_start);
@@ -165,17 +166,16 @@ const CommonTimeText = ({ navigation, route }) => {
                 const curr_min = new Date().getMinutes();
                 let curr_time = `${curr_hour}:${curr_min}`;
     
-                
                 curr_time = getTimeAsMin(curr_time);    //change curr time into an int 
                 //curr_time=0;
                 curr_day = convertToDay(curr_day);  //change int into "MON" etc..
-                //curr_day = convertToDay(1); 
-    
+                //curr_day = convertToDay(1);
                 my_schedule = filterSchedule(my_schedule, curr_day); //filter classes for today only
                 let my_time_free = getMinutesOfSchedule(my_schedule, curr_time);
-    
                 my_schedule = my_time_free;
+                //console.log(my_time_free);
                 my_time_free = getFreeTime(my_time_free);
+                
                 let friends = [];
                 for(const id of my_friends){
                     try{
@@ -204,11 +204,11 @@ const CommonTimeText = ({ navigation, route }) => {
                             friend_schedule = convertToTime(friend_schedule);
             
                             const friend = {
-                                id: response.id,
+                                id: friendJSONResponse.id,
                                 schedule: friend_schedule,
-                                f_name: response.first_name,
-                                l_name: response.last_name,
-                                profile_image: response.profile_image,
+                                f_name: friendJSONResponse.first_name,
+                                l_name: friendJSONResponse.last_name,
+                                profile_image: friendJSONResponse.profile_image,
                                 now: now_bool
                             };
             

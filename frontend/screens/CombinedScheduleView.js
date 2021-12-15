@@ -40,7 +40,7 @@ const CombinedScheduleView = ({navigation, route}) => {
    
   const onRefresh = async () => {
     setRefresh(true);
-    fetchUser();
+    fetchUser().then(() => {createEvents()});
     setRefresh(false);
   }
   const showDialog = () => {
@@ -99,13 +99,10 @@ const CombinedScheduleView = ({navigation, route}) => {
       const jsonResponse = await response.json();
       if (response.status === 200) {
         jsonResponse['token'] = context.user.token;
-        // Updates user context
-        if (JSON.stringify(jsonResponse) !== JSON.stringify(context.user)) {
-          context.setUser(jsonResponse)
-          // Checks to see if friend_list has changed
-          if (JSON.stringify(friendList) !== JSON.stringify(jsonResponse.friend_list)) {
-            setFriendList(jsonResponse.friend_list)
-          }
+        context.setUser(jsonResponse)
+        // Checks to see if friend_list has changed
+        if (JSON.stringify(friendList) !== JSON.stringify(jsonResponse.friend_list)) {
+          setFriendList(jsonResponse.friend_list)
         }
       }
       else {
@@ -171,14 +168,14 @@ const CombinedScheduleView = ({navigation, route}) => {
     fetchFriends().then((friendData) => {
       let selection = [];
       //Select up to maxUsers
-      for (let i = 0; i < maxUsers && friendData.length; i++) {
+      for (let i = 0; i < maxUsers && i < friendData.length; i++) {
         selection.push(i)
       }
       setSelectedUsers(selection);
     })
   }, [friendList, colors])
 
-  //Creates events whenever focus date or dialog box is triggered
+  //Creates events whenever focus date changes, dialog box is triggered
   useEffect(() => {
     if (!dialogVisible)
       createEvents();
