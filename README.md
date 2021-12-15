@@ -120,7 +120,7 @@ As we will need them later for you dotenv file.
 
 8. Grant privileges to the database for your new user:
 ###
-	GRANT ALL PRIVILEGES ON DATABASE helloworld TO <yourname>;
+	GRANT ALL PRIVILEGES ON DATABASE sf_api TO <username>;
 
 And then exit your terminal with `\q`.
 
