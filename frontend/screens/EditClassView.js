@@ -48,19 +48,19 @@ const EditClassView = ({ navigation, item, route }) => {
                     context.setUser(tempUser);
                     snackBarContext.setStatusText(`Course Sucessfully Edited!`);
                     snackBarContext.toggleSnackBar();
-                    setLoadingButton(!loadingButton);
+                    setLoadingButton(false);
                     navigation.pop();
                 }
                 else { // something went wrong on the server end
                     snackBarContext.setStatusText(`${patchResponse.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
                     snackBarContext.toggleSnackBar();
-                    setLoadingButton(!loadingButton);
+                    setLoadingButton(false);
                 }
             }
             catch(error) {
                 snackBarContext.setStatusText(`Error ${error}`);
                 snackBarContext.toggleSnackBar();
-                setLoadingButton(!loadingButton);
+                setLoadingButton(false);
             }
         }
         if (loadingButton) {
@@ -86,19 +86,19 @@ const EditClassView = ({ navigation, item, route }) => {
                     context.setUser(tempUser);
                     snackBarContext.setStatusText(`Course Sucessfully Deleted!`);
                     snackBarContext.toggleSnackBar();
-                    setLoadingButton(!loadingButton);
+                    setLoadingButton(false);
                     navigation.pop();
                 }
                 else {
                     snackBarContext.setStatusText(`${deleteResponse.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
                     snackBarContext.toggleSnackBar();
-                    setLoadingButtonDelete(!loadingButtonDelete);
+                    setLoadingButtonDelete(false);
                 }
             }
             catch(error) {
                 snackBarContext.setStatusText(`${error}`);
                 snackBarContext.toggleSnackBar();
-                setLoadingButtonDelete(!loadingButtonDelete);
+                setLoadingButtonDelete(false);
             }
         }
         if (loadingButtonDelete) {

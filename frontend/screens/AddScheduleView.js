@@ -30,8 +30,8 @@ const AddScheduleView = ({ navigation }) => {
                     body: completedForm
                 });
                 const jsonResponse = await postResponse.json();
-                //this means the server accepted the post request
                 
+                //this means the server accepted the post request
                 if (postResponse.status === 201) {
                     //returns the json for state handling
                     let userCopy = {...context.user};
@@ -39,19 +39,19 @@ const AddScheduleView = ({ navigation }) => {
                     context.setUser(userCopy)
                     snackBarContext.setStatusText(`Course Sucessfully Added!`);
                     snackBarContext.toggleSnackBar();
-                    setLoadingButton(!setLoadingButton)
+                    setLoadingButton(false)
                     navigation.pop();
                 }
                 else { // something went wrong on the server end
                     snackBarContext.setStatusText(`${postResponse.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
                     snackBarContext.toggleSnackBar();
-                    setLoadingButton(!setLoadingButton)
+                    setLoadingButton(false)
                 }
             }
             catch(error) {
                 snackBarContext.setStatusText(`${error}`);
                 snackBarContext.toggleSnackBar();
-                setLoadingButton(!setLoadingButton)
+                setLoadingButton(false)
             }
         }
         if (loadingButton) {

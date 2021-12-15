@@ -85,7 +85,7 @@ const App = ({ navigation, route }) => {
           'Authorization': `Token ${token}`          
         },
 
-        body: JSON.stringify({"dark_mode": isDarkTheme})
+        body: JSON.stringify({"dark_mode": !isDarkTheme})
       })  
       const jsonResponse = await response.json();
       if (response.status === 200) {
