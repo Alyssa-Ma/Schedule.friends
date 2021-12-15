@@ -1,5 +1,5 @@
 import React, {useState, useContext } from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
 import UserContext from '../context/UserContext';
 import analogousLogo from '../assets/analogousLogo.png';
@@ -14,75 +14,76 @@ const LoginScreen = ({ navigation, route }) => {
     const [userPasswordLock, setUserPasswordLock] = useState(true);
 
     return (
-        <View style={styles.container}>
-            <Image source={{uri: logo}}
-              style={{width: 275, height: 325}}
-              resizeMode="stretch" />
+        <ScrollView>
+            <View style={styles.container}>
+                <Image source={{uri: logo}}
+                style={{width: 275, height: 325}}
+                resizeMode="stretch" />
 
-            <View>
-                <Text style={styles.logoText}> Welcome to Schedule.Friends </Text>
-            </View>
-
-            <View style={[styles.inputBox, {backgroundColor:'#D7A4FF'}]}>
-                <TextInput
-                    error={!userNameLock && userName.length <= 0}
-                    style={styles.input}
-                    activeUnderlineColor='white'
-                    theme={{
-                        colors: {
-                            text: 'white',
-                            placeholder: 'white',
-                            error: colors.error
-                        }
-                    }}
-                    label="Username"
-                    placeholder = 'Enter Username'
-                    onBlur={() => setUserNameLock(false)}
-                    onChangeText = {(val) => setUserName(val)}
-                />
-            </View>
-
-            <View style={[styles.inputBox, {backgroundColor:'#9E8DFF'}]}>
-                <TextInput
-                    error={!userPasswordLock && userPassword.length <= 0}
-                    style={styles.input}
-                    secureTextEntry={true}
-                    activeUnderlineColor='white'
-                    label="Password"
-                    theme={{
-                        colors: {
-                            text: 'white',
-                            placeholder: 'white',
-                            error: colors.error
-                        }
-                    }}
-                    placeholder = 'Enter Password'
-                    onBlur={() => setUserPasswordLock(false)}
-                    onChangeText = {(val) => setUserPassword(val)}
-                />
-            </View>
-
-            <TouchableOpacity
-                disabled={userName.length <= 0 || userPassword.length <= 0} 
-                onPress={async () => {await context.fetchUserToken(userName, userPassword)}}
-                style={styles.button}>
                 <View>
-                    <Text style={styles.buttonText}>Login</Text>
-                    <View style={[
-                            styles.shade, 
-                            {left: 0, top: -14, width: "100%", height: 200,
-                            opacity: userName.length <= 0 || userPassword.length <= 0 ? .4 : 0}]} />
+                    <Text style={styles.logoText}> Welcome to Schedule.Friends </Text>
                 </View>
-            </TouchableOpacity>  
 
-            <View style={styles.bottomRow}>
-                <Text style ={[styles.bottomText, {color:'#68B0D8'}]}> New to Schedule.Friends?</Text> 
-                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                    <Text style={[styles.bottomText, {color:'#4CD2CC'}]}> Create an account! </Text>
-                </TouchableOpacity>
+                <View style={[styles.inputBox, {backgroundColor:'#D7A4FF'}]}>
+                    <TextInput
+                        error={!userNameLock && userName.length <= 0}
+                        style={styles.input}
+                        activeUnderlineColor='white'
+                        theme={{
+                            colors: {
+                                text: 'white',
+                                placeholder: 'white',
+                                error: colors.error
+                            }
+                        }}
+                        label="Username"
+                        placeholder = 'Enter Username'
+                        onBlur={() => setUserNameLock(false)}
+                        onChangeText = {(val) => setUserName(val)}
+                    />
+                </View>
+
+                <View style={[styles.inputBox, {backgroundColor:'#9E8DFF'}]}>
+                    <TextInput
+                        error={!userPasswordLock && userPassword.length <= 0}
+                        style={styles.input}
+                        secureTextEntry={true}
+                        activeUnderlineColor='white'
+                        label="Password"
+                        theme={{
+                            colors: {
+                                text: 'white',
+                                placeholder: 'white',
+                                error: colors.error
+                            }
+                        }}
+                        placeholder = 'Enter Password'
+                        onBlur={() => setUserPasswordLock(false)}
+                        onChangeText = {(val) => setUserPassword(val)}
+                    />
+                </View>
+
+                <TouchableOpacity
+                    disabled={userName.length <= 0 || userPassword.length <= 0} 
+                    onPress={async () => {await context.fetchUserToken(userName, userPassword)}}
+                    style={styles.button}>
+                    <View>
+                        <Text style={styles.buttonText}>Login</Text>
+                        <View style={[
+                                styles.shade, 
+                                {left: 0, top: -14, width: "100%", height: 200,
+                                opacity: userName.length <= 0 || userPassword.length <= 0 ? .4 : 0}]} />
+                    </View>
+                </TouchableOpacity>  
+
+                <View style={styles.bottomRow}>
+                    <Text style ={[styles.bottomText, {color:'#68B0D8'}]}> New to Schedule.Friends?</Text> 
+                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                        <Text style={[styles.bottomText, {color:'#4CD2CC'}]}> Create an account! </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
-    
+        </ScrollView>
     );
 }
 
@@ -90,6 +91,7 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
     container: {
+        paddingTop: 60,
         flex: 1, 
         alignItems: 'center',
         justifyContent: 'center',
