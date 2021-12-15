@@ -104,11 +104,12 @@ const styles = StyleSheet.create({
         marginTop: 20,
         padding: 20,
         width: '90%',
-        borderRadius: 50 / 2
+        borderRadius: 50 / 2,
+        maxHeight: 480
+
     },
     container: {
         flex: 1,
-        maxHeight: 480
     },
     userInfoSection: {
         paddingHorizontal: 30,
