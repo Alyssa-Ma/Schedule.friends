@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, SafeAreaView, ScrollView, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import UserContext from '../context/UserContext';
 import { Button, Paragraph, Dialog, Portal, ActivityIndicator, useTheme } from 'react-native-paper';
 
@@ -85,7 +85,7 @@ const FriendProfileView = ({ navigation, route }) => {
                             )
                     }
                 </Portal>
-                
+
                 <FlatList data={friend.schedule}
                     keyExtractor={course => course.id}
                     renderItem={({ item }) => <CourseItem item={item} navigation={navigation} />} 
