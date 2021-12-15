@@ -5,7 +5,6 @@ import { Avatar } from 'react-native-paper';
 const TextViewCard = ({item, bgColor}) => {
 
     const [times, setTimes] = useState(item.schedule);
-    console.log(item);
     const NowTime = () => {
         //renders the first schedule time
         return (

@@ -173,7 +173,6 @@ const CommonTimeText = ({ navigation, route }) => {
                 my_schedule = filterSchedule(my_schedule, curr_day); //filter classes for today only
                 let my_time_free = getMinutesOfSchedule(my_schedule, curr_time);
                 my_schedule = my_time_free;
-                //console.log(my_time_free);
                 my_time_free = getFreeTime(my_time_free);
                 
                 let friends = [];
