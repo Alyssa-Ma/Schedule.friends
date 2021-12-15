@@ -5,7 +5,7 @@ import { Avatar } from 'react-native-paper';
 const TextViewCard = ({item, bgColor}) => {
 
     const [times, setTimes] = useState(item.schedule);
-
+    console.log(item);
     const NowTime = () => {
         //renders the first schedule time
         return (
@@ -77,7 +77,7 @@ const TextViewCard = ({item, bgColor}) => {
 
 const styles = StyleSheet.create({
     friendTimeCard: {
-        width: 330,
+        width: '90%',
         borderRadius: 50 / 2,
         alignSelf: 'center',
         marginTop: 50,
@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems: 'flex-start',
         marginLeft: 20,
+        marginBottom: -20
         
     },
     upcoming_times_col: {
