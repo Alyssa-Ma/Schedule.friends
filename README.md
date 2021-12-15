@@ -1,4 +1,5 @@
 # Schedule.friends 
+Check out our releases for the APK!
 
 ## Navigation
 * [Description](#description)
