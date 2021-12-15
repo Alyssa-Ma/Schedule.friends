@@ -87,7 +87,8 @@ const styles = StyleSheet.create({
     avatar_name_row: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        marginTop: 10,
+        marginBottom: -10,
+        marginTop: 20
     },
     now_row: {
         flexDirection: 'row',
@@ -106,8 +107,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignSelf: 'center',
         alignItems: 'flex-start',
-        marginLeft: 20,
-        marginBottom: -20
+        marginLeft: 40,
         
     },
     upcoming_times_col: {
