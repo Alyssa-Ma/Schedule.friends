@@ -15,8 +15,8 @@ const UserInfo = ({ navigation, route, user, bgColor }) => {
                             user.profile_image === null
                                 ? (<Avatar.Text
                                     size={80}
-                                    backgroundColor={colors.backgroundColor}
-                                    color={colors.text}
+                                    backgroundColor={colors.textLight}
+                                    color={colors.secondColor}
                                     label={user.first_name.charAt(0).toUpperCase() + user.last_name.charAt(0).toUpperCase()}
                                 />)
                                 : (<Avatar.Image
