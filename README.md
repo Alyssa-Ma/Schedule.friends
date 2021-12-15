@@ -20,6 +20,13 @@
 
 Schedule.friends is a mobile app that helps you know when your friends are free on an easy to view interface. Aimed towards students, we hope to clear out some of the hassle of coordinating meetups when everyone has a different schedule.
 
+## External links
+
+* https://github.com/goferboy/react-native-events-calendar
+For our calendar, we had to fork, update, and modify the react-native-events-calendar to accomidate our app's needs
+* https://schedule-friends.herokuapp.com/api/sf_users/
+For our backend, this is our deployed base url path to make API calls
+
 ## Before Setup
 1. Note that we will be using the terminal on Mac/Linux and Powershell on Windows. 
 2. Clone the repository using Git or download the repository zip file. 
