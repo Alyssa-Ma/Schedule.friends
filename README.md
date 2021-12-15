@@ -1,5 +1,5 @@
 # Schedule.friends 
-Check out our releases for the APK!
+Check out our releases for the APK! https://github.com/Alyssa-Ma/Schedule.friends/releases/tag/releases
 
 ## Navigation
 * [Description](#description)
