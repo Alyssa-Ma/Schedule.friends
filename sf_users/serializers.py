@@ -37,13 +37,15 @@ class CourseSerializer(serializers.ModelSerializer):
         return course
     
     def update(self, instance, validated_data):
-        print(validated_data)
-        if validated_data['time_start'] == validated_data['time_end']:
-            raise ValidationError({
-                    'non_field_errors': ["time_start and time_end cannot be the same time"]}, code=unique) 
-        elif int(validated_data['time_start'].replace(':', '')) > int(validated_data['time_end'].replace(':', '')):
-            raise ValidationError({
-                    'non_field_errors': ["time_start cannot happen after time_end"]}, code=unique)
+        try:
+            if validated_data['time_start'] == validated_data['time_end']:
+                raise ValidationError({
+                        'non_field_errors': ["time_start and time_end cannot be the same time"]}, code=unique) 
+            elif int(validated_data['time_start'].replace(':', '')) > int(validated_data['time_end'].replace(':', '')):
+                raise ValidationError({
+                        'non_field_errors': ["time_start cannot happen after time_end"]}, code=unique)
+        except KeyError:
+            pass
         instance.day_name = validated_data.get('day_name', instance.day_name)
         instance.course_name = validated_data.get('course_name', instance.course_name)
         instance.course_number = validated_data.get('course_number', instance.course_number) 
