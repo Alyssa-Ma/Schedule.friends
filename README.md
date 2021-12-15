@@ -259,11 +259,14 @@ If you have installed Schedule.Friends and need to update it, check out the inst
 ###
 	cd .\frontend\
 	
-1. Enter the following command with the terminal in the frontend folder.
+2. Enter the following commands with the terminal in the frontend folder.
 ###
 	npm install
 	
-2. All new dependencies should be installed now. Make sure there are no errors when running the frontend.
+###
+	npm update
+	
+2. All new dependencies should be installed and updated now. Make sure there are no errors when running the frontend.
 	
 ***The frontend is now updated.***	
 
