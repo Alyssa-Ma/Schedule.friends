@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, SafeAreaView, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import UserContext from '../context/UserContext';
 import { Button, Paragraph, Dialog, Portal, ActivityIndicator, useTheme } from 'react-native-paper';
 
@@ -52,7 +52,7 @@ const FriendProfileView = ({ navigation, route }) => {
     }
 
     return (
-        <SafeAreaView style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
+        <View style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
             <View style={[styles.friendCard, { backgroundColor: colors.secondColor }]}>
                 <UserInfo user={friend} color={colors.firstColor} bgColor={colors.firstColor}/>
 
@@ -86,15 +86,12 @@ const FriendProfileView = ({ navigation, route }) => {
                     }
                 </Portal>
 
-                <View style={styles.listWrapper}>
-                    <FlatList data={friend.schedule}
-                        keyExtractor={course => course.id}
-                        renderItem={({ item }) => <CourseItem item={item} navigation={navigation} />} />
-                </View>
-
+                <FlatList data={friend.schedule}
+                    keyExtractor={course => course.id}
+                    renderItem={({ item }) => <CourseItem item={item} navigation={navigation} />} 
+                />
             </View>
-        </SafeAreaView>
-
+        </View>
     );
 }
 
@@ -107,7 +104,9 @@ const styles = StyleSheet.create({
         marginTop: 20,
         padding: 20,
         width: '90%',
-        borderRadius: 50 / 2
+        borderRadius: 50 / 2,
+        maxHeight: 480
+
     },
     container: {
         flex: 1,
@@ -130,9 +129,7 @@ const styles = StyleSheet.create({
     },
     buttonRow: {
         flexDirection: "row",
-        justifyContent: "space-evenly"
+        justifyContent: "space-evenly",
+        marginBottom: 10,
     },
-    listWrapper: {
-        marginTop: 0,
-    }
 });

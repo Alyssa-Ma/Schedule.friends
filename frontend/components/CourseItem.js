@@ -35,7 +35,8 @@ const CourseItem = ({navigation, item, bgColor}) => {
     }
 
     return (
-        <TouchableOpacity 
+        <TouchableOpacity
+            disabled={item.owner !== context.user.id}
             onPress={ (item.owner === context.user.id)
                         ? () => clickedItem(item)
                         : () => {}} 
