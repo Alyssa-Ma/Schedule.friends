@@ -16,15 +16,15 @@ const TextViewCard = ({item, bgColor}) => {
     }
 
     const UpcomingTime = () => {
-        //if no times return nothing
-        if(times.length < 1)
-            return <View></View>
-        
+
         //removes the first time if there is a 'Now'
         let tmp_times = [...times];
         if(item.now)
            tmp_times.splice(0,1);
 
+        //if no times return nothing
+        if(tmp_times.length < 1)
+            return <View></View>
         //returns the upcoming times section
         return (
             <View style={styles.upcoming_row}>

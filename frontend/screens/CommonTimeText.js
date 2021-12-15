@@ -167,7 +167,7 @@ const CommonTimeText = ({ navigation, route }) => {
                 let curr_time = `${curr_hour}:${curr_min}`;
     
                 curr_time = getTimeAsMin(curr_time);    //change curr time into an int 
-                //curr_time=0;
+                //curr_time=915;
                 curr_day = convertToDay(curr_day);  //change int into "MON" etc..
                 //curr_day = convertToDay(1);
                 my_schedule = filterSchedule(my_schedule, curr_day); //filter classes for today only
@@ -190,11 +190,7 @@ const CommonTimeText = ({ navigation, route }) => {
                             let friend_schedule = filterSchedule(friendJSONResponse.schedule, curr_day);
                             friend_schedule = getMinutesOfSchedule(friend_schedule);
                             friend_schedule = getFreeTime(friend_schedule, curr_time);
-                            if(friend_schedule.length <= 1){
-                                continue;
-                            }
-            
-                            if(friend_schedule.length === 0){
+                            if(friend_schedule.length <= 0){
                                 continue;
                             }
 
