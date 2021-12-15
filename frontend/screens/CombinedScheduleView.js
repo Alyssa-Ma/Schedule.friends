@@ -168,7 +168,7 @@ const CombinedScheduleView = ({navigation, route}) => {
     fetchFriends().then((friendData) => {
       let selection = [];
       //Select up to maxUsers
-      for (let i = 0; i < maxUsers && friendData.length; i++) {
+      for (let i = 0; i < maxUsers && i < friendData.length; i++) {
         selection.push(i)
       }
       setSelectedUsers(selection);
