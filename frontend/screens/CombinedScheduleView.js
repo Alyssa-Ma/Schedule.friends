@@ -98,15 +98,11 @@ const CombinedScheduleView = ({navigation, route}) => {
       });
       const jsonResponse = await response.json();
       if (response.status === 200) {
-        // jsonResponse['token'] = context.user.token;
-        // Updates user context
-        // if (JSON.stringify(jsonResponse) !== JSON.stringify(context.user)) {
-        //   context.setUser(jsonResponse)
-          // Checks to see if friend_list has changed
-          context.setUser(jsonResponse)
-          if (JSON.stringify(friendList) !== JSON.stringify(jsonResponse.friend_list)) {
-            setFriendList(jsonResponse.friend_list)
-          // }
+        jsonResponse['token'] = context.user.token;
+        context.setUser(jsonResponse)
+        // Checks to see if friend_list has changed
+        if (JSON.stringify(friendList) !== JSON.stringify(jsonResponse.friend_list)) {
+          setFriendList(jsonResponse.friend_list)
         }
       }
       else {
