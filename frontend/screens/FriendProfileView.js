@@ -11,7 +11,7 @@ import SnackBarContext from '../context/SnackBarContext';
 
 const FriendProfileView = ({ navigation, route }) => {
     const context = useContext(UserContext);
-    const snackBarContext = useContext(SnackBarContext)
+    const snackBarContext = useContext(SnackBarContext);
     const { friend } = route.params;
     const [loadingButton, setLoadingButton] = useState(false);
     const [visible, setVisible] = useState(false);

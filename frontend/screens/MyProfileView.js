@@ -1,14 +1,50 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, SafeAreaView, StyleSheet } from 'react-native';
+import { BASE_URL } from "@env";
 import UserContext from '../context/UserContext';
-import { Text, TouchableRipple, useTheme} from 'react-native-paper';
+import SnackBarContext from '../context/SnackBarContext';
+import { Text, Button, TouchableRipple, Dialog, Portal, Paragraph, ActivityIndicator, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import UserInfo from '../components/UserInfo';
 
 const MyProfileView = ({ navigation }) => {
   const context = useContext(UserContext);
+  const snackBarContext = useContext(SnackBarContext);
+
+  const [visible, setVisible] = useState(false);
+  const showDialog = () => setVisible(true);
+  const hideDialog = () => setVisible(false);
+  const [loading, setLoading] = useState(false);
   
   const { colors } = useTheme();
+
+  const deleteAccount = async () => {
+    setLoading(true);
+    try {
+      let response = await fetch(`${BASE_URL}/${context.user.id}`, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${context.user.token}`
+          },
+      });
+      let jsonResponse = await response.json();
+      if (response.status === 200) {
+          setLoading(false);
+          navigation.navigate('LogOut');
+      }
+      else {
+          snackBarContext.setStatusText(`${response.status} Error: ${snackBarContext.trimJSONResponse(JSON.stringify(jsonResponse))}`);
+          snackBarContext.toggleSnackBar();
+          setLoading(false);
+      }
+    }
+    catch (error) {
+        snackBarContext.setStatusText(`${error}`);
+        snackBarContext.toggleSnackBar();
+        setLoading(false);
+    }
+  }
 
   return (
     <SafeAreaView style={[styles.container, {backgroundColor:colors.backgroundColor}]}>
@@ -43,6 +79,41 @@ const MyProfileView = ({ navigation }) => {
             </View>
           </TouchableRipple>
         </View>
+        <View>
+          <TouchableRipple 
+            style={[styles.button, {backgroundColor:colors.error}]} 
+            borderless={true} 
+            onPress={showDialog}>
+            <View style={[styles.buttonLayout]}>
+              <Icon name="delete" size={25} color='white'/>
+              <Text style={[styles.buttonText, {color: 'white'}]}>Delete Account</Text>
+            </View>
+          </TouchableRipple>
+        </View>
+        <Portal>
+          {
+            loading
+            ? (
+                <Dialog visible={visible} onDismiss={hideDialog}>
+                  <Dialog.Content>
+                      <ActivityIndicator animating={loading} size={100} />
+                  </Dialog.Content>
+                </Dialog>
+            )
+            : (
+                <Dialog visible={visible} onDismiss={hideDialog}>
+                  <Dialog.Title>Are You Sure?</Dialog.Title>
+                  <Dialog.Content>
+                    <Paragraph>Pressing 'Yes' will delete your account. This cannot be undone.</Paragraph>
+                  </Dialog.Content>
+                  <Dialog.Actions>
+                    <Button color='white' style={{backgroundColor: colors.firstColor, marginRight: 10}} onPress={hideDialog}>Cancel</Button>
+                    <Button color='white' style={{backgroundColor: colors.secondColor}} onPress={deleteAccount}>Yes</Button>
+                  </Dialog.Actions>
+                </Dialog>
+            )
+          }
+        </Portal>
       </View>
     </SafeAreaView>
   );
