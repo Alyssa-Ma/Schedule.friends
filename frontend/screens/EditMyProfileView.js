@@ -31,6 +31,9 @@ const EditMyProfileView = ({ navigation, route }) => {
         }).then(image => {
             setProfileImage(image.path);
         }).catch(error => {
+            // Prevent snackbar notification for user cancelled selection
+            if (error == "Error: User cancelled image selection")
+                return;
             snackBarContext.setStatusText(`Unable to set image: ${error}`);
             snackBarContext.toggleSnackBar();
         });
