@@ -17,6 +17,9 @@ from rest_framework.authtoken.models import Token
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.decorators import parser_classes
 
+# for combining multiple querysets
+from itertools import chain
+
 # ======================================
 # Users request methods
 # ======================================
@@ -28,11 +31,12 @@ from rest_framework.decorators import parser_classes
 def get_users_list(request):
     if request.method == 'GET':
         # First checks if query parameter exists
-        # Then filters Users by the string in the 'username' property
-        # Pops out schedule, friend_requests (sensitive info)
         if request.query_params.get('query'):
-            results = User.objects.filter(username__iregex=request.query_params.get('query'))
+            # Then filters Users by the string in the 'username', 'first_name', and 'last_name' property.
+            # Uses union to avoid duplicates
+            results = User.objects.filter(username__iregex=request.query_params.get('query')).union(User.objects.filter(first_name__iregex=request.query_params.get('query')), User.objects.filter(last_name__iregex=request.query_params.get('query')))
             serializer_to_filter = UserSerializer(results, context={'request': request}, many=True).data
+            # Pops out schedule, friend_requests (sensitive info)
             for user in serializer_to_filter:
                 user.pop('friend_requests')
                 user.pop('schedule')
