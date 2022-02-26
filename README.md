@@ -362,7 +362,9 @@ If you have installed Schedule.Friends and need to update it, check out the inst
 [Henry Cevallos](https://github.com/Henry-Cevallos) 
 
 [Henry Baum](https://github.com/habmin)
+
 [David Dejesus](https://github.com/ddejesus-1919)
+
 [Kobe Dejesus](https://github.com/kobedejesus87)
 
 [Back to Navigation](#navigation)
