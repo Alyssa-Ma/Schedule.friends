@@ -341,39 +341,42 @@ If you have installed Schedule.Friends and need to update it, check out the inst
 </p>
 <p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/12.jpg" width=40% height=40%>
+</p>
+<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/13.jpg" width=40% height=40%>
-</p>
-<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/14.jpg" width=40% height=40%>
+</p>
+<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/15.jpg" width=40% height=40%>
-</p>
-<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/16.jpg" width=40% height=40%>
+</p>
+<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/17.jpg" width=40% height=40%>
-</p>
-<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/18.jpg" width=40% height=40%>
+</p>
+<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/19.jpg" width=40% height=40%>
-</p>
-<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/20.jpg" width=40% height=40%>
+</p>
+<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/21.jpg" width=40% height=40%>
-</p>
-<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/22.jpg" width=40% height=40%>
+</p>
+<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/23.jpg" width=40% height=40%>
-</p>
-<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/24.jpg" width=40% height=40%>
+</p>
+<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/25.jpg" width=40% height=40%>
-</p>
-<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/26.jpg" width=40% height=40%>
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/27.jpg" width=40% height=40%>
 </p>
 <p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/27.jpg" width=40% height=40%>
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/28.jpg" width=40% height=40%>
+</p>
+<p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/29.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/30.jpg" width=40% height=40%>
 </p>
 <p float="left">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/31.jpg" width=40% height=40%>
