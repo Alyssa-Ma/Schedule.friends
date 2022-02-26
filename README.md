@@ -1,7 +1,7 @@
 # Schedule.friends 
 Check out our releases for the [APK](https://github.com/Alyssa-Ma/Schedule.friends/releases)! 
 
-Check out our presentation and demo [here](https://youtu.be/RxWYwJxHpqA)! 
+Check out our presentation and demo [here](https://youtu.be/W1xS1d15EdE)! 
 
 ## Navigation
 * [Description](#description)
