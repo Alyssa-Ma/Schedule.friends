@@ -319,8 +319,10 @@ If you have installed Schedule.Friends and need to update it, check out the inst
 [Back to Navigation](#navigation)
 
 ## Screenshots
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/1.jpg"width=50% height=50%>
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/2.jpg">
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/1.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/2.jpg" width=40% height=40%>
+</p>
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/3.jpg">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/4.jpg">
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/5.jpg">
