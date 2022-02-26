@@ -319,37 +319,66 @@ If you have installed Schedule.Friends and need to update it, check out the inst
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/1.jpg" width=40% height=40%>
 <img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/2.jpg" width=40% height=40%>
 </p>
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/3.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/4.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/5.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/5.5.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/6.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/7.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/8.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/9.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/10.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/11.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/12.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/13.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/14.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/15.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/16.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/17.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/18.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/19.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/20.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/21.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/22.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/23.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/24.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/25.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/26.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/27.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/28.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/29.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/30.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/31.jpg">
-<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/32.jpg">
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/3.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/4.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/5.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/5.5.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/6.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/7.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/8.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/9.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/10.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/11.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/12.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/13.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/14.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/15.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/16.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/17.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/18.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/19.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/20.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/21.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/22.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/23.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/24.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/25.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/26.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/27.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/28.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/29.jpg" width=40% height=40%>
+</p>
+<p float="left">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/31.jpg" width=40% height=40%>
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/32.jpg" width=40% height=40%>
+</p>
 
 [Back to Navigation](#navigation)
 
