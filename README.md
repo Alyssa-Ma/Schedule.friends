@@ -356,8 +356,11 @@ If you have installed Schedule.Friends and need to update it, check out the inst
 [Back to Navigation](#navigation)
 
 ## Developer Information
-[Alyssa Ma](https://github.com/Alyssa-Ma) 
+
+[Alyssa Ma](https://github.com/Alyssa-Ma)
+
 [Henry Cevallos](https://github.com/Henry-Cevallos) 
+
 [Henry Baum](https://github.com/habmin)
 [David Dejesus](https://github.com/ddejesus-1919)
 [Kobe Dejesus](https://github.com/kobedejesus87)
