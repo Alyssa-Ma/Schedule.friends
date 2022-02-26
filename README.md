@@ -1,5 +1,8 @@
 # Schedule.friends 
-Check out our releases for the APK! https://github.com/Alyssa-Ma/Schedule.friends/releases
+Check out our releases for the APK! 
+[APK](https://github.com/Alyssa-Ma/Schedule.friends/releases)
+Check out our presentation and demo here!
+[Demo](https://youtu.be/RxWYwJxHpqA)
 
 ## Navigation
 * [Description](#description)
@@ -16,6 +19,8 @@ Check out our releases for the APK! https://github.com/Alyssa-Ma/Schedule.friend
 * [Updating the Application](#updating-the-application)
 	* [Frontend](#updating-the-frontend) 
 	* [Backend](#updating-the-backend) 
+* [Screenshots](#screenshots)
+* [Developer Information](#developer-information)
 	
 ## Description
 
@@ -307,5 +312,51 @@ If you have installed Schedule.Friends and need to update it, check out the inst
 6.  The backend should be updated now.
 	
 ***The backend is now updated.***	
+
+[Back to Navigation](#navigation)
+
+## Screenshots
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/1.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/2.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/3.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/4.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/5.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/5.5.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/6.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/7.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/8.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/9.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/10.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/11.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/12.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/13.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/14.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/15.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/16.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/17.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/18.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/19.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/20.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/21.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/22.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/23.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/24.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/25.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/26.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/27.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/28.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/29.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/30.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/31.jpg">
+<img src="https://github.com/Alyssa-Ma/Schedule.friends/blob/main/Screenshots/32.jpg">
+
+[Back to Navigation](#navigation)
+
+## Developer Information
+[Alyssa Ma](https://github.com/Alyssa-Ma)
+[Henry Cevallos](https://github.com/Henry-Cevallos)
+[Henry Baum](https://github.com/habmin)
+[David Dejesus](https://github.com/ddejesus-1919)
+[Kobe Dejesus](https://github.com/kobedejesus87)
 
 [Back to Navigation](#navigation)
